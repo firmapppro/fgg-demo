@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Презентация — Flight Generation Group</title>
-    <meta name="description" content="Flight Generation Group — частная авиация без необходимости разбираться в частной авиации.">
+    <meta name="description" content="На рынке тысячи самолётов. FGG знает, какие из них стоит рассматривать, и превращает этот выбор в простой сервис.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ============================
-           CSS VARIABLES & RESET
-           ============================ */
         :root {
             --color-bg: #0B0F1A;
             --color-bg-section: #101624;
@@ -28,7 +25,7 @@
             --color-border-card: rgba(255,255,255,0.06);
             --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
             --max-width: 1200px;
-            --section-padding: 120px 0;
+            --section-padding: 96px 0;
             --radius-lg: 20px;
             --radius-md: 14px;
             --radius-sm: 10px;
@@ -42,247 +39,274 @@
             color: var(--color-text);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
         }
         img { max-width: 100%; height: auto; display: block; }
         a { color: inherit; text-decoration: none; }
         .container { max-width: var(--max-width); margin: 0 auto; padding: 0 40px; }
 
-        /* ============================
-           ANIMATIONS
-           ============================ */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-on-scroll { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
         .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
 
-        /* ============================
-           TYPOGRAPHY & UTILS
-           ============================ */
         .section-label {
-            display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 20px;
+            display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 16px;
         }
-        .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--color-accent); border-radius: 1px; }
-        .section-title { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; line-height: 1.2; color: var(--color-text-heading); margin-bottom: 24px; }
-        .text-lead { font-size: 20px; line-height: 1.6; color: var(--color-text-muted); }
-        
+        .section-label::before { content: ''; display: block; width: 20px; height: 2px; background: var(--color-accent); border-radius: 1px; }
+        .section-title { font-size: clamp(26px, 3.4vw, 40px); font-weight: 800; line-height: 1.2; color: var(--color-text-heading); margin-bottom: 20px; }
+
         .btn {
-            display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 12px;
-            font-family: var(--font-main); font-size: 15px; font-weight: 600; cursor: pointer; border: none;
+            display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 10px;
+            font-family: var(--font-main); font-size: 14px; font-weight: 600; cursor: pointer; border: none;
             transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1); white-space: nowrap;
         }
-        .btn--primary { background: linear-gradient(135deg, var(--color-accent) 0%, #1B6E9C 100%); color: #fff; box-shadow: 0 4px 20px rgba(42, 129, 175, 0.3); }
-        .btn--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(42, 129, 175, 0.4); }
-        .btn--outline { background: transparent; color: var(--color-text); border: 1px solid rgba(255,255,255,0.15); }
-        .btn--outline:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.25); transform: translateY(-2px); }
-        .btn svg { width: 18px; height: 18px; }
+        .btn--primary { background: var(--color-accent); color: #fff; }
+        .btn--primary:hover { background: var(--color-accent-light); }
+        .btn--ghost { background: transparent; color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.12); }
+        .btn--ghost:hover { color: var(--color-text); border-color: rgba(255,255,255,0.22); }
+        .btn svg { width: 15px; height: 15px; }
 
-        /* ============================
-           HERO
-           ============================ */
+        /* HERO */
         .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
         .hero__bg { position: absolute; inset: 0; z-index: 0; }
-        .hero__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+        .hero__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.32; }
         .hero__bg::after {
             content: ''; position: absolute; inset: 0;
-            background: linear-gradient(180deg, rgba(11,15,26,0.3) 0%, rgba(11,15,26,0.6) 50%, rgba(11,15,26,0.95) 85%, rgba(11,15,26,1) 100%);
+            background: linear-gradient(180deg, rgba(11,15,26,0.3) 0%, rgba(11,15,26,0.62) 50%, rgba(11,15,26,0.96) 86%, rgba(11,15,26,1) 100%);
         }
-        .hero__content { position: relative; z-index: 2; width: 100%; padding: 140px 0 100px; }
-        .hero__logo { margin-bottom: 24px; animation: fadeInUp 0.8s ease-out 0.15s both; }
-        .hero__logo img { height: 52px; width: auto; }
+        .hero__content { position: relative; z-index: 2; width: 100%; padding: 140px 0 88px; }
+        .hero__logo { margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.1s both; }
+        .hero__logo img { height: 48px; width: auto; }
         .hero__headline {
-            font-size: clamp(32px, 4.5vw, 56px); font-weight: 800; line-height: 1.15;
-            color: var(--color-text-heading); margin-bottom: 24px; max-width: 800px;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
+            font-size: clamp(30px, 4.4vw, 52px); font-weight: 800; line-height: 1.15;
+            color: var(--color-text-heading); margin-bottom: 20px; max-width: 780px;
+            animation: fadeInUp 0.8s ease-out 0.25s both;
         }
         .hero__headline .highlight {
             background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
         .hero__subtitle {
-            font-size: 22px; font-weight: 600; color: var(--color-text); margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
+            font-size: 20px; font-weight: 600; color: var(--color-text); margin-bottom: 16px;
+            animation: fadeInUp 0.8s ease-out 0.38s both;
         }
         .hero__description {
-            font-size: 18px; line-height: 1.7; color: var(--color-text-muted); max-width: 600px; margin-bottom: 40px;
-            animation: fadeInUp 0.8s ease-out 0.5s both;
+            font-size: 16px; line-height: 1.7; color: var(--color-text-muted); max-width: 620px; margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease-out 0.48s both;
         }
-        .hero__actions { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.6s both; }
+        .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.58s both; }
 
-        /* ============================
-           PHILOSOPHY (New)
-           ============================ */
+        /* PHILOSOPHY */
         .philosophy { padding: var(--section-padding); background: var(--color-bg); }
-        .philosophy__inner { max-width: 800px; margin: 0 auto; text-align: center; }
-        .philosophy__text { font-size: 18px; line-height: 1.8; color: var(--color-text-muted); text-align: left; margin-top: 40px; }
-        .philosophy__text p { margin-bottom: 20px; }
-        .philosophy__text strong { color: var(--color-text-heading); font-weight: 700; font-size: 20px; display: block; margin-top: 30px; border-left: 3px solid var(--color-accent); padding-left: 20px; }
+        .philosophy__inner { max-width: 760px; margin: 0 auto; }
+        .philosophy__text { font-size: 17px; line-height: 1.75; color: var(--color-text-muted); margin-top: 28px; }
+        .philosophy__text p { margin-bottom: 16px; }
+        .philosophy__close {
+            margin-top: 28px; font-size: 20px; font-weight: 700; color: var(--color-text-heading);
+            border-left: 3px solid var(--color-accent); padding-left: 20px; line-height: 1.45;
+        }
 
-        /* ============================
-           INVENTORY / SELECTED (New)
-           ============================ */
+        /* SELECTED */
         .inventory { padding: var(--section-padding); background: var(--color-bg-section); }
-        .inventory__header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
-        .inventory__header p { font-size: 18px; color: var(--color-text-muted); margin-top: 20px; }
-        
-        .inventory-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; position: relative; }
+        .inventory__header { max-width: 780px; margin: 0 auto 52px; text-align: center; }
+        .inventory__header p { font-size: 17px; color: var(--color-text-muted); margin-top: 16px; line-height: 1.7; }
+        .inventory-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; position: relative; margin-bottom: 64px; }
         .inventory-steps::before {
-            content: ''; position: absolute; top: 40px; left: 50px; right: 50px; height: 2px;
-            background: linear-gradient(90deg, var(--color-accent) 0%, rgba(42,129,175,0) 100%); z-index: 0;
+            content: ''; position: absolute; top: 28px; left: 12%; right: 12%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent); z-index: 0;
         }
-        .inventory-step { position: relative; z-index: 1; text-align: center; }
-        .inventory-step__icon {
-            width: 80px; height: 80px; background: var(--color-bg-card); border: 2px solid var(--color-border);
-            border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: all 0.3s;
-        }
-        .inventory-step:hover .inventory-step__icon { border-color: var(--color-accent); transform: translateY(-5px); }
-        .inventory-step__icon svg { width: 32px; height: 32px; stroke: var(--color-accent); fill: none; stroke-width: 1.5; }
-        .inventory-step__title { font-size: 16px; font-weight: 800; letter-spacing: 1px; color: var(--color-text-heading); margin-bottom: 12px; }
-        .inventory-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; padding: 0 20px; }
+        .inventory-step { position: relative; z-index: 1; }
+        .inventory-step__num { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: var(--color-accent); margin-bottom: 14px; }
+        .inventory-step__title { font-size: 15px; font-weight: 800; letter-spacing: 0.6px; color: var(--color-text-heading); margin-bottom: 10px; }
+        .inventory-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.65; }
 
-        /* ============================
-           CASE STUDY (New)
-           ============================ */
+        .selected-proof { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 28px; align-items: stretch; }
+        .proof-photo { position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 420px; }
+        .proof-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .proof-photo__caption {
+            position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 24px;
+            background: linear-gradient(0deg, rgba(11,15,26,0.92) 0%, transparent 100%);
+            font-size: 13px; color: var(--color-text); line-height: 1.5;
+        }
+
+        .ac-card {
+            background: var(--color-bg-card); border: 1px solid var(--color-border-card);
+            border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column;
+        }
+        .ac-card__image { position: relative; height: 180px; }
+        .ac-card__image img { width: 100%; height: 100%; object-fit: cover; }
+        .ac-card__badge {
+            position: absolute; top: 14px; left: 14px; background: var(--color-accent); color: #fff;
+            font-size: 11px; font-weight: 800; letter-spacing: 0.8px; padding: 5px 10px; border-radius: 6px;
+        }
+        .ac-card__body { padding: 24px 26px 28px; display: flex; flex-direction: column; gap: 0; flex: 1; }
+        .ac-card__name { font-size: 20px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 6px; }
+        .ac-card__status { font-size: 13px; color: var(--color-accent-light); font-weight: 600; margin-bottom: 18px; }
+        .ac-card__rows { display: flex; flex-direction: column; border-top: 1px solid var(--color-border); }
+        .ac-row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--color-border); font-size: 13px; }
+        .ac-row__k { color: var(--color-text-muted); }
+        .ac-row__v { color: var(--color-text); font-weight: 600; text-align: right; }
+
+        /* CASES */
         .case-study { padding: var(--section-padding); background: var(--color-bg); }
-        .case__header { max-width: 800px; margin: 0 auto 60px; text-align: center; }
+        .case__header { max-width: 760px; margin: 0 auto 48px; text-align: center; }
         .case__container {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; background: var(--color-bg-card);
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--color-bg-card);
             border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden;
         }
-        .case__image { position: relative; }
-        .case__image img { width: 100%; height: 100%; object-fit: cover; min-height: 400px; }
+        .case__image { position: relative; min-height: 380px; }
+        .case__image img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
         .case__image-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0; padding: 30px;
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px;
             background: linear-gradient(0deg, rgba(11,15,26,0.9) 0%, transparent 100%);
         }
-        .case__tag { display: inline-block; background: var(--color-accent); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 6px; margin-bottom: 10px; }
-        
-        .case__content { padding: 50px 50px 50px 0; }
-        .case__scenario { font-size: 20px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 20px; }
-        .case__text { font-size: 15px; color: var(--color-text-muted); margin-bottom: 30px; line-height: 1.6; }
-        
-        .case__axes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
-        .case-axis { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .case-axis__title { font-size: 12px; font-weight: 800; color: var(--color-gold); letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
-        .case-axis__desc { font-size: 13px; color: var(--color-text); line-height: 1.5; }
-        .case__quote { margin-top: 40px; font-size: 18px; font-weight: 600; color: var(--color-accent-light); font-style: italic; border-left: 2px solid var(--color-accent); padding-left: 20px; }
+        .case__tag { display: inline-block; background: var(--color-accent); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.6px; padding: 5px 10px; border-radius: 6px; margin-bottom: 8px; }
+        .case__content { padding: 40px 40px 40px 36px; }
+        .case__scenario { font-size: 18px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 16px; line-height: 1.4; }
+        .case__text { font-size: 15px; color: var(--color-text-muted); margin-bottom: 14px; line-height: 1.65; }
+        .case__axes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+        .case-axis { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .case-axis__title { font-size: 11px; font-weight: 800; color: var(--color-gold); letter-spacing: 1.2px; margin-bottom: 6px; }
+        .case-axis__desc { font-size: 13px; color: var(--color-text); line-height: 1.45; }
+        .case__quote { margin-top: 28px; font-size: 16px; font-weight: 600; color: var(--color-text-heading); border-left: 2px solid var(--color-accent); padding-left: 18px; line-height: 1.5; }
+        .case__note { margin-top: 10px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
 
-        /* ============================
-           APP REPOSITIONED
-           ============================ */
+        .case-alt { margin-top: 28px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 0; background: var(--color-bg-section); border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden; }
+        .case-alt__text { padding: 36px 40px; }
+        .case-alt__meta { font-size: 14px; color: var(--color-accent-light); font-weight: 600; margin-bottom: 12px; }
+        .case-alt__visual { position: relative; min-height: 280px; }
+        .case-alt__visual img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .case-alt__overlay {
+            position: absolute; inset: auto 0 0 0; padding: 20px 24px;
+            background: linear-gradient(0deg, rgba(11,15,26,0.92) 0%, transparent 100%);
+        }
+        .case-alt__facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .chip { font-size: 11px; font-weight: 600; color: var(--color-text); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 20px; }
+
+        /* APP */
         .app-section { padding: var(--section-padding); background: var(--color-bg-section); }
-        .app-section__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .app-section__desc { font-size: 18px; line-height: 1.7; color: var(--color-text-muted); margin-bottom: 32px; }
-        .app-section__desc strong { color: var(--color-text-heading); display: block; margin-top: 20px; font-weight: 600; font-size: 22px; }
-        .app-links { display: flex; gap: 16px; }
-        .app-links img { height: 48px; width: auto; transition: transform 0.3s; }
-        .app-links a:hover img { transform: translateY(-2px); }
-        .app-section__preview { display: flex; justify-content: center; gap: 16px; perspective: 1000px; }
-        .app-section__phone { width: 220px; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid var(--color-border); }
-        .app-section__phone:nth-child(2) { transform: translateY(30px); }
+        .app-section__intro { max-width: 720px; margin-bottom: 48px; }
+        .app-section__desc { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); }
+        .app-section__desc p + p { margin-top: 12px; }
+        .app-links { display: flex; gap: 12px; margin-top: 24px; }
+        .app-links img { height: 44px; width: auto; }
 
-        /* ============================
-           AI ASSISTANT (New)
-           ============================ */
-        .ai-section { padding: var(--section-padding); background: var(--color-bg); overflow: hidden; }
-        .ai__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .ai__text h2 { margin-bottom: 24px; }
-        .ai__desc { font-size: 16px; line-height: 1.8; color: var(--color-text-muted); margin-bottom: 30px; }
-        .ai__formula { display: inline-block; padding: 16px 24px; background: rgba(42, 129, 175, 0.1); border: 1px solid rgba(42, 129, 175, 0.3); border-radius: 12px; font-size: 18px; font-weight: 700; color: var(--color-accent-light); }
-        
-        .chat-mockup { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-        .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--color-border); }
-        .chat-header__avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; }
-        .chat-header__info { display: flex; flex-direction: column; }
-        .chat-header__name { font-size: 15px; font-weight: 700; color: var(--color-text-heading); }
+        .app-stage { display: grid; grid-template-columns: 1fr 280px 1fr; gap: 20px; align-items: center; }
+        .app-notes { display: flex; flex-direction: column; gap: 18px; }
+        .app-note { background: var(--color-bg-card); border: 1px solid var(--color-border-card); border-radius: 14px; padding: 16px 18px; }
+        .app-note__label { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--color-accent-light); margin-bottom: 6px; }
+        .app-note__text { font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
+        .app-notes--right { text-align: left; }
+
+        .phone {
+            width: 280px; margin: 0 auto; background: #0a0e18; border: 8px solid #1a2236;
+            border-radius: 36px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+        }
+        .phone__notch { height: 22px; background: #0a0e18; display: flex; align-items: center; justify-content: center; }
+        .phone__notch span { width: 72px; height: 6px; background: #1a2236; border-radius: 6px; }
+        .phone__screen { padding: 8px 12px 16px; background: linear-gradient(180deg, #101624 0%, #0d1320 100%); min-height: 480px; }
+        .phone__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .phone__brand { font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 0.4px; }
+        .phone__ai { font-size: 10px; font-weight: 700; color: var(--color-accent-light); border: 1px solid rgba(42,129,175,0.4); padding: 4px 8px; border-radius: 20px; }
+        .phone__trip { background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+        .phone__route { font-size: 13px; font-weight: 700; color: #fff; }
+        .phone__meta { font-size: 11px; color: var(--color-text-muted); margin-top: 4px; }
+        .phone-ac { background: var(--color-bg-card); border: 1px solid rgba(42,129,175,0.35); border-radius: 14px; overflow: hidden; }
+        .phone-ac__img { height: 110px; position: relative; }
+        .phone-ac__img img { width: 100%; height: 100%; object-fit: cover; }
+        .phone-ac__badges { position: absolute; top: 8px; left: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+        .p-badge { font-size: 9px; font-weight: 800; letter-spacing: 0.4px; padding: 3px 7px; border-radius: 4px; color: #fff; }
+        .p-badge--sel { background: var(--color-accent); }
+        .p-badge--ok { background: rgba(46,160,110,0.9); }
+        .phone-ac__body { padding: 12px; }
+        .phone-ac__name { font-size: 14px; font-weight: 800; color: #fff; }
+        .phone-ac__exp { font-size: 11px; color: var(--color-gold-light); margin-top: 4px; font-weight: 600; }
+        .phone-ac__row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; color: var(--color-text-muted); }
+        .phone__ask {
+            margin-top: 12px; display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 22px; padding: 8px 12px;
+        }
+        .phone__ask span { font-size: 11px; color: var(--color-text-muted); flex: 1; }
+
+        /* AI */
+        .ai-section { padding: var(--section-padding); background: var(--color-bg); }
+        .ai__inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
+        .ai__desc { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
+        .ai__formula { display: inline-block; margin-top: 8px; padding: 14px 20px; background: rgba(42,129,175,0.1); border: 1px solid rgba(42,129,175,0.3); border-radius: 12px; font-size: 16px; font-weight: 700; color: var(--color-accent-light); }
+        .chat-mockup { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 26px; box-shadow: 0 20px 60px rgba(0,0,0,0.28); }
+        .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border); }
+        .chat-header__avatar { width: 38px; height: 38px; background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 12px; }
+        .chat-header__name { font-size: 14px; font-weight: 700; color: var(--color-text-heading); }
         .chat-header__status { font-size: 12px; color: var(--color-accent); }
-        
-        .chat-messages { display: flex; flex-direction: column; gap: 20px; }
-        .msg { max-width: 85%; padding: 16px 20px; border-radius: 16px; font-size: 15px; line-height: 1.5; }
+        .chat-messages { display: flex; flex-direction: column; gap: 14px; }
+        .msg { max-width: 92%; padding: 14px 16px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
         .msg--user { background: var(--color-bg-section); color: var(--color-text); align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg--ai { background: linear-gradient(135deg, rgba(42,129,175,0.15) 0%, rgba(42,129,175,0.05) 100%); border: 1px solid rgba(42,129,175,0.2); color: var(--color-text); align-self: flex-start; border-bottom-left-radius: 4px; }
-        .msg-options { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
-        .msg-option { font-size: 12px; padding: 6px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); border-radius: 20px; color: var(--color-text-muted); }
+        .found-card { margin-top: 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 12px 14px; }
+        .found-card__k { font-size: 12px; color: var(--color-text-muted); }
+        .found-card__v { font-size: 15px; font-weight: 700; color: var(--color-text-heading); margin-top: 2px; }
+        .found-card__rec { margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--color-accent-light); }
 
-        /* ============================
-           ARCHITECTURE (Replacing Why FGG)
-           ============================ */
-        .architecture { padding: var(--section-padding); background: var(--color-bg-section); }
-        .arch__header { text-align: center; margin-bottom: 60px; }
-        .arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-        .arch-card { background: var(--color-bg-card); padding: 40px; border-radius: var(--radius-md); border: 1px solid var(--color-border-card); transition: all 0.3s; }
-        .arch-card:hover { transform: translateY(-5px); border-color: rgba(42, 129, 175, 0.3); }
-        .arch-card__num { font-size: 14px; font-weight: 800; color: var(--color-accent); margin-bottom: 16px; letter-spacing: 1px; }
-        .arch-card__title { font-size: 22px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 16px; }
-        .arch-card__desc { font-size: 15px; color: var(--color-text-muted); line-height: 1.6; }
+        /* PROOF */
+        .proof { padding: var(--section-padding); background: var(--color-bg-section); border-top: 1px solid var(--color-border); }
+        .proof__grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px; align-items: start; }
+        .proof__about p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
+        .proof__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; }
+        .stat__val { font-size: 36px; font-weight: 800; color: var(--color-text-heading); line-height: 1.1; margin-bottom: 8px; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat__label { font-size: 13px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
 
-        /* ============================
-           CORPORATE PROOF (Metrics & About)
-           ============================ */
-        .proof { padding: var(--section-padding); background: var(--color-bg); border-top: 1px solid var(--color-border); }
-        .proof__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .proof__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .stat { text-align: left; }
-        .stat__val { font-size: 48px; font-weight: 800; color: var(--color-text-heading); line-height: 1; margin-bottom: 10px; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .stat__label { font-size: 14px; color: var(--color-text-muted); font-weight: 500; }
-        
-        .proof__about p { font-size: 16px; line-height: 1.8; color: var(--color-text-muted); margin-bottom: 20px; }
+        /* CTA */
+        .cta { padding: var(--section-padding); background: linear-gradient(135deg, rgba(42,129,175,0.1) 0%, rgba(11,15,26,1) 52%, rgba(201,169,110,0.06) 100%); text-align: center; }
+        .cta__text { font-size: 17px; color: var(--color-text-muted); max-width: 560px; margin: 0 auto 28px; line-height: 1.65; }
+        .cta__actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .cta__phone { margin-top: 18px; font-size: 14px; color: var(--color-text-muted); }
+        .cta__phone a { color: var(--color-text); font-weight: 600; }
 
-        /* ============================
-           CTA
-           ============================ */
-        .cta { padding: var(--section-padding); background: linear-gradient(135deg, rgba(42,129,175,0.12) 0%, rgba(11,15,26,1) 50%, rgba(201,169,110,0.08) 100%); text-align: center; }
-        .cta__text { font-size: 18px; color: var(--color-text-muted); max-width: 500px; margin: 0 auto 40px; line-height: 1.6; }
-        .cta__actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
-
-        /* ============================
-           FOOTER
-           ============================ */
-        .footer { padding: 40px 0; border-top: 1px solid var(--color-border); background: var(--color-bg); }
-        .footer__inner { display: flex; justify-content: space-between; align-items: center; }
-        .footer__logo img { height: 36px; width: auto; opacity: 0.6; }
-        .footer__links { display: flex; gap: 32px; }
-        .footer__link { font-size: 14px; color: var(--color-text-muted); transition: color 0.3s; }
+        /* FOOTER */
+        .footer { padding: 32px 0; border-top: 1px solid var(--color-border); background: var(--color-bg); }
+        .footer__inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .footer__logo img { height: 32px; width: auto; opacity: 0.6; }
+        .footer__links { display: flex; gap: 28px; }
+        .footer__link { font-size: 13px; color: var(--color-text-muted); }
         .footer__link:hover { color: var(--color-text); }
-        .footer__copy { font-size: 13px; color: var(--color-text-muted); opacity: 0.6; }
+        .footer__copy { font-size: 12px; color: var(--color-text-muted); opacity: 0.7; }
 
-        /* ============================
-           RESPONSIVE
-           ============================ */
+        .lang-switcher { position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; gap: 4px; background: rgba(11,15,26,0.8); backdrop-filter: blur(12px); border: 1px solid var(--color-border); border-radius: 10px; padding: 4px; }
+        .lang-switcher a { padding: 7px 12px; font-size: 12px; font-weight: 600; color: var(--color-text-muted); border-radius: 8px; }
+        .lang-switcher a.active { background: var(--color-accent); color: #fff; }
+
         @media (max-width: 1024px) {
+            :root { --section-padding: 80px 0; }
             .inventory-steps::before { display: none; }
-            .inventory-steps, .case__container, .app-section__inner, .ai__inner, .arch-grid, .proof__grid { grid-template-columns: 1fr; gap: 40px; }
-            .case__content { padding: 30px; }
-            .app-section__preview { justify-content: flex-start; }
-            .chat-mockup { margin-top: 20px; }
+            .inventory-steps, .selected-proof, .case__container, .case-alt, .ai__inner, .proof__grid { grid-template-columns: 1fr; }
+            .app-stage { grid-template-columns: 1fr; gap: 16px; }
+            .app-notes { order: 2; }
+            .phone { order: 1; }
+            .case__content, .case-alt__text { padding: 28px; }
+            .proof-photo, .case__image, .case-alt__visual { min-height: 280px; position: relative; }
+            .proof-photo img, .case__image img, .case-alt__visual img { position: relative; height: 280px; }
         }
         @media (max-width: 640px) {
+            :root { --section-padding: 64px 0; }
+            .container { padding: 0 20px; }
             .case__axes, .proof__stats { grid-template-columns: 1fr; }
-            .hero__actions, .cta__actions { flex-direction: column; }
-            .footer__inner { flex-direction: column; gap: 20px; text-align: center; }
+            .hero__actions, .cta__actions { flex-direction: column; align-items: stretch; }
+            .footer__inner { flex-direction: column; text-align: center; }
+            .phone { width: 240px; }
         }
-
-        /* LANGUAGE SWITCHER */
-        .lang-switcher { position: fixed; top: 24px; right: 24px; z-index: 100; display: flex; gap: 4px; background: rgba(11,15,26,0.8); backdrop-filter: blur(12px); border: 1px solid var(--color-border); border-radius: 10px; padding: 4px; }
-        .lang-switcher a { padding: 8px 14px; font-size: 13px; font-weight: 600; color: var(--color-text-muted); border-radius: 8px; transition: all 0.3s; }
-        .lang-switcher a.active { background: var(--color-accent); color: #fff; }
-        .lang-switcher a:hover:not(.active) { color: var(--color-text); }
     </style>
 </head>
 <body>
 
-    <!-- LANGUAGE SWITCHER -->
     <div class="lang-switcher">
         <a href="index.html" class="active">RU</a>
         <a href="en.html">EN</a>
     </div>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero__bg">
-            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fservice-link-private-flights.jpg&w=3840&q=75" alt="Private jet">
+            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fservice-link-private-flights.jpg&w=3840&q=75" alt="">
         </div>
         <div class="hero__content">
             <div class="container">
@@ -292,294 +316,319 @@
                 <h1 class="hero__headline">
                     <span class="highlight">Ваша задача — быть там.</span><br>Наша — решить, как вы туда попадёте.
                 </h1>
-                <p class="hero__subtitle">Частная авиация без необходимости разбираться в частной авиации.</p>
+                <p class="hero__subtitle">Вы формулируете задачу. Мы берём на себя авиационное решение.</p>
                 <p class="hero__description">
-                    Вы сообщаете, где и когда вам нужно быть. FGG подбирает оптимальное авиационное решение — конкретный самолёт, маршрут и формат перелёта, которым мы готовы доверить вашу поездку.
+                    Вы сообщаете, где и когда вам нужно быть. FGG подбирает конкретный самолёт и маршрут с учётом времени, аэропортов, состава пассажиров, требований к комфорту и разумной стоимости — из вариантов, которые наша команда знает и готова рекомендовать.
                 </p>
                 <div class="hero__actions">
-                    <a href="mailto:info@fgg.aero" class="btn btn--primary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        Связаться с нами
-                    </a>
-                    <a href="https://fgg.aero" target="_blank" class="btn btn--outline">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7,7 17,7 17,17"/></svg>
-                        Перейти на сайт
-                    </a>
+                    <a href="mailto:info@fgg.aero" class="btn btn--primary">Связаться с нами</a>
+                    <a href="https://fgg.aero" target="_blank" class="btn btn--ghost">Перейти на сайт</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PHILOSOPHY -->
     <section class="philosophy">
         <div class="container">
             <div class="philosophy__inner animate-on-scroll">
-                <div class="section-label" style="justify-content: center;">Наш подход</div>
+                <div class="section-label">Наш подход</div>
                 <h2 class="section-title">Самолёт — не продукт.<br>Это инструмент для вашей задачи.</h2>
                 <div class="philosophy__text">
-                    <p>Рынок бизнес-авиации предлагает тысячи самолётов. Но количество вариантов само по себе не упрощает выбор.</p>
-                    <p>Для конкретного перелёта важны десятки факторов: где находится самолёт сейчас, какой аэропорт расположен ближе к месту назначения, сколько времени потребуется на подготовку рейса, насколько салон подходит для продолжительности полёта, сколько пассажиров и багажа будет на борту и насколько хорошо мы знаем конкретного оператора и воздушное судно.</p>
-                    <strong>Поэтому FGG не предлагает клиенту абстрактный рынок. Мы предлагаем несколько решений, которые считаем правильными для конкретной задачи.</strong>
+                    <p>Рынок бизнес-авиации даёт доступ к тысячам самолётов. Но клиенту не нужен весь рынок — ему нужен один правильный вариант для конкретной поездки.</p>
+                    <p>На выбор влияют позиция самолёта, аэропорты, график, дальность, салон, пассажиры, багаж, оператор и стоимость. Поэтому FGG не перекладывает сравнение на клиента: мы формируем короткий список решений и объясняем, чем каждое из них отличается.</p>
                 </div>
+                <p class="philosophy__close">Вы выбираете не самолёт. Вы выбираете решение своей задачи.</p>
             </div>
         </div>
     </section>
 
-    <!-- INVENTORY (Replaces Catalog) -->
     <section class="inventory">
         <div class="container">
             <div class="inventory__header animate-on-scroll">
-                <h2 class="section-title">Не просто доступные самолёты.<br>Самолёты, которые мы готовы рекомендовать.</h2>
-                <p>Из тысяч воздушных судов на рынке в приложение FGG попадает только отобранная часть. За каждой фотографией стоит не просто спецификация, а наше понимание того, для какой задачи этот борт подходит.</p>
+                <h2 class="section-title">Мы знаем самолёты, которые предлагаем.</h2>
+                <p>Через глобальную сеть FGG доступны тысячи воздушных судов. В наше приложение попадает отобранная часть — конкретные борта и операторы, о которых у команды достаточно информации, чтобы рекомендовать их клиенту.</p>
             </div>
-            <div class="inventory-steps animate-on-scroll" style="transition-delay: 0.2s">
+            <div class="inventory-steps animate-on-scroll">
                 <div class="inventory-step">
-                    <div class="inventory-step__icon">
-                        <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    </div>
-                    <div class="inventory-step__title">INSPECTED</div>
-                    <div class="inventory-step__desc">Команда FGG изучает самолёт, его техническое состояние и стандарты оператора.</div>
+                    <div class="inventory-step__num">01</div>
+                    <div class="inventory-step__title">REVIEWED BY FGG</div>
+                    <div class="inventory-step__desc">Команда изучает конкретный самолёт и оператора: конфигурацию и состояние салона, сервисные возможности, эксплуатационные особенности и другие параметры внутреннего отбора FGG.</div>
                 </div>
                 <div class="inventory-step">
-                    <div class="inventory-step__icon">
-                        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    </div>
+                    <div class="inventory-step__num">02</div>
                     <div class="inventory-step__title">FGG SELECTED</div>
-                    <div class="inventory-step__desc">Борт официально включается в нашу внутреннюю систему подборки решений.</div>
+                    <div class="inventory-step__desc">После внутреннего отбора самолёт появляется в системе FGG как вариант, который команда готова рассматривать для поездок клиентов.</div>
                 </div>
                 <div class="inventory-step">
-                    <div class="inventory-step__icon">
-                        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                    </div>
-                    <div class="inventory-step__title">FLIGHT EXPERIENCE</div>
-                    <div class="inventory-step__desc">Мы накапливаем собственный практический опыт выполнения рейсов на этом судне.</div>
+                    <div class="inventory-step__num">03</div>
+                    <div class="inventory-step__title">Опыт рейсов</div>
+                    <div class="inventory-step__desc">После выполненных рейсов мы сохраняем собственный опыт: качество сервиса, работу оператора, особенности конкретного борта и обратную связь клиентов.</div>
                 </div>
+            </div>
+
+            <div class="selected-proof animate-on-scroll">
+                <div class="proof-photo">
+                    <img src="parked_jets.png" alt="Работа на перроне">
+                    <div class="proof-photo__caption">Работа на перроне: координация с оператором и экипажем. Не lifestyle-кадр — рабочий процесс вокруг конкретного борта.</div>
+                </div>
+                <article class="ac-card">
+                    <div class="ac-card__image">
+                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Faircraft%2Fcessna-citation-xls.jpg&w=1920&q=75" alt="Citation XLS+">
+                        <span class="ac-card__badge">FGG SELECTED</span>
+                    </div>
+                    <div class="ac-card__body">
+                        <h3 class="ac-card__name">Citation XLS+</h3>
+                        <p class="ac-card__status">Самолёт изучен командой FGG</p>
+                        <div class="ac-card__rows">
+                            <div class="ac-row"><span class="ac-row__k">Год</span><span class="ac-row__v">2016</span></div>
+                            <div class="ac-row"><span class="ac-row__k">Конфигурация</span><span class="ac-row__v">8 пассажиров</span></div>
+                            <div class="ac-row"><span class="ac-row__k">Класс</span><span class="ac-row__v">Midsize</span></div>
+                            <div class="ac-row"><span class="ac-row__k">Типичные задачи</span><span class="ac-row__v">Короткие и средние деловые маршруты, региональные аэропорты</span></div>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- CASE STUDY -->
     <section class="case-study">
         <div class="container">
             <div class="case__header animate-on-scroll">
-                <div class="section-label" style="justify-content: center;">Сценарий</div>
+                <div class="section-label" style="justify-content: center;">Сценарии</div>
                 <h2 class="section-title">Разные задачи. Разные самолёты.<br>Один принцип.</h2>
             </div>
-            <div class="case__container animate-on-scroll" style="transition-delay: 0.2s">
+            <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="https://fgg.aero/_next/image?url=%2Fimages%2Faircraft%2Fcessna-citation-xls.jpg&w=1920&q=75" alt="Cessna XLS+">
+                    <img src="https://fgg.aero/_next/image?url=%2Fimages%2Faircraft%2Fcessna-citation-xls.jpg&w=1920&q=75" alt="Cessna Citation XLS+">
                     <div class="case__image-overlay">
                         <span class="case__tag">FGG SELECTED</span>
-                        <h3 style="color: #fff; font-size: 24px;">Cessna Citation XLS+ (2016)</h3>
+                        <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+ (2016)</h3>
                     </div>
                 </div>
                 <div class="case__content">
-                    <div class="case__scenario">08:30 — Центральная Европа.<br>Встреча через несколько часов. 2 пассажира.</div>
-                    <p class="case__text">Вам с партнёром необходимо через 2–3 часа быть на встрече в другом европейском городе. Для этой задачи не нужен Gulfstream G650. Задача — оказаться максимально близко к месту встречи вовремя.</p>
-                    <p class="case__text">Мы предложим Cessna XLS+. Комфортный салон для короткого делового перелёта, подходящая дальность и возможность использовать удобные региональные аэропорты вблизи места встречи.</p>
-                    
+                    <div class="case__scenario">08:30 · Центральная Европа<br>Два пассажира. Встреча в другом городе сегодня после обеда.</div>
+                    <p class="case__text">Главная задача — минимизировать общее время поездки и прибыть как можно ближе к месту встречи.</p>
+                    <p class="case__text">Для подобного маршрута FGG может рекомендовать Citation XLS+, если отобранный нами конкретный борт доступен в нужном регионе: комфортный салон для деловой поездки, достаточная дальность и возможность использовать удобные региональные аэропорты — без необходимости оплачивать возможности более крупного самолёта, которые в этой поездке не нужны.</p>
                     <div class="case__axes">
                         <div class="case-axis">
-                            <div class="case-axis__title">TIME</div>
-                            <div class="case-axis__desc">Насколько борт вписывается в жёсткий график</div>
+                            <div class="case-axis__title">ВРЕМЯ</div>
+                            <div class="case-axis__desc">Вписывается ли решение в график</div>
                         </div>
                         <div class="case-axis">
-                            <div class="case-axis__title">LOCATION</div>
-                            <div class="case-axis__desc">Близость аэропортов вылета и прибытия</div>
+                            <div class="case-axis__title">АЭРОПОРТЫ</div>
+                            <div class="case-axis__desc">Насколько близко можно прибыть к нужной точке</div>
                         </div>
                         <div class="case-axis">
-                            <div class="case-axis__title">COMFORT</div>
-                            <div class="case-axis__desc">Оптимальное пространство для двух пассажиров</div>
+                            <div class="case-axis__title">КОМФОРТ</div>
+                            <div class="case-axis__desc">Какой салон действительно нужен для поездки</div>
                         </div>
                         <div class="case-axis">
-                            <div class="case-axis__title">COST</div>
-                            <div class="case-axis__desc">Разумные затраты для конкретной цели</div>
+                            <div class="case-axis__title">СТОИМОСТЬ</div>
+                            <div class="case-axis__desc">Насколько затраты соответствуют задаче</div>
                         </div>
                     </div>
+                    <div class="case__quote">Мы сравниваем не самолёты только по цене — мы сравниваем сценарии поездки по тому, насколько хорошо они решают задачу. Стоимость каждого варианта при этом остаётся прозрачной.</div>
+                    <p class="case__note">Оптимальное решение — не обязательно самое дешёвое и не обязательно самое дорогое.</p>
+                </div>
+            </div>
 
-                    <div class="case__quote">
-                        «Оптимум — не всегда самый дешёвый и не всегда самый большой самолёт. Стоимость — это параметр решения, а не единственный критерий выбора.»
+            <div class="case-alt animate-on-scroll">
+                <div class="case-alt__text">
+                    <h3 class="section-title" style="margin-bottom:12px;">Другая задача — другое решение.</h3>
+                    <p class="case-alt__meta">Дубай → семейная поездка · 6 пассажиров · дети · большой багаж · дальний маршрут</p>
+                    <p class="case__text" style="margin-bottom:0;">Здесь приоритеты меняются. Пространство салона, багажный отсек, возможность полноценного отдыха в полёте и прямой маршрут могут иметь гораздо большее значение, чем минимальный размер самолёта.</p>
+                </div>
+                <div class="case-alt__visual">
+                    <img src="g550.jpg" alt="Gulfstream G550">
+                    <div class="case-alt__overlay">
+                        <span class="case__tag">FGG SELECTED</span>
+                        <h3 style="color:#fff;font-size:20px;font-weight:800;">Gulfstream G550</h3>
+                        <div class="case-alt__facts">
+                            <span class="chip">до 11 пассажиров</span>
+                            <span class="chip">багаж 5,66 м³</span>
+                            <span class="chip">6 спальных мест</span>
+                            <span class="chip">12 500 км</span>
+                            <span class="chip">Wi-Fi Ka-Band</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- APP REPOSITIONED -->
     <section class="app-section">
         <div class="container">
-            <div class="app-section__inner">
-                <div class="app-section__text animate-on-scroll">
-                    <div class="section-label">Digital Platform</div>
-                    <h2 class="section-title">Вся экспертиза FGG —<br>в одном приложении</h2>
-                    <div class="app-section__desc">
-                        <p>Мы создали приложение не для того, чтобы перенести традиционное бронирование в смартфон.</p>
-                        <p style="margin-top: 16px;">Оно объединяет самолёты, которые отобрала команда FGG, реальную доступность вариантов, накопленный опыт перелётов и персональный сервис.</p>
-                        <strong>Вы получаете не бесконечный каталог рынка, а понятный набор решений под конкретную поездку.</strong>
+            <div class="app-section__intro animate-on-scroll">
+                <div class="section-label">Приложение FGG</div>
+                <h2 class="section-title">Мы превратили наш подход в продукт.</h2>
+                <p style="font-size:18px;font-weight:600;color:var(--color-text);margin-bottom:16px;">Экспертиза FGG — в одном приложении.</p>
+                <div class="app-section__desc">
+                    <p>Приложение объединяет самолёты, отобранные командой FGG, их доступность, накопленный опыт выполненных рейсов и персональный сервис.</p>
+                    <p>Клиент получает не бесконечный каталог рынка, а понятный набор решений под конкретную поездку.</p>
+                </div>
+                <div class="app-links">
+                    <a href="https://apps.apple.com/by/app/flight-generation-group/id6514327073" target="_blank">
+                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp-store-button.png&w=256&q=75" alt="App Store">
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.flightgenerationgroup" target="_blank">
+                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fplay-store-button.png&w=256&q=75" alt="Google Play">
+                    </a>
+                </div>
+            </div>
+
+            <div class="app-stage animate-on-scroll">
+                <div class="app-notes">
+                    <div class="app-note">
+                        <div class="app-note__label">FGG SELECTED</div>
+                        <div class="app-note__text">Самолёт прошёл внутренний отбор</div>
                     </div>
-                    <div class="app-links">
-                        <a href="https://apps.apple.com/by/app/flight-generation-group/id6514327073" target="_blank">
-                            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp-store-button.png&w=256&q=75" alt="App Store">
-                        </a>
-                        <a href="https://play.google.com/store/apps/details?id=com.flightgenerationgroup" target="_blank">
-                            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fplay-store-button.png&w=256&q=75" alt="Google Play">
-                        </a>
+                    <div class="app-note">
+                        <div class="app-note__label">FLIGHT EXPERIENCE</div>
+                        <div class="app-note__text">У команды есть опыт работы с бортом</div>
                     </div>
                 </div>
-                <div class="app-section__preview animate-on-scroll" style="transition-delay: 0.2s">
-                    <div class="app-section__phone">
-                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp%2Fapp-4.png&w=640&q=50" alt="FGG App">
+                <div class="phone">
+                    <div class="phone__notch"><span></span></div>
+                    <div class="phone__screen">
+                        <div class="phone__top">
+                            <span class="phone__brand">FGG</span>
+                            <span class="phone__ai">ASK AI</span>
+                        </div>
+                        <div class="phone__trip">
+                            <div class="phone__route">Лондон → Женева</div>
+                            <div class="phone__meta">12 сен · возврат 14 сен · 2 пассажира</div>
+                        </div>
+                        <div class="phone-ac">
+                            <div class="phone-ac__img">
+                                <img src="https://fgg.aero/_next/image?url=%2Fimages%2Faircraft%2Fcessna-citation-xls.jpg&w=640&q=70" alt="">
+                                <div class="phone-ac__badges">
+                                    <span class="p-badge p-badge--sel">FGG SELECTED</span>
+                                    <span class="p-badge p-badge--ok">AVAILABLE</span>
+                                </div>
+                            </div>
+                            <div class="phone-ac__body">
+                                <div class="phone-ac__name">Citation XLS+</div>
+                                <div class="phone-ac__exp">Опыт рейсов · FLIGHT EXPERIENCE</div>
+                                <div class="phone-ac__row"><span>8 пассажиров</span><span>Midsize</span></div>
+                            </div>
+                        </div>
+                        <div class="phone__ask">
+                            <span>Где и когда вам нужно быть?</span>
+                        </div>
                     </div>
-                    <div class="app-section__phone">
-                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp%2Fapp-1.png&w=640&q=50" alt="FGG App">
+                </div>
+                <div class="app-notes app-notes--right">
+                    <div class="app-note">
+                        <div class="app-note__label">AVAILABLE</div>
+                        <div class="app-note__text">Решение доступно для текущей задачи</div>
+                    </div>
+                    <div class="app-note">
+                        <div class="app-note__label">ASK AI</div>
+                        <div class="app-note__text">Запрос можно сформулировать обычным языком</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- AI ASSISTANT -->
     <section class="ai-section">
         <div class="container">
             <div class="ai__inner">
                 <div class="chat-mockup animate-on-scroll">
                     <div class="chat-header">
                         <div class="chat-header__avatar">AI</div>
-                        <div class="chat-header__info">
-                            <span class="chat-header__name">FGG Assistant</span>
-                            <span class="chat-header__status">Всегда на связи</span>
+                        <div>
+                            <div class="chat-header__name">FGG Assistant</div>
+                            <div class="chat-header__status">На связи</div>
                         </div>
                     </div>
                     <div class="chat-messages">
-                        <div class="msg msg--user">
-                            12 сентября мне нужно быть в Женеве. 14 сентября вечером вернуться в Лондон. Нас двое.
-                        </div>
+                        <div class="msg msg--user">12 сентября мне нужно быть в Женеве. 14 сентября вечером вернуться в Лондон. Нас двое.</div>
+                        <div class="msg msg--ai">Принял: Лондон → Женева 12 сентября, обратный рейс 14 сентября вечером, 2 пассажира. Проверяю подходящие аэропорты, доступные FGG Selected борта и варианты по вашему графику.</div>
+                        <div class="msg msg--ai">Уточню один момент: вы летите только с ручной кладью или будет основной багаж?</div>
                         <div class="msg msg--ai">
-                            Понял. Подберу оптимальные варианты перелёта с учётом вашего расписания, предпочитаемых аэропортов и комфорта для двух пассажиров.
-                            <div class="msg-options">
-                                <span class="msg-option">Искать Cessna XLS+</span>
-                                <span class="msg-option">Проверить слоты в Женеве</span>
+                            <div class="found-card">
+                                <div class="found-card__k">Подбор</div>
+                                <div class="found-card__v">Найдено 3 подходящих решения</div>
+                                <div class="found-card__rec">Рекомендация FGG</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="ai__text animate-on-scroll" style="transition-delay: 0.2s">
-                    <div class="section-label">AI Integration</div>
+                <div class="ai__text animate-on-scroll">
+                    <div class="section-label">AI-ассистент</div>
                     <h2 class="section-title">Теперь достаточно просто сказать, где вам нужно быть.</h2>
-                    <p class="ai__desc">AI Assistant переводит ваш обычный текстовый запрос в авиационную задачу, мгновенно подбирает релевантные варианты из системы FGG и помогает перейти от намерения к готовому решению.</p>
-                    <p class="ai__desc">А за технологией всегда стоит профессиональная команда FGG, которая лично отвечает за качество и безопасность выполнения рейса.</p>
+                    <p class="ai__desc">AI Assistant превращает обычный текстовый запрос в структурированную авиационную задачу и помогает быстро сформировать релевантные варианты из системы FGG.</p>
+                    <p class="ai__desc">Финальный подбор, согласование условий и организацию перелёта контролирует команда FGG. Выполнение рейса осуществляется сертифицированным авиационным оператором.</p>
                     <div class="ai__formula">AI для скорости. Экспертиза FGG для уверенности.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ARCHITECTURE -->
-    <section class="architecture">
-        <div class="container">
-            <div class="arch__header animate-on-scroll">
-                <h2 class="section-title">Как FGG решает вашу задачу</h2>
-            </div>
-            <div class="arch-grid">
-                <div class="arch-card animate-on-scroll">
-                    <div class="arch-card__num">01</div>
-                    <h3 class="arch-card__title">Сначала задача</h3>
-                    <p class="arch-card__desc">Вы говорите, где и когда должны быть. Вам не нужно тратить время на выбор типа самолёта или сравнение характеристик — мы всё рассчитаем.</p>
-                </div>
-                <div class="arch-card animate-on-scroll" style="transition-delay: 0.1s">
-                    <div class="arch-card__num">02</div>
-                    <h3 class="arch-card__title">Затем правильное решение</h3>
-                    <p class="arch-card__desc">Мы учитываем десятки параметров: от точного маршрута и времени на подготовку до вместимости багажника и стоимости, формируя шорт-лист лучших опций.</p>
-                </div>
-                <div class="arch-card animate-on-scroll" style="transition-delay: 0.2s">
-                    <div class="arch-card__num">03</div>
-                    <h3 class="arch-card__title">Только доверенные самолёты</h3>
-                    <p class="arch-card__desc">Приоритет всегда отдаётся воздушным судам и операторам, которых команда FGG хорошо знает, регулярно проверяет и включает в свою систему отбора.</p>
-                </div>
-                <div class="arch-card animate-on-scroll" style="transition-delay: 0.3s">
-                    <div class="arch-card__num">04</div>
-                    <h3 class="arch-card__title">Один интерфейс</h3>
-                    <p class="arch-card__desc">Ваша персональная авиационная система: мобильное приложение, AI-ассистент и выделенный менеджер превращают сложный рынок в простое решение.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CORPORATE PROOF -->
     <section class="proof">
         <div class="container">
             <div class="proof__grid">
                 <div class="proof__about animate-on-scroll">
-                    <div class="section-label">Надёжность</div>
+                    <div class="section-label">Компания</div>
                     <h2 class="section-title">Авиационный фундамент<br>за вашим рейсом</h2>
-                    <p>FGG — международная компания со штаб-квартирой в Dubai South. С 2015 года мы организуем частные и корпоративные чартеры по всему миру, а также занимаемся комплексным управлением воздушными судами.</p>
-                    <p>Клиенты FGG в среднем оценивают готовность рекомендовать компанию на <strong>9,6 балла из 10</strong>. Для нас это главный индикатор доверия к нашему подходу.</p>
+                    <p>Flight Generation Group работает в бизнес-авиации с 2015 года и базируется в Dubai South. Компания организует частные и корпоративные чартеры по всему миру и занимается управлением воздушными судами.</p>
+                    <p>Эта операционная экспертиза лежит в основе подхода FGG Selected: мы смотрим на самолёт не как на позицию в каталоге, а как на конкретный инструмент для конкретной поездки.</p>
+                    <p>Глобальная сеть даёт FGG доступ более чем к 1 000 воздушных судов. Наша задача — не показать клиенту всю эту тысячу, а выбрать из рынка несколько подходящих решений.</p>
+                    <p>Клиенты FGG в среднем оценивают готовность рекомендовать компанию на <strong style="color:var(--color-text-heading)">9,6 балла из 10</strong>.</p>
                 </div>
-                <div class="proof__stats animate-on-scroll" style="transition-delay: 0.2s">
+                <div class="proof__stats animate-on-scroll">
                     <div class="stat">
-                        <div class="stat__val">11 лет</div>
-                        <div class="stat__label">опыта в бизнес-авиации</div>
+                        <div class="stat__val">С 2015</div>
+                        <div class="stat__label">в сфере бизнес-авиации</div>
                     </div>
                     <div class="stat">
                         <div class="stat__val">24/7</div>
                         <div class="stat__label">персональная поддержка</div>
                     </div>
                     <div class="stat">
-                        <div class="stat__val">1000+</div>
-                        <div class="stat__label">самолётов в глобальной сети</div>
+                        <div class="stat__val">1 000+</div>
+                        <div class="stat__label">воздушных судов в глобальной сети — из них в работу с клиентом попадает отобранная часть</div>
                     </div>
                     <div class="stat">
-                        <div class="stat__val">9,6</div>
-                        <div class="stat__label">индекс лояльности (NPS)</div>
+                        <div class="stat__val">9,6 / 10</div>
+                        <div class="stat__label">средняя оценка готовности рекомендовать FGG</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
     <section class="cta">
         <div class="container">
             <div class="animate-on-scroll">
                 <h2 class="section-title">Ваши планы. Наша авиация.</h2>
-                <p class="cta__text">Вы планируете жизнь. Мы организуем авиацию вокруг неё.<br>Свяжитесь с нами для организации перелёта.</p>
+                <p class="cta__text">Расскажите, где и когда вам нужно быть. Команда FGG подберёт несколько авиационных решений, которые считает оптимальными для вашей задачи.</p>
                 <div class="cta__actions">
-                    <a href="mailto:info@fgg.aero" class="btn btn--primary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        Связаться с нами
-                    </a>
-                    <a href="https://fgg.aero" target="_blank" class="btn btn--outline">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        Перейти на сайт
-                    </a>
-                    <a href="tel:+97143271427" class="btn btn--outline">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        +971 43 271 427
-                    </a>
+                    <a href="mailto:info@fgg.aero" class="btn btn--primary">Связаться с FGG</a>
+                    <a href="https://fgg.aero" target="_blank" class="btn btn--ghost">fgg.aero</a>
                 </div>
+                <p class="cta__phone"><a href="tel:+97143271427">+971 43 271 427</a></p>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer__inner">
                 <div class="footer__logo">
-                    <img src="fgg-logo-white.png" alt="FGG Logo">
+                    <img src="fgg-logo-white.png" alt="FGG">
                 </div>
                 <div class="footer__links">
                     <a href="https://fgg.aero" target="_blank" class="footer__link">fgg.aero</a>
                     <a href="https://fgg.aero/ru/about" target="_blank" class="footer__link">О компании</a>
-                    <a href="https://fgg.aero/ru/aircraft" target="_blank" class="footer__link">Каталог</a>
                     <a href="https://fgg.aero/ru/contacts" target="_blank" class="footer__link">Контакты</a>
                 </div>
-                <p class="footer__copy">© 2015–2025 Flight Generation Group</p>
+                <p class="footer__copy">© 2015–2026 Flight Generation Group</p>
             </div>
         </div>
     </footer>
 
-    <!-- SCROLL ANIMATION SCRIPT -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const observer = new IntersectionObserver((entries) => {
@@ -589,14 +638,8 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-
-            document.querySelectorAll('.animate-on-scroll').forEach(el => {
-                observer.observe(el);
-            });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
         });
     </script>
 </body>
