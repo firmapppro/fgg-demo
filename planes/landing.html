@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аренда самолета Gulfstream G550 - FGG Aero</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        bglight: '#f9fafb',
+                        cardbg: '#ffffff'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fa-solid fa-plane-departure text-primary text-xl mr-2"></i>
+                <span class="text-lg font-bold text-gray-900 tracking-tight">FGG Aero</span>
+            </div>
+            <div class="flex space-x-2">
+                <a href="landing.html" class="px-2 text-sm font-bold text-gray-900">RU</a>
+                <span class="text-gray-300">|</span>
+                <a href="landing_en.html" class="px-2 text-sm text-gray-500 hover:text-gray-900 transition">EN</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Заголовок -->
+        <div class="mb-6 flex justify-between items-start">
+            <div>
+                <div class="flex items-center space-x-2 mb-1">
+                    <span class="px-2.5 py-0.5 bg-blue-100 text-primary rounded-md text-xs font-semibold uppercase tracking-wider">Ultra long range</span>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Gulfstream G550</h1>
+                <p class="text-gray-500 text-sm mt-1 flex items-center">
+                    <i class="fa-solid fa-location-dot text-gray-400 mr-1.5"></i> Базирование: UUDD, Domodedovo International
+                </p>
+            </div>
+        </div>
+
+        <!-- Галерея -->
+        <div class="relative grid grid-cols-1 md:grid-cols-2 gap-2 rounded-2xl overflow-hidden shadow-sm mb-8 h-[450px]">
+            <div class="h-full w-full overflow-hidden">
+                <img src="g550photo/1.jpeg" onclick="openModal(0)" alt="Gallery Image 1" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer">
+            </div>
+            <div class="grid grid-cols-2 grid-rows-2 gap-2 h-full">
+                <div class="overflow-hidden"><img src="g550photo/2.jpeg" onclick="openModal(1)" alt="Gallery Image 2" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer"></div>
+                <div class="overflow-hidden"><img src="g550photo/3.jpeg" onclick="openModal(2)" alt="Gallery Image 3" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer"></div>
+                <div class="overflow-hidden"><img src="g550photo/4.jpeg" onclick="openModal(3)" alt="Gallery Image 4" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer"></div>
+                <div class="overflow-hidden"><img src="g550photo/5.jpeg" onclick="openModal(4)" alt="Gallery Image 5" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer"></div>
+            </div>
+
+            <button onclick="openModal(0)" class="absolute bottom-6 right-6 bg-white border border-gray-900 text-gray-900 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition shadow-lg z-20 flex items-center">
+                <i class="fa-solid fa-images mr-2"></i> Все фото (7)
+            </button>
+        </div>
+
+        <div class="space-y-8">
+            
+            <!-- Основные характеристики (Грид) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 border-b border-t border-gray-200 py-6">
+                <div class="text-center">
+                    <i class="fa-solid fa-calendar-days text-gray-400 text-lg mb-1"></i>
+                    <p class="text-xs text-gray-400">Год выпуска</p>
+                    <p class="text-sm font-semibold text-gray-900">2003</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-paint-roller text-gray-400 text-lg mb-1"></i>
+                    <p class="text-xs text-gray-400">Год обн. экстерьера</p>
+                    <p class="text-sm font-semibold text-gray-900">2022</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-couch text-gray-400 text-lg mb-1"></i>
+                    <p class="text-xs text-gray-400">Год обн. интерьера</p>
+                    <p class="text-sm font-semibold text-gray-900">2025</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-users text-gray-400 text-lg mb-1"></i>
+                    <p class="text-xs text-gray-400">Пассажиры</p>
+                    <p class="text-sm font-semibold text-gray-900">до 11 чел</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-suitcase text-gray-400 text-lg mb-1"></i>
+                    <p class="text-xs text-gray-400">Багаж</p>
+                    <p class="text-sm font-semibold text-gray-900">5.66 м³</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-bed text-gray-400 text-lg mb-1"></i>
+                    <p class="text-xs text-gray-400">Спальных мест</p>
+                    <p class="text-sm font-semibold text-gray-900">6</p>
+                </div>
+            </div>
+
+            <!-- Описание -->
+            <div>
+                <h2 class="text-xl font-bold text-gray-900 mb-3">Об этом самолете</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">
+                    Gulfstream G550 — один из самых популярных и надежных дальнемагистральных бизнес-джетов. Просторный салон, разделенный на несколько зон, обеспечивает непревзойденный комфорт на межконтинентальных перелетах. Благодаря современным системам шумоизоляции и 100% свежему воздуху в салоне, пассажиры прибывают в пункт назначения отдохнувшими.
+                </p>
+                <p class="text-gray-600 leading-relaxed">
+                    Этот борт прошел полную реновацию интерьера в 2025 году. Просторные кресла, трансформируемые в удобные кровати, первоклассное горячее питание и мультимедийные экраны делают любое путешествие на этом самолете настоящим удовольствием.
+                </p>
+            </div>
+
+            <!-- Технические спецификации -->
+            <div class="border-t border-gray-200 pt-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Технические спецификации</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-gray-500 block text-xs">Тип ВС (Класс)</span>
+                            <span class="font-medium text-gray-900">Ultra long range</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Код ICAO</span>
+                            <span class="font-medium text-gray-900">GLF5</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-gray-500 block text-xs">Размеры салона (ДхШхВ)</span>
+                            <span class="font-medium text-gray-900">1527 x 188 x 239 см</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Количество сидений</span>
+                            <span class="font-medium text-gray-900">12 кресел</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Фактическая дальность</span>
+                            <span class="font-medium text-gray-900">12 500 км</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-gray-500 block text-xs">Максимальный взлетный вес</span>
+                            <span class="font-medium text-gray-900">41.3 т</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Крейсерская скорость</span>
+                            <span class="font-medium text-gray-900">850 км/ч</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Оснащение салона -->
+            <div class="border-t border-gray-200 pt-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Оснащение салона</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex items-center text-gray-700">
+                        <i class="fa-solid fa-wifi text-primary w-8 text-lg text-center"></i>
+                        <span>Высокоскоростной Wi-Fi (Ka-Band)</span>
+                    </div>
+                    <div class="flex items-center text-gray-700">
+                        <i class="fa-solid fa-user-tie text-primary w-8 text-lg text-center"></i>
+                        <span>Стюардесса на борту</span>
+                    </div>
+                    <div class="flex items-center text-gray-700">
+                        <i class="fa-solid fa-utensils text-primary w-8 text-lg text-center"></i>
+                        <span>Горячее питание VIP класса</span>
+                    </div>
+                    <div class="flex items-center text-gray-700">
+                        <i class="fa-solid fa-restroom text-primary w-8 text-lg text-center"></i>
+                        <span>Закрытая туалетная комната</span>
+                    </div>
+                    <div class="flex items-center text-gray-700">
+                        <i class="fa-solid fa-bed text-primary w-8 text-lg text-center"></i>
+                        <span>6 полноценных спальных мест</span>
+                    </div>
+                    <div class="flex items-center text-gray-700">
+                        <i class="fa-solid fa-music text-primary w-8 text-lg text-center"></i>
+                        <span>Премиальная аудиосистема на борту</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </main>
+
+
+    <!-- Modal -->
+    <div id="galleryModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm flex flex-col">
+        <div class="flex justify-between items-center p-6 text-white absolute top-0 w-full z-10">
+            <div class="text-sm tracking-wider"><span id="currentImgNum">1</span> / <span id="totalImgNum">7</span></div>
+            <button onclick="closeModal()" class="text-white hover:text-gray-300 text-2xl transition"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="flex-1 flex items-center justify-center relative px-12">
+            <button onclick="prevImg()" class="absolute left-6 text-white hover:text-gray-300 text-3xl p-4 transition"><i class="fa-solid fa-chevron-left"></i></button>
+            <img id="modalImg" src="" class="max-h-[85vh] max-w-full object-contain shadow-2xl rounded">
+            <button onclick="nextImg()" class="absolute right-6 text-white hover:text-gray-300 text-3xl p-4 transition"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const images = [
+            "g550photo/1.jpeg",
+            "g550photo/2.jpeg",
+            "g550photo/3.jpeg",
+            "g550photo/4.jpeg",
+            "g550photo/5.jpeg",
+            "g550photo/6.png",
+            "g550photo/7.PNG"
+        ];
+        let currentIndex = 0;
+        const modal = document.getElementById('galleryModal');
+        const modalImg = document.getElementById('modalImg');
+        const counter = document.getElementById('currentImgNum');
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModal();
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function nextImg() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateModal();
+        }
+
+        function prevImg() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateModal();
+        }
+
+        function updateModal() {
+            modalImg.src = images[currentIndex];
+            counter.innerText = currentIndex + 1;
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeModal();
+                if (e.key === 'ArrowRight') nextImg();
+                if (e.key === 'ArrowLeft') prevImg();
+            }
+        });
+    </script>
+</body>
+
+</html>

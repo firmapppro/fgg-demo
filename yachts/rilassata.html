@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аренда суперъяхты Rilassata (Tankoa S501) - FGG Yachting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb', // Наш синий бренд-цвет
+                        bglight: '#f9fafb',
+                        cardbg: '#ffffff'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sticky-sidebar {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 24px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fa-solid fa-plane text-primary text-xl mr-2"></i>
+                <span class="text-lg font-bold text-gray-900 tracking-tight">FGG</span>
+            </div>
+            <!-- Ссылка в панель удалена по запросу -->
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="mb-6 flex justify-between items-start">
+            <div>
+                <div class="flex items-center space-x-2 mb-1">
+                    <span class="px-2.5 py-0.5 bg-blue-100 text-primary rounded-md text-xs font-semibold uppercase tracking-wider">Суперяхта</span>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Rilassata</h1>
+                <p class="text-gray-500 text-sm mt-1 flex items-center">
+                    <i class="fa-solid fa-location-dot text-gray-400 mr-1.5"></i> Порт базирования: Дубай Марина, ОАЭ
+                </p>
+            </div>
+            <div class="flex space-x-3 text-sm text-gray-600">
+                <!-- Кнопки удалены -->
+            </div>
+        </div>
+
+        <div class="relative grid grid-cols-1 md:grid-cols-2 gap-2 rounded-2xl overflow-hidden shadow-sm mb-8 h-[450px]">
+            <div class="h-full w-full overflow-hidden">
+                <img src="images/rilassata/img_0.png" alt="Rilassata Exterior" onclick="openModal(0)" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer">
+            </div>
+            <div class="grid grid-cols-2 grid-rows-2 gap-2 h-full">
+                <div class="overflow-hidden">
+                    <img src="images/rilassata/img_1.png" alt="Rilassata Interior" onclick="openModal(1)" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden">
+                    <img src="images/rilassata/img_2.png" alt="Rilassata Deck" onclick="openModal(2)" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden">
+                    <img src="images/rilassata/img_3.png" alt="Rilassata View" onclick="openModal(3)" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden">
+                    <img src="images/rilassata/img_4.png" alt="Rilassata Bedroom" onclick="openModal(4)" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer">
+                </div>
+            </div>
+            
+            <button onclick="openModal(0)" class="absolute bottom-6 right-6 bg-white border border-gray-900 text-gray-900 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition shadow-lg z-20 flex items-center">
+                <i class="fa-solid fa-images mr-2"></i> Все фото (8)
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            <div class="lg:col-span-2 space-y-8">
+                
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-4 border-b border-t border-gray-200 py-6">
+                    <div class="text-center">
+                        <i class="fa-solid fa-arrows-left-right text-gray-400 text-lg mb-1"></i>
+                        <p class="text-xs text-gray-400">Длина</p>
+                        <p class="text-sm font-semibold text-gray-900">49.9 м</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fa-solid fa-arrows-up-down text-gray-400 text-lg mb-1"></i>
+                        <p class="text-xs text-gray-400">Ширина</p>
+                        <p class="text-sm font-semibold text-gray-900">9.4 м</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fa-solid fa-users text-gray-400 text-lg mb-1"></i>
+                        <p class="text-xs text-gray-400">Пассажиры</p>
+                        <p class="text-sm font-semibold text-gray-900">25 чел</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fa-solid fa-door-open text-gray-400 text-lg mb-1"></i>
+                        <p class="text-xs text-gray-400">Каюты</p>
+                        <p class="text-sm font-semibold text-gray-900">5</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fa-solid fa-bed text-gray-400 text-lg mb-1"></i>
+                        <p class="text-xs text-gray-400">Спальных мест</p>
+                        <p class="text-sm font-semibold text-gray-900">12</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fa-solid fa-user-tie text-gray-400 text-lg mb-1"></i>
+                        <p class="text-xs text-gray-400">Экипаж</p>
+                        <p class="text-sm font-semibold text-gray-900">9 чел</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-3">Об этой суперъяхте</h2>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        Rilassata — это шедевр 2024 года от Tankoa Yachts. Она является частью успешной серии S501 Evo и отличается потрясающим экстерьером от Франческо Пашковски. Яхта создана для истинного расслабления и наслаждения каждым моментом чартера.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        Арендаторы могут наслаждаться роскошными интерьерами, просторным тренажерным залом на главной палубе, игровыми комнатами и большим пляжным клубом. Превосходный уровень обслуживания экипажа из 9 человек сделает ваш отпуск по-настоящему беззаботным.
+                    </p>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Технические спецификации</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-500 block text-xs">Двигатели и генераторы</span>
+                            <span class="font-medium text-gray-900">2 x MTU</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Максимальная / Крейс. скорость</span>
+                            <span class="font-medium text-gray-900">18 уз / 14 уз</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Автономность</span>
+                            <span class="font-medium text-gray-900">4,000 морских миль</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Расход топлива</span>
+                            <span class="font-medium text-gray-900">300 л/ч</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Материал корпуса и надстройки</span>
+                            <span class="font-medium text-gray-900">Aluminum</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Осадка</span>
+                            <span class="font-medium text-gray-900">2.2 м</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Тендеры и водные развлечения</h2>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>2016 Contender 21 chase boat</li>
+                        <li>Yamaha SVHO 2024 jet skis</li>
+                        <li>Seabobs</li>
+                        <li>Электровелосипеды</li>
+                        <li>Paddleboards</li>
+                        <li>Wakeboards</li>
+                    </ul>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Аудио/Видео и оснащение палубы</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-center text-gray-700">
+                            <i class="fa-solid fa-wifi text-primary w-6 text-lg"></i>
+                            <span>Высокоскоростной Wi-Fi</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="fa-solid fa-tv text-primary w-6 text-lg"></i>
+                            <span>Кинозал и игровые комнаты с балконом</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="fa-solid fa-hot-tub-person text-primary w-6 text-lg"></i>
+                            <span>Пляжный клуб и джакузи на палубе</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="fa-solid fa-anchor text-primary w-6 text-lg"></i>
+                            <span>Стабилизаторы нулевой скорости</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="fa-solid fa-dumbbell text-primary w-6 text-lg"></i>
+                            <span>Тренажерный зал на главной палубе</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="fa-solid fa-volume-high text-primary w-6 text-lg"></i>
+                            <span>Мультизонная аудиосистема</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Ключевые особенности</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="relative rounded-2xl overflow-hidden h-48 md:h-64 shadow-sm group">
+                            <img src="images/rilassata/img_5.png" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Private terrace">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <span class="absolute bottom-4 left-4 text-white font-bold text-lg">Fly Deck</span>
+                        </div>
+                        <div class="relative rounded-2xl overflow-hidden h-48 md:h-64 shadow-sm group">
+                            <img src="images/rilassata/img_6.png" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="80m² beach club">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <span class="absolute bottom-4 left-4 text-white font-bold text-lg">Beach Club</span>
+                        </div>
+                        <div class="relative rounded-2xl overflow-hidden h-48 md:h-64 shadow-sm group">
+                            <img src="images/rilassata/img_7.png" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Owner's suite">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <span class="absolute bottom-4 left-4 text-white font-bold text-lg">Gym</span>
+                        </div>
+                        <div class="relative rounded-2xl overflow-hidden h-48 md:h-64 shadow-sm group">
+                            <img src="images/rilassata/img_8.png" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Main saloon">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <span class="absolute bottom-4 left-4 text-white font-bold text-lg">Cinema Room</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-lg sticky-sidebar space-y-4">
+                    <div class="flex justify-between items-baseline flex-wrap">
+                        <span class="text-2xl font-black text-gray-900">€ 210 000</span>
+                        <span class="text-gray-500 text-sm">/ день</span>
+                        <p class="text-xs text-gray-500 w-full mt-1">(включает Charter Fee, APA и Taxes)</p>
+                    </div>
+                    <div class="text-xs text-blue-700 bg-blue-50 px-3 py-1.5 rounded-md font-medium">
+                        <i class="fa-solid fa-calendar-check mr-1.5"></i> Доступна к чартеру на этой неделе
+                    </div>
+
+                    <div class="border border-gray-300 rounded-xl overflow-hidden divide-y divide-gray-300 mt-4">
+                        <div class="grid grid-cols-2 divide-x divide-gray-300">
+                            <div class="p-3">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase">Начало чартера</label>
+                                <input type="date" id="date-start" value="2026-06-15" onchange="simulateAvailabilityCheck()" class="w-full text-sm font-medium focus:outline-none bg-transparent cursor-pointer mt-0.5">
+                            </div>
+                            <div class="p-3">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase">Окончание</label>
+                                <input type="date" id="date-end" value="2026-06-16" onchange="simulateAvailabilityCheck()" class="w-full text-sm font-medium focus:outline-none bg-transparent cursor-pointer mt-0.5">
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase">Количество гостей</label>
+                            <select class="w-full text-sm font-medium focus:outline-none bg-transparent cursor-pointer mt-0.5">
+                                <option>4 гостей</option>
+                                <option selected>8 гостей</option>
+                                <option>10 гостей (макс.)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Обычное состояние: расчет цены -->
+                    <div id="price-breakdown" class="border-t border-gray-200 pt-4 space-y-2 text-sm text-gray-600 mt-4">
+                        <div class="flex justify-between">
+                            <span class="underline cursor-pointer">€ 210 000 x 1 день</span>
+                            <span>€ 210 000</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="underline cursor-pointer">Услуги экипажа и консьержа</span>
+                            <span class="text-green-600">Включено</span>
+                        </div>
+                        <div class="flex justify-between border-t border-gray-200 pt-3 text-base font-bold text-gray-900">
+                            <span>Итого</span>
+                            <span>€ 210 000</span>
+                        </div>
+                    </div>
+
+                    <!-- Состояние ошибки: даты недоступны -->
+                    <div id="booking-error" class="hidden border-t border-gray-200 pt-4 mt-4">
+                        <div class="flex items-start bg-red-50 text-red-700 p-3 rounded-lg text-sm">
+                            <i class="fa-solid fa-calendar-xmark mt-0.5 mr-2"></i>
+                            <div>
+                                <p class="font-medium">К сожалению, яхта забронирована в выбранный период.</p>
+                                <p class="text-xs text-red-500 mt-1">Ближайшие свободные даты: с 18.06.2026</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button id="book-btn" onclick="openBookingModal()" class="w-full bg-primary hover:bg-blue-700 text-white text-center py-3.5 rounded-xl font-bold transition shadow-md shadow-blue-200 text-sm tracking-wide block">
+                            Забронировать
+                        </button>
+                        
+                        <p id="book-hint" class="text-center text-xs text-gray-400 mt-2">Вы пока ничего не оплачиваете</p>
+                    </div>
+
+                    <script>
+                        function simulateAvailabilityCheck() {
+                            const start = document.getElementById('date-start').value;
+                            const end = document.getElementById('date-end').value;
+                            
+                            const btn = document.getElementById('book-btn');
+                            const hint = document.getElementById('book-hint');
+                            const priceBlock = document.getElementById('price-breakdown');
+                            const errorBlock = document.getElementById('booking-error');
+
+                            // Имитация: если даты изменены (отличны от дефолтных 15-16 июня), показываем ошибку
+                            if (start !== '2026-06-15' || end !== '2026-06-16') {
+                                // Показываем ошибку
+                                priceBlock.classList.add('hidden');
+                                errorBlock.classList.remove('hidden');
+                                
+                                // Блокируем кнопку
+                                btn.className = "w-full bg-gray-300 text-gray-500 text-center py-3.5 rounded-xl font-bold text-sm tracking-wide block cursor-not-allowed";
+                                btn.innerText = "Недоступно на эти даты";
+                                btn.onclick = null; // убираем действие
+                                
+                                hint.classList.add('hidden');
+                            } else {
+                                // Возвращаем обычное состояние
+                                priceBlock.classList.remove('hidden');
+                                errorBlock.classList.add('hidden');
+                                
+                                // Разблокируем кнопку
+                                btn.className = "w-full bg-primary hover:bg-blue-700 text-white text-center py-3.5 rounded-xl font-bold transition shadow-md shadow-blue-200 text-sm tracking-wide block";
+                                btn.innerText = "Забронировать";
+                                btn.onclick = function() { alert('Запрос на бронирование отправлен менеджеру FGG Yachting'); };
+                                
+                                hint.classList.remove('hidden');
+                            }
+                        }
+                    </script>
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="galleryModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm flex flex-col">
+        <div class="flex justify-between items-center p-6 text-white absolute top-0 w-full z-10">
+            <div class="text-sm tracking-wider"><span id="currentImgNum">1</span> / <span id="totalImgNum">8</span></div>
+            <button onclick="closeModal()" class="text-white hover:text-gray-300 text-2xl transition"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="flex-1 flex items-center justify-center relative px-12">
+            <button onclick="prevImg()" class="absolute left-6 text-white hover:text-gray-300 text-3xl p-4 transition"><i class="fa-solid fa-chevron-left"></i></button>
+            <img id="modalImg" src="" class="max-h-[85vh] max-w-full object-contain shadow-2xl rounded">
+            <button onclick="nextImg()" class="absolute right-6 text-white hover:text-gray-300 text-3xl p-4 transition"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const images = [
+            "images/rilassata/img_0.png",
+            "images/rilassata/img_1.png",
+            "images/rilassata/img_2.png",
+            "images/rilassata/img_3.png",
+            "images/rilassata/img_4.png",
+            "images/rilassata/img_5.png",
+            "images/rilassata/img_6.png",
+            "images/rilassata/img_7.png"
+        ];
+        let currentIndex = 0;
+        const modal = document.getElementById('galleryModal');
+        const modalImg = document.getElementById('modalImg');
+        const counter = document.getElementById('currentImgNum');
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModal();
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function nextImg() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateModal();
+        }
+
+        function prevImg() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateModal();
+        }
+
+        function updateModal() {
+            modalImg.src = images[currentIndex];
+            counter.innerText = currentIndex + 1;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (modal.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') nextImg();
+            if (e.key === 'ArrowLeft') prevImg();
+        });
+    </script>
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeBookingModal()"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal panel -->
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative">
+                    <button type="button" onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                    
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                            <h3 class="text-2xl leading-6 font-bold text-gray-900 mb-6" id="modal-title">Оформление запроса</h3>
+                            
+                            <!-- Booking Summary -->
+                            <div class="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-100">
+                                <h4 class="text-xs font-bold text-gray-500 uppercase mb-3">Ваш выбор</h4>
+                                <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                                    <div>
+                                        <span class="block text-gray-500 text-xs">Даты чартера</span>
+                                        <span class="font-medium text-gray-900" id="modal-dates">15.06.2026 - 16.06.2026</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-gray-500 text-xs">Гости</span>
+                                        <span class="font-medium text-gray-900" id="modal-guests">8 гостей</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center border-t border-gray-200 pt-3">
+                                    <span class="font-bold text-gray-900">Итоговая стоимость</span>
+                                    <span class="font-black text-primary text-lg" id="modal-price">€ 210 000</span>
+                                </div>
+                            </div>
+
+                            <!-- Contact Form -->
+                            <form id="booking-form" onsubmit="submitBooking(event)">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="name" class="block text-sm font-medium text-gray-700">Имя и Фамилия</label>
+                                        <input type="text" id="name" required class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Джон Доу">
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                            <input type="email" id="email" required class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="john@example.com">
+                                        </div>
+                                        <div>
+                                            <label for="phone" class="block text-sm font-medium text-gray-700">Телефон</label>
+                                            <input type="tel" id="phone" required class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="+1 234 567 8900">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="message" class="block text-sm font-medium text-gray-700">Пожелания или комментарии</label>
+                                        <textarea id="message" rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Например: нужны детские водные лыжи..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="mt-6">
+                                    <button type="submit" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition text-sm">
+                                        Отправить запрос менеджеру
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <!-- Success State -->
+                            <div id="booking-success" class="hidden text-center py-6">
+                                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                                    <i class="fa-solid fa-check text-2xl text-green-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Запрос успешно отправлен!</h3>
+                                <p class="text-sm text-gray-500">Наш менеджер свяжется с вами в течение 15 минут для подтверждения бронирования.</p>
+                                <button type="button" onclick="closeBookingModal()" class="mt-6 w-full bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold py-3 px-4 rounded-xl transition text-sm">
+                                    Закрыть
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openBookingModal() {
+            // Get data from the sidebar
+            const startDate = document.getElementById('date-start').value;
+            const endDate = document.getElementById('date-end').value;
+            const guestsSelect = document.querySelector('select');
+            const guests = guestsSelect.options[guestsSelect.selectedIndex].text;
+            
+            // Format dates
+            let startStr = startDate;
+            let endStr = endDate;
+            try {
+                startStr = new Date(startDate).toLocaleDateString('ru-RU');
+                endStr = new Date(endDate).toLocaleDateString('ru-RU');
+            } catch (e) {}
+            
+            // Get total price
+            let price = '€ 210 000';
+            const priceBreakdown = document.getElementById('price-breakdown');
+            if (priceBreakdown) {
+                const totalRow = priceBreakdown.querySelector('.border-t.pt-3');
+                if (totalRow) {
+                    const priceSpan = totalRow.querySelector('span:last-child');
+                    if (priceSpan) price = priceSpan.innerText;
+                }
+            }
+
+            // Populate modal
+            document.getElementById('modal-dates').innerText = `${startStr} - ${endStr}`;
+            document.getElementById('modal-guests').innerText = guests;
+            document.getElementById('modal-price').innerText = price;
+
+            // Reset form state
+            document.getElementById('booking-form').classList.remove('hidden');
+            document.getElementById('booking-success').classList.add('hidden');
+            document.getElementById('booking-form').reset();
+
+            // Show modal
+            document.getElementById('booking-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function submitBooking(e) {
+            e.preventDefault();
+            // Simulate API call
+            document.getElementById('booking-form').classList.add('hidden');
+            document.getElementById('booking-success').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FGG Yachting - Навигация по проекту</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    
+    <div class="max-w-4xl w-full space-y-8">
+        <!-- Header -->
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-2">FGG Yachting</h1>
+            <p class="text-lg text-gray-500">Навигация по страницам проекта</p>
+        </div>
+
+        <!-- Links Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+            
+            <!-- Dashboard Link -->
+            <a href="dashboard.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-primary/30 h-full flex items-center">
+                    <div class="bg-blue-50 text-primary rounded-xl p-4 mr-5 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-chart-line text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900 group-hover:text-primary transition">Панель управления</h2>
+                        <p class="text-sm text-gray-500 mt-1">Внутренняя CRM и дашборд администратора (dashboard.html)</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Demo Landing Link -->
+            <a href="landing.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-secondary/30 h-full flex items-center">
+                    <div class="bg-blue-50 text-secondary rounded-xl p-4 mr-5 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-anchor text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900 group-hover:text-secondary transition">Демо лендинг</h2>
+                        <p class="text-sm text-gray-500 mt-1">Оригинальный шаблон Benetti Oasis 40M (landing.html)</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Demo Landing EN Link -->
+            <a href="landing_en.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-secondary/30 h-full flex items-center">
+                    <div class="bg-blue-50 text-secondary rounded-xl p-4 mr-5 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-anchor text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900 group-hover:text-secondary transition">Демо лендинг (EN)</h2>
+                        <p class="text-sm text-gray-500 mt-1">Английская версия шаблона Benetti Oasis 40M (landing_en.html)</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Alfa Nero -->
+            <a href="alfa_nero.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-gray-400 h-full flex items-center relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-2 h-full bg-blue-600"></div>
+                    <div class="text-gray-400 rounded-xl p-4 mr-4 group-hover:text-blue-600 transition duration-300">
+                        <i class="fa-solid fa-ship text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition">Alfa Nero</h2>
+                        <p class="text-sm text-gray-500 mt-0.5">81.27m Oceanco</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Cosmico -->
+            <a href="cosmico.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-gray-400 h-full flex items-center relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-2 h-full bg-teal-500"></div>
+                    <div class="text-gray-400 rounded-xl p-4 mr-4 group-hover:text-teal-500 transition duration-300">
+                        <i class="fa-solid fa-ship text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 group-hover:text-teal-500 transition">Cosmico</h2>
+                        <p class="text-sm text-gray-500 mt-0.5">40.8m Benetti Oasis</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- K+ -->
+            <a href="k_plus.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-gray-400 h-full flex items-center relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-2 h-full bg-red-500"></div>
+                    <div class="text-gray-400 rounded-xl p-4 mr-4 group-hover:text-red-500 transition duration-300">
+                        <i class="fa-solid fa-ship text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 group-hover:text-red-500 transition">K+</h2>
+                        <p class="text-sm text-gray-500 mt-0.5">38.2m Maori Yacht</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Rilassata -->
+            <a href="rilassata.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-gray-400 h-full flex items-center relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-2 h-full bg-yellow-500"></div>
+                    <div class="text-gray-400 rounded-xl p-4 mr-4 group-hover:text-yellow-500 transition duration-300">
+                        <i class="fa-solid fa-ship text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 group-hover:text-yellow-500 transition">Rilassata</h2>
+                        <p class="text-sm text-gray-500 mt-0.5">49.9m Tankoa</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Sui Generis -->
+            <a href="sui_generis.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-gray-400 h-full flex items-center relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-2 h-full bg-indigo-600"></div>
+                    <div class="text-gray-400 rounded-xl p-4 mr-4 group-hover:text-indigo-600 transition duration-300">
+                        <i class="fa-solid fa-ship text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition">Sui Generis</h2>
+                        <p class="text-sm text-gray-500 mt-0.5">40.93m Baglietto DOM 133</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Serenissima II -->
+            <a href="serenissima_ii.html" class="block group">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 transition duration-300 hover:shadow-md hover:border-gray-400 h-full flex items-center relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-2 h-full bg-orange-500"></div>
+                    <div class="text-gray-400 rounded-xl p-4 mr-4 group-hover:text-orange-500 transition duration-300">
+                        <i class="fa-solid fa-ship text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 group-hover:text-orange-500 transition">Serenissima II</h2>
+                        <p class="text-sm text-gray-500 mt-0.5">47.5m Mengi Yachts S1</p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+        
+        <div class="mt-12 text-center text-sm text-gray-400">
+            &copy; 2026 FGG Yachting. Все права защищены.
+        </div>
+    </div>
+
+</body>
+</html>

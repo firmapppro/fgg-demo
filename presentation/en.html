@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation — Flight Generation Group</title>
+    <meta name="description" content="Flight Generation Group — premium charter flights.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0B0F1A;
+            --color-bg-section: #101624;
+            --color-bg-card: #161D2E;
+            --color-bg-card-hover: #1C2540;
+            --color-accent: #2A81AF;
+            --color-accent-light: #3A9BD5;
+            --color-gold: #C9A96E;
+            --color-gold-light: #E0C68A;
+            --color-text: #E8ECF1;
+            --color-text-muted: #8A95A8;
+            --color-text-heading: #FFFFFF;
+            --color-border: rgba(255,255,255,0.08);
+            --color-border-card: rgba(255,255,255,0.06);
+            --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            --max-width: 1200px;
+            --section-padding: 100px 0;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-main); background: var(--color-bg); color: var(--color-text); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        img { max-width: 100%; height: auto; display: block; }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 40px; }
+
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+        /* HERO */
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+        .hero__bg { position: absolute; inset: 0; z-index: 0; }
+        .hero__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+        .hero__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,15,26,0.3) 0%, rgba(11,15,26,0.6) 50%, rgba(11,15,26,0.95) 85%, rgba(11,15,26,1) 100%); }
+        .hero__content { position: relative; z-index: 2; width: 100%; padding: 140px 0 100px; }
+        .hero__logo { margin-bottom: 24px; animation: fadeInUp 0.8s ease-out 0.15s both; }
+        .hero__logo img { height: 52px; width: auto; }
+        .hero__title { font-size: 22px; font-weight: 500; color: var(--color-text-muted); margin-bottom: 20px; animation: fadeInUp 0.8s ease-out 0.3s both; }
+        .hero__headline { font-size: clamp(36px,5vw,56px); font-weight: 800; line-height: 1.15; color: var(--color-text-heading); margin-bottom: 24px; max-width: 700px; animation: fadeInUp 0.8s ease-out 0.45s both; }
+        .hero__headline .highlight { background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero__description { font-size: 18px; line-height: 1.7; color: var(--color-text-muted); max-width: 560px; margin-bottom: 40px; animation: fadeInUp 0.8s ease-out 0.6s both; }
+        .hero__actions { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.75s both; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* BUTTONS */
+        .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 12px; font-family: var(--font-main); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.3s cubic-bezier(0.22,1,0.36,1); white-space: nowrap; }
+        .btn--primary { background: linear-gradient(135deg, var(--color-accent) 0%, #1B6E9C 100%); color: #fff; box-shadow: 0 4px 20px rgba(42,129,175,0.3); }
+        .btn--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(42,129,175,0.4); }
+        .btn--outline { background: transparent; color: var(--color-text); border: 1px solid rgba(255,255,255,0.15); }
+        .btn--outline:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.25); transform: translateY(-2px); }
+        .btn svg { width: 18px; height: 18px; }
+
+        /* ABOUT */
+        .about { padding: var(--section-padding); background: var(--color-bg); }
+        .about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+        .section-label { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 20px; }
+        .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--color-accent); border-radius: 1px; }
+        .section-title { font-size: clamp(28px,3.5vw,40px); font-weight: 800; line-height: 1.2; color: var(--color-text-heading); margin-bottom: 24px; }
+        .about__text { font-size: 16px; line-height: 1.8; color: var(--color-text-muted); }
+        .about__text p + p { margin-top: 16px; }
+        .about__image { border-radius: var(--radius-lg); overflow: hidden; position: relative; }
+        @media (min-width: 1025px) { .about__image { margin-top: 100px; } }
+        .about__image img { width: 100%; height: 480px; object-fit: cover; }
+        .about__image::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); border: 1px solid var(--color-border); }
+
+        /* METRICS */
+        .metrics { padding: 80px 0; background: var(--color-bg-section); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+        .metrics__grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+        .metric { text-align: center; padding: 40px 24px; position: relative; }
+        .metric:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); height: 60%; width: 1px; background: var(--color-border); }
+        .metric__value { font-size: clamp(36px,4vw,48px); font-weight: 800; color: var(--color-text-heading); line-height: 1; margin-bottom: 8px; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .metric__label { font-size: 14px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
+
+        /* WHY FGG */
+        .why-fgg { padding: var(--section-padding); background: var(--color-bg); }
+        .why-fgg__header { text-align: center; margin-bottom: 60px; }
+        .why-fgg__subtitle { font-size: 17px; color: var(--color-text-muted); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+        .benefit-card { background: var(--color-bg-card); border: 1px solid var(--color-border-card); border-radius: var(--radius-md); padding: 36px 32px; transition: all 0.4s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden; }
+        .benefit-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--color-accent), transparent); opacity: 0; transition: opacity 0.4s; }
+        .benefit-card:hover { background: var(--color-bg-card-hover); transform: translateY(-4px); border-color: rgba(42,129,175,0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .benefit-card:hover::before { opacity: 1; }
+        .benefit-card__icon { width: 52px; height: 52px; background: rgba(42,129,175,0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .benefit-card__icon svg { width: 26px; height: 26px; stroke: var(--color-accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        .benefit-card__title { font-size: 18px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 10px; }
+        .benefit-card__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+
+        /* SERVICES */
+        .services { padding: var(--section-padding); background: var(--color-bg-section); }
+        .services__header { text-align: center; margin-bottom: 60px; }
+        .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+        .service-card { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 3/4; cursor: default; }
+        .service-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+        .service-card:hover img { transform: scale(1.05); }
+        .service-card__overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(11,15,26,0.9) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; }
+        .service-card__title { font-size: 20px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; }
+        .service-card__text { font-size: 14px; color: #ffffff; line-height: 1.5; }
+
+        /* NPS */
+        .nps { padding: var(--section-padding); background: var(--color-bg); }
+        .nps__inner { background: linear-gradient(135deg, rgba(42,129,175,0.08) 0%, rgba(201,169,110,0.06) 100%); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 60px 80px; display: grid; grid-template-columns: auto 1fr; gap: 60px; align-items: center; }
+        .nps__score { text-align: center; }
+        .nps__number { font-size: 80px; font-weight: 800; line-height: 1; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nps__of { font-size: 18px; color: var(--color-text-muted); font-weight: 500; }
+        .nps__label { font-size: 14px; color: var(--color-accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 8px; }
+        .nps__text { font-size: 18px; line-height: 1.7; color: var(--color-text-muted); }
+        .nps__text strong { color: var(--color-text-heading); }
+
+        /* APP */
+        .app-section { padding: var(--section-padding); background: var(--color-bg-section); }
+        .app-section__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .app-section__desc { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); margin-bottom: 32px; }
+        .app-links { display: flex; gap: 16px; }
+        .app-links img { height: 48px; width: auto; transition: transform 0.3s; }
+        .app-links a:hover img { transform: translateY(-2px); }
+        .app-section__preview { display: flex; justify-content: center; gap: 16px; }
+        .app-section__phone { width: 220px; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid var(--color-border); }
+        .app-section__phone:nth-child(2) { transform: translateY(30px); }
+
+        /* KAIZEN */
+        .kaizen { padding: var(--section-padding); background: var(--color-bg); overflow: hidden; }
+        .kaizen__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .kaizen__desc { font-size: 16px; line-height: 1.8; color: var(--color-text-muted); }
+        .kaizen__desc p + p { margin-top: 12px; }
+        .kaizen__visual { display: flex; justify-content: center; }
+        .kaizen-circle { position: relative; width: 380px; height: 380px; }
+        .kaizen-step { position: absolute; display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; font-size: 14px; color: var(--color-text); white-space: nowrap; transition: all 0.3s; z-index: 2; }
+        .kaizen-step:hover { background: var(--color-bg-card-hover); border-color: var(--color-accent); z-index: 3; }
+        .kaizen-step__num { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light)); border-radius: 8px; font-size: 13px; font-weight: 800; color: #fff; }
+        .kaizen-step__jp { font-weight: 700; color: var(--color-text-heading); font-size: 14px; }
+        .kaizen-step__ru { font-size: 12px; color: var(--color-text-muted); }
+        .kaizen-step--1 { top: -10px; left: 50%; transform: translateX(-50%); }
+        .kaizen-step--2 { top: 25%; right: -25px; }
+        .kaizen-step--3 { bottom: 10%; right: 0px; }
+        .kaizen-step--4 { bottom: 10%; left: 0px; }
+        .kaizen-step--5 { top: 25%; left: -25px; }
+        .kaizen-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; z-index: 1; }
+        .kaizen-center__text { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-gold); }
+        .kaizen-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 200px; height: 200px; border: 1px solid var(--color-border); border-radius: 50%; z-index: 0; }
+        .kaizen-ring--outer { width: 300px; height: 300px; border-color: rgba(255,255,255,0.04); }
+
+        /* CTA */
+        .cta { padding: var(--section-padding); background: linear-gradient(135deg, rgba(42,129,175,0.12) 0%, rgba(11,15,26,1) 50%, rgba(201,169,110,0.08) 100%); text-align: center; }
+        .cta__text { font-size: 17px; color: var(--color-text-muted); max-width: 500px; margin: 0 auto 40px; line-height: 1.6; }
+        .cta__actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+        /* FOOTER */
+        .footer { padding: 40px 0; border-top: 1px solid var(--color-border); background: var(--color-bg); }
+        .footer__inner { display: flex; justify-content: space-between; align-items: center; }
+        .footer__logo img { height: 36px; width: auto; opacity: 0.6; }
+        .footer__links { display: flex; gap: 32px; }
+        .footer__link { font-size: 14px; color: var(--color-text-muted); transition: color 0.3s; }
+        .footer__link:hover { color: var(--color-text); }
+        .footer__copy { font-size: 13px; color: var(--color-text-muted); opacity: 0.6; }
+
+        /* LANG SWITCHER */
+        .lang-switcher { position: fixed; top: 24px; right: 24px; z-index: 100; display: flex; gap: 4px; background: rgba(11,15,26,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--color-border); border-radius: 10px; padding: 4px; }
+        .lang-switcher a { padding: 8px 14px; font-size: 13px; font-weight: 600; color: var(--color-text-muted); border-radius: 8px; transition: all 0.3s; }
+        .lang-switcher a.active { background: var(--color-accent); color: #fff; }
+        .lang-switcher a:hover:not(.active) { color: var(--color-text); }
+
+        @media (max-width: 1024px) {
+            .about__grid, .app-section__inner, .kaizen__inner { grid-template-columns: 1fr; gap: 40px; }
+            .benefits-grid, .services-grid { grid-template-columns: repeat(2,1fr); }
+            .nps__inner { grid-template-columns: 1fr; text-align: center; padding: 40px; }
+            .metrics__grid { grid-template-columns: repeat(2,1fr); }
+            .metric:nth-child(2)::after { display: none; }
+            .container { padding: 0 24px; }
+        }
+        @media (max-width: 640px) {
+            .benefits-grid, .services-grid { grid-template-columns: 1fr; }
+            .metrics__grid { grid-template-columns: 1fr; }
+            .metric::after { display: none !important; }
+            .hero__actions { flex-direction: column; }
+            .footer__inner { flex-direction: column; gap: 16px; text-align: center; }
+            .footer__links { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lang-switcher">
+        <a href="index.html">RU</a>
+        <a href="en.html" class="active">EN</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero__bg">
+            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fservice-link-private-flights.jpg&w=3840&q=75" alt="Private jet">
+        </div>
+        <div class="hero__content">
+            <div class="container">
+                <div class="hero__logo">
+                    <img src="fgg-logo-white.png" alt="Flight Generation Group">
+                </div>
+                <p class="hero__title">Premium Charter Flights · Dubai</p>
+                <h1 class="hero__headline">
+                    The <span class="highlight">Freedom</span> to Fly.<br>Wherever. Whenever.
+                </h1>
+                <p class="hero__description">
+                    Flight Generation Group is an international company with 11 years of experience in business aviation. World-class personal service, available 24/7.
+                </p>
+                <div class="hero__actions">
+                    <a href="mailto:info@fgg.aero" class="btn btn--primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Contact Us
+                    </a>
+                    <a href="https://fgg.aero" target="_blank" class="btn btn--outline">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7,7 17,7 17,17"/></svg>
+                        Go to website
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about">
+        <div class="container">
+            <div class="about__grid">
+                <div class="about__text-block animate-on-scroll">
+                    <div class="section-label">About the Company</div>
+                    <h2 class="section-title">Flight Generation Group</h2>
+                    <div class="about__text">
+                        <p>Flight Generation Group is an international business aviation company operating since 2015. Headquartered in Dubai South, our flight geography covers destinations worldwide.</p>
+                        <p>The company specializes in private and corporate charter flights, group transportation, and aircraft management. For private flights, FGG has access to a global network of over 1,000 business jets, allowing us to select an aircraft tailored to the specific route, passenger count, cabin requirements, and flight range.</p>
+                        <p>The core principle of FGG is the personal aviation concierge service. A dedicated manager is assigned to coordinate travel details and remains available 24/7. For the client, this means fewer organizational tasks, more flexibility, and a single point of contact throughout the entire journey.</p>
+                    </div>
+                </div>
+                <div class="about__image animate-on-scroll" style="transition-delay: 0.2s">
+                    <img src="parked_jets.png" alt="Charter Jets Fleet">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- METRICS -->
+    <section class="metrics">
+        <div class="container">
+            <div class="metrics__grid">
+                <div class="metric animate-on-scroll">
+                    <div class="metric__value">Since 2015</div>
+                    <div class="metric__label">in business<br>aviation industry</div>
+                </div>
+                <div class="metric animate-on-scroll" style="transition-delay: 0.1s">
+                    <div class="metric__value">1,000+</div>
+                    <div class="metric__label">business jets<br>in our global network</div>
+                </div>
+                <div class="metric animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="metric__value">24/7</div>
+                    <div class="metric__label">personal concierge<br>support</div>
+                </div>
+                <div class="metric animate-on-scroll" style="transition-delay: 0.3s">
+                    <div class="metric__value">9.6 / 10</div>
+                    <div class="metric__label">average score for willingness<br>to recommend FGG</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY FGG -->
+    <section class="why-fgg">
+        <div class="container">
+            <div class="why-fgg__header animate-on-scroll">
+                <div class="section-label" style="justify-content: center;">Benefits</div>
+                <h2 class="section-title">Why Our Clients<br>Choose FGG</h2>
+                <p class="why-fgg__subtitle">A flight is more than just moving from point A to point B. It's a complex process, and we handle every aspect of it.</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card animate-on-scroll">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <h3 class="benefit-card__title">Personal Manager</h3>
+                    <p class="benefit-card__desc">A dedicated manager oversees your request and knows your preferences. The FGG team is available 24/7 — regardless of business days and time zones.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll" style="transition-delay: 0.1s">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    </div>
+                    <h3 class="benefit-card__title">Global Aircraft Network</h3>
+                    <p class="benefit-card__desc">Access to over 1,000 business jets allows you to choose an aircraft based on the route, range, number of passengers, and specific requirements, rather than from a limited in-house fleet.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <h3 class="benefit-card__title">Route Flexibility</h3>
+                    <p class="benefit-card__desc">The team selects the optimal aircraft and organizational solution to fit the client's schedule — including urgent and complex routes.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll" style="transition-delay: 0.15s">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3 class="benefit-card__title">Reliability & Confidentiality</h3>
+                    <p class="benefit-card__desc">FGG operates with aircraft from certified operators and pays special attention to the confidentiality of client and route information.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll" style="transition-delay: 0.25s">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <h3 class="benefit-card__title">Personalized to the Details</h3>
+                    <p class="benefit-card__desc">Cabin configuration, catering, Wi-Fi, seating arrangements, and special requests are carefully considered when tailoring your specific flight solution.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll" style="transition-delay: 0.35s">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 class="benefit-card__title">Comfort for the Whole Family</h3>
+                    <p class="benefit-card__desc">FGG accommodates the individual needs of all passengers, including arranging pet-friendly flights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services">
+        <div class="container">
+            <div class="services__header animate-on-scroll">
+                <div class="section-label" style="justify-content: center;">FGG Capabilities</div>
+                <h2 class="section-title">Our Directions</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card animate-on-scroll">
+                    <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fservice-link-private-flights.jpg&w=1920&q=75" alt="Private Flights">
+                    <div class="service-card__overlay">
+                        <h3 class="service-card__title">Private Flights</h3>
+                        <p class="service-card__text">Individual VIP flights with fully personalized service — from routing to the on-board menu.</p>
+                    </div>
+                </div>
+                <div class="service-card animate-on-scroll" style="transition-delay: 0.1s">
+                    <img src="corporate.png" alt="Corporate Flights">
+                    <div class="service-card__overlay">
+                        <h3 class="service-card__title">Corporate & Group Charters</h3>
+                        <p class="service-card__text">Flights for companies, delegations, teams, and organized groups — with centralized logistics coordination.</p>
+                    </div>
+                </div>
+                <div class="service-card animate-on-scroll" style="transition-delay: 0.2s">
+                    <img src="management.png" alt="Aircraft Management">
+                    <div class="service-card__overlay">
+                        <h3 class="service-card__title">Aircraft Management</h3>
+                        <p class="service-card__text">Comprehensive management of private and commercial aircraft, covering operational, maintenance, and regulatory aspects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NPS -->
+    <section class="nps">
+        <div class="container">
+            <div class="nps__inner animate-on-scroll">
+                <div class="nps__score">
+                    <div class="nps__number">9.6 / 10</div>
+                </div>
+                <div>
+                    <h2 class="section-title" style="margin-bottom: 16px;">Trust Built on Client Experience</h2>
+                    <p class="nps__text">
+                        FGG clients rate their willingness to recommend the company at an average of 9.6 out of 10. For us, this is one of the most critical indicators of service quality and trust.
+                    </p>
+                    <ul class="nps__features" style="margin-top: 16px; list-style: none; padding: 0;">
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-weight: 600; color: var(--color-text);"><svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--color-accent)"><path d="M20 6L9 17l-5-5" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Personal Manager</li>
+                        <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-weight: 600; color: var(--color-text);"><svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--color-accent)"><path d="M20 6L9 17l-5-5" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 24/7 Availability</li>
+                        <li style="display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--color-text);"><svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--color-accent)"><path d="M20 6L9 17l-5-5" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Worldwide Service</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- APP -->
+    <section class="app-section">
+        <div class="container">
+            <div class="app-section__inner">
+                <div class="app-section__text animate-on-scroll">
+                    <div class="section-label">Mobile App</div>
+                    <h2 class="section-title">FGG Aviation Service<br>Always at Hand</h2>
+                    <p class="app-section__desc">
+                        The FGG mobile app allows you to calculate flight costs, submit requests, and manage bookings right from your smartphone — providing another channel of access to the company's personalized service.
+                    </p>
+                    <div class="app-links">
+                        <a href="https://apps.apple.com/by/app/flight-generation-group/id6514327073" target="_blank">
+                            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp-store-button.png&w=256&q=75" alt="App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.flightgenerationgroup" target="_blank">
+                            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fplay-store-button.png&w=256&q=75" alt="Google Play">
+                        </a>
+                    </div>
+                </div>
+                <div class="app-section__preview animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="app-section__phone">
+                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp%2Fapp-4.png&w=640&q=50" alt="FGG App Screenshot 1">
+                    </div>
+                    <div class="app-section__phone">
+                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp%2Fapp-1.png&w=640&q=50" alt="FGG App Screenshot 2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KAIZEN -->
+    <section class="kaizen">
+        <div class="container">
+            <div class="kaizen__inner">
+                <div class="kaizen__text animate-on-scroll">
+                    <div class="section-label">FGG Service Standard</div>
+                    <h2 class="section-title">Continuous Improvement is Part of the FGG Culture</h2>
+                    <div class="kaizen__desc">
+                        <p>The internal culture of FGG is built on the Kaizen principle: service must improve after every client interaction. The team analyzes processes, standardizes best practices, and pays attention to the details that shape the overall travel experience.</p>
+                    </div>
+                </div>
+                <div class="kaizen__visual animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="kaizen-circle">
+                        <div class="kaizen-ring"></div>
+                        <div class="kaizen-ring kaizen-ring--outer"></div>
+                        <div class="kaizen-center">
+                            <div class="kaizen-center__text">Kaizen</div>
+                        </div>
+                        <div class="kaizen-step kaizen-step--1"><span class="kaizen-step__num">1</span><div class="kaizen-step__content"><span class="kaizen-step__jp">Seiri</span><span class="kaizen-step__ru">tidiness</span></div></div>
+                        <div class="kaizen-step kaizen-step--2"><span class="kaizen-step__num">2</span><div class="kaizen-step__content"><span class="kaizen-step__jp">Seiton</span><span class="kaizen-step__ru">order</span></div></div>
+                        <div class="kaizen-step kaizen-step--3"><span class="kaizen-step__num">3</span><div class="kaizen-step__content"><span class="kaizen-step__jp">Seiso</span><span class="kaizen-step__ru">cleanliness</span></div></div>
+                        <div class="kaizen-step kaizen-step--4"><span class="kaizen-step__num">4</span><div class="kaizen-step__content"><span class="kaizen-step__jp">Seiketsu</span><span class="kaizen-step__ru">standardization</span></div></div>
+                        <div class="kaizen-step kaizen-step--5"><span class="kaizen-step__num">5</span><div class="kaizen-step__content"><span class="kaizen-step__jp">Shitsuke</span><span class="kaizen-step__ru">discipline</span></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <h2 class="section-title">Ready to Fly?</h2>
+                <p class="cta__text">Contact us to arrange a flight or receive a personal consultation.</p>
+                <div class="cta__actions">
+                    <a href="mailto:info@fgg.aero" class="btn btn--primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Contact Us
+                    </a>
+                    <a href="https://fgg.aero" target="_blank" class="btn btn--outline">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        Go to website
+                    </a>
+                    <a href="tel:+97143271427" class="btn btn--outline">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        +971 43 271 427
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__logo">
+                    <img src="fgg-logo-white.png" alt="FGG Logo">
+                </div>
+                <div class="footer__links">
+                    <a href="https://fgg.aero" target="_blank" class="footer__link">fgg.aero</a>
+                    <a href="https://fgg.aero/en/about" target="_blank" class="footer__link">About</a>
+                    <a href="https://fgg.aero/en/aircraft" target="_blank" class="footer__link">Catalog</a>
+                    <a href="https://fgg.aero/en/contacts" target="_blank" class="footer__link">Contacts</a>
+                </div>
+                <p class="footer__copy">© 2015–2025 Flight Generation Group</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
