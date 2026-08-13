@@ -105,8 +105,8 @@
         .inventory-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.65; }
 
         .selected-proof { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 32px; align-items: stretch; }
-        .proof-photo { position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 420px; }
-        .proof-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .proof-photo { position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 420px; background: #0d1320; }
+        .proof-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; position: absolute; inset: 0; }
         .proof-photo__caption {
             position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 24px;
             background: linear-gradient(0deg, rgba(11,15,26,0.9) 0%, transparent 100%);
@@ -124,12 +124,13 @@
 
         .case-study { padding: var(--section-padding); background: var(--color-bg); }
         .case__header { max-width: 760px; margin: 0 auto 48px; text-align: center; }
+        .case__lead { font-size: 17px; color: var(--color-text-muted); line-height: 1.6; max-width: 640px; margin: 0 auto; }
         .case__container {
             display: grid; grid-template-columns: 1fr 1fr; background: var(--color-bg-card);
             border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden;
         }
-        .case__image { position: relative; min-height: 380px; }
-        .case__image img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .case__image { position: relative; min-height: 420px; background: #0d1320; }
+        .case__image img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; position: absolute; inset: 0; }
         .case__image-overlay {
             position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px;
             background: linear-gradient(0deg, rgba(11,15,26,0.9) 0%, transparent 100%);
@@ -145,40 +146,46 @@
         .case__quote { margin-top: 28px; font-size: 16px; font-weight: 600; color: var(--color-text-heading); border-left: 2px solid var(--color-accent); padding-left: 18px; line-height: 1.5; }
         .case__note { margin-top: 10px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
 
-        .case-alt { margin-top: 28px; display: grid; grid-template-columns: 1.1fr 0.9fr; background: var(--color-bg-section); border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden; }
-        .case-alt__text { padding: 36px 40px; }
+        .case-alt { margin-top: 28px; display: grid; grid-template-columns: 0.95fr 1.05fr; background: var(--color-bg-section); border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden; }
+        .case-alt__text { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
         .case-alt__meta { font-size: 14px; color: var(--color-accent-light); font-weight: 600; margin-bottom: 12px; line-height: 1.5; }
-        .case-alt__visual { position: relative; min-height: 280px; }
-        .case-alt__visual img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .case-alt__visual { position: relative; min-height: 360px; background: #101624; display: flex; align-items: center; justify-content: center; padding: 28px 20px 72px; }
+        .case-alt__exterior { width: 100%; height: auto; max-height: 320px; object-fit: contain; object-position: center; }
+        .case-alt__inset {
+            position: absolute; right: 18px; bottom: 64px; width: 36%; border-radius: 10px; overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.18); box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+        }
+        .case-alt__inset img { width: 100%; height: 110px; object-fit: cover; }
         .case-alt__overlay {
-            position: absolute; inset: auto 0 0 0; padding: 20px 24px;
+            position: absolute; inset: auto 0 0 0; padding: 16px 24px;
             background: linear-gradient(0deg, rgba(11,15,26,0.92) 0%, transparent 100%);
         }
-        .case-alt__class { margin-top: 8px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
+        .case-alt__class { margin-top: 6px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
 
         .app-section { padding: var(--section-padding); background: var(--color-bg-section); }
-        .app-section__intro { max-width: 720px; margin-bottom: 48px; }
+        .app-section__layout { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 72px; align-items: center; }
         .app-section__desc { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); }
         .app-section__desc p + p { margin-top: 12px; }
         .app-section__funcs { margin-top: 18px; font-size: 14px; color: var(--color-text); font-weight: 600; letter-spacing: 0.2px; }
         .app-links { display: flex; gap: 12px; margin-top: 24px; }
         .app-links img { height: 44px; width: auto; }
-
-        .app-shots { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: start; }
+        .app-visual { position: relative; min-height: 590px; max-width: 540px; margin-left: auto; }
         .app-shot { margin: 0; }
-        .app-shot img {
-            width: 100%; border-radius: 28px; border: 6px solid #1a2236;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.35); background: #111;
-        }
-        .app-shot figcaption { margin-top: 12px; font-size: 13px; color: var(--color-text-muted); }
-        .app-shots__side { display: flex; flex-direction: column; gap: 24px; }
-        .app-shots__side .app-shot img { max-height: 420px; object-fit: cover; object-position: top; }
+        .app-shot img { width: 100%; height: auto; border: 0; border-radius: 22px; box-shadow: 0 24px 50px rgba(0,0,0,.28); background: #111; }
+        .app-shot--main { position: absolute; width: 235px; left: 15px; top: 20px; z-index: 3; }
+        .app-shot--secondary-1 { position: absolute; width: 175px; right: 5px; top: 0; z-index: 1; }
+        .app-shot--secondary-2 { position: absolute; width: 175px; right: 5px; bottom: 5px; z-index: 2; }
 
         .proof { padding: var(--section-padding); background: var(--color-bg); }
-        .proof__grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px; align-items: start; }
-        .proof__about p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
-        .proof__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 24px; }
-        .stat__val { font-size: 34px; font-weight: 800; line-height: 1.1; margin-bottom: 8px; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .proof__head { margin-bottom: 8px; }
+        .proof__body { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: start; }
+        .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
+        .proof__stats {
+            background: var(--color-bg-section); border: 1px solid var(--color-border);
+            border-radius: 20px; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px 26px;
+        }
+        .stats-title { grid-column: 1 / -1; font-size: 11px; font-weight: 800; letter-spacing: 1.6px; color: var(--color-text-muted); }
+        .stat__val { font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 8px; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .stat__label { font-size: 13px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
 
         .ai-section { padding: var(--section-padding); background: var(--color-bg-section); }
@@ -218,11 +225,12 @@
 
         @media (max-width: 1024px) {
             :root { --section-padding: 80px 0; }
-            .inventory-steps, .selected-proof, .case__container, .case-alt, .app-shots, .ai__inner, .proof__grid { grid-template-columns: 1fr; }
+            .inventory-steps, .selected-proof, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body { grid-template-columns: 1fr; }
             .case__content, .case-alt__text { padding: 28px; }
-            .proof-photo, .case__image, .case-alt__visual { min-height: 280px; }
-            .proof-photo img, .case__image img, .case-alt__visual img { position: relative; height: 280px; }
-            .app-shots__side .app-shot img { max-height: none; }
+            .proof-photo, .case__image { min-height: 280px; }
+            .proof-photo img, .case__image img { height: 280px; }
+            .app-visual { min-height: auto; max-width: 100%; margin: 0 auto; display: flex; justify-content: center; align-items: flex-end; gap: 10px; }
+            .app-shot--main, .app-shot--secondary-1, .app-shot--secondary-2 { position: relative; left: auto; right: auto; top: auto; bottom: auto; width: 150px; }
         }
         @media (max-width: 640px) {
             :root { --section-padding: 64px 0; }
@@ -242,12 +250,12 @@
 
     <section class="hero">
         <div class="hero__bg">
-            <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fservice-link-private-flights.jpg&w=3840&q=75" alt="">
+            <img src="images/hero.jpg" alt="">
         </div>
         <div class="hero__content">
             <div class="container">
                 <div class="hero__logo">
-                    <img src="fgg-logo-white.png" alt="Flight Generation Group">
+                    <img src="images/logo.png" alt="Flight Generation Group">
                 </div>
                 <h1 class="hero__headline">
                     <span class="highlight">Your job is to be there.</span><br>Ours is to decide how you get there.
@@ -306,8 +314,8 @@
 
             <div class="selected-proof animate-on-scroll">
                 <div class="proof-photo">
-                    <img src="g550-cabin.jpg" alt="Cabin of an aircraft in the FGG system">
-                    <div class="proof-photo__caption">One of the aircraft presented in the FGG system</div>
+                    <img src="images/citation-exterior.jpg" alt="Cessna Citation XLS">
+                    <div class="proof-photo__caption">Citation XLS — an example of an aircraft the FGG team works with</div>
                 </div>
                 <article class="ac-card">
                     <div class="ac-card__label">Example aircraft</div>
@@ -324,10 +332,11 @@
         <div class="container">
             <div class="case__header animate-on-scroll">
                 <h2 class="section-title">Different trips.<br>Different priorities.</h2>
+                <p class="case__lead">The right aircraft is defined not by class or price — but by the conditions of the specific trip.</p>
             </div>
             <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="https://fgg.aero/_next/image?url=%2Fimages%2Faircraft%2Fcessna-citation-xls.jpg&w=1920&q=75" alt="Cessna Citation XLS+">
+                    <img src="images/citation-exterior.jpg" alt="Cessna Citation XLS+">
                     <div class="case__image-overlay">
                         <div class="case__tag">Scenario 01</div>
                         <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
@@ -368,7 +377,10 @@
                     <p class="case__text" style="margin-bottom:0;">Other parameters come to the fore: cabin space, the ability to rest properly, baggage volume and a nonstop routing. So the optimal solution may already be an aircraft of an entirely different class.</p>
                 </div>
                 <div class="case-alt__visual">
-                    <img src="g550.jpg" alt="Gulfstream G550">
+                    <img class="case-alt__exterior" src="images/g550-exterior.jpg" alt="Gulfstream G550">
+                    <div class="case-alt__inset">
+                        <img src="images/g550-cabin.jpg" alt="Gulfstream G550 cabin">
+                    </div>
                     <div class="case-alt__overlay">
                         <h3 style="color:#fff;font-size:20px;font-weight:800;">Gulfstream G550</h3>
                         <p class="case-alt__class">Long-range class · spacious cabin · large baggage hold · the ability to rest in flight</p>
@@ -380,6 +392,7 @@
 
     <section class="app-section">
         <div class="container">
+            <div class="app-section__layout">
             <div class="app-section__intro animate-on-scroll">
                 <div class="section-label">FGG App</div>
                 <h2 class="section-title">Your aviation — in one app.</h2>
@@ -391,43 +404,42 @@
                 <p class="app-section__funcs">Flight estimate · option selection · booking · trip management</p>
                 <div class="app-links">
                     <a href="https://apps.apple.com/by/app/flight-generation-group/id6514327073" target="_blank">
-                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fapp-store-button.png&w=256&q=75" alt="App Store">
+                        <img src="images/app-store.png" alt="App Store">
                     </a>
                     <a href="https://play.google.com/store/apps/details?id=com.flightgenerationgroup" target="_blank">
-                        <img src="https://fgg.aero/_next/image?url=%2Fimages%2Fplay-store-button.png&w=256&q=75" alt="Google Play">
+                        <img src="images/play-store.png" alt="Google Play">
                     </a>
                 </div>
             </div>
 
-            <div class="app-shots animate-on-scroll">
+            <div class="app-visual animate-on-scroll">
                 <figure class="app-shot app-shot--main">
                     <img src="app/app-1.png" alt="Aircraft card in the FGG app">
-                    <figcaption>Specific aircraft</figcaption>
                 </figure>
-                <div class="app-shots__side">
-                    <figure class="app-shot">
-                        <img src="app/app-2.png" alt="Available options in the FGG app">
-                        <figcaption>A clear comparison of options</figcaption>
-                    </figure>
-                    <figure class="app-shot">
-                        <img src="app/app-5.png" alt="Booking in the FGG app">
-                        <figcaption>Requests and trips in one place</figcaption>
-                    </figure>
-                </div>
+                <figure class="app-shot app-shot--secondary-1">
+                    <img src="app/app-2.png" alt="Available options in the FGG app">
+                </figure>
+                <figure class="app-shot app-shot--secondary-2">
+                    <img src="app/app-5.png" alt="Booking in the FGG app">
+                </figure>
+            </div>
             </div>
         </div>
     </section>
 
     <section class="proof">
         <div class="container">
-            <div class="proof__grid">
-                <div class="proof__about animate-on-scroll">
+            <div class="proof__head animate-on-scroll">
                     <div class="section-label">The FGG team</div>
                     <h2 class="section-title">Technology speeds up the choice.<br>Responsibility stays with people.</h2>
+                </div>
+                <div class="proof__body">
+                <div class="proof__copy animate-on-scroll">
                     <p>Flight Generation Group has worked in business aviation since 2015 and is based in Dubai South. We organise private and corporate charters worldwide and manage aircraft.</p>
                     <p>The app makes the interaction faster and more transparent. But behind the selection and organisation of every flight remains the FGG team — people who know the aviation market, the operators, and the specifics of how a flight is actually carried out.</p>
                 </div>
                 <div class="proof__stats animate-on-scroll">
+                    <div class="stats-title">FGG IN FIGURES</div>
                     <div class="stat">
                         <div class="stat__val">Since 2015</div>
                         <div class="stat__label">in business aviation</div>
@@ -445,7 +457,7 @@
                         <div class="stat__label">average willingness to recommend FGG</div>
                     </div>
                 </div>
-            </div>
+                </div>
         </div>
     </section>
 
@@ -466,8 +478,8 @@
                         <div class="msg msg--ai">One detail: are you travelling with carry-on only, or will there be hold baggage?</div>
                         <div class="msg msg--ai">
                             <div class="found-card">
-                                <div class="found-card__v">3 suitable options</div>
-                                <div class="found-card__rec">Passing the options to the FGG team for a final check</div>
+                                <div class="found-card__v">3 options prepared</div>
+                                <div class="found-card__rec">The FGG team checks availability, terms and details before sending them to you.</div>
                             </div>
                         </div>
                     </div>
@@ -501,7 +513,7 @@
         <div class="container">
             <div class="footer__inner">
                 <div class="footer__logo">
-                    <img src="fgg-logo-white.png" alt="FGG">
+                    <img src="images/logo.png" alt="FGG">
                 </div>
                 <div class="footer__links">
                     <a href="https://fgg.aero" target="_blank" class="footer__link">fgg.aero</a>
