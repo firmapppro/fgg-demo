@@ -127,8 +127,8 @@
             display: grid; grid-template-columns: 1fr 1fr; background: var(--color-bg-card);
             border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden;
         }
-        .case__image { position: relative; min-height: 420px; background: #0d1320; }
-        .case__image img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; position: absolute; inset: 0; }
+        .case__image { position: relative; min-height: 420px; background: #152033; }
+        .case__image img { width: 100%; height: 100%; object-fit: cover; object-position: center; position: absolute; inset: 0; }
         .case__image-overlay {
             position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px;
             background: linear-gradient(0deg, rgba(11,15,26,0.9) 0%, transparent 100%);
@@ -147,13 +147,8 @@
         .case-alt { margin-top: 28px; display: grid; grid-template-columns: 0.95fr 1.05fr; background: var(--color-bg-section); border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden; }
         .case-alt__text { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
         .case-alt__meta { font-size: 14px; color: var(--color-accent-light); font-weight: 600; margin-bottom: 12px; line-height: 1.5; }
-        .case-alt__visual { position: relative; min-height: 360px; background: #101624; display: flex; align-items: center; justify-content: center; padding: 28px 20px 72px; }
-        .case-alt__exterior { width: 100%; height: auto; max-height: 320px; object-fit: contain; object-position: center; }
-        .case-alt__inset {
-            position: absolute; right: 18px; bottom: 64px; width: 36%; border-radius: 10px; overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.18); box-shadow: 0 12px 28px rgba(0,0,0,0.45);
-        }
-        .case-alt__inset img { width: 100%; height: 110px; object-fit: cover; }
+        .case-alt__visual { position: relative; min-height: 420px; background: #152033; overflow: hidden; }
+        .case-alt__exterior { width: 100%; height: 100%; object-fit: cover; object-position: center; position: absolute; inset: 0; }
         .case-alt__overlay {
             position: absolute; inset: auto 0 0 0; padding: 16px 24px;
             background: linear-gradient(0deg, rgba(11,15,26,0.92) 0%, transparent 100%);
@@ -225,8 +220,8 @@
             :root { --section-padding: 80px 0; }
             .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__layout { grid-template-columns: 1fr; }
             .case__content, .case-alt__text { padding: 28px; }
-            .inventory-showcase__photo, .case__image { min-height: 280px; }
-            .inventory-showcase__photo img, .case__image img { height: 280px; }
+            .inventory-showcase__photo, .case__image, .case-alt__visual { min-height: 280px; }
+            .inventory-showcase__photo img, .case__image img, .case-alt__exterior { height: 280px; }
             .app-visual { justify-content: center; }
             .app-shot--main { width: 180px; }
             .app-shot--secondary { width: 140px; transform: none; }
@@ -373,10 +368,7 @@
                     <p class="case__text" style="margin-bottom:0;">Здесь на первый план выходят другие параметры: пространство салона, возможность полноценного отдыха, объём багажа и прямой маршрут. Поэтому оптимальным решением уже может стать самолёт совершенно другого класса.</p>
                 </div>
                 <div class="case-alt__visual">
-                    <img class="case-alt__exterior" src="images/g550-exterior.jpg" alt="Gulfstream G550">
-                    <div class="case-alt__inset">
-                        <img src="images/g550-cabin.jpg" alt="Салон Gulfstream G550">
-                    </div>
+                    <img class="case-alt__exterior" src="images/g550-flight.jpg" alt="Gulfstream G550">
                     <div class="case-alt__overlay">
                         <h3 style="color:#fff;font-size:20px;font-weight:800;">Gulfstream G550</h3>
                         <p class="case-alt__class">Дальнемагистральный класс · просторный салон · большой багажный отсек · возможность отдыха в полёте</p>
