@@ -169,9 +169,10 @@
         .app-shot--secondary { width: 168px; transform: translateY(-24px); }
 
         .proof { padding: var(--section-padding); background: var(--color-bg); }
-        .proof__layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
+        .proof__header { max-width: 760px; margin-bottom: 40px; }
+        .proof__header .section-title { margin-bottom: 0; }
+        .proof__body { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
         .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
-        .proof__copy .section-title { margin-bottom: 24px; }
         .proof__stats {
             background: var(--color-bg-section); border: 1px solid var(--color-border);
             border-radius: 20px; padding: 28px 32px 32px;
@@ -180,6 +181,7 @@
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; }
         .stat__val { font-size: 30px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; color: var(--color-gold-light); }
         .stat__label { font-size: 13px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
+        .stats-note { margin-top: 22px; font-size: 12px; line-height: 1.45; color: var(--color-text-muted); }
 
         .ai-section { padding: var(--section-padding); background: var(--color-bg-section); }
         .ai__inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
@@ -218,7 +220,7 @@
 
         @media (max-width: 1024px) {
             :root { --section-padding: 80px 0; }
-            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__layout { grid-template-columns: 1fr; }
+            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body { grid-template-columns: 1fr; }
             .case__content, .case-alt__text { padding: 28px; }
             .inventory-showcase__photo, .case__image, .case-alt__visual { min-height: 280px; }
             .inventory-showcase__photo img, .case__image img, .case-alt__exterior { height: 280px; }
@@ -251,8 +253,8 @@
                 <div class="hero__logo">
                     <img src="images/logo.png" alt="Flight Generation Group">
                 </div>
-                <h1 class="hero__headline">You plan the trip.<br>We find the optimal aviation solution.</h1>
-                <p class="hero__subtitle">You do not need to understand aircraft types, operators and airports.</p>
+                <h1 class="hero__headline">You plan the trip.<br>We find the right aviation solution.</h1>
+                <p class="hero__subtitle">You don't need to navigate aircraft types, operators or airports.</p>
                 <p class="hero__description">
                     Tell us the route, timing and passenger mix. The FGG team will compare available options and offer several solutions with a clear rationale — by time, comfort and cost.
                 </p>
@@ -268,12 +270,12 @@
         <div class="container">
             <div class="philosophy__inner animate-on-scroll">
                 <div class="section-label">Our approach</div>
-                <h2 class="section-title">A thousand available aircraft<br>does not make the choice easier.</h2>
+                <h2 class="section-title">Access to a thousand aircraft<br>does not make choosing easier.</h2>
                 <div class="philosophy__text">
                     <p>The business aviation market is vast. A single route can have dozens of options — different in aircraft position, airports, preparation time, range, cabin, baggage capacity and cost.</p>
                     <p>FGG’s job is not to shift that choice onto the client. We reduce the market to a few options and explain the logic of each: what it actually gives within this specific trip.</p>
                 </div>
-                <p class="philosophy__close">So the client does not get the market — they get a few clear solutions.</p>
+                <p class="philosophy__close">So the client gets a few clear options — not the market.</p>
             </div>
         </div>
     </section>
@@ -284,7 +286,7 @@
                 <div class="section-label">Aircraft selection</div>
                 <h2 class="section-title">What matters is not only the aircraft type,<br>but the specific aircraft.</h2>
                 <p>Through FGG’s partner network, thousands of aircraft are accessible. But we do not add abstract models to the work — we add specific aircraft the team has reviewed and considers relevant to our clients’ requests.</p>
-                <p>So an aircraft card is not just a photograph and a specification. It is FGG’s accumulated knowledge of that specific aircraft, its configuration, and how it has been used on real trips.</p>
+                <p>An aircraft card at FGG is not just a photograph and a specification. Behind it sits accumulated knowledge of a specific aircraft, its configuration, and how it has performed on completed trips.</p>
             </div>
             <div class="inventory-steps animate-on-scroll">
                 <div class="inventory-step">
@@ -311,8 +313,8 @@
                 <article class="ac-card">
                     <div class="ac-card__label">Example aircraft</div>
                     <h3 class="ac-card__name">Citation XLS+</h3>
-                    <p class="ac-card__meta">8 passengers · Midsize</p>
-                    <div class="ac-card__why">Why this aircraft can be relevant</div>
+                    <p class="ac-card__meta">Configuration: 8 passengers · Midsize</p>
+                    <div class="ac-card__why">What it is suited for</div>
                     <p class="ac-card__text">A compact business jet for short and medium European routes. It suits small groups and can use a range of regional airports.</p>
                 </article>
             </div>
@@ -323,11 +325,11 @@
         <div class="container">
             <div class="case__header animate-on-scroll">
                 <h2 class="section-title">Different trips.<br>Different priorities.</h2>
-                <p class="case__lead">The right aircraft is defined not by class or price — but by the conditions of the specific trip.</p>
+                <p class="case__lead">The right aircraft is defined by the trip — not by class or price.</p>
             </div>
             <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="images/citation-xls-flight.jpg?v=4" alt="Cessna Citation XLS+">
+                    <img src="images/citation-xls-flight.jpg?v=5" alt="Cessna Citation XLS+">
                     <div class="case__image-overlay">
                         <div class="case__tag">Scenario 01</div>
                         <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
@@ -355,7 +357,7 @@
                             <div class="case-axis__desc">Spend justified by the conditions of this trip</div>
                         </div>
                     </div>
-                    <div class="case__quote">We do not compare aircraft prices. We compare how well different trip scenarios work.</div>
+                    <div class="case__quote">We compare how well different trip scenarios work, not aircraft prices.</div>
                     <p class="case__note">Cost remains transparent and is one parameter of the decision, alongside time, airports and comfort.</p>
                 </div>
             </div>
@@ -414,10 +416,12 @@
 
     <section class="proof">
         <div class="container">
-            <div class="proof__layout">
+            <div class="proof__header animate-on-scroll">
+                <div class="section-label">The FGG team</div>
+                <h2 class="section-title">Technology speeds up the process.<br>People remain accountable.</h2>
+            </div>
+            <div class="proof__body">
                 <div class="proof__copy animate-on-scroll">
-                    <div class="section-label">The FGG team</div>
-                    <h2 class="section-title">Technology speeds up the choice.<br>Responsibility stays with people.</h2>
                     <p>Flight Generation Group has worked in business aviation since 2015 and is based in Dubai South. We organise private and corporate charters worldwide and manage aircraft.</p>
                     <p>The app makes the interaction faster and more transparent. But behind the selection and organisation of every flight remains the FGG team — people who know the aviation market, the operators, and the specifics of how a flight is actually carried out.</p>
                 </div>
@@ -441,6 +445,7 @@
                         <div class="stat__label">average willingness to recommend FGG</div>
                     </div>
                     </div>
+                    <p class="stats-note">Average from FGG client surveys</p>
                 </div>
             </div>
         </div>
@@ -474,7 +479,7 @@
                     <h2 class="section-title">No form to fill in.<br>Just describe the trip.</h2>
                     <p class="ai__desc">FGG’s personal AI assistant understands an ordinary text request: route, dates, passengers and main preferences. Where needed, it asks clarifying questions and forms a structured aviation request.</p>
                     <p class="ai__desc">That shortens the path from the idea of a trip to the first suitable options. Final selection and organisation of the flight are controlled by the FGG team.</p>
-                    <div class="ai__formula">AI speeds up the request. The FGG team is responsible for the decision.</div>
+                    <div class="ai__formula">AI speeds up the request. The final decision stays with the FGG team.</div>
                 </div>
             </div>
         </div>

@@ -169,9 +169,10 @@
         .app-shot--secondary { width: 168px; transform: translateY(-24px); }
 
         .proof { padding: var(--section-padding); background: var(--color-bg); }
-        .proof__layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
+        .proof__header { max-width: 760px; margin-bottom: 40px; }
+        .proof__header .section-title { margin-bottom: 0; }
+        .proof__body { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
         .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
-        .proof__copy .section-title { margin-bottom: 24px; }
         .proof__stats {
             background: var(--color-bg-section); border: 1px solid var(--color-border);
             border-radius: 20px; padding: 28px 32px 32px;
@@ -180,6 +181,7 @@
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; }
         .stat__val { font-size: 30px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; color: var(--color-gold-light); }
         .stat__label { font-size: 13px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
+        .stats-note { margin-top: 22px; font-size: 12px; line-height: 1.45; color: var(--color-text-muted); }
 
         .ai-section { padding: var(--section-padding); background: var(--color-bg-section); }
         .ai__inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
@@ -218,7 +220,7 @@
 
         @media (max-width: 1024px) {
             :root { --section-padding: 80px 0; }
-            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__layout { grid-template-columns: 1fr; }
+            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body { grid-template-columns: 1fr; }
             .case__content, .case-alt__text { padding: 28px; }
             .inventory-showcase__photo, .case__image, .case-alt__visual { min-height: 280px; }
             .inventory-showcase__photo img, .case__image img, .case-alt__exterior { height: 280px; }
@@ -284,7 +286,7 @@
                 <div class="section-label">Отбор воздушных судов</div>
                 <h2 class="section-title">Нам важно знать не только тип самолёта,<br>но и конкретный борт.</h2>
                 <p>Через партнёрскую сеть FGG доступны тысячи воздушных судов. Но в работу мы добавляем не абстрактные модели, а конкретные самолёты, которые команда изучила и считает релевантными для запросов наших клиентов.</p>
-                <p>Поэтому карточка самолёта для нас — это не просто фотография и спецификация. Это накопленное знание FGG о конкретном борте, его конфигурации и опыте использования в реальных поездках.</p>
+                <p>Карточка самолёта для FGG — не просто фотография и спецификация. За ней стоит накопленное знание о конкретном борте, его конфигурации и опыте выполненных поездок.</p>
             </div>
             <div class="inventory-steps animate-on-scroll">
                 <div class="inventory-step">
@@ -311,8 +313,8 @@
                 <article class="ac-card">
                     <div class="ac-card__label">Пример воздушного судна</div>
                     <h3 class="ac-card__name">Citation XLS+</h3>
-                    <p class="ac-card__meta">8 пассажиров · Midsize</p>
-                    <div class="ac-card__why">Почему этот самолёт может быть интересен</div>
+                    <p class="ac-card__meta">Конфигурация: 8 пассажиров · Midsize</p>
+                    <div class="ac-card__why">Для каких задач он подходит</div>
                     <p class="ac-card__text">Компактный бизнес-джет для коротких и средних европейских маршрутов. Подходит для поездок небольшим составом и позволяет использовать ряд региональных аэропортов.</p>
                 </article>
             </div>
@@ -327,7 +329,7 @@
             </div>
             <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="images/citation-xls-flight.jpg?v=4" alt="Cessna Citation XLS+">
+                    <img src="images/citation-xls-flight.jpg?v=5" alt="Cessna Citation XLS+">
                     <div class="case__image-overlay">
                         <div class="case__tag">Сценарий 01</div>
                         <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
@@ -414,10 +416,12 @@
 
     <section class="proof">
         <div class="container">
-            <div class="proof__layout">
+            <div class="proof__header animate-on-scroll">
+                <div class="section-label">Команда FGG</div>
+                <h2 class="section-title">Технология ускоряет выбор.<br>Ответственность остаётся у людей.</h2>
+            </div>
+            <div class="proof__body">
                 <div class="proof__copy animate-on-scroll">
-                    <div class="section-label">Команда FGG</div>
-                    <h2 class="section-title">Технология ускоряет выбор.<br>Ответственность остаётся у людей.</h2>
                     <p>Flight Generation Group работает в бизнес-авиации с 2015 года и базируется в Dubai South. Мы организуем частные и корпоративные чартеры по всему миру и занимаемся управлением воздушными судами.</p>
                     <p>Приложение помогает сделать взаимодействие быстрее и прозрачнее. Но за подбором и организацией каждого рейса остаётся команда FGG — люди, которые знают авиационный рынок, операторов и конкретные особенности выполнения перелёта.</p>
                 </div>
@@ -441,6 +445,7 @@
                         <div class="stat__label">средняя готовность рекомендовать FGG</div>
                     </div>
                     </div>
+                    <p class="stats-note">Среднее значение по клиентским опросам FGG</p>
                 </div>
             </div>
         </div>
