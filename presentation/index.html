@@ -127,10 +127,15 @@
             display: grid; grid-template-columns: 1fr 1fr; background: var(--color-bg-card);
             border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden;
         }
-        .case__image { position: relative; min-height: 420px; background: #152033; }
-        .case__image img { width: 100%; height: 100%; object-fit: cover; object-position: center; position: absolute; inset: 0; }
+        .case__image { position: relative; min-height: 420px; background: #243044; overflow: hidden; }
+        .case__image::before {
+            content: ''; position: absolute; inset: -20px; z-index: 0;
+            background: url('images/citation-xls-flight.jpg?v=3') center/cover no-repeat;
+            filter: blur(22px) saturate(0.88) brightness(0.7);
+        }
+        .case__image img { width: 100%; height: 100%; object-fit: contain; object-position: center; position: absolute; inset: 0; z-index: 1; }
         .case__image-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px;
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px; z-index: 2;
             background: linear-gradient(0deg, rgba(11,15,26,0.9) 0%, transparent 100%);
         }
         .case__tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; color: var(--color-accent-light); margin-bottom: 8px; }
@@ -147,10 +152,15 @@
         .case-alt { margin-top: 28px; display: grid; grid-template-columns: 0.95fr 1.05fr; background: var(--color-bg-section); border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden; }
         .case-alt__text { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
         .case-alt__meta { font-size: 14px; color: var(--color-accent-light); font-weight: 600; margin-bottom: 12px; line-height: 1.5; }
-        .case-alt__visual { position: relative; min-height: 420px; background: #152033; overflow: hidden; }
-        .case-alt__exterior { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; position: absolute; inset: 0; }
+        .case-alt__visual { position: relative; min-height: 420px; background: #243044; overflow: hidden; }
+        .case-alt__visual::before {
+            content: ''; position: absolute; inset: -20px; z-index: 0;
+            background: url('images/g550-flight.jpg?v=3') center/cover no-repeat;
+            filter: blur(22px) saturate(0.88) brightness(0.7);
+        }
+        .case-alt__exterior { width: 100%; height: 100%; object-fit: contain; object-position: center; position: absolute; inset: 0; z-index: 1; }
         .case-alt__overlay {
-            position: absolute; inset: auto 0 0 0; padding: 16px 24px;
+            position: absolute; inset: auto 0 0 0; padding: 16px 24px; z-index: 2;
             background: linear-gradient(0deg, rgba(11,15,26,0.92) 0%, transparent 100%);
         }
         .case-alt__class { margin-top: 6px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
@@ -327,7 +337,7 @@
             </div>
             <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="images/citation-xls-flight.jpg?v=2" alt="Cessna Citation XLS+">
+                    <img src="images/citation-xls-flight.jpg?v=3" alt="Cessna Citation XLS+">
                     <div class="case__image-overlay">
                         <div class="case__tag">Сценарий 01</div>
                         <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
@@ -368,7 +378,7 @@
                     <p class="case__text" style="margin-bottom:0;">Здесь на первый план выходят другие параметры: пространство салона, возможность полноценного отдыха, объём багажа и прямой маршрут. Поэтому оптимальным решением уже может стать самолёт совершенно другого класса.</p>
                 </div>
                 <div class="case-alt__visual">
-                    <img class="case-alt__exterior" src="images/g550-flight.jpg?v=2" alt="Gulfstream G550">
+                    <img class="case-alt__exterior" src="images/g550-flight.jpg?v=3" alt="Gulfstream G550">
                     <div class="case-alt__overlay">
                         <h3 style="color:#fff;font-size:20px;font-weight:800;">Gulfstream G550</h3>
                         <p class="case-alt__class">Дальнемагистральный класс · просторный салон · большой багажный отсек · возможность отдыха в полёте</p>
