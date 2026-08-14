@@ -23,7 +23,7 @@
             --color-border: rgba(255,255,255,0.08);
             --color-border-card: rgba(255,255,255,0.06);
             --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-            --max-width: 1200px;
+            --max-width: 1280px;
             --section-padding: 96px 0;
             --radius-lg: 20px;
             --radius-md: 14px;
@@ -75,15 +75,11 @@
         .hero__logo { margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.1s both; }
         .hero__logo img { height: 48px; width: auto; }
         .hero__headline {
-            font-size: clamp(30px, 4.4vw, 52px); font-weight: 800; line-height: 1.15;
-            color: var(--color-text-heading); margin-bottom: 20px; max-width: 780px;
+            font-size: clamp(30px, 4.2vw, 50px); font-weight: 800; line-height: 1.18;
+            color: var(--color-text-heading); margin-bottom: 20px; max-width: 720px;
             animation: fadeInUp 0.8s ease-out 0.25s both;
         }
-        .hero__headline .highlight {
-            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .hero__subtitle { font-size: 20px; font-weight: 600; color: var(--color-text); margin-bottom: 16px; animation: fadeInUp 0.8s ease-out 0.38s both; }
+        .hero__subtitle { font-size: 20px; font-weight: 500; color: var(--color-text); margin-bottom: 16px; max-width: 640px; animation: fadeInUp 0.8s ease-out 0.38s both; }
         .hero__description { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); max-width: 640px; margin-bottom: 32px; animation: fadeInUp 0.8s ease-out 0.48s both; }
         .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.58s both; }
 
@@ -97,29 +93,31 @@
         }
 
         .inventory { padding: var(--section-padding); background: var(--color-bg-section); }
-        .inventory__header { max-width: 780px; margin: 0 auto 52px; }
-        .inventory__header p { font-size: 17px; color: var(--color-text-muted); margin-top: 16px; line-height: 1.7; }
-        .inventory-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 56px; }
-        .inventory-step__num { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: var(--color-accent); margin-bottom: 12px; }
-        .inventory-step__title { font-size: 16px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 10px; }
+        .inventory__header { max-width: 760px; margin: 0 0 48px; }
+        .inventory__header .section-title { max-width: 680px; line-height: 1.18; margin-bottom: 20px; }
+        .inventory__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; max-width: 760px; }
+        .inventory__header p + p { margin-top: 14px; }
+        .inventory-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
+        .inventory-step {
+            background: #141b2c; border: 1px solid var(--color-border);
+            border-radius: 22px; padding: 28px 28px 32px; height: 100%;
+        }
+        .inventory-step__num { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: var(--color-accent); margin-bottom: 14px; }
+        .inventory-step__title { font-size: 18px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 10px; }
         .inventory-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.65; }
 
-        .selected-proof { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 32px; align-items: stretch; }
-        .proof-photo { position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 420px; background: #0d1320; }
-        .proof-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; position: absolute; inset: 0; }
-        .proof-photo__caption {
-            position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 24px;
-            background: linear-gradient(0deg, rgba(11,15,26,0.9) 0%, transparent 100%);
-            font-size: 13px; color: var(--color-text); line-height: 1.5;
+        .inventory-showcase {
+            display: grid; grid-template-columns: 1.15fr 0.85fr;
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 24px; overflow: hidden; min-height: 420px;
         }
-        .ac-card {
-            background: transparent; border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg); padding: 32px 32px 36px; display: flex; flex-direction: column; justify-content: center;
-        }
-        .ac-card__label { font-size: 11px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 16px; }
-        .ac-card__name { font-size: 26px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 8px; }
-        .ac-card__meta { font-size: 15px; color: var(--color-text-muted); margin-bottom: 24px; }
-        .ac-card__why { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 10px; }
+        .inventory-showcase__photo { position: relative; min-height: 420px; background: #0d1320; }
+        .inventory-showcase__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 58%; position: absolute; inset: 0; }
+        .ac-card { padding: 44px 40px; display: flex; flex-direction: column; justify-content: center; }
+        .ac-card__label { font-size: 11px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 18px; }
+        .ac-card__name { font-size: 32px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.15; }
+        .ac-card__meta { font-size: 15px; color: var(--color-text-muted); margin-bottom: 28px; }
+        .ac-card__why { font-size: 13px; font-weight: 600; color: var(--color-accent-light); margin-bottom: 10px; }
         .ac-card__text { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; }
 
         .case-study { padding: var(--section-padding); background: var(--color-bg); }
@@ -163,29 +161,29 @@
         .case-alt__class { margin-top: 6px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
 
         .app-section { padding: var(--section-padding); background: var(--color-bg-section); }
-        .app-section__layout { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 72px; align-items: center; }
+        .app-section__layout { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 64px; align-items: center; }
         .app-section__desc { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); }
         .app-section__desc p + p { margin-top: 12px; }
         .app-section__funcs { margin-top: 18px; font-size: 14px; color: var(--color-text); font-weight: 600; letter-spacing: 0.2px; }
         .app-links { display: flex; gap: 12px; margin-top: 24px; }
         .app-links img { height: 44px; width: auto; }
-        .app-visual { position: relative; min-height: 590px; max-width: 540px; margin-left: auto; }
-        .app-shot { margin: 0; }
+        .app-visual { display: flex; align-items: flex-end; justify-content: flex-end; gap: 18px; }
+        .app-shot { margin: 0; flex-shrink: 0; }
         .app-shot img { width: 100%; height: auto; border: 0; border-radius: 22px; box-shadow: 0 24px 50px rgba(0,0,0,.28); background: #111; }
-        .app-shot--main { position: absolute; width: 235px; left: 15px; top: 20px; z-index: 3; }
-        .app-shot--secondary-1 { position: absolute; width: 175px; right: 5px; top: 0; z-index: 1; }
-        .app-shot--secondary-2 { position: absolute; width: 175px; right: 5px; bottom: 5px; z-index: 2; }
+        .app-shot--main { width: 220px; }
+        .app-shot--secondary { width: 168px; transform: translateY(-24px); }
 
         .proof { padding: var(--section-padding); background: var(--color-bg); }
-        .proof__head { margin-bottom: 8px; }
-        .proof__body { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: start; }
+        .proof__layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
         .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
+        .proof__copy .section-title { margin-bottom: 24px; }
         .proof__stats {
             background: var(--color-bg-section); border: 1px solid var(--color-border);
-            border-radius: 20px; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px 26px;
+            border-radius: 20px; padding: 28px 32px 32px;
         }
-        .stats-title { grid-column: 1 / -1; font-size: 11px; font-weight: 800; letter-spacing: 1.6px; color: var(--color-text-muted); }
-        .stat__val { font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 8px; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stats-title { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; color: var(--color-text-muted); margin-bottom: 24px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; }
+        .stat__val { font-size: 30px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; color: var(--color-gold-light); }
         .stat__label { font-size: 13px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
 
         .ai-section { padding: var(--section-padding); background: var(--color-bg-section); }
@@ -225,17 +223,18 @@
 
         @media (max-width: 1024px) {
             :root { --section-padding: 80px 0; }
-            .inventory-steps, .selected-proof, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body { grid-template-columns: 1fr; }
+            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__layout { grid-template-columns: 1fr; }
             .case__content, .case-alt__text { padding: 28px; }
-            .proof-photo, .case__image { min-height: 280px; }
-            .proof-photo img, .case__image img { height: 280px; }
-            .app-visual { min-height: auto; max-width: 100%; margin: 0 auto; display: flex; justify-content: center; align-items: flex-end; gap: 10px; }
-            .app-shot--main, .app-shot--secondary-1, .app-shot--secondary-2 { position: relative; left: auto; right: auto; top: auto; bottom: auto; width: 150px; }
+            .inventory-showcase__photo, .case__image { min-height: 280px; }
+            .inventory-showcase__photo img, .case__image img { height: 280px; }
+            .app-visual { justify-content: center; }
+            .app-shot--main { width: 180px; }
+            .app-shot--secondary { width: 140px; transform: none; }
         }
         @media (max-width: 640px) {
             :root { --section-padding: 64px 0; }
             .container { padding: 0 20px; }
-            .case__axes, .proof__stats { grid-template-columns: 1fr; }
+            .case__axes, .stats-grid, .inventory-steps { grid-template-columns: 1fr; }
             .hero__actions, .cta__actions { flex-direction: column; align-items: stretch; }
             .footer__inner { flex-direction: column; text-align: center; }
         }
@@ -257,12 +256,10 @@
                 <div class="hero__logo">
                     <img src="images/logo.png" alt="Flight Generation Group">
                 </div>
-                <h1 class="hero__headline">
-                    <span class="highlight">Ваша задача — быть там.</span><br>Наша — решить, как вы туда попадёте.
-                </h1>
-                <p class="hero__subtitle">Вы определяете цель поездки. Мы берём на себя авиационную часть.</p>
+                <h1 class="hero__headline">Вы планируете поездку.<br>Мы находим оптимальное авиационное решение.</h1>
+                <p class="hero__subtitle">Вам не нужно разбираться в типах самолётов, операторах и аэропортах.</p>
                 <p class="hero__description">
-                    Вы сообщаете маршрут, время и состав пассажиров. Команда FGG сравнивает доступные самолёты, операторов и аэропорты и предлагает несколько вариантов с понятной логикой выбора — по времени, комфорту и затратам.
+                    Сообщите маршрут, время и состав пассажиров. Команда FGG сравнит доступные варианты и предложит несколько решений с понятной логикой выбора — по времени, комфорту и затратам.
                 </p>
                 <div class="hero__actions">
                     <a href="mailto:info@fgg.aero" class="btn btn--primary">Связаться с FGG</a>
@@ -281,7 +278,7 @@
                     <p>Рынок бизнес-авиации огромен. Для одного маршрута могут быть доступны десятки вариантов — разных по позиции самолёта, аэропортам, времени подготовки, дальности, салону, багажным возможностям и стоимости.</p>
                     <p>Задача FGG — не перенести этот выбор на клиента. Мы сокращаем рынок до нескольких вариантов и объясняем логику каждого: что именно он даёт в рамках конкретной поездки.</p>
                 </div>
-                <p class="philosophy__close">Вам не нужно разбираться в самолётах, чтобы принять правильное решение.</p>
+                <p class="philosophy__close">Поэтому клиент получает не рынок, а несколько понятных решений.</p>
             </div>
         </div>
     </section>
@@ -290,9 +287,9 @@
         <div class="container">
             <div class="inventory__header animate-on-scroll">
                 <div class="section-label">Отбор воздушных судов</div>
-                <h2 class="section-title">Мы работаем не просто с типами самолётов.<br>Нам важно знать конкретные борта.</h2>
-                <p>Через партнёрскую сеть FGG доступны тысячи воздушных судов. Но в приложение мы добавляем конкретные самолёты, которые команда изучила и считает релевантными для запросов наших клиентов.</p>
-                <p>Поэтому карточка самолёта для нас — не просто фотография и техническая спецификация. За ней постепенно накапливается собственное знание FGG о конкретном борте и операторе.</p>
+                <h2 class="section-title">Нам важно знать не только тип самолёта,<br>но и конкретный борт.</h2>
+                <p>Через партнёрскую сеть FGG доступны тысячи воздушных судов. Но в работу мы добавляем не абстрактные модели, а конкретные самолёты, которые команда изучила и считает релевантными для запросов наших клиентов.</p>
+                <p>Поэтому карточка самолёта для нас — это не просто фотография и спецификация. Это накопленное знание FGG о конкретном борте, его конфигурации и опыте использования в реальных поездках.</p>
             </div>
             <div class="inventory-steps animate-on-scroll">
                 <div class="inventory-step">
@@ -303,19 +300,18 @@
                 <div class="inventory-step">
                     <div class="inventory-step__num">02</div>
                     <div class="inventory-step__title">Изучаем</div>
-                    <div class="inventory-step__desc">Команда знакомится с конкретным бортом: оценивает фактическую конфигурацию и состояние салона, сервисные возможности и другие параметры, важные для пассажира.</div>
+                    <div class="inventory-step__desc">Команда знакомится с конкретным бортом: оценивает конфигурацию салона, сервисные возможности и другие параметры, важные для пассажира.</div>
                 </div>
                 <div class="inventory-step">
                     <div class="inventory-step__num">03</div>
                     <div class="inventory-step__title">Накапливаем опыт</div>
-                    <div class="inventory-step__desc">После выполненных рейсов знания дополняются практическим опытом команды и обратной связью клиентов. Так выбор со временем становится точнее.</div>
+                    <div class="inventory-step__desc">После выполненных рейсов знания дополняются практическим опытом команды и обратной связью клиентов.</div>
                 </div>
             </div>
 
-            <div class="selected-proof animate-on-scroll">
-                <div class="proof-photo">
-                    <img src="images/citation-exterior.jpg" alt="Cessna Citation XLS">
-                    <div class="proof-photo__caption">Citation XLS — пример воздушного судна, с которым работает команда FGG</div>
+            <div class="inventory-showcase animate-on-scroll">
+                <div class="inventory-showcase__photo">
+                    <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+">
                 </div>
                 <article class="ac-card">
                     <div class="ac-card__label">Пример воздушного судна</div>
@@ -336,7 +332,7 @@
             </div>
             <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="images/citation-exterior.jpg" alt="Cessna Citation XLS+">
+                    <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+">
                     <div class="case__image-overlay">
                         <div class="case__tag">Сценарий 01</div>
                         <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
@@ -413,14 +409,11 @@
             </div>
 
             <div class="app-visual animate-on-scroll">
-                <figure class="app-shot app-shot--main">
-                    <img src="app/app-1.png" alt="Карточка самолёта в приложении FGG">
-                </figure>
-                <figure class="app-shot app-shot--secondary-1">
+                <figure class="app-shot app-shot--secondary">
                     <img src="app/app-2.png" alt="Список вариантов в приложении FGG">
                 </figure>
-                <figure class="app-shot app-shot--secondary-2">
-                    <img src="app/app-5.png" alt="Оформление заказа в приложении FGG">
+                <figure class="app-shot app-shot--main">
+                    <img src="app/app-1.png" alt="Карточка самолёта в приложении FGG">
                 </figure>
             </div>
             </div>
@@ -429,17 +422,16 @@
 
     <section class="proof">
         <div class="container">
-            <div class="proof__head animate-on-scroll">
+            <div class="proof__layout">
+                <div class="proof__copy animate-on-scroll">
                     <div class="section-label">Команда FGG</div>
                     <h2 class="section-title">Технология ускоряет выбор.<br>Ответственность остаётся у людей.</h2>
-                </div>
-                <div class="proof__body">
-                <div class="proof__copy animate-on-scroll">
                     <p>Flight Generation Group работает в бизнес-авиации с 2015 года и базируется в Dubai South. Мы организуем частные и корпоративные чартеры по всему миру и занимаемся управлением воздушными судами.</p>
                     <p>Приложение помогает сделать взаимодействие быстрее и прозрачнее. Но за подбором и организацией каждого рейса остаётся команда FGG — люди, которые знают авиационный рынок, операторов и конкретные особенности выполнения перелёта.</p>
                 </div>
                 <div class="proof__stats animate-on-scroll">
                     <div class="stats-title">FGG В ЦИФРАХ</div>
+                    <div class="stats-grid">
                     <div class="stat">
                         <div class="stat__val">С 2015</div>
                         <div class="stat__label">в бизнес-авиации</div>
@@ -456,8 +448,9 @@
                         <div class="stat__val">9,6 / 10</div>
                         <div class="stat__label">средняя готовность рекомендовать FGG</div>
                     </div>
+                    </div>
                 </div>
-                </div>
+            </div>
         </div>
     </section>
 
