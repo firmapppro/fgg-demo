@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Презентация — Flight Generation Group</title>
-    <meta name="description" content="На рынке тысячи самолётов. FGG сокращает выбор до нескольких вариантов и объясняет логику каждого.">
+    <meta name="description" content="Клиент сообщает, где ему нужно быть. FGG определяет, как лучше туда долететь.">
     <link rel="icon" href="images/favicon.png" type="image/png">
     <link rel="icon" href="images/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -12,7 +12,7 @@
     <meta property="og:locale" content="ru_RU">
     <meta property="og:url" content="https://firmapppro.github.io/fgg-demo/presentation/">
     <meta property="og:title" content="Презентация — Flight Generation Group">
-    <meta property="og:description" content="На рынке тысячи самолётов. FGG сокращает выбор до нескольких вариантов и объясняет логику каждого.">
+    <meta property="og:description" content="Клиент сообщает, где ему нужно быть. FGG определяет, как лучше туда долететь.">
     <meta property="og:image" content="https://firmapppro.github.io/fgg-demo/presentation/images/og.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -88,7 +88,7 @@
         .hero__logo img { height: 48px; width: auto; }
         .hero__headline {
             font-size: clamp(30px, 4.2vw, 50px); font-weight: 800; line-height: 1.18;
-            color: var(--color-text-heading); margin-bottom: 20px; max-width: 720px;
+            color: var(--color-text-heading); margin-bottom: 20px; max-width: 800px;
             animation: fadeInUp 0.8s ease-out 0.25s both;
         }
         .hero__subtitle { font-size: 20px; font-weight: 500; color: var(--color-text); margin-bottom: 16px; max-width: 640px; animation: fadeInUp 0.8s ease-out 0.38s both; }
@@ -103,13 +103,24 @@
             margin-top: 28px; font-size: 22px; font-weight: 700; color: var(--color-text-heading);
             border-left: 3px solid var(--color-accent); padding-left: 20px; line-height: 1.4;
         }
+        .philosophy__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+        .philosophy__pair-item {
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 16px; padding: 20px 22px;
+        }
+        .philosophy__pair-who {
+            font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--color-accent-light); margin-bottom: 8px;
+        }
+        .philosophy__pair-q { font-size: 18px; font-weight: 700; color: var(--color-text-heading); line-height: 1.35; }
 
-        .inventory { padding: var(--section-padding); background: var(--color-bg-section); }
+        .inventory { padding: var(--section-padding); background: var(--color-bg); }
         .inventory__header { max-width: 760px; margin: 0 0 48px; }
         .inventory__header .section-title { max-width: 680px; line-height: 1.18; margin-bottom: 20px; }
         .inventory__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; max-width: 760px; }
         .inventory__header p + p { margin-top: 14px; }
-        .inventory-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
+        .inventory-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .inventory__pool { margin: 48px 0 20px; }
         .inventory-step {
             background: #141b2c; border: 1px solid var(--color-border);
             border-radius: 22px; padding: 28px 28px 32px; height: 100%;
@@ -132,7 +143,7 @@
         .ac-card__why { font-size: 13px; font-weight: 600; color: var(--color-accent-light); margin-bottom: 10px; }
         .ac-card__text { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; }
 
-        .case-study { padding: var(--section-padding); background: var(--color-bg); }
+        .case-study { padding: var(--section-padding); background: var(--color-bg-section); }
         .case__header { max-width: 760px; margin: 0 auto 48px; text-align: center; }
         .case__lead { font-size: 17px; color: var(--color-text-muted); line-height: 1.6; max-width: 640px; margin: 0 auto; }
         .case__container {
@@ -156,7 +167,8 @@
         .case__quote { margin-top: 28px; font-size: 16px; font-weight: 600; color: var(--color-text-heading); border-left: 2px solid var(--color-accent); padding-left: 18px; line-height: 1.5; }
         .case__note { margin-top: 10px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
 
-        .case-alt { margin-top: 28px; display: grid; grid-template-columns: 0.95fr 1.05fr; background: var(--color-bg-section); border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden; }
+        .cases { display: flex; flex-direction: column; gap: 28px; }
+        .case-alt { margin-top: 0; display: grid; grid-template-columns: 0.95fr 1.05fr; background: var(--color-bg-card); border: 1px solid var(--color-border-card); border-radius: var(--radius-lg); overflow: hidden; }
         .case-alt__text { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
         .case-alt__meta { font-size: 14px; color: var(--color-accent-light); font-weight: 600; margin-bottom: 12px; line-height: 1.5; }
         .case-alt__visual { position: relative; min-height: 420px; background: #152033; overflow: hidden; }
@@ -180,13 +192,13 @@
         .app-shot--main { width: 220px; }
         .app-shot--secondary { width: 168px; transform: translateY(-24px); }
 
-        .proof { padding: var(--section-padding); background: var(--color-bg); }
+        .proof { padding: var(--section-padding); background: var(--color-bg-section); }
         .proof__header { max-width: 760px; margin-bottom: 40px; }
         .proof__header .section-title { margin-bottom: 0; }
         .proof__body { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
         .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
         .proof__stats {
-            background: var(--color-bg-section); border: 1px solid var(--color-border);
+            background: var(--color-bg); border: 1px solid var(--color-border);
             border-radius: 20px; padding: 28px 32px 32px;
         }
         .stats-title { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; color: var(--color-text-muted); margin-bottom: 24px; }
@@ -195,13 +207,13 @@
         .stat__label { font-size: 13px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
         .stats-note { margin-top: 22px; font-size: 12px; line-height: 1.45; color: var(--color-text-muted); }
 
-        .ai-section { padding: var(--section-padding); background: var(--color-bg-section); }
+        .ai-section { padding: var(--section-padding); background: var(--color-bg); }
         .ai__inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
         .ai__desc { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
         .ai__formula { display: inline-block; margin-top: 8px; padding: 14px 20px; background: rgba(42,129,175,0.1); border: 1px solid rgba(42,129,175,0.3); border-radius: 12px; font-size: 16px; font-weight: 700; color: var(--color-accent-light); }
         .chat-mockup { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 26px; }
         .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border); }
-        .chat-header__avatar { width: 38px; height: 38px; background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 12px; }
+        .chat-header__avatar { width: 38px; height: 38px; background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 9px; letter-spacing: 0.4px; }
         .chat-header__name { font-size: 14px; font-weight: 700; color: var(--color-text-heading); }
         .chat-header__status { font-size: 12px; color: var(--color-accent); }
         .chat-messages { display: flex; flex-direction: column; gap: 14px; }
@@ -213,7 +225,7 @@
         .found-card__rec { margin-top: 8px; font-size: 13px; color: var(--color-text-muted); line-height: 1.45; }
 
         .cta { padding: var(--section-padding); background: linear-gradient(135deg, rgba(42,129,175,0.1) 0%, rgba(11,15,26,1) 52%, rgba(201,169,110,0.06) 100%); text-align: center; }
-        .cta__text { font-size: 17px; color: var(--color-text-muted); max-width: 560px; margin: 0 auto 28px; line-height: 1.65; }
+        .cta__text { font-size: 17px; color: var(--color-text-muted); max-width: 640px; margin: 0 auto 28px; line-height: 1.65; }
         .cta__actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .cta__phone { margin-top: 18px; font-size: 14px; color: var(--color-text-muted); }
         .cta__phone a { color: var(--color-text); font-weight: 600; }
@@ -232,7 +244,7 @@
 
         @media (max-width: 1024px) {
             :root { --section-padding: 80px 0; }
-            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body { grid-template-columns: 1fr; }
+            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body, .philosophy__pair { grid-template-columns: 1fr; }
             .case__content, .case-alt__text { padding: 28px; }
             .inventory-showcase__photo, .case__image, .case-alt__visual { min-height: 280px; }
             .inventory-showcase__photo img, .case__image img, .case-alt__exterior { height: 280px; }
@@ -265,10 +277,10 @@
                 <div class="hero__logo">
                     <img src="images/logo.png" alt="Flight Generation Group">
                 </div>
-                <h1 class="hero__headline">Вы планируете перелёт.<br>Мы находим оптимальное авиационное решение.</h1>
-                <p class="hero__subtitle">Вам не нужно разбираться в типах самолётов, операторах и аэропортах.</p>
+                <h1 class="hero__headline">Ваши планы определяют маршрут.<br>Мы определяем авиационное решение.</h1>
+                <p class="hero__subtitle">Вам больше не нужно разбираться в бизнес-авиации. Достаточно сказать FGG, куда и когда вам нужно быть.</p>
                 <p class="hero__description">
-                    Сообщите маршрут, время и состав пассажиров. Команда FGG сравнит доступные варианты и предложит несколько решений с понятной логикой выбора — по времени, комфорту и затратам.
+                    Сообщите, где необходимо быть, когда, с кем и с какими требованиями. Команда FGG определяет, как лучше туда долететь, и предлагает несколько решений с понятной разницей — по времени, аэропортам, комфорту и затратам.
                 </p>
                 <div class="hero__actions">
                     <a href="mailto:info@fgg.aero" class="btn btn--primary">Связаться с FGG</a>
@@ -282,12 +294,98 @@
         <div class="container">
             <div class="philosophy__inner animate-on-scroll">
                 <div class="section-label">Наш подход</div>
-                <h2 class="section-title">Тысяча доступных самолётов<br>не делает выбор проще.</h2>
+                <h2 class="section-title">FGG не показывает клиенту весь рынок.</h2>
                 <div class="philosophy__text">
-                    <p>Рынок бизнес-авиации огромен. Для одного маршрута могут быть доступны десятки вариантов — разных по позиции самолёта, аэропортам, времени подготовки, дальности, салону, багажным возможностям и стоимости.</p>
-                    <p>Задача FGG — не перенести этот выбор на клиента. Мы сокращаем рынок до нескольких вариантов и объясняем логику каждого: что именно он даёт в рамках конкретной поездки.</p>
+                    <p>Рынок бизнес-авиации огромен. Для одного маршрута могут быть доступны десятки вариантов — разных по позиции самолёта, аэропортам, времени подготовки, дальности, салону, багажу и стоимости. Показать весь этот рынок — брокерская задача. Наша другая.</p>
+                    <p>Мы формируем собственную выборку конкретных воздушных судов. Конкретный самолёт внутри FGG уже не равен точно такому же Citation XLS+ с рынка: мы знаем борт и оператора, изучили салон, понимаем реальное состояние и сервисные возможности, летали на нём, получили обратную связь и знаем, для каких задач он хорош.</p>
                 </div>
-                <p class="philosophy__close">Поэтому клиент получает не рынок, а несколько понятных решений.</p>
+                <p class="philosophy__close">Мы превращаем огромный рынок самолётов в ограниченный набор проверенных авиационных решений.</p>
+                <div class="philosophy__pair">
+                    <div class="philosophy__pair-item">
+                        <div class="philosophy__pair-who">Клиент</div>
+                        <p class="philosophy__pair-q">Где мне нужно быть?</p>
+                    </div>
+                    <div class="philosophy__pair-item">
+                        <div class="philosophy__pair-who">FGG</div>
+                        <p class="philosophy__pair-q">Как лучше туда долететь?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="case-study">
+        <div class="container">
+            <div class="case__header animate-on-scroll">
+                <h2 class="section-title">Сначала задача.<br>Потом самолёт.</h2>
+                <p class="case__lead">Самолёт здесь — не цель. Он инструмент выполнения вашей задачи.</p>
+            </div>
+            <div class="cases">
+            <div class="case__container animate-on-scroll">
+                <div class="case__image">
+                    <img src="images/citation-xls-flight.jpg?v=6" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
+                    <div class="case__image-overlay">
+                        <div class="case__tag">Сценарий 01</div>
+                        <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
+                    </div>
+                </div>
+                <div class="case__content">
+                    <div class="case__scenario">08:30. Вы находитесь в Центральной Европе.<br>В 13:00 вам необходимо быть на встрече в другом городе. Вас двое.</div>
+                    <p class="case__text">FGG определяет ближайший подходящий аэропорт вылета и аэропорт, наиболее удобный к месту встречи.</p>
+                    <p class="case__text">Для такой задачи нет необходимости использовать дальнемагистральный самолёт. Конкретный Citation XLS+ 2016 года, знакомый нашей команде и доступный поблизости, позволит вылететь из регионального аэропорта и сократить общее время поездки.</p>
+                    <div class="case__axes">
+                        <div class="case-axis">
+                            <div class="case-axis__title">ВРЕМЯ</div>
+                            <div class="case-axis__desc">Позиция самолёта и готовность к нужному времени</div>
+                        </div>
+                        <div class="case-axis">
+                            <div class="case-axis__title">АЭРОПОРТЫ</div>
+                            <div class="case-axis__desc">Ближайшие удобные аэропорты к точкам поездки</div>
+                        </div>
+                        <div class="case-axis">
+                            <div class="case-axis__title">КОМФОРТ</div>
+                            <div class="case-axis__desc">Салон и конфигурация, достаточные именно для этого маршрута</div>
+                        </div>
+                        <div class="case-axis">
+                            <div class="case-axis__title">ЗАТРАТЫ</div>
+                            <div class="case-axis__desc">Стоимость, понятная заранее и рассматриваемая вместе с остальными условиями</div>
+                        </div>
+                    </div>
+                    <div class="case__quote">Мы сравниваем не цены на самолёты, а эффективность разных сценариев поездки.</div>
+                    <p class="case__note">Цена прозрачна, но она не является отправной точкой выбора. Сначала определяется задача поездки. Затем — подходящие способы её выполнить. Стоимость каждого решения понятна заранее и рассматривается вместе со временем, аэропортами и уровнем комфорта.</p>
+                </div>
+            </div>
+
+            <div class="case-alt animate-on-scroll">
+                <div class="case-alt__text">
+                    <div class="case__tag">Сценарий 02</div>
+                    <h3 class="section-title" style="margin-bottom:12px;">Другая поездка — другие приоритеты.</h3>
+                    <p class="case-alt__meta">Вечер в Дубае. Завтра — семейная поездка: шестеро, включая детей, много багажа, дальний маршрут без пересадки.</p>
+                    <p class="case__text" style="margin-bottom:0;">Здесь на первый план выходят пространство салона, возможность отдохнуть в полёте, объём багажа и прямой маршрут. Для этой задачи нужен самолёт другого класса — не тот, что закрыл утреннюю встречу в Европе.</p>
+                </div>
+                <div class="case-alt__visual">
+                    <img class="case-alt__exterior" src="images/g550-flight.jpg?v=4" loading="lazy" decoding="async" alt="Gulfstream G550">
+                    <div class="case-alt__overlay">
+                        <h3 style="color:#fff;font-size:20px;font-weight:800;">Gulfstream G550</h3>
+                        <p class="case-alt__class">Дальнемагистральный класс · просторный салон · большой багажный отсек · возможность отдыха в полёте</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case__container animate-on-scroll">
+                <div class="case__image">
+                    <img src="images/global-express-flight.jpg?v=1" loading="lazy" decoding="async" alt="Bombardier Global Express">
+                    <div class="case__image-overlay">
+                        <div class="case__tag">Сценарий 03</div>
+                        <h3 style="color:#fff;font-size:22px;font-weight:800;">Bombardier Global Express</h3>
+                    </div>
+                </div>
+                <div class="case__content">
+                    <div class="case__scenario">Вечер в Европе. Завтра утром — переговоры на другом континенте.<br>Четверо на борту. Нужно работать в полёте, без посадки.</div>
+                    <p class="case__text">Плотный график, дальняя дистанция и необходимость прибыть готовыми к встрече. Для такой задачи подходит ультрадальнемагистральный борт: Global Express даёт дальность, пространство для работы и прямой перелёт — без стыковки и без потери суток.</p>
+                    <p class="case__text" style="margin-bottom:0;">Разница не в «классе самолёта как статусе». Разница в том, какая задача стоит перед поездкой — и какой конкретный борт команда готова для неё рекомендовать.</p>
+                </div>
+            </div>
             </div>
         </div>
     </section>
@@ -295,10 +393,27 @@
     <section class="inventory">
         <div class="container">
             <div class="inventory__header animate-on-scroll">
-                <div class="section-label">Отбор воздушных судов</div>
-                <h2 class="section-title">Нам важно знать не только тип самолёта,<br>но и конкретный борт.</h2>
-                <p>Через партнёрскую сеть FGG доступны тысячи воздушных судов. Но в работу мы добавляем не абстрактные модели, а конкретные самолёты, которые команда изучила и считает релевантными для запросов наших клиентов.</p>
-                <p>Карточка самолёта для FGG — не просто фотография и спецификация. За ней стоит накопленное знание о конкретном борте, его конфигурации и опыте выполненных рейсов.</p>
+                <div class="section-label">Конкретный борт</div>
+                <h2 class="section-title">Мы выбираем не модель самолёта.<br>Мы выбираем конкретный самолёт.</h2>
+                <p>Mercedes S-Class бывает разным. Отель Four Seasons бывает разным. Яхта одной модели может быть в совершенно разном состоянии. С самолётами — так же. Массовый charter marketplace часто скрывает это за фотографией типа. Мы — наоборот.</p>
+                <p>Для нас Citation XLS+ — это не категория самолёта. Это конкретный борт, на котором мы готовы отправить клиента.</p>
+            </div>
+
+            <div class="inventory-showcase animate-on-scroll">
+                <div class="inventory-showcase__photo">
+                    <img src="images/citation-xls.jpg?v=2" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
+                </div>
+                <article class="ac-card">
+                    <div class="ac-card__label">Пример конкретного борта</div>
+                    <h3 class="ac-card__name">Citation XLS+</h3>
+                    <p class="ac-card__meta">Конфигурация: 8 пассажиров · Midsize</p>
+                    <div class="ac-card__why">Почему именно этот борт</div>
+                    <p class="ac-card__text">Не «тип XLS+ с рынка». Конкретный самолёт, который команда изучила: салон, сервис, опыт рейсов. Подходит для коротких и средних европейских маршрутов небольшим составом и позволяет использовать региональные аэропорты.</p>
+                </article>
+            </div>
+
+            <div class="inventory__pool animate-on-scroll">
+                <div class="section-label">Как формируется выборка</div>
             </div>
             <div class="inventory-steps animate-on-scroll">
                 <div class="inventory-step">
@@ -317,78 +432,6 @@
                     <div class="inventory-step__desc">После выполненных рейсов знания дополняются практическим опытом команды и обратной связью клиентов.</div>
                 </div>
             </div>
-
-            <div class="inventory-showcase animate-on-scroll">
-                <div class="inventory-showcase__photo">
-                    <img src="images/citation-xls.jpg?v=2" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
-                </div>
-                <article class="ac-card">
-                    <div class="ac-card__label">Пример воздушного судна</div>
-                    <h3 class="ac-card__name">Citation XLS+</h3>
-                    <p class="ac-card__meta">Конфигурация: 8 пассажиров · Midsize</p>
-                    <div class="ac-card__why">Для каких задач он подходит</div>
-                    <p class="ac-card__text">Компактный бизнес-джет для коротких и средних европейских маршрутов. Подходит для поездок небольшим составом и позволяет использовать ряд региональных аэропортов.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="case-study">
-        <div class="container">
-            <div class="case__header animate-on-scroll">
-                <h2 class="section-title">Разные поездки.<br>Разные приоритеты.</h2>
-                <p class="case__lead">Оптимальный самолёт определяется не классом и не ценой — а условиями конкретной поездки.</p>
-            </div>
-            <div class="case__container animate-on-scroll">
-                <div class="case__image">
-                    <img src="images/citation-xls-flight.jpg?v=6" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
-                    <div class="case__image-overlay">
-                        <div class="case__tag">Сценарий 01</div>
-                        <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
-                    </div>
-                </div>
-                <div class="case__content">
-                    <div class="case__scenario">08:30 · Центральная Европа<br>Два пассажира. Встреча в другом городе сегодня после обеда.</div>
-                    <p class="case__text">Ключевая задача — минимизировать общее время поездки и прибыть как можно ближе к месту встречи.</p>
-                    <p class="case__text">Для такого маршрута одним из оптимальных решений может стать Citation XLS+: комфортный салон для двух пассажиров, достаточная дальность и возможность использовать удобные региональные аэропорты — без избыточных возможностей более крупного самолёта.</p>
-                    <div class="case__axes">
-                        <div class="case-axis">
-                            <div class="case-axis__title">ВРЕМЯ</div>
-                            <div class="case-axis__desc">Позиция самолёта и готовность к нужному времени</div>
-                        </div>
-                        <div class="case-axis">
-                            <div class="case-axis__title">АЭРОПОРТЫ</div>
-                            <div class="case-axis__desc">Ближайшие удобные аэропорты к точкам поездки</div>
-                        </div>
-                        <div class="case-axis">
-                            <div class="case-axis__title">КОМФОРТ</div>
-                            <div class="case-axis__desc">Салон и конфигурация, достаточные именно для этого маршрута</div>
-                        </div>
-                        <div class="case-axis">
-                            <div class="case-axis__title">ЗАТРАТЫ</div>
-                            <div class="case-axis__desc">Стоимость, оправданная условиями конкретной поездки</div>
-                        </div>
-                    </div>
-                    <div class="case__quote">Мы сравниваем не цены на самолёты, а эффективность разных сценариев поездки.</div>
-                    <p class="case__note">Стоимость остаётся прозрачной и является одним из параметров решения наряду со временем, аэропортами и комфортом.</p>
-                </div>
-            </div>
-
-            <div class="case-alt animate-on-scroll">
-                <div class="case-alt__text">
-                    <div class="case__tag">Сценарий 02</div>
-                    <h3 class="section-title" style="margin-bottom:12px;">Другая поездка — другие приоритеты.</h3>
-                    <p class="case-alt__meta">Дубай → семейная поездка · 6 пассажиров · дети · большой багаж · дальний маршрут</p>
-                    <p class="case__text" style="margin-bottom:0;">Здесь на первый план выходят другие параметры: пространство салона, возможность полноценного отдыха, объём багажа и прямой маршрут. Поэтому оптимальным решением уже может стать самолёт совершенно другого класса.</p>
-                </div>
-                <div class="case-alt__visual">
-                    <img class="case-alt__exterior" src="images/g550-flight.jpg?v=4" loading="lazy" decoding="async" alt="Gulfstream G550">
-                    <div class="case-alt__overlay">
-                        <h3 style="color:#fff;font-size:20px;font-weight:800;">Gulfstream G550</h3>
-                        <p class="case-alt__class">Дальнемагистральный класс · просторный салон · большой багажный отсек · возможность отдыха в полёте</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -397,13 +440,13 @@
             <div class="app-section__layout">
             <div class="app-section__intro animate-on-scroll">
                 <div class="section-label">Приложение FGG</div>
-                <h2 class="section-title">Ваша авиация — в одном приложении.</h2>
-                <p style="font-size:18px;font-weight:600;color:var(--color-text);margin-bottom:16px;">Мы создали приложение, чтобы клиенту не приходилось каждый раз начинать авиационный запрос с нуля.</p>
+                <h2 class="section-title">Приложение — интерфейс к FGG.</h2>
+                <p style="font-size:18px;font-weight:600;color:var(--color-text);margin-bottom:16px;">Мы перенесли этот подход в приложение.</p>
                 <div class="app-section__desc">
-                    <p>В приложении FGG собраны конкретные самолёты, с которыми работает команда, их характеристики и доступные варианты для поездки.</p>
-                    <p>Здесь можно работать со своими авиационными запросами и бронированиями в одном привычном интерфейсе — при этом за цифровым сервисом остаётся персональная команда FGG.</p>
+                    <p>В нём собраны не все самолёты рынка, а воздушные суда и авиационные решения, с которыми работает FGG. Клиент видит доступные варианты, рассчитывает поездку, бронирует рейс и управляет перелётами в одном интерфейсе.</p>
+                    <p>При этом каждый запрос остаётся под контролем авиационной команды FGG. Приложение — не каталог.</p>
                 </div>
-                <p class="app-section__funcs">Расчёт перелёта · выбор варианта · бронирование · управление поездками</p>
+                <p class="app-section__funcs">Расчёт поездки · выбор варианта · бронирование · управление перелётами</p>
                 <div class="app-links">
                     <a href="https://apps.apple.com/by/app/flight-generation-group/id6514327073" target="_blank" rel="noopener noreferrer">
                         <img src="images/app-store.png" loading="lazy" decoding="async" alt="App Store">
@@ -426,6 +469,39 @@
         </div>
     </section>
 
+    <section class="ai-section">
+        <div class="container">
+            <div class="ai__inner">
+                <div class="chat-mockup animate-on-scroll">
+                    <div class="chat-header">
+                        <div class="chat-header__avatar">FGG</div>
+                        <div>
+                            <div class="chat-header__name">FGG Assistant</div>
+                            <div class="chat-header__status">На связи</div>
+                        </div>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="msg msg--user">12 сентября мне нужно быть в Женеве. 14 сентября вечером вернуться в Лондон. Нас двое.</div>
+                        <div class="msg msg--ai">Понял: нужно быть в Женеве 12 сентября, вечером 14-го — обратно в Лондон. Вас двое.</div>
+                        <div class="msg msg--ai">Уточню: летите только с ручной кладью или будет основной багаж?</div>
+                        <div class="msg msg--ai">
+                            <div class="found-card">
+                                <div class="found-card__v">Команда готовит варианты</div>
+                                <div class="found-card__rec">FGG проверяет доступность и условия перед тем, как отправить их вам.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ai__text animate-on-scroll">
+                    <div class="section-label">Ассистент FGG</div>
+                    <h2 class="section-title">Просто скажите,<br>где вам нужно быть.</h2>
+                    <p class="ai__desc">Например: «12 сентября мне нужно быть в Женеве. 14 сентября вечером вернуться в Лондон. Нас двое.» Дальше клиенту неинтересно, что происходит технически. Финальный подбор и организацию контролирует команда.</p>
+                    <div class="ai__formula">Вы описываете планы обычным языком. FGG превращает их в готовые авиационные решения.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="proof">
         <div class="container">
             <div class="proof__header animate-on-scroll">
@@ -435,7 +511,7 @@
             <div class="proof__body">
                 <div class="proof__copy animate-on-scroll">
                     <p>Flight Generation Group работает в бизнес-авиации с 2015 года и базируется в Dubai South. Мы организуем частные и корпоративные чартеры по всему миру и занимаемся управлением воздушными судами.</p>
-                    <p>Приложение помогает сделать взаимодействие быстрее и прозрачнее. Но за подбором и организацией каждого рейса остаётся команда FGG — люди, которые знают авиационный рынок, операторов и конкретные особенности выполнения перелёта.</p>
+                    <p>Приложение и ассистент делают обращение к FGG проще. Но за подбором и организацией каждого рейса остаётся команда — люди, которые знают конкретных операторов, конкретные борта и то, как рейс выполняется на практике.</p>
                 </div>
                 <div class="proof__stats animate-on-scroll">
                     <div class="stats-title">FGG В ЦИФРАХ</div>
@@ -449,8 +525,8 @@
                         <div class="stat__label">персональная поддержка</div>
                     </div>
                     <div class="stat">
-                        <div class="stat__val">1 000+</div>
-                        <div class="stat__label">самолётов доступны через глобальную сеть</div>
+                        <div class="stat__val">Своя выборка</div>
+                        <div class="stat__label">конкретных бортов, а не весь рынок</div>
                     </div>
                     <div class="stat">
                         <div class="stat__val">9,6 / 10</div>
@@ -463,45 +539,11 @@
         </div>
     </section>
 
-    <section class="ai-section">
-        <div class="container">
-            <div class="ai__inner">
-                <div class="chat-mockup animate-on-scroll">
-                    <div class="chat-header">
-                        <div class="chat-header__avatar">AI</div>
-                        <div>
-                            <div class="chat-header__name">FGG Assistant</div>
-                            <div class="chat-header__status">На связи</div>
-                        </div>
-                    </div>
-                    <div class="chat-messages">
-                        <div class="msg msg--user">12 сентября мне нужно быть в Женеве. 14 сентября вечером вернуться в Лондон. Нас двое.</div>
-                        <div class="msg msg--ai">Принял: Лондон → Женева 12 сентября, обратно вечером 14 сентября, два пассажира. Проверяю подходящие аэропорты и доступные варианты по вашему графику.</div>
-                        <div class="msg msg--ai">Уточню один момент: вы летите только с ручной кладью или будет основной багаж?</div>
-                        <div class="msg msg--ai">
-                            <div class="found-card">
-                                <div class="found-card__v">3 варианта сформированы</div>
-                                <div class="found-card__rec">Команда FGG проверяет доступность, условия и детали перед отправкой вам.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ai__text animate-on-scroll">
-                    <div class="section-label">AI-ассистент</div>
-                    <h2 class="section-title">Не заполнять форму.<br>Просто описать поездку.</h2>
-                    <p class="ai__desc">Персональный AI-ассистент FGG понимает обычный текстовый запрос: маршрут, даты, пассажиров и основные пожелания. При необходимости он задаёт уточняющие вопросы и формирует структурированный авиационный запрос.</p>
-                    <p class="ai__desc">Это сокращает путь от идеи поездки до первых подходящих вариантов. Финальный подбор и организацию перелёта контролирует команда FGG.</p>
-                    <div class="ai__formula">AI ускоряет запрос. Команда FGG отвечает за решение.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="cta">
         <div class="container">
             <div class="animate-on-scroll">
                 <h2 class="section-title">Ваши планы. Наша авиация.</h2>
-                <p class="cta__text">Расскажите, где и когда вам нужно быть. Команда FGG подберёт несколько авиационных решений, которые считает оптимальными для вашей задачи.</p>
+                <p class="cta__text">Клиент думает о своих планах. FGG думает об авиации. Расскажите, где и когда вам нужно быть — команда предложит несколько решений и объяснит разницу между ними: по времени, аэропортам, комфорту и затратам.</p>
                 <div class="cta__actions">
                     <a href="mailto:info@fgg.aero" class="btn btn--primary">Связаться с FGG</a>
                     <a href="https://fgg.aero" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">fgg.aero</a>
