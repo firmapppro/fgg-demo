@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presentation — Flight Generation Group</title>
-    <meta name="description" content="Tell us where and when you need to be. Our team will work out how best to complete the trip.">
-    <link rel="icon" href="images/favicon.png" type="image/png">
-    <link rel="icon" href="images/favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <title>Presentation 2.0 — Flight Generation Group</title>
+    <meta name="description" content="You tell us where you need to be. FGG decides how best to get you there.">
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+    <link rel="icon" href="../images/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://firmapppro.github.io/fgg-demo/presentation/en.html">
     <meta property="og:title" content="Presentation — Flight Generation Group">
-    <meta property="og:description" content="Tell us where and when you need to be. Our team will work out how best to complete the trip.">
+    <meta property="og:description" content="You tell us where you need to be. FGG decides how best to get you there.">
     <meta property="og:image" content="https://firmapppro.github.io/fgg-demo/presentation/images/og.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -114,19 +114,19 @@
         }
         .philosophy__pair-q { font-size: 18px; font-weight: 700; color: var(--color-text-heading); line-height: 1.35; }
 
-        .inventory { padding: var(--section-padding); background: var(--color-bg-section); }
+        .inventory { padding: var(--section-padding); background: var(--color-bg); }
         .inventory__header { max-width: 760px; margin: 0 0 48px; }
         .inventory__header .section-title { max-width: 680px; line-height: 1.18; margin-bottom: 20px; }
         .inventory__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; max-width: 760px; }
         .inventory__header p + p { margin-top: 14px; }
-        .inventory-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .inventory-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         .inventory__pool { margin: 48px 0 20px; }
         .inventory-step {
             background: #141b2c; border: 1px solid var(--color-border);
             border-radius: 22px; padding: 28px 28px 32px; height: 100%;
         }
         .inventory-step__num { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: var(--color-accent); margin-bottom: 14px; }
-        .inventory-step__title { font-size: 16px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 10px; line-height: 1.3; }
+        .inventory-step__title { font-size: 18px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 10px; }
         .inventory-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.65; }
 
         .inventory-showcase {
@@ -179,51 +179,7 @@
         }
         .case-alt__class { margin-top: 6px; font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
 
-        .know-list {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px;
-            margin: 22px 0 0; padding: 0; list-style: none; max-width: 760px;
-        }
-        .know-list li {
-            position: relative; padding-left: 14px; font-size: 15px;
-            color: var(--color-text-muted); line-height: 1.5;
-        }
-        .know-list li::before {
-            content: ''; position: absolute; left: 0; top: 9px;
-            width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent);
-        }
-
-        .management { padding: var(--section-padding); background: var(--color-bg); }
-        .management__header { max-width: 760px; margin-bottom: 36px; }
-        .management__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
-        .management__header p + p { margin-top: 14px; }
-        .levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .level {
-            background: var(--color-bg-card); border: 1px solid var(--color-border);
-            border-radius: 18px; padding: 24px 22px 26px;
-        }
-        .level__num { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; color: var(--color-gold); margin-bottom: 10px; }
-        .level__title { font-size: 17px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
-        .level__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
-        .management__close {
-            margin-top: 32px; max-width: 760px; font-size: 18px; font-weight: 700;
-            color: var(--color-text-heading); border-left: 3px solid var(--color-accent);
-            padding-left: 20px; line-height: 1.45;
-        }
-
-        .app-list {
-            margin: 16px 0 0; padding: 0; list-style: none;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px;
-        }
-        .app-list li {
-            position: relative; padding-left: 14px; font-size: 14px;
-            color: var(--color-text); font-weight: 600;
-        }
-        .app-list li::before {
-            content: ''; position: absolute; left: 0; top: 8px;
-            width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent);
-        }
-
-        .app-section { padding: var(--section-padding); background: var(--color-bg); }
+        .app-section { padding: var(--section-padding); background: var(--color-bg-section); }
         .app-section__layout { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 64px; align-items: center; }
         .app-section__desc { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); }
         .app-section__desc p + p { margin-top: 12px; }
@@ -236,13 +192,13 @@
         .app-shot--main { width: 220px; }
         .app-shot--secondary { width: 168px; transform: translateY(-24px); }
 
-        .proof { padding: var(--section-padding); background: var(--color-bg); }
+        .proof { padding: var(--section-padding); background: var(--color-bg-section); }
         .proof__header { max-width: 760px; margin-bottom: 40px; }
         .proof__header .section-title { margin-bottom: 0; }
         .proof__body { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
         .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
         .proof__stats {
-            background: var(--color-bg-section); border: 1px solid var(--color-border);
+            background: var(--color-bg); border: 1px solid var(--color-border);
             border-radius: 20px; padding: 28px 32px 32px;
         }
         .stats-title { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; color: var(--color-text-muted); margin-bottom: 24px; }
@@ -251,7 +207,7 @@
         .stat__label { font-size: 13px; color: var(--color-text-muted); font-weight: 500; line-height: 1.4; }
         .stats-note { margin-top: 22px; font-size: 12px; line-height: 1.45; color: var(--color-text-muted); }
 
-        .ai-section { padding: var(--section-padding); background: var(--color-bg-section); }
+        .ai-section { padding: var(--section-padding); background: var(--color-bg); }
         .ai__inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
         .ai__desc { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
         .ai__formula { display: inline-block; margin-top: 8px; padding: 14px 20px; background: rgba(42,129,175,0.1); border: 1px solid rgba(42,129,175,0.3); border-radius: 12px; font-size: 16px; font-weight: 700; color: var(--color-accent-light); }
@@ -288,8 +244,7 @@
 
         @media (max-width: 1024px) {
             :root { --section-padding: 80px 0; }
-            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body, .philosophy__pair, .levels { grid-template-columns: 1fr; }
-            .inventory-steps { grid-template-columns: 1fr 1fr; }
+            .inventory-showcase, .case__container, .case-alt, .app-section__layout, .ai__inner, .proof__body, .philosophy__pair { grid-template-columns: 1fr; }
             .case__content, .case-alt__text { padding: 28px; }
             .inventory-showcase__photo, .case__image, .case-alt__visual { min-height: 280px; }
             .inventory-showcase__photo img, .case__image img, .case-alt__exterior { height: 280px; }
@@ -300,7 +255,7 @@
         @media (max-width: 640px) {
             :root { --section-padding: 64px 0; }
             .container { padding: 0 20px; }
-            .case__axes, .stats-grid, .inventory-steps, .know-list, .app-list { grid-template-columns: 1fr; }
+            .case__axes, .stats-grid, .inventory-steps { grid-template-columns: 1fr; }
             .hero__actions, .cta__actions { flex-direction: column; align-items: stretch; }
             .footer__inner { flex-direction: column; text-align: center; }
         }
@@ -315,17 +270,17 @@
 
     <section class="hero">
         <div class="hero__bg">
-            <img src="images/hero.jpg" alt="">
+            <img src="../images/hero.jpg" alt="">
         </div>
         <div class="hero__content">
             <div class="container">
                 <div class="hero__logo">
-                    <img src="images/logo.png" alt="Flight Generation Group">
+                    <img src="../images/logo.png" alt="Flight Generation Group">
                 </div>
-                <h1 class="hero__headline">Your plans. Our aviation.</h1>
-                <p class="hero__subtitle">Tell us where and when you need to be.</p>
+                <h1 class="hero__headline">Your plans set the route.<br>We set the aviation solution.</h1>
+                <p class="hero__subtitle">You no longer need to understand business aviation. Tell FGG where you need to be, and when.</p>
                 <p class="hero__description">
-                    Our team will work out how best to complete the trip: airports, a specific aircraft, departure time, and several options with a clear difference in time, comfort and cost. You do not need to understand aircraft types, operators, positioning or airports. We take that part of the task.
+                    Tell us where you need to be, when, with whom, and with what requirements. The FGG team decides how best to get you there, and offers several solutions with a clear difference — in time, airports, comfort and cost.
                 </p>
                 <div class="hero__actions">
                     <a href="mailto:info@fgg.aero" class="btn btn--primary">Contact FGG</a>
@@ -339,19 +294,19 @@
         <div class="container">
             <div class="philosophy__inner animate-on-scroll">
                 <div class="section-label">Our approach</div>
-                <h2 class="section-title">Access to a thousand aircraft<br>does not make choosing easier.</h2>
+                <h2 class="section-title">FGG does not show the client the whole market.</h2>
                 <div class="philosophy__text">
-                    <p>The business aviation market is vast. A single route can have dozens of aircraft of different class, year, condition, cabin configuration and cost. Our job is not to shift that choice onto the client.</p>
-                    <p>We reduce the market to a few solutions that fit this specific trip. We do not simply compare aircraft and prices. We compare how well different trip scenarios actually work.</p>
+                    <p>The business aviation market is vast. A single route can have dozens of options — different in aircraft position, airports, preparation time, range, cabin, baggage and cost. Showing all of that market is a broker’s job. Ours is different.</p>
+                    <p>We form our own selection of specific aircraft. A given aircraft inside FGG is no longer the same as an identical Citation XLS+ on the open market: we know the tail and the operator, we have studied the cabin, we understand its real condition and service capability, we have flown it, gathered feedback, and know which tasks it is good for.</p>
                 </div>
-                <p class="philosophy__close">The client says where and when they need to be. We propose how best to complete the trip.</p>
+                <p class="philosophy__close">We turn a vast aircraft market into a limited set of proven aviation solutions.</p>
                 <div class="philosophy__pair">
                     <div class="philosophy__pair-item">
                         <div class="philosophy__pair-who">You</div>
                         <p class="philosophy__pair-q">Where do I need to be?</p>
                     </div>
                     <div class="philosophy__pair-item">
-                        <div class="philosophy__pair-who">Our team</div>
+                        <div class="philosophy__pair-who">FGG</div>
                         <p class="philosophy__pair-q">How best to get you there?</p>
                     </div>
                 </div>
@@ -359,114 +314,25 @@
         </div>
     </section>
 
-    <section class="inventory">
-        <div class="container">
-            <div class="inventory__header animate-on-scroll">
-                <div class="section-label">Aircraft selection</div>
-                <h2 class="section-title">We do not work from a catalogue.<br>We work with specific aircraft.</h2>
-                <p>Thousands of aircraft are available on the market. The client does not need to choose from thousands of options. Our team builds its own working pool of aircraft of different classes. Today it includes more than 20 specific aircraft that we have reviewed, selected and use to fulfil our clients’ requests.</p>
-                <p>What matters is not only the type — a Citation XLS+, a Challenger 350 or a Gulfstream G550 — but the specific aircraft. For each one we look beyond the technical specification to how it actually performs in service.</p>
-                <ul class="know-list">
-                    <li>Cabin configuration and condition</li>
-                    <li>Year of manufacture and interior updates</li>
-                    <li>Baggage capacity</li>
-                    <li>Service on board</li>
-                    <li>Operator specifics</li>
-                    <li>Geography and operating capability</li>
-                    <li>Experience from completed flights</li>
-                    <li>Feedback from our clients</li>
-                </ul>
-            </div>
-
-            <div class="inventory-steps animate-on-scroll">
-                <div class="inventory-step">
-                    <div class="inventory-step__num">01</div>
-                    <div class="inventory-step__title">We select specific aircraft</div>
-                    <div class="inventory-step__desc">Not categories and not photographs from a database, but aircraft that meet our team’s standards.</div>
-                </div>
-                <div class="inventory-step">
-                    <div class="inventory-step__num">02</div>
-                    <div class="inventory-step__title">We know them in operation</div>
-                    <div class="inventory-step__desc">We review the cabin, configuration, service, the aircraft’s capabilities and the operator.</div>
-                </div>
-                <div class="inventory-step">
-                    <div class="inventory-step__num">03</div>
-                    <div class="inventory-step__title">We fly and build experience</div>
-                    <div class="inventory-step__desc">After completed flights we add the team’s practical experience and client feedback to our internal knowledge.</div>
-                </div>
-                <div class="inventory-step">
-                    <div class="inventory-step__num">04</div>
-                    <div class="inventory-step__title">We manage part of the fleet</div>
-                    <div class="inventory-step__desc">Several aircraft are under our team’s direct management, on behalf of private owners.</div>
-                </div>
-            </div>
-
-            <div class="inventory__pool animate-on-scroll">
-                <div class="section-label">Example of a specific aircraft</div>
-            </div>
-            <div class="inventory-showcase animate-on-scroll">
-                <div class="inventory-showcase__photo">
-                    <img src="images/citation-xls.jpg?v=2" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
-                </div>
-                <article class="ac-card">
-                    <div class="ac-card__label">From the working pool</div>
-                    <h3 class="ac-card__name">Citation XLS+</h3>
-                    <p class="ac-card__meta">Configuration: 8 passengers · Midsize</p>
-                    <div class="ac-card__why">We know this aircraft</div>
-                    <p class="ac-card__text">Not an entry in a global database. A specific aircraft we have reviewed, flown, and are prepared to recommend for short and medium European routes with a small group.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="management">
-        <div class="container">
-            <div class="management__header animate-on-scroll">
-                <div class="section-label">Aircraft management</div>
-                <h2 class="section-title">We do not start every request<br>by searching a thousand unfamiliar offers.</h2>
-                <p>Some aircraft are under our team’s direct management. As a management company we represent private owners and take part in running their aviation assets. That gives us another level of understanding — not only as a buyer of a charter, but from the operating side.</p>
-                <p>So we have three levels of capability. First we look at aircraft we already know, use, or manage. Only if the task needs a different solution do we widen the search to the global market.</p>
-            </div>
-            <div class="levels animate-on-scroll">
-                <article class="level">
-                    <div class="level__num">01</div>
-                    <h3 class="level__title">Aircraft under our management</h3>
-                    <p class="level__desc">The deepest level of knowledge and control. We represent private owners and manage aviation assets on their behalf.</p>
-                </article>
-                <article class="level">
-                    <div class="level__num">02</div>
-                    <h3 class="level__title">A selected pool of 20+ specific aircraft</h3>
-                    <p class="level__desc">Aircraft of different classes that we have reviewed, use regularly, and understand in terms of which client tasks they fit.</p>
-                </article>
-                <article class="level">
-                    <div class="level__num">03</div>
-                    <h3 class="level__title">The global market</h3>
-                    <p class="level__desc">A reserve of capability, if a given task needs to go beyond the core pool.</p>
-                </article>
-            </div>
-            <p class="management__close animate-on-scroll">For us an aircraft is not an entry in a global database. It is a specific aircraft whose capabilities we know, and whose fit for a client’s task we understand.</p>
-        </div>
-    </section>
-
     <section class="case-study">
         <div class="container">
             <div class="case__header animate-on-scroll">
                 <h2 class="section-title">The task comes first.<br>The aircraft follows.</h2>
-                <p class="case__lead">The aircraft is not the goal. It is the instrument that completes the client’s task.</p>
+                <p class="case__lead">The aircraft is not the goal. It is the instrument that completes your task.</p>
             </div>
             <div class="cases">
             <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="images/citation-xls-flight.jpg?v=6" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
+                    <img src="../images/citation-xls-flight.jpg?v=6" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
                     <div class="case__image-overlay">
                         <div class="case__tag">Scenario 01</div>
                         <h3 style="color:#fff;font-size:22px;font-weight:800;">Cessna Citation XLS+</h3>
                     </div>
                 </div>
                 <div class="case__content">
-                    <div class="case__scenario">08:30. Central Europe.<br>You and a partner are in one of the cities. This afternoon you need to be at a meeting in another city. There are two of you.</div>
-                    <p class="case__text">That is how the task sounds to the client. Then our team goes to work. We identify the nearest convenient departure airport, a convenient arrival airport, actual aircraft availability and the total travel time.</p>
-                    <p class="case__text">For a route like this, one of the suitable solutions can be a specific 2016 Citation XLS+ that our team knows and that is not far from the departure point. It can use regional airports, gives the comfort two passengers need, and does not carry the surplus cost of a larger aircraft.</p>
+                    <div class="case__scenario">08:30. You are in Central Europe.<br>You need to be at a meeting in another city at 13:00. There are two of you.</div>
+                    <p class="case__text">FGG identifies the nearest suitable departure airport and the airport most convenient to the meeting.</p>
+                    <p class="case__text">A long-range aircraft is unnecessary for a task like this. A specific 2016 Citation XLS+ that our team knows and that is available nearby lets you leave from a regional airport and shorten the total travel time.</p>
                     <div class="case__axes">
                         <div class="case-axis">
                             <div class="case-axis__title">TIME</div>
@@ -482,24 +348,23 @@
                         </div>
                         <div class="case-axis">
                             <div class="case-axis__title">COST</div>
-                            <div class="case-axis__desc">The cost of each option is clear in advance</div>
+                            <div class="case-axis__desc">A figure known in advance and weighed with the other conditions</div>
                         </div>
                     </div>
                     <div class="case__quote">We compare how well different trip scenarios work, not aircraft prices.</div>
-                    <p class="case__note">Price remains fully transparent. But price is neither the only parameter nor the first. The client sees the cost of each option and understands exactly what those figures buy.</p>
+                    <p class="case__note">Price is transparent, but it is not the starting point of the choice. First the trip is defined. Then the suitable ways to complete it. The cost of each solution is clear in advance and is considered together with time, airports and comfort.</p>
                 </div>
             </div>
 
             <div class="case-alt animate-on-scroll">
                 <div class="case-alt__text">
                     <div class="case__tag">Scenario 02</div>
-                    <h3 class="section-title" style="margin-bottom:12px;">A different trip — a different solution.</h3>
-                    <p class="case-alt__meta">Dubai → family trip · 6 passengers · children · substantial baggage · long-range routing</p>
-                    <p class="case__text">If the task changes, the aircraft changes. Cabin space, the ability to rest properly, baggage volume and completing the route without an extra stop come to the fore.</p>
-                    <p class="case__text" style="margin-bottom:0;">So a suitable solution may already be an aircraft of a different class — a Gulfstream G550, for example. The aircraft is defined by the conditions of the trip, not by the status of the model or the lowest price.</p>
+                    <h3 class="section-title" style="margin-bottom:12px;">A different trip — different priorities.</h3>
+                    <p class="case-alt__meta">Evening in Dubai. Tomorrow: a family trip — six people, including children, substantial baggage, a long-range routing with no stop.</p>
+                    <p class="case__text" style="margin-bottom:0;">Cabin space, the ability to rest in flight, baggage volume and a nonstop routing come to the fore. This task needs an aircraft of a different class — not the one that covered a morning meeting in Europe.</p>
                 </div>
                 <div class="case-alt__visual">
-                    <img class="case-alt__exterior" src="images/g550-flight.jpg?v=4" loading="lazy" decoding="async" alt="Gulfstream G550">
+                    <img class="case-alt__exterior" src="../images/g550-flight.jpg?v=4" loading="lazy" decoding="async" alt="Gulfstream G550">
                     <div class="case-alt__overlay">
                         <h3 style="color:#fff;font-size:20px;font-weight:800;">Gulfstream G550</h3>
                         <p class="case-alt__class">Long-range class · spacious cabin · large baggage hold · the ability to rest in flight</p>
@@ -509,7 +374,7 @@
 
             <div class="case__container animate-on-scroll">
                 <div class="case__image">
-                    <img src="images/global-express-flight.jpg?v=1" loading="lazy" decoding="async" alt="Bombardier Global Express">
+                    <img src="../images/global-express-flight.jpg?v=1" loading="lazy" decoding="async" alt="Bombardier Global Express">
                     <div class="case__image-overlay">
                         <div class="case__tag">Scenario 03</div>
                         <h3 style="color:#fff;font-size:22px;font-weight:800;">Bombardier Global Express</h3>
@@ -517,10 +382,55 @@
                 </div>
                 <div class="case__content">
                     <div class="case__scenario">Evening in Europe. Tomorrow morning: negotiations on another continent.<br>Four on board. Work to be done in flight, with no stop.</div>
-                    <p class="case__text">A tight schedule, a long distance, and the need to arrive ready for the meeting. For a task like this we may recommend an ultra-long-range aircraft: a Global Express gives range, space to work and a nonstop flight — without a connection and without losing a day.</p>
-                    <p class="case__text" style="margin-bottom:0;">The difference is not aircraft class as status. The difference is the task — and which specific aircraft our team is prepared to recommend for it.</p>
+                    <p class="case__text">A tight schedule, a long distance, and the need to arrive ready for the meeting. An ultra-long-range aircraft fits this task: a Global Express gives range, space to work and a nonstop flight — without a connection and without losing a day.</p>
+                    <p class="case__text" style="margin-bottom:0;">The difference is not aircraft class as status. The difference is the task in front of the trip — and which specific aircraft the team is prepared to recommend for it.</p>
                 </div>
             </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="inventory">
+        <div class="container">
+            <div class="inventory__header animate-on-scroll">
+                <div class="section-label">A specific aircraft</div>
+                <h2 class="section-title">We do not select an aircraft type.<br>We select a specific aircraft.</h2>
+                <p>A Mercedes S-Class is not one thing. A Four Seasons is not one thing. Two yachts of the same model can be in entirely different condition. It is the same with aircraft. A mass charter marketplace often hides that behind a photograph of a type. We do the opposite.</p>
+                <p>For us, a Citation XLS+ is not a category of aircraft. It is a specific aircraft we are prepared to send a client on.</p>
+            </div>
+
+            <div class="inventory-showcase animate-on-scroll">
+                <div class="inventory-showcase__photo">
+                    <img src="../images/citation-xls.jpg?v=2" loading="lazy" decoding="async" alt="Cessna Citation XLS+">
+                </div>
+                <article class="ac-card">
+                    <div class="ac-card__label">Example of a specific aircraft</div>
+                    <h3 class="ac-card__name">Citation XLS+</h3>
+                    <p class="ac-card__meta">Configuration: 8 passengers · Midsize</p>
+                    <div class="ac-card__why">Why this aircraft</div>
+                    <p class="ac-card__text">Not “an XLS+ type from the market”. A specific aircraft the team has reviewed: cabin, service, flight experience. It suits short and medium European routes with a small group, and can use regional airports.</p>
+                </article>
+            </div>
+
+            <div class="inventory__pool animate-on-scroll">
+                <div class="section-label">How the selection is formed</div>
+            </div>
+            <div class="inventory-steps animate-on-scroll">
+                <div class="inventory-step">
+                    <div class="inventory-step__num">01</div>
+                    <div class="inventory-step__title">We select</div>
+                    <div class="inventory-step__desc">We find specific aircraft and operators that match our clients’ requirements and typical trip scenarios.</div>
+                </div>
+                <div class="inventory-step">
+                    <div class="inventory-step__num">02</div>
+                    <div class="inventory-step__title">We review</div>
+                    <div class="inventory-step__desc">The team gets to know the specific aircraft: assessing the cabin configuration, service capabilities and other parameters that matter to the passenger.</div>
+                </div>
+                <div class="inventory-step">
+                    <div class="inventory-step__num">03</div>
+                    <div class="inventory-step__title">We build experience</div>
+                    <div class="inventory-step__desc">After completed flights, that knowledge is added to by the team’s practical experience and client feedback.</div>
+                </div>
             </div>
         </div>
     </section>
@@ -530,36 +440,29 @@
             <div class="app-section__layout">
             <div class="app-section__intro animate-on-scroll">
                 <div class="section-label">FGG App</div>
-                <h2 class="section-title">Your aviation — in one app.</h2>
-                <p style="font-size:18px;font-weight:600;color:var(--color-text);margin-bottom:16px;">We built the app not as an aircraft catalogue, but as the interface to FGG’s aviation system.</p>
+                <h2 class="section-title">The app is the interface to FGG.</h2>
+                <p style="font-size:18px;font-weight:600;color:var(--color-text);margin-bottom:16px;">We moved this approach into the app.</p>
                 <div class="app-section__desc">
-                    <p>Inside: the specific aircraft our team works with, their characteristics, availability, and options for completing the trip.</p>
+                    <p>It does not contain every aircraft on the market. It contains the aircraft and aviation solutions FGG actually works with. The client sees available options, estimates the trip, books the flight and manages travel in one interface.</p>
+                    <p>Every request remains under the control of the FGG aviation team. The app is not a catalogue.</p>
                 </div>
-                <ul class="app-list">
-                    <li>Create a request</li>
-                    <li>See suitable options</li>
-                    <li>Estimate the flight</li>
-                    <li>Choose a solution</li>
-                    <li>Book the aircraft</li>
-                    <li>Manage your trips</li>
-                </ul>
-                <p class="app-section__desc" style="margin-top:18px;">A personal aviation team always remains behind the digital interface. Technology speeds up the process. People remain accountable.</p>
+                <p class="app-section__funcs">Trip estimate · option selection · booking · flight management</p>
                 <div class="app-links">
                     <a href="https://apps.apple.com/by/app/flight-generation-group/id6514327073" target="_blank" rel="noopener noreferrer">
-                        <img src="images/app-store.png" loading="lazy" decoding="async" alt="App Store">
+                        <img src="../images/app-store.png" loading="lazy" decoding="async" alt="App Store">
                     </a>
                     <a href="https://play.google.com/store/apps/details?id=com.flightgenerationgroup" target="_blank" rel="noopener noreferrer">
-                        <img src="images/play-store.png" loading="lazy" decoding="async" alt="Google Play">
+                        <img src="../images/play-store.png" loading="lazy" decoding="async" alt="Google Play">
                     </a>
                 </div>
             </div>
 
             <div class="app-visual animate-on-scroll">
                 <figure class="app-shot app-shot--secondary">
-                    <img src="app/app-2.png" loading="lazy" decoding="async" alt="Available options in the FGG app">
+                    <img src="../app/app-2.png" loading="lazy" decoding="async" alt="Available options in the FGG app">
                 </figure>
                 <figure class="app-shot app-shot--main">
-                    <img src="app/app-1.png" loading="lazy" decoding="async" alt="Aircraft card in the FGG app">
+                    <img src="../app/app-1.png" loading="lazy" decoding="async" alt="Aircraft card in the FGG app">
                 </figure>
             </div>
             </div>
@@ -578,22 +481,22 @@
                         </div>
                     </div>
                     <div class="chat-messages">
-                        <div class="msg msg--user">I need to be in Geneva on 12 September.<br>Return to London on the evening of the 14th. There are two of us.</div>
-                        <div class="msg msg--ai">Accepted.<br>12 September — London → Geneva.<br>Evening of the 14th — Geneva → London.<br>Two passengers.<br>Checking the most convenient airports, suitable aircraft and options for your schedule.</div>
+                        <div class="msg msg--user">I need to be in Geneva on 12 September. Return to London on the evening of the 14th. There are two of us.</div>
+                        <div class="msg msg--ai">Understood: you need to be in Geneva on 12 September, and back in London on the evening of the 14th. Two of you.</div>
+                        <div class="msg msg--ai">One detail: carry-on only, or will there be hold baggage?</div>
                         <div class="msg msg--ai">
                             <div class="found-card">
-                                <div class="found-card__v">Several solutions prepared</div>
-                                <div class="found-card__rec">Our team checks actual aircraft availability and the conditions of the flight before sending the options to you.</div>
+                                <div class="found-card__v">The team is preparing options</div>
+                                <div class="found-card__rec">FGG checks availability and terms before sending them to you.</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="ai__text animate-on-scroll">
                     <div class="section-label">FGG Assistant</div>
-                    <h2 class="section-title">Don’t choose an aircraft.<br>Just tell us your plans.</h2>
-                    <p class="ai__desc">There is no long form to fill in, and no need to pick an aircraft yourself. Just tell us where and when you need to be.</p>
-                    <p class="ai__desc">The assistant shortens the path between what the client wants and a ready aviation solution. It is not a separate product or a chatbot: you describe your plans in ordinary language, the assistant helps structure them, and our team makes the aviation decision and is accountable for carrying it out.</p>
-                    <div class="ai__formula">You describe the plans. We propose the solution.</div>
+                    <h2 class="section-title">Just tell us<br>where you need to be.</h2>
+                    <p class="ai__desc">For example: “I need to be in Geneva on 12 September. Return to London on the evening of the 14th. There are two of us.” What happens technically after that is not the client’s concern. Final selection and organisation stay with the team.</p>
+                    <div class="ai__formula">You describe your plans in ordinary language. FGG turns them into ready aviation solutions.</div>
                 </div>
             </div>
         </div>
@@ -602,13 +505,13 @@
     <section class="proof">
         <div class="container">
             <div class="proof__header animate-on-scroll">
-                <div class="section-label">Our team</div>
+                <div class="section-label">The FGG team</div>
                 <h2 class="section-title">Technology speeds up the process.<br>People remain accountable.</h2>
             </div>
             <div class="proof__body">
                 <div class="proof__copy animate-on-scroll">
-                    <p>Flight Generation Group has worked in business aviation since 2015 and is based in Dubai South. We organise private and corporate flights worldwide, work with specific aircraft, and manage aviation assets for private owners.</p>
-                    <p>The app and the assistant make the interaction faster. But the aircraft, the routing and the conditions of the flight remain our team’s responsibility.</p>
+                    <p>Flight Generation Group has worked in business aviation since 2015 and is based in Dubai South. We organise private and corporate charters worldwide and manage aircraft.</p>
+                    <p>The app and the assistant make it simpler to come to FGG. But behind the selection and organisation of every flight remains the team — people who know specific operators, specific aircraft, and how a flight is actually carried out.</p>
                 </div>
                 <div class="proof__stats animate-on-scroll">
                     <div class="stats-title">FGG IN FIGURES</div>
@@ -622,8 +525,8 @@
                         <div class="stat__label">personal support</div>
                     </div>
                     <div class="stat">
-                        <div class="stat__val">20+</div>
-                        <div class="stat__label">specific aircraft in the working pool</div>
+                        <div class="stat__val">Our own selection</div>
+                        <div class="stat__label">of specific aircraft, not the whole market</div>
                     </div>
                     <div class="stat">
                         <div class="stat__val">9.6 / 10</div>
@@ -640,7 +543,7 @@
         <div class="container">
             <div class="animate-on-scroll">
                 <h2 class="section-title">Your plans. Our aviation.</h2>
-                <p class="cta__text">Tell us where and when you need to be. We will work out how best to complete the trip and offer several aviation solutions that fit your task. You think about your plans. We think about the aviation.</p>
+                <p class="cta__text">You think about your plans. FGG thinks about the aviation. Tell us where and when you need to be — the team will offer several solutions and explain the difference between them: in time, airports, comfort and cost.</p>
                 <div class="cta__actions">
                     <a href="mailto:info@fgg.aero" class="btn btn--primary">Contact FGG</a>
                     <a href="https://fgg.aero" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">fgg.aero</a>
@@ -654,14 +557,14 @@
         <div class="container">
             <div class="footer__inner">
                 <div class="footer__logo">
-                    <img src="images/logo.png" loading="lazy" decoding="async" alt="FGG">
+                    <img src="../images/logo.png" loading="lazy" decoding="async" alt="FGG">
                 </div>
                 <div class="footer__links">
                     <a href="https://fgg.aero" target="_blank" rel="noopener noreferrer" class="footer__link">fgg.aero</a>
                     <a href="https://fgg.aero/en/about" target="_blank" rel="noopener noreferrer" class="footer__link">About</a>
                     <a href="https://fgg.aero/en/contacts" target="_blank" rel="noopener noreferrer" class="footer__link">Contacts</a>
                 </div>
-                <p class="footer__copy">© 2015–2026 Flight Generation Group · <a href="v2/en.html" class="footer__link">Version 2.0</a></p>
+                <p class="footer__copy">© 2015–2026 Flight Generation Group · version 2.0 · <a href="../en.html" class="footer__link">Current version</a></p>
             </div>
         </div>
     </footer>
