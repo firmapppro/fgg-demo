@@ -13,99 +13,37 @@
     <meta property="og:url" content="https://chypulis.top/">
     <meta property="og:title" content="CHYPULIS.TOP">
     <style>
-        :root { --bg: #05060a; --gold: #e0c49a; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body {
-            height: 100%;
-            background: var(--bg);
-            overflow: hidden;
+        html, body { height: 100%; margin: 0; background: #05060a; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .scene {
+        .emblem {
+            width: min(42vw, 168px);
+            height: auto;
+            display: block;
+        }
+        .copy {
             position: fixed;
-            inset: 0;
-            overflow: hidden;
-            background: radial-gradient(120% 80% at 70% 28%, #12161f 0%, #05060a 58%);
-        }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
-        }
-        .gold {
-            background: radial-gradient(circle at 40% 40%, rgba(224,196,154,.42) 0%, rgba(224,196,154,.12) 38%, transparent 70%);
-        }
-        .ice {
-            background: radial-gradient(circle at 45% 45%, rgba(143,208,212,.28) 0%, rgba(143,208,212,.08) 40%, transparent 70%);
-        }
-        .dusk {
-            background: radial-gradient(circle at 50% 50%, rgba(36,48,62,.7) 0%, transparent 68%);
-        }
-        .a { width: 92vmax; height: 92vmax; top: -28vmax; right: -24vmax; animation: drift-a 42s ease-in-out infinite; }
-        .b { width: 78vmax; height: 78vmax; top: 18vmax; left: -30vmax; animation: drift-b 36s ease-in-out infinite; }
-        .c { width: 56vmax; height: 56vmax; bottom: -18vmax; left: 22vmax; animation: drift-c 48s ease-in-out infinite; }
-        .d { width: 44vmax; height: 44vmax; bottom: 4vmax; right: -8vmax; animation: drift-d 31s ease-in-out infinite; }
-        .e { width: 64vmax; height: 64vmax; top: -10vmax; left: 18vmax; animation: drift-e 54s ease-in-out infinite; }
-        .vignette, .grain {
-            position: fixed; inset: 0; pointer-events: none;
-        }
-        .vignette {
-            background: radial-gradient(ellipse at center, transparent 44%, rgba(0,0,0,.58) 100%);
-        }
-        .grain {
-            opacity: .08;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-        .mark {
-            position: fixed; left: 0; right: 0; bottom: 22px;
-            z-index: 2; pointer-events: none; text-align: center;
-            font-family: ui-sans-serif, system-ui, Helvetica, sans-serif;
-            font-weight: 500;
-            font-size: 11px;
+            left: 0; right: 0; bottom: 22px;
+            margin: 0;
+            text-align: center;
+            font: 500 11px/1 ui-sans-serif, system-ui, Helvetica, sans-serif;
             letter-spacing: .38em;
             text-transform: lowercase;
             color: rgba(224, 196, 154, .42);
         }
-        @keyframes drift-a {
-            0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(-8%, 6%, 0); }
-        }
-        @keyframes drift-b {
-            0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(10%, -7%, 0); }
-        }
-        @keyframes drift-c {
-            0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(7%, -5%, 0); }
-        }
-        @keyframes drift-d {
-            0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(-9%, -6%, 0); }
-        }
-        @keyframes drift-e {
-            0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(5%, 8%, 0); }
-        }
         @media (max-width: 720px) {
-            .mark { bottom: 16px; letter-spacing: .22em; }
-            .a, .b, .c, .d, .e { animation-duration: 48s; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .orb { animation: none; }
+            .copy { bottom: 16px; letter-spacing: .22em; }
         }
     </style>
 </head>
 <body>
-    <div class="scene" aria-hidden="true">
-        <i class="orb dusk e"></i>
-        <i class="orb gold a"></i>
-        <i class="orb ice b"></i>
-        <i class="orb gold c"></i>
-        <i class="orb ice d"></i>
-    </div>
-    <div class="vignette"></div>
-    <div class="grain"></div>
-    <div class="mark">chypulis.top © 2026</div>
+    <svg class="emblem" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M6 24c4-9 7-14 10-16 3 2 6 7 10 16" fill="none" stroke="#e0c49a" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M8 20c3.2-4.8 5.4-7.2 8-8.4 2.6 1.2 4.8 3.6 8 8.4" fill="none" stroke="#8fd0d4" stroke-width="1" opacity=".7"/>
+    </svg>
+    <p class="copy">chypulis.top © 2026</p>
 </body>
 </html>
