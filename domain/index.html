@@ -12,38 +12,138 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://chypulis.top/">
     <meta property="og:title" content="CHYPULIS.TOP">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
     <style>
-        html, body { height: 100%; margin: 0; background: #05060a; }
+        html, body { height: 100%; margin: 0; }
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: #05060a radial-gradient(ellipse 70% 46% at 50% 42%, #10141c 0%, #05060a 70%);
+            color: #f3efe6;
+            display: grid;
+            place-items: center;
+            font-family: ui-sans-serif, system-ui, Helvetica, sans-serif;
         }
-        .emblem {
-            width: min(42vw, 168px);
-            height: auto;
+        .frame {
+            position: fixed;
+            inset: 18px;
+            border: 1px solid rgba(224, 196, 154, .2);
+            pointer-events: none;
+        }
+        .tick {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 0 solid rgba(224, 196, 154, .7);
+        }
+        .tick.nw { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+        .tick.ne { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+        .tick.sw { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+        .tick.se { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+        .live {
+            position: fixed;
+            top: 28px;
+            right: 32px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #8fd0d4;
+            box-shadow: 0 0 10px rgba(143, 208, 212, .7);
+            animation: pulse 2.8s ease-in-out infinite;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            text-align: center;
+            padding: 48px 24px 64px;
+        }
+        .seal {
+            width: 92px;
+            height: 92px;
             display: block;
+        }
+        .seal path {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+        }
+        .seal .gold { animation: draw 1.5s cubic-bezier(.22, .61, .36, 1) forwards; }
+        .seal .ice { animation: draw 1.5s cubic-bezier(.22, .61, .36, 1) .28s forwards; }
+        .rule {
+            width: 72px;
+            height: 1px;
+            background: #e0c49a;
+            opacity: .55;
+            transform: scaleX(0);
+            animation: rule .8s ease 1.15s forwards;
+        }
+        h1 {
+            margin: 0;
+            font-family: Syne, ui-sans-serif, sans-serif;
+            font-weight: 800;
+            font-size: clamp(40px, 9vw, 104px);
+            letter-spacing: -.055em;
+            line-height: .86;
+            opacity: 0;
+            animation: fade .7s ease 1.2s forwards;
+        }
+        h1 b {
+            font-weight: 800;
+            color: #e0c49a;
+            font-size: .34em;
+            letter-spacing: .14em;
+            vertical-align: .85em;
+            margin-left: .1em;
         }
         .copy {
             position: fixed;
-            left: 0; right: 0; bottom: 22px;
+            left: 0;
+            right: 0;
+            bottom: 28px;
             margin: 0;
             text-align: center;
-            font: 500 11px/1 ui-sans-serif, system-ui, Helvetica, sans-serif;
+            font-size: 11px;
+            font-weight: 500;
             letter-spacing: .38em;
             text-transform: lowercase;
             color: rgba(224, 196, 154, .42);
         }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+        @keyframes rule { to { transform: scaleX(1); } }
+        @keyframes fade { to { opacity: 1; } }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .25; }
+        }
         @media (max-width: 720px) {
-            .copy { bottom: 16px; letter-spacing: .22em; }
+            .frame { inset: 12px; }
+            .live { top: 22px; right: 24px; }
+            .copy { bottom: 20px; letter-spacing: .22em; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .seal path { stroke-dashoffset: 0; animation: none; }
+            .rule, h1 { transform: none; opacity: 1; animation: none; }
+            .live { animation: none; }
         }
     </style>
 </head>
 <body>
-    <svg class="emblem" viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M6 24c4-9 7-14 10-16 3 2 6 7 10 16" fill="none" stroke="#e0c49a" stroke-width="1.6" stroke-linecap="round"/>
-        <path d="M8 20c3.2-4.8 5.4-7.2 8-8.4 2.6 1.2 4.8 3.6 8 8.4" fill="none" stroke="#8fd0d4" stroke-width="1" opacity=".7"/>
-    </svg>
+    <div class="frame" aria-hidden="true">
+        <span class="tick nw"></span>
+        <span class="tick ne"></span>
+        <span class="tick sw"></span>
+        <span class="tick se"></span>
+    </div>
+    <span class="live" aria-hidden="true"></span>
+    <main>
+        <svg class="seal" viewBox="0 0 32 32" aria-hidden="true">
+            <path class="gold" pathLength="1" d="M6 24c4-9 7-14 10-16 3 2 6 7 10 16" fill="none" stroke="#e0c49a" stroke-width="1.6" stroke-linecap="round"/>
+            <path class="ice" pathLength="1" d="M8 20c3.2-4.8 5.4-7.2 8-8.4 2.6 1.2 4.8 3.6 8 8.4" fill="none" stroke="#8fd0d4" stroke-width="1" opacity=".7"/>
+        </svg>
+        <i class="rule" aria-hidden="true"></i>
+        <h1>CHYPULIS<b>.TOP</b></h1>
+    </main>
     <p class="copy">chypulis.top © 2026</p>
 </body>
 </html>
