@@ -1,0 +1,19 @@
+---
+description: Deploy static prototypes to chypulis.top via git push
+alwaysApply: true
+---
+
+# Deploy to chypulis.top
+
+This repo ships static HTML to FTP on push to `main`. Do not invent a new host or upload method.
+
+| Folder | Live URL |
+|---|---|
+| `domain/` | https://chypulis.top/ |
+| `presentation/` | https://chypulis.top/fgg-presentation/ |
+| `yachts/` | https://chypulis.top/fgg-yachts/ |
+| `planes/` | https://chypulis.top/fgg-planes/ |
+
+After HTML or asset edits: commit, push `main`, then confirm the matching GitHub Actions deploy job. Workflows live in `.github/workflows/deploy-*.yml`. Secrets are already on the GitHub repo (`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`).
+
+Never commit FTP passwords. Local `*.py` helpers are gitignored. Skip `venv/`, PDFs, and generator scripts on deploy.

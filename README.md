@@ -1,29 +1,39 @@
 # FGG Dashboard Proto
 
-## 🌐 URLs
+Static prototypes for First Group Group. Push to `main` uploads the matching folder to [chypulis.top](https://chypulis.top/).
+
+## Live URLs
 
 | Страница | URL |
 |---|---|
-| Лэндинг (RU) | http://fgg-yachts.my.s29.hhos.net/planes/landing.html |
-| Лэндинг (EN) | http://fgg-yachts.my.s29.hhos.net/planes/landing_en.html |
-| Дашборд | http://fgg-yachts.my.s29.hhos.net/planes/dashboard.html |
+| Домен | https://chypulis.top/ |
+| Презентация (RU) | https://chypulis.top/fgg-presentation/ |
+| Презентация (EN) | https://chypulis.top/fgg-presentation/en.html |
+| Яхты — навигация | https://chypulis.top/fgg-yachts/ |
+| Яхты — дашборд | https://chypulis.top/fgg-yachts/dashboard.html |
+| Яхты — лендинг (RU) | https://chypulis.top/fgg-yachts/landing.html |
+| Яхты — лендинг (EN) | https://chypulis.top/fgg-yachts/landing_en.html |
+| Самолёты — лендинг (RU) | https://chypulis.top/fgg-planes/ |
+| Самолёты — лендинг (EN) | https://chypulis.top/fgg-planes/landing_en.html |
+| Самолёты — дашборд | https://chypulis.top/fgg-planes/dashboard.html |
 
-## 📡 FTP
-
-| Параметр | Значение |
-|---|---|
-| Host | ftp29.nska.net |
-| User | inpix |
-| Remote dir | /domains/fgg-yachts.my/public_html |
-
-## 🚀 Деплой
+## Деплой
 
 ```bash
-python3 upload_fgg.py
+git add -A
+git commit -m "Describe the change"
+git push origin main
 ```
 
-Скрипт загружает:
-- `planes/dashboard.html`
-- `planes/landing.html`
-- `planes/landing_en.html`
-- `planes/g550photo/` (все фото)
+GitHub Actions выгружает только затронутую папку:
+
+| Локальная папка | Директория на FTP |
+|---|---|
+| `domain/` | `/` (корень домена) |
+| `presentation/` | `/fgg-presentation/` |
+| `yachts/` | `/fgg-yachts/` |
+| `planes/` | `/fgg-planes/` |
+
+Ручной повтор: GitHub → Actions → нужный workflow → Run workflow.
+
+FTP-секреты лежат в GitHub (`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`). Пароли в репозиторий не коммитить.

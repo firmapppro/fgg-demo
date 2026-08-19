@@ -1,0 +1,33 @@
+name: Deploy yachts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "yachts/**"
+      - ".github/workflows/deploy-yachts.yml"
+  workflow_dispatch:
+
+jobs:
+  ftp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload yachts to chypulis.top
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./yachts/
+          server-dir: /fgg-yachts/
+          protocol: ftp
+          timeout: 60000
+          exclude: |
+            **/.DS_Store
+            **/*.pdf
+            **/*.py
+            **/venv/**
+            **/scratch/**
+            **/scripts/**
+            **/PDF/**

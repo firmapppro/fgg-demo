@@ -1,0 +1,27 @@
+name: Deploy planes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "planes/**"
+      - ".github/workflows/deploy-planes.yml"
+  workflow_dispatch:
+
+jobs:
+  ftp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload planes to chypulis.top
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./planes/
+          server-dir: /fgg-planes/
+          protocol: ftp
+          exclude: |
+            **/.DS_Store
+            **/*.py
