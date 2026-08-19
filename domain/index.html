@@ -6,269 +6,106 @@
     <title>CHYPULIS.TOP</title>
     <meta name="description" content="CHYPULIS.TOP">
     <meta name="theme-color" content="#05060a">
+    <meta name="color-scheme" content="dark">
     <meta name="robots" content="noindex">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://chypulis.top/">
     <meta property="og:title" content="CHYPULIS.TOP">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #05060a; --gold: #e0c49a; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; background: var(--bg); overflow: hidden; cursor: none; }
-        canvas {
-            position: fixed; inset: 0; width: 100%; height: 100%;
-            display: block;
+        html, body {
+            height: 100%;
+            background: var(--bg);
+            overflow: hidden;
         }
-        #dust { z-index: 1; }
-        .grain, .vignette {
-            position: fixed; inset: 0; pointer-events: none; z-index: 2;
+        .scene {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: radial-gradient(120% 80% at 70% 28%, #12161f 0%, #05060a 58%);
         }
-        .grain {
-            opacity: .12;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            mix-blend-mode: overlay;
-            animation: grain 1.2s steps(2) infinite;
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+        }
+        .gold {
+            background: radial-gradient(circle at 40% 40%, rgba(224,196,154,.42) 0%, rgba(224,196,154,.12) 38%, transparent 70%);
+        }
+        .ice {
+            background: radial-gradient(circle at 45% 45%, rgba(143,208,212,.28) 0%, rgba(143,208,212,.08) 40%, transparent 70%);
+        }
+        .dusk {
+            background: radial-gradient(circle at 50% 50%, rgba(36,48,62,.7) 0%, transparent 68%);
+        }
+        .a { width: 92vmax; height: 92vmax; top: -28vmax; right: -24vmax; animation: drift-a 42s ease-in-out infinite; }
+        .b { width: 78vmax; height: 78vmax; top: 18vmax; left: -30vmax; animation: drift-b 36s ease-in-out infinite; }
+        .c { width: 56vmax; height: 56vmax; bottom: -18vmax; left: 22vmax; animation: drift-c 48s ease-in-out infinite; }
+        .d { width: 44vmax; height: 44vmax; bottom: 4vmax; right: -8vmax; animation: drift-d 31s ease-in-out infinite; }
+        .e { width: 64vmax; height: 64vmax; top: -10vmax; left: 18vmax; animation: drift-e 54s ease-in-out infinite; }
+        .vignette, .grain {
+            position: fixed; inset: 0; pointer-events: none;
         }
         .vignette {
-            background: radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,.55) 100%);
+            background: radial-gradient(ellipse at center, transparent 44%, rgba(0,0,0,.58) 100%);
         }
-        .cursor {
-            position: fixed; width: 8px; height: 8px; margin: -4px 0 0 -4px;
-            border-radius: 50%; background: var(--gold);
-            pointer-events: none; z-index: 20; mix-blend-mode: difference;
-            transform: translate3d(-100px, -100px, 0);
-        }
-        .cursor-ring {
-            position: fixed; width: 42px; height: 42px; margin: -21px 0 0 -21px;
-            border: 1px solid rgba(224,196,154,.4); border-radius: 50%;
-            pointer-events: none; z-index: 20;
-            transform: translate3d(-100px, -100px, 0);
+        .grain {
+            opacity: .08;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
         .mark {
             position: fixed; left: 0; right: 0; bottom: 22px;
-            z-index: 5; pointer-events: none; text-align: center;
-            font-family: Outfit, system-ui, sans-serif;
+            z-index: 2; pointer-events: none; text-align: center;
+            font-family: ui-sans-serif, system-ui, Helvetica, sans-serif;
             font-weight: 500;
             font-size: 11px;
             letter-spacing: .38em;
             text-transform: lowercase;
             color: rgba(224, 196, 154, .42);
         }
-        @keyframes grain { 0%,100% { transform: translate(0); } 50% { transform: translate(-2%, 1%); } }
-        @media (hover: none), (pointer: coarse) {
-            body { cursor: auto; }
-            .cursor, .cursor-ring { display: none; }
+        @keyframes drift-a {
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(-8%, 6%, 0); }
+        }
+        @keyframes drift-b {
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(10%, -7%, 0); }
+        }
+        @keyframes drift-c {
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(7%, -5%, 0); }
+        }
+        @keyframes drift-d {
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(-9%, -6%, 0); }
+        }
+        @keyframes drift-e {
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(5%, 8%, 0); }
+        }
+        @media (max-width: 720px) {
             .mark { bottom: 16px; letter-spacing: .22em; }
+            .a, .b, .c, .d, .e { animation-duration: 48s; }
         }
         @media (prefers-reduced-motion: reduce) {
-            .grain { animation: none; }
+            .orb { animation: none; }
         }
     </style>
 </head>
 <body>
-    <canvas id="field"></canvas>
-    <canvas id="dust"></canvas>
+    <div class="scene" aria-hidden="true">
+        <i class="orb dusk e"></i>
+        <i class="orb gold a"></i>
+        <i class="orb ice b"></i>
+        <i class="orb gold c"></i>
+        <i class="orb ice d"></i>
+    </div>
     <div class="vignette"></div>
     <div class="grain"></div>
-    <div class="cursor" id="c"></div>
-    <div class="cursor-ring" id="cr"></div>
     <div class="mark">chypulis.top © 2026</div>
-    <script>
-        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const c = document.getElementById('c');
-        const cr = document.getElementById('cr');
-        const silk = document.getElementById('field');
-        const dust = document.getElementById('dust');
-        const pctx = dust.getContext('2d');
-        let mx = .5, my = .42, cx = 0, cy = 0, rx = 0, ry = 0, smx = .5, smy = .42;
-        let gl, prog, uTime, uRes, uMouse, start = performance.now(), particles = [];
-
-        const vs = `
-            attribute vec2 a_pos;
-            void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }
-        `;
-        const fs = `
-            precision highp float;
-            uniform vec2 u_res;
-            uniform vec2 u_mouse;
-            uniform float u_time;
-            float hash(vec2 p){
-                return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
-            }
-            float noise(vec2 p){
-                vec2 i = floor(p);
-                vec2 f = fract(p);
-                vec2 u = f * f * (3.0 - 2.0 * f);
-                return mix(
-                    mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
-                    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
-                    u.y
-                );
-            }
-            float fbm(vec2 p){
-                float v = 0.0;
-                float a = 0.5;
-                for (int i = 0; i < 6; i++) {
-                    v += a * noise(p);
-                    p = p * 2.04 + vec2(1.7, 9.2);
-                    a *= 0.5;
-                }
-                return v;
-            }
-            void main(){
-                vec2 uv = gl_FragCoord.xy / u_res;
-                vec2 p = (gl_FragCoord.xy - 0.5 * u_res) / min(u_res.x, u_res.y);
-                float t = u_time * 0.065;
-                vec2 m = (u_mouse - 0.5) * vec2(u_res.x / u_res.y, 1.0) * 2.0;
-
-                vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2, 1.3) + t * 0.85));
-                vec2 r = vec2(
-                    fbm(p + 3.6 * q + vec2(1.7, 9.2) + t * 0.38 + m * 0.12),
-                    fbm(p + 3.6 * q + vec2(8.3, 2.8) - t * 0.32)
-                );
-                float n = fbm(p + 3.2 * r);
-
-                vec3 ink = vec3(0.020, 0.024, 0.039);
-                vec3 gold = vec3(0.878, 0.769, 0.604);
-                vec3 ice = vec3(0.561, 0.816, 0.831);
-                vec3 dusk = vec3(0.085, 0.11, 0.175);
-
-                vec3 col = mix(ink, dusk, smoothstep(0.18, 0.68, n));
-                col = mix(col, ice * 0.78, pow(clamp(q.x * r.y, 0.0, 1.0), 1.15) * 1.05);
-                col = mix(col, gold, smoothstep(0.42, 0.86, n) * 0.78);
-                col += gold * pow(r.x, 5.5) * 0.62;
-                col += ice * pow(q.y, 4.8) * 0.32;
-
-                float d = length(p - m * 0.38);
-                col += gold * exp(-d * d * 6.0) * 0.38;
-                col += ice * exp(-d * d * 1.7) * 0.12;
-
-                vec2 vc = uv * 2.0 - 1.0;
-                col *= 1.0 - dot(vc, vc) * 0.28;
-                gl_FragColor = vec4(col, 1.0);
-            }
-        `;
-
-        function compile(type, src) {
-            const s = gl.createShader(type);
-            gl.shaderSource(s, src);
-            gl.compileShader(s);
-            return s;
-        }
-
-        function initGL() {
-            gl = silk.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' });
-            if (!gl) return false;
-            prog = gl.createProgram();
-            gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
-            gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
-            gl.linkProgram(prog);
-            if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { gl = null; return false; }
-            gl.useProgram(prog);
-            const buf = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-            const loc = gl.getAttribLocation(prog, 'a_pos');
-            gl.enableVertexAttribArray(loc);
-            gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-            uTime = gl.getUniformLocation(prog, 'u_time');
-            uRes = gl.getUniformLocation(prog, 'u_res');
-            uMouse = gl.getUniformLocation(prog, 'u_mouse');
-            return true;
-        }
-
-        function spawn() {
-            const gold = Math.random() > .38;
-            return {
-                x: Math.random() * innerWidth,
-                y: Math.random() * innerHeight,
-                s: .4 + Math.random() * 1.6,
-                life: .35 + Math.random() * .65,
-                gold
-            };
-        }
-
-        function resize() {
-            const dpr = Math.min(devicePixelRatio || 1, innerWidth < 800 ? 1.25 : 1.75);
-            silk.width = innerWidth * dpr;
-            silk.height = innerHeight * dpr;
-            silk.style.width = innerWidth + 'px';
-            silk.style.height = innerHeight + 'px';
-            if (gl) {
-                gl.viewport(0, 0, silk.width, silk.height);
-                gl.uniform2f(uRes, silk.width, silk.height);
-            }
-            dust.width = innerWidth * Math.min(dpr, 1.5);
-            dust.height = innerHeight * Math.min(dpr, 1.5);
-            dust.style.width = innerWidth + 'px';
-            dust.style.height = innerHeight + 'px';
-            pctx.setTransform(dust.width / innerWidth, 0, 0, dust.height / innerHeight, 0, 0);
-            const n = innerWidth < 720 ? 70 : 120;
-            if (particles.length !== n) {
-                particles = Array.from({ length: n }, spawn);
-            }
-        }
-
-        addEventListener('resize', resize, { passive: true });
-        addEventListener('pointermove', (e) => {
-            mx = e.clientX / innerWidth;
-            my = 1 - e.clientY / innerHeight;
-            cx = e.clientX;
-            cy = e.clientY;
-        }, { passive: true });
-
-        function field(x, y, t) {
-            const nx = x * .0032, ny = y * .0032;
-            return Math.sin(nx + t * .35) + Math.cos(ny - t * .28) + Math.sin((nx - ny) * 1.6 + t * .2);
-        }
-
-        function frame(now) {
-            if (document.hidden) { requestAnimationFrame(frame); return; }
-            const t = reduce ? 0 : (now - start) / 1000;
-            smx += (mx - smx) * .045;
-            smy += (my - smy) * .045;
-
-            if (gl) {
-                gl.uniform1f(uTime, t);
-                gl.uniform2f(uMouse, smx, smy);
-                gl.drawArrays(gl.TRIANGLES, 0, 3);
-            }
-
-            pctx.clearRect(0, 0, innerWidth, innerHeight);
-            pctx.globalCompositeOperation = 'lighter';
-            for (const p of particles) {
-                const a = field(p.x, p.y, t);
-                p.x += Math.cos(a) * (0.35 + p.s * 0.55);
-                p.y += Math.sin(a) * (0.35 + p.s * 0.55);
-                p.life -= 0.0016;
-                if (p.x < -20) p.x = innerWidth + 20;
-                if (p.x > innerWidth + 20) p.x = -20;
-                if (p.y < -20) p.y = innerHeight + 20;
-                if (p.y > innerHeight + 20) p.y = -20;
-                if (p.life <= 0) Object.assign(p, spawn());
-                const alpha = Math.min(p.life, 1) * 0.55;
-                pctx.fillStyle = p.gold
-                    ? `rgba(224,196,154,${alpha})`
-                    : `rgba(143,208,212,${alpha * .8})`;
-                pctx.beginPath();
-                pctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
-                pctx.fill();
-            }
-
-            rx += (cx - rx) * .18;
-            ry += (cy - ry) * .18;
-            c.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-            cr.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
-
-            if (!reduce) requestAnimationFrame(frame);
-        }
-
-        initGL();
-        resize();
-        requestAnimationFrame(frame);
-    </script>
 </body>
 </html>
