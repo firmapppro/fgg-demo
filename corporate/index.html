@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корпоративные и спортивные перелёты — FlightAero</title>
-    <meta name="description" content="Групповые перелёты для корпораций и спортивных команд. FlightAero собирает единый сценарий перевозки: состав, груз, слоты и прибытие по графику.">
+    <title>Корпоративные и спортивные чартерные перелёты — FlightAero</title>
+    <meta name="description" content="Организация групповых чартерных перелётов для компаний и спортивных команд. Подбор воздушного судна, собственный график, оформление пассажиров и сопровождение рейса.">
+    <link rel="canonical" href="https://chypulis.top/corporate/">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ru_RU">
     <meta property="og:url" content="https://chypulis.top/corporate/">
-    <meta property="og:title" content="Корпоративные и спортивные перелёты — FlightAero">
-    <meta property="og:description" content="Групповые перелёты для корпораций и спортивных команд. Единый сценарий перевозки: состав, груз, слоты и график.">
+    <meta property="og:title" content="Корпоративные и спортивные чартерные перелёты — FlightAero">
+    <meta property="og:description" content="Организация групповых чартерных перелётов для компаний и спортивных команд. Подбор воздушного судна, собственный график, оформление пассажиров и сопровождение рейса.">
     <meta property="og:image" content="https://chypulis.top/corporate/images/og.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="800">
@@ -29,7 +30,6 @@
             --color-text-muted: #8A95A8;
             --color-text-heading: #FFFFFF;
             --color-border: rgba(255,255,255,0.08);
-            --color-border-card: rgba(255,255,255,0.06);
             --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
             --max-width: 1280px;
             --section-padding: 96px 0;
@@ -48,7 +48,6 @@
         }
         img { max-width: 100%; height: auto; display: block; }
         a { color: inherit; text-decoration: none; }
-        button { font-family: inherit; }
         .container { max-width: var(--max-width); margin: 0 auto; padding: 0 40px; }
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
@@ -82,12 +81,12 @@
 
         .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
         .hero__bg { position: absolute; inset: 0; z-index: 0; background: #0d1320; }
-        .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 72% 50%; }
+        .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 78% 46%; }
         .hero__bg::after {
             content: ''; position: absolute; inset: 0;
             background:
-                linear-gradient(90deg, rgba(11,15,26,0.94) 0%, rgba(11,15,26,0.78) 42%, rgba(11,15,26,0.28) 72%, rgba(11,15,26,0.45) 100%),
-                linear-gradient(180deg, rgba(11,15,26,0.18) 0%, rgba(11,15,26,0.2) 55%, rgba(11,15,26,0.96) 100%);
+                linear-gradient(90deg, rgba(11,15,26,0.82) 0%, rgba(11,15,26,0.58) 38%, rgba(11,15,26,0.16) 72%, rgba(11,15,26,0.22) 100%),
+                linear-gradient(180deg, rgba(11,15,26,0.08) 0%, rgba(11,15,26,0.1) 58%, rgba(11,15,26,0.78) 100%);
         }
         .hero__content { position: relative; z-index: 2; width: 100%; padding: 140px 0 88px; }
         .hero__logo { margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.1s both; }
@@ -104,50 +103,19 @@
             animation: fadeInUp 0.8s ease-out 0.25s both;
         }
         .hero__subtitle { font-size: 19px; font-weight: 500; color: var(--color-text); margin-bottom: 16px; max-width: 620px; animation: fadeInUp 0.8s ease-out 0.38s both; }
-        .hero__description { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); max-width: 620px; margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.48s both; }
+        .hero__description { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); max-width: 620px; margin-bottom: 32px; animation: fadeInUp 0.8s ease-out 0.48s both; }
         .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.58s both; }
-        .hero__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; animation: fadeInUp 0.8s ease-out 0.68s both; }
-        .chip {
-            font-size: 12px; font-weight: 600; color: var(--color-text);
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 999px; padding: 7px 12px;
-        }
 
-        .exchange { padding: 0 0 72px; background: var(--color-bg); }
-        .exchange__grid {
-            display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: stretch;
-            background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 22px; padding: 32px 36px;
-        }
-        .exchange h3 { font-size: 13px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 16px; }
-        .exchange ul { list-style: none; display: grid; gap: 8px; }
-        .exchange li { position: relative; padding-left: 14px; font-size: 15px; color: var(--color-text); font-weight: 600; }
-        .exchange li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
-        .exchange__arrow {
-            align-self: center; font-size: 22px; font-weight: 700; color: var(--color-accent-light); letter-spacing: -1px;
-        }
-
-        .philosophy { padding: var(--section-padding); background: var(--color-bg-section); }
+        .philosophy { padding: var(--section-padding); background: var(--color-bg); }
         .philosophy__inner { max-width: 760px; margin: 0 auto; }
         .philosophy__text { font-size: 17px; line-height: 1.75; color: var(--color-text-muted); margin-top: 8px; }
         .philosophy__text p { margin-bottom: 16px; }
         .philosophy__close {
-            margin-top: 24px; font-size: 20px; font-weight: 700; color: var(--color-text-heading);
+            margin-top: 28px; font-size: 20px; font-weight: 700; color: var(--color-text-heading);
             border-left: 3px solid var(--color-accent); padding-left: 20px; line-height: 1.4;
         }
-        .io { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
-        .io__col {
-            background: var(--color-bg-card); border: 1px solid var(--color-border);
-            border-radius: 16px; padding: 22px 22px 24px;
-        }
-        .io__who {
-            font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--color-accent-light); margin-bottom: 14px;
-        }
-        .io ul { list-style: none; display: grid; gap: 8px; }
-        .io li { position: relative; padding-left: 14px; font-size: 15px; color: var(--color-text); font-weight: 600; line-height: 1.4; }
-        .io li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
 
-        .audiences { padding: var(--section-padding); background: var(--color-bg); }
+        .audiences { padding: var(--section-padding); background: var(--color-bg-section); }
         .audiences__header { max-width: 760px; margin-bottom: 40px; }
         .audiences__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
         .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -159,13 +127,14 @@
         .audience__photo img { width: 100%; height: 100%; object-fit: cover; }
         .audience__body { padding: 28px 28px 32px; }
         .audience__type { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 12px; }
-        .audience h3 { font-size: 24px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 14px; }
+        .audience h3 { font-size: 22px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 14px; line-height: 1.25; }
         .audience p { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 18px; }
         .audience ul { list-style: none; display: grid; gap: 8px; }
         .audience li { position: relative; padding-left: 14px; font-size: 14px; color: var(--color-text); font-weight: 600; line-height: 1.45; }
         .audience li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
+        .audience__note { margin-top: 18px; font-size: 13px; color: var(--color-text-muted); line-height: 1.55; }
 
-        .event { padding: var(--section-padding); background: var(--color-bg-section); }
+        .event { padding: var(--section-padding); background: var(--color-bg); }
         .event__header { max-width: 760px; margin-bottom: 48px; }
         .event__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
         .timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
@@ -176,18 +145,19 @@
         .t-step__num { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: var(--color-accent); margin-bottom: 12px; }
         .t-step__title { font-size: 16px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
         .t-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
-        .outcome {
-            margin-top: 28px; background: var(--color-bg-card); border: 1px solid var(--color-border);
-            border-radius: 18px; padding: 24px 28px;
-        }
-        .outcome h3 { font-size: 13px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 14px; }
-        .outcome ul { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-        .outcome li { font-size: 14px; font-weight: 600; color: var(--color-text); line-height: 1.4; padding-left: 14px; position: relative; }
-        .outcome li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
-        .event__photo { margin-top: 28px; border-radius: 22px; overflow: hidden; height: 380px; border: 1px solid var(--color-border); }
-        .event__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
 
-        .fleet { padding: var(--section-padding); background: var(--color-bg); }
+        .result {
+            margin-top: 28px; background: #1a2338; border: 1px solid var(--color-border);
+            border-radius: 20px; overflow: hidden;
+        }
+        .result__kicker { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-accent-light); padding: 22px 26px 0; }
+        .result__grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+        .result__col { padding: 18px 26px 30px; }
+        .result__col + .result__col { border-left: 1px solid var(--color-border); }
+        .result__title { font-size: 19px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
+        .result__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.5; }
+
+        .fleet { padding: var(--section-padding); background: var(--color-bg-section); }
         .fleet__header { max-width: 760px; margin-bottom: 40px; }
         .fleet__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
         .corridors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -208,13 +178,13 @@
             padding-left: 20px; line-height: 1.45;
         }
 
-        .case-study { padding: var(--section-padding); background: var(--color-bg-section); }
+        .case-study { padding: var(--section-padding); background: var(--color-bg); }
         .case__header { max-width: 760px; margin: 0 auto 48px; text-align: center; }
         .case__lead { font-size: 17px; color: var(--color-text-muted); line-height: 1.6; max-width: 640px; margin: 0 auto; }
         .cases { display: flex; flex-direction: column; gap: 28px; }
         .case {
             display: grid; grid-template-columns: 0.92fr 1.08fr;
-            background: var(--color-bg-card); border: 1px solid var(--color-border-card);
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
             border-radius: var(--radius-lg); overflow: hidden; min-height: 360px;
         }
         .case--flip { grid-template-columns: 1.08fr 0.92fr; }
@@ -243,10 +213,10 @@
         .case__why-label { font-size: 11px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 6px; }
         .case__why p { font-size: 14px; color: var(--color-text); line-height: 1.5; margin: 0; }
 
-        .why { padding: var(--section-padding); background: var(--color-bg); }
+        .why { padding: var(--section-padding); background: var(--color-bg-section); }
         .why__header { max-width: 760px; margin-bottom: 40px; }
         .why__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
-        .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
         .why-card {
             background: var(--color-bg-card); border: 1px solid var(--color-border);
             border-radius: 18px; padding: 24px 22px 26px;
@@ -255,15 +225,21 @@
         .why-card h3 { font-size: 17px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
         .why-card p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
 
-        .proof { padding: var(--section-padding); background: var(--color-bg-section); }
-        .proof__header { max-width: 760px; margin-bottom: 40px; }
-        .proof__body { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; margin-bottom: 24px; }
-        .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
-        .proof__photo { border-radius: 20px; overflow: hidden; min-height: 280px; border: 1px solid var(--color-border); }
-        .proof__photo img { width: 100%; height: 100%; object-fit: cover; }
-        .markers {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+        .digital {
+            background: #1a2338; border: 1px solid var(--color-border); border-radius: 20px; padding: 28px 28px 30px;
         }
+        .digital__kicker { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 20px; }
+        .digital__grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+        .digital__item { padding-right: 24px; }
+        .digital__item + .digital__item { padding-left: 24px; border-left: 1px solid var(--color-border); }
+        .digital__item h3 { font-size: 16px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; }
+        .digital__item p { font-size: 14px; color: var(--color-text-muted); line-height: 1.5; }
+
+        .proof { padding: var(--section-padding); background: var(--color-bg); }
+        .proof__header { max-width: 760px; margin-bottom: 28px; }
+        .proof__copy { max-width: 760px; margin-bottom: 32px; }
+        .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
+        .markers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
         .marker {
             background: var(--color-bg-card); border: 1px solid var(--color-border);
             border-radius: 16px; padding: 20px 18px 22px;
@@ -274,8 +250,7 @@
         .cta { padding: var(--section-padding); background: linear-gradient(135deg, rgba(42,129,175,0.12) 0%, rgba(11,15,26,1) 55%); text-align: center; }
         .cta__text { font-size: 17px; color: var(--color-text-muted); max-width: 640px; margin: 0 auto 28px; line-height: 1.65; }
         .cta__actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .cta__hint { margin-top: 18px; font-size: 14px; color: var(--color-text-muted); }
-        .cta__phone { margin-top: 10px; font-size: 14px; color: var(--color-text-muted); }
+        .cta__phone { margin-top: 18px; font-size: 14px; color: var(--color-text-muted); }
         .cta__phone a { color: var(--color-text); font-weight: 600; }
 
         .footer { padding: 32px 0; border-top: 1px solid var(--color-border); background: var(--color-bg); }
@@ -287,56 +262,24 @@
 
         @media (max-width: 1024px) {
             :root { --section-padding: 80px 0; }
-            .exchange__grid, .io, .audience-grid, .proof__body, .why-grid, .case, .case--flip { grid-template-columns: 1fr; }
-            .exchange__arrow { transform: rotate(90deg); justify-self: center; }
+            .audience-grid, .why-grid, .case, .case--flip, .result__grid, .digital__grid { grid-template-columns: 1fr; }
             .case--flip .case__visual { order: 0; }
             .timeline { grid-template-columns: 1fr 1fr; }
-            .outcome ul, .markers { grid-template-columns: 1fr 1fr; }
+            .markers { grid-template-columns: 1fr 1fr; }
             .corridors { grid-template-columns: 1fr; }
             .case__visual { min-height: 260px; }
             .case__content { padding: 28px; }
-            .event__photo { height: 240px; }
-            .hero__bg img { object-position: 80% 50%; }
+            .result__col + .result__col, .digital__item + .digital__item { border-left: 0; border-top: 1px solid var(--color-border); padding-left: 26px; }
+            .digital__item { padding-right: 0; padding-top: 16px; padding-bottom: 16px; }
+            .hero__bg img { object-position: 70% 50%; }
         }
         @media (max-width: 640px) {
             :root { --section-padding: 64px 0; }
             .container { padding: 0 20px; }
-            .timeline, .markers, .outcome ul { grid-template-columns: 1fr; }
+            .timeline, .markers { grid-template-columns: 1fr; }
             .hero__actions, .cta__actions { flex-direction: column; align-items: stretch; }
             .footer__inner { flex-direction: column; text-align: center; }
             .footer__links { justify-content: center; }
-        }
-
-        @media print {
-            :root { --section-padding: 28px 0; }
-            html { scroll-behavior: auto; }
-            body {
-                background: #fff; color: #1a2332; overflow: visible;
-                -webkit-print-color-adjust: exact; print-color-adjust: exact;
-            }
-            .lang-switcher, .no-print { display: none !important; }
-            .container { max-width: none; padding: 0 16mm; }
-            .hero { min-height: 0; page-break-after: always; }
-            .hero__bg::after { background: linear-gradient(90deg, rgba(11,15,26,0.82), rgba(11,15,26,0.35)); }
-            .hero__content { padding: 10mm 0 8mm; }
-            .hero__headline, .section-title, .philosophy__close, .fleet__note, .case__scenario, .audience h3, .corridor h3, .why-card h3, .marker__val, .brand__name, .exchange h3, .outcome h3 {
-                color: #0B0F1A;
-            }
-            .hero__subtitle, .hero__description, .philosophy__text, .audiences__header p, .event__header p, .fleet__header p, .case__lead, .case__text, .why__header p, .proof__copy p, .cta__text, .t-step__desc, .corridor p, .audience p, .why-card p, .marker__label, .footer__copy, .footer__link, .cta__hint {
-                color: #445066;
-            }
-            .section-label, .hero__kicker, .audience__type, .t-step__num, .corridor__range, .case__tag, .why-card__num, .io__who {
-                color: #1f6a94;
-            }
-            .exchange, .philosophy, .audiences, .event, .fleet, .case-study, .why, .proof, .cta, .footer {
-                background: #fff; page-break-after: always;
-            }
-            .cta, .footer { page-break-after: auto; }
-            .exchange__grid, .io__col, .audience, .t-step, .corridor, .case, .why-card, .marker, .outcome {
-                background: #f4f7fb; border-color: #d8dee8; break-inside: avoid;
-            }
-            .animate-on-scroll { opacity: 1; transform: none; }
-            a { color: inherit; }
         }
     </style>
 </head>
@@ -348,7 +291,7 @@
 
     <section class="hero">
         <div class="hero__bg">
-            <img src="images/hero.jpg" alt="Группа пассажиров на перроне направляется к чартерному борту">
+            <img src="images/hero.jpg" alt="Корпоративная группа направляется к чартерному авиалайнеру">
         </div>
         <div class="hero__content">
             <div class="container">
@@ -363,47 +306,14 @@
                     </div>
                 </div>
                 <p class="hero__kicker">FlightAero · Group travel</p>
-                <h1 class="hero__headline">Событие должно состояться.<br>Мы доставляем группу к этой минуте.</h1>
-                <p class="hero__subtitle">Корпоративные и спортивные перелёты, построенные вокруг расписания, состава и груза — а не вокруг случайно найденного борта.</p>
+                <h1 class="hero__headline">Группа должна быть на месте вовремя.<br>Мы выстраиваем перелёт под ваше расписание.</h1>
+                <p class="hero__subtitle">Корпоративные и спортивные чартерные перелёты для групп, которым важны собственный график, единый рейс и предсказуемое выполнение.</p>
                 <p class="hero__description">
-                    Вы задаёте маршрут, дату, численность группы, объём груза и окно прибытия. Мы собираем решение целиком: тип воздушного судна, слоты, наземное обслуживание, трансфер и выполнение по графику. Клиент получает единый сценарий перевозки и одну команду ответственности.
+                    Вы задаёте маршрут, даты, состав группы и время, к которому необходимо прибыть. FlightAero подбирает подходящий тип воздушного судна, проверяет доступность, аэропорты, слоты и условия выполнения рейса и предлагает готовый вариант организации перелёта.
                 </p>
                 <div class="hero__actions">
-                    <a href="mailto:info@flightaero.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D1%83" class="btn btn--primary">Обсудить задачу</a>
+                    <a href="mailto:sales@flightaero.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D0%B5%D1%80%D0%B5%D0%BB%D1%91%D1%82" class="btn btn--primary">Обсудить перелёт</a>
                     <a href="https://flightaero.ru" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">flightaero.ru</a>
-                    <button type="button" class="btn btn--ghost no-print" onclick="window.print()">Версия для печати</button>
-                </div>
-                <div class="hero__chips">
-                    <span class="chip">8–180 пассажиров</span>
-                    <span class="chip">Корпорации и спортивные команды</span>
-                    <span class="chip">Москва</span>
-                    <span class="chip">24/7 координация</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="exchange">
-        <div class="container">
-            <div class="exchange__grid animate-on-scroll">
-                <div>
-                    <h3>Вы присылаете</h3>
-                    <ul>
-                        <li>Маршрут</li>
-                        <li>Даты</li>
-                        <li>Состав группы</li>
-                        <li>Окно прибытия</li>
-                    </ul>
-                </div>
-                <div class="exchange__arrow" aria-hidden="true">→</div>
-                <div>
-                    <h3>Мы возвращаем</h3>
-                    <ul>
-                        <li>Рекомендуемый сценарий</li>
-                        <li>Тип борта или связку бортов</li>
-                        <li>График</li>
-                        <li>Расчёт стоимости</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -413,34 +323,12 @@
         <div class="container">
             <div class="philosophy__inner animate-on-scroll">
                 <div class="section-label">Наш подход</div>
-                <h2 class="section-title">Групповой перелёт — это управляемая логистика, а не поиск свободного борта.</h2>
+                <h2 class="section-title">Групповой чартер начинается с задачи, а не с поиска самолёта.</h2>
                 <div class="philosophy__text">
-                    <p>Для групповой поездки недостаточно назвать цену на найденный самолёт. Нужно, чтобы сошлись состав, график, объём груза, наземная логистика и окно прибытия.</p>
-                    <p>FlightAero собирает это как единый операционный сценарий: от брифа до прилёта и передачи группы на землю.</p>
+                    <p>Для групповой поездки недостаточно найти свободный борт и назвать цену. Нужно учитывать маршрут, численность пассажиров, время вылета и прибытия, доступность аэропортов и требования к самому рейсу.</p>
+                    <p>FlightAero сначала формирует подходящий сценарий перелёта, а затем подбирает под него воздушное судно и оператора.</p>
                 </div>
-                <p class="philosophy__close">Мы собираем перелёт как управляемый сценарий — с одной логикой, одной командой и одной ответственностью.</p>
-                <div class="io">
-                    <div class="io__col">
-                        <div class="io__who">Вы даёте</div>
-                        <ul>
-                            <li>Маршрут</li>
-                            <li>Даты</li>
-                            <li>Состав</li>
-                            <li>Груз</li>
-                            <li>Окно прибытия</li>
-                        </ul>
-                    </div>
-                    <div class="io__col">
-                        <div class="io__who">Мы возвращаем</div>
-                        <ul>
-                            <li>Сценарий перевозки</li>
-                            <li>Тип борта</li>
-                            <li>Слоты</li>
-                            <li>Наземную логистику</li>
-                            <li>Бюджет и ответственного</li>
-                        </ul>
-                    </div>
-                </div>
+                <p class="philosophy__close">Один запрос. Один согласованный сценарий. Одна команда FlightAero.</p>
             </div>
         </div>
     </section>
@@ -449,8 +337,8 @@
         <div class="container">
             <div class="audiences__header animate-on-scroll">
                 <div class="section-label">Для кого</div>
-                <h2 class="section-title">Один операционный стандарт.<br>Два типа задач.</h2>
-                <p>Один контур координации. Разная логика дня: закрытый корпоративный график и фиксированное окно спортивного матча.</p>
+                <h2 class="section-title">Один стандарт организации.<br>Два типа задач.</h2>
+                <p>Одна команда сопровождения. Разная логика дня: закрытый корпоративный график или фиксированное время спортивного матча.</p>
             </div>
             <div class="audience-grid">
                 <article class="audience animate-on-scroll">
@@ -459,12 +347,12 @@
                     </div>
                     <div class="audience__body">
                         <div class="audience__type">Корпорации</div>
-                        <h3>Штаб, совет, roadshow</h3>
-                        <p>Советы директоров, проектные команды, roadshow, закрытые форумы и выездные стратегические сессии. Для таких задач важны конфиденциальность, предсказуемый график, возможность работать в пути и единый контур организации.</p>
+                        <h3>Советы директоров, проектные команды, roadshow</h3>
+                        <p>Советы директоров, проектные команды, корпоративные мероприятия, roadshow и выездные стратегические сессии. Здесь важны собственный график, конфиденциальность, удобные аэропорты и возможность собрать всю группу на одном рейсе.</p>
                         <ul>
-                            <li>Отдельный или выделенный контур обслуживания</li>
-                            <li>Одна группа, один манифест, один график</li>
-                            <li>Возможность вылета и возврата в тот же день</li>
+                            <li>Единый рейс для всей группы</li>
+                            <li>Собственный график вылета и возврата</li>
+                            <li>Доступ в VIP-терминалы там, где он предусмотрен</li>
                         </ul>
                     </div>
                 </article>
@@ -475,12 +363,13 @@
                     <div class="audience__body">
                         <div class="audience__type">Спорт</div>
                         <h3>Клубы, сборные, турниры</h3>
-                        <p>Клубы, сборные, академии и организаторы турниров. Здесь важно удержать единый контур: состав, тренерский штаб, медицинский блок, экипировку и окно прибытия к тренировке или матчу. Первый рынок — российские команды и спортивные организации; стандарт сервиса масштабируется под более крупные спортивные события.</p>
+                        <p>Спортивные клубы, сборные, академии и организаторы турниров. Перелёт строится вокруг календаря команды: матча, тренировочного сбора или серии выездов. Вся группа летит по единому расписанию, без зависимости от доступности мест на регулярных рейсах.</p>
                         <ul>
-                            <li>Группа, штаб и экипировка как одна задача</li>
-                            <li>Фиксированное окно прибытия к игре или сбору</li>
-                            <li>Координация трансфера и наземной логистики</li>
+                            <li>Команда и сопровождающий персонал одним рейсом</li>
+                            <li>Время вылета и прибытия под спортивный календарь</li>
+                            <li>Возможность организовать серию перелётов на несколько выездов</li>
                         </ul>
+                        <p class="audience__note">Первый фокус — российские клубы и спортивные организации. Архитектура сервиса рассчитана на дальнейшее масштабирование под международные соревнования.</p>
                     </div>
                 </article>
             </div>
@@ -491,49 +380,53 @@
         <div class="container">
             <div class="event__header animate-on-scroll">
                 <div class="section-label">Как мы работаем</div>
-                <h2 class="section-title">Перелёт строится как операционный сценарий.</h2>
-                <p>Стоимость важна, но она следует за логикой дня. Мы сравниваем варианты по графику, составу, грузу, земле и закрытости контура — затем фиксируем исполнимый сценарий.</p>
+                <h2 class="section-title">От запроса до подтверждённого рейса.</h2>
+                <p>Мы сравниваем варианты не только по стоимости. Важны график группы, аэропорты, доступность подходящего борта и возможность выполнить рейс в нужное время.</p>
             </div>
             <div class="timeline animate-on-scroll">
                 <article class="t-step">
                     <div class="t-step__num">01</div>
-                    <h3 class="t-step__title">Бриф задачи</h3>
-                    <p class="t-step__desc">Даты, города, численность, груз, жёсткое окно прибытия. Клиент формулирует, что должно произойти на земле.</p>
+                    <h3 class="t-step__title">Бриф поездки</h3>
+                    <p class="t-step__desc">Маршрут, даты, количество пассажиров и желаемое время вылета или прибытия.</p>
                 </article>
                 <article class="t-step">
                     <div class="t-step__num">02</div>
-                    <h3 class="t-step__title">Архитектура перевозки</h3>
-                    <p class="t-step__desc">Один борт или связка. Штаб отдельно от основной группы, если так точнее по графику и спокойнее по контуру.</p>
+                    <h3 class="t-step__title">Подбор сценария</h3>
+                    <p class="t-step__desc">Определяем подходящий класс воздушного судна, аэропорты и при необходимости рассматриваем несколько бортов для одной группы.</p>
                 </article>
                 <article class="t-step">
                     <div class="t-step__num">03</div>
-                    <h3 class="t-step__title">Слоты и разрешения</h3>
-                    <p class="t-step__desc">Аэропорты, окна, груз, оборудование. Без этого найденный борт ещё не является выполненным рейсом.</p>
+                    <h3 class="t-step__title">Доступность и условия</h3>
+                    <p class="t-step__desc">Проверяем доступные борта, операторов, слоты, разрешения и фактические условия выполнения рейса.</p>
                 </article>
                 <article class="t-step">
                     <div class="t-step__num">04</div>
-                    <h3 class="t-step__title">День вылета</h3>
-                    <p class="t-step__desc">Группа идёт одним потоком: единый манифест, выделенный контур обслуживания, понятный тайминг посадки.</p>
+                    <h3 class="t-step__title">Пассажиры и оформление</h3>
+                    <p class="t-step__desc">Формируем список пассажиров, собираем необходимые данные и готовим рейс к выполнению.</p>
                 </article>
                 <article class="t-step">
                     <div class="t-step__num">05</div>
-                    <h3 class="t-step__title">Прилёт и земля</h3>
-                    <p class="t-step__desc">Трансфер, отель, следующий матч или слот. Поездка закрывается передачей группы на земле, а не посадкой шасси.</p>
+                    <h3 class="t-step__title">Сопровождение рейса</h3>
+                    <p class="t-step__desc">Клиент получает подтверждение и актуальный статус. При изменениях команда FlightAero координирует решение до выполнения рейса.</p>
                 </article>
             </div>
-            <div class="outcome animate-on-scroll">
-                <h3>На выходе клиент получает</h3>
-                <ul>
-                    <li>Рекомендуемый сценарий</li>
-                    <li>Состав перевозки и тип борта</li>
-                    <li>График</li>
-                    <li>Ground-handling и трансфер</li>
-                    <li>Понятную стоимость</li>
-                </ul>
+            <div class="result animate-on-scroll">
+                <div class="result__kicker">Результат</div>
+                <div class="result__grid">
+                    <div class="result__col">
+                        <h3 class="result__title">Сценарий рейса</h3>
+                        <p class="result__desc">Подходящий тип борта и маршрут</p>
+                    </div>
+                    <div class="result__col">
+                        <h3 class="result__title">Зафиксированный график</h3>
+                        <p class="result__desc">Время, аэропорты, последовательность</p>
+                    </div>
+                    <div class="result__col">
+                        <h3 class="result__title">Коммерческое предложение</h3>
+                        <p class="result__desc">Стоимость и условия выполнения</p>
+                    </div>
+                </div>
             </div>
-            <figure class="event__photo animate-on-scroll">
-                <img src="images/event-ops.jpg" loading="lazy" decoding="async" alt="Координация группового рейса в операционном контуре">
-            </figure>
         </div>
     </section>
 
@@ -541,45 +434,45 @@
         <div class="container">
             <div class="fleet__header animate-on-scroll">
                 <div class="section-label">Воздушное судно</div>
-                <h2 class="section-title">Сначала численность и груз.<br>Потом воздушное судно.</h2>
-                <p>Класс борта следует из задачи: вместимость, дальность и возможность принять группу одним потоком. Ниже — три рабочих коридора, без каталога моделей.</p>
+                <h2 class="section-title">Сначала задача и численность.<br>Потом воздушное судно.</h2>
+                <p>FlightAero работает не с одним классом самолётов. В зависимости от размера группы, маршрута и графика решение может начинаться с бизнес-джета и доходить до пассажирского авиалайнера.</p>
             </div>
             <div class="corridors animate-on-scroll">
                 <article class="corridor">
                     <div class="corridor__photo">
-                        <img src="images/fleet-small.jpg" loading="lazy" decoding="async" alt="Бизнес-джет для штаба 8–19 пассажиров">
+                        <img src="images/fleet-small.jpg" loading="lazy" decoding="async" alt="Бизнес-джет для небольшой группы">
                     </div>
                     <div class="corridor__body">
-                        <div class="corridor__range">8–19 человек</div>
-                        <h3>Штаб</h3>
-                        <p class="corridor__type">Business jet / super midsize / VIP-конфигурация</p>
-                        <p>Небольшая делегация или выделенная VIP-подгруппа. Нужны скорость решения, закрытость и возможность работать в полёте.</p>
+                        <div class="corridor__range">До 19 человек</div>
+                        <h3>Небольшая группа</h3>
+                        <p class="corridor__type">Бизнес-джеты и VIP-конфигурации</p>
+                        <p>Руководители, небольшая проектная команда или делегация. Приоритет — гибкость расписания, комфорт и удобные аэропорты.</p>
                     </div>
                 </article>
                 <article class="corridor">
                     <div class="corridor__photo">
-                        <img src="images/fleet-medium.jpg" loading="lazy" decoding="async" alt="Самолёт для делегации 20–50 пассажиров">
+                        <img src="images/fleet-medium.jpg" loading="lazy" decoding="async" alt="Региональный самолёт для делегации">
                     </div>
                     <div class="corridor__body">
                         <div class="corridor__range">20–50 человек</div>
                         <h3>Делегация</h3>
-                        <p class="corridor__type">Larger group aircraft / regional jet / VIP airliner</p>
-                        <p>Проектная команда, совет с аппаратом, клубный штаб. Один борт, единый манифест, предсказуемая посадка и высадка.</p>
+                        <p class="corridor__type">Региональные самолёты и VIP-лайнеры</p>
+                        <p>Корпоративная или спортивная группа, которой удобнее лететь одним рейсом и по собственному расписанию.</p>
                     </div>
                 </article>
                 <article class="corridor">
                     <div class="corridor__photo">
-                        <img src="images/fleet-large.jpg" loading="lazy" decoding="async" alt="Узкофюзеляжный чартер для полной группы">
+                        <img src="images/fleet-large.jpg" loading="lazy" decoding="async" alt="Пассажирский авиалайнер для крупной группы">
                     </div>
                     <div class="corridor__body">
-                        <div class="corridor__range">50–180 человек</div>
-                        <h3>Полный состав</h3>
-                        <p class="corridor__type">Узкофюзеляжный чартер</p>
-                        <p>Команда, персонал и груз на одном рейсе. Отдельная перевозка под календарь матча, сбора или корпоративной программы.</p>
+                        <div class="corridor__range">50+ человек</div>
+                        <h3>Крупная группа</h3>
+                        <p class="corridor__type">Пассажирские авиалайнеры</p>
+                        <p>Для больших корпоративных групп, спортивных команд и организованных выездов подбирается воздушное судно необходимой вместимости — без искусственного верхнего лимита по численности.</p>
                     </div>
                 </article>
             </div>
-            <p class="fleet__note animate-on-scroll">VIP-подгруппа и основная группа могут лететь разными бортами в рамках одной задачи. Это штатный сценарий, одна координация.</p>
+            <p class="fleet__note animate-on-scroll">При необходимости руководители и основная группа могут лететь разными воздушными судами в рамках одного запроса и единого графика.</p>
         </div>
     </section>
 
@@ -587,12 +480,12 @@
         <div class="container">
             <div class="case__header animate-on-scroll">
                 <h2 class="section-title">Сначала задача.<br>Потом борт.</h2>
-                <p class="case__lead">Самолёт — инструмент. Маршрут, численность, груз и минута прибытия задают, какой сценарий мы собираем.</p>
+                <p class="case__lead">Самолёт — инструмент. Маршрут, численность и время прибытия задают, какой вариант перелёта мы собираем.</p>
             </div>
             <div class="cases">
                 <article class="case animate-on-scroll">
                     <div class="case__visual">
-                        <img src="images/case-corporate.jpg" loading="lazy" decoding="async" alt="Корпоративная группа на перроне утром">
+                        <img src="images/case-corporate.jpg" loading="lazy" decoding="async" alt="Корпоративная группа утром направляется к чартерному борту">
                         <div class="case__visual-overlay">
                             <div class="case__tag">Сценарий 01</div>
                             <h3>Корпорация</h3>
@@ -605,7 +498,7 @@
                     </div>
                     <div class="case__content">
                         <p class="case__scenario">Утренний вылет, совет директоров после обеда, возврат группы вечером.</p>
-                        <p class="case__text">Для клиента важен точный день: близость аэропорта к точке встречи, возможность работать в салоне, быстрый проход терминала и возврат по графику.</p>
+                        <p class="case__text">Для клиента важен точный день: подходящий аэропорт и удобное предполётное обслуживание, возможность работать в салоне и возврат по графику.</p>
                         <div class="case__why">
                             <div class="case__why-label">Почему такой сценарий</div>
                             <p>Перелёт встроен в деловую повестку. Тип борта следует из численности и окна возврата, а не из витрины моделей.</p>
@@ -615,22 +508,22 @@
 
                 <article class="case case--flip animate-on-scroll">
                     <div class="case__content">
-                        <p class="case__scenario">Вечерний матч. Команда, штаб, медицинский блок и экипировка должны быть в городе к фиксированному окну.</p>
-                        <p class="case__text">42 пассажира и около 2 тонн груза. Единый поток без смешения с болельщиками и прессой, синхронный наземный трансфер к месту размещения.</p>
+                        <p class="case__scenario">Вечерний матч. Команда, тренерский и медицинский персонал должны прибыть в город к фиксированному времени.</p>
+                        <p class="case__text">42 пассажира летят единым рейсом по расписанию команды. При подборе борта учитываются состав группы, маршрут, длительность перелёта и особенности пассажирского багажа.</p>
                         <div class="case__why">
                             <div class="case__why-label">Почему такой сценарий</div>
-                            <p>Тип борта определяется составом и объёмом груза. Календарь игры задаёт минуту прибытия.</p>
+                            <p>Календарь игры определяет время прибытия. Тип воздушного судна — численность группы и требования к маршруту.</p>
                         </div>
                     </div>
                     <div class="case__visual">
-                        <img src="images/case-sport.jpg" loading="lazy" decoding="async" alt="Спортивная команда и экипировка у чартерного борта">
+                        <img src="images/case-sport.jpg" loading="lazy" decoding="async" alt="Команда поднимается по трапу чартерного самолёта">
                         <div class="case__visual-overlay">
                             <div class="case__tag">Сценарий 02</div>
                             <h3>Клуб</h3>
                             <div class="case-meta">
                                 <span class="case-chip">42 пассажира</span>
-                                <span class="case-chip">~2 т экипировки</span>
-                                <span class="case-chip">Окно к матчу</span>
+                                <span class="case-chip">Единый рейс команды</span>
+                                <span class="case-chip">Время под календарь матча</span>
                             </div>
                         </div>
                     </div>
@@ -638,7 +531,7 @@
 
                 <article class="case animate-on-scroll">
                     <div class="case__visual">
-                        <img src="images/case-series.jpg" loading="lazy" decoding="async" alt="Чартерный борт и багаж на перроне в рамках серии выездов">
+                        <img src="images/case-series.jpg" loading="lazy" decoding="async" alt="Чартерный борт на перроне перед следующим сегментом маршрута">
                         <div class="case__visual-overlay">
                             <div class="case__tag">Сценарий 03</div>
                             <h3>Серия выездов</h3>
@@ -651,7 +544,7 @@
                     </div>
                     <div class="case__content">
                         <p class="case__scenario">Три города за восемь дней: выездной турнир или корпоративный roadshow.</p>
-                        <p class="case__text">Задача не в одном рейсе, а в управлении цепочкой: сегменты маршрута, окна прибытия, отели, багаж, смена состава и переход к следующей точке программы.</p>
+                        <p class="case__text">Задача не в одном рейсе, а в управлении последовательностью перелётов: маршруты, даты, окна прибытия, изменения состава и переход к следующей точке программы.</p>
                         <div class="case__why">
                             <div class="case__why-label">Почему такой сценарий</div>
                             <p>Поездка проектируется как одна управляемая серия с общей координацией, а не как набор отдельных чартеров.</p>
@@ -665,31 +558,48 @@
     <section class="why">
         <div class="container">
             <div class="why__header animate-on-scroll">
-                <div class="section-label">Позиция</div>
-                <h2 class="section-title">Что отличает FlightAero</h2>
-                <p>FlightAero находится между массовым чартером и private aviation. Для нас premium-уровень — это контроль всей логики дня: состава, маршрута, груза, наземной части и времени прибытия.</p>
+                <div class="section-label">Почему FlightAero</div>
+                <h2 class="section-title">Чартерная авиация<br>и цифровой сервис.</h2>
+                <p>FlightAero объединяет экспертизу чартерной авиации с собственным цифровым сервисом. Клиент получает не каталог самолётов, а организованный рейс с понятным графиком, условиями и сопровождением.</p>
             </div>
             <div class="why-grid">
                 <article class="why-card animate-on-scroll">
                     <div class="why-card__num">01</div>
-                    <h3>Один ответственный контур</h3>
-                    <p>Воздух, земля и груз собираются в одной задаче. Одна команда отвечает за то, что группа будет на месте в нужную минуту.</p>
+                    <h3>Одна команда</h3>
+                    <p>Один контакт сопровождает запрос от первого расчёта до выполнения рейса.</p>
                 </article>
                 <article class="why-card animate-on-scroll">
                     <div class="why-card__num">02</div>
-                    <h3>Сценарий перевозки, затем борт</h3>
-                    <p>Сначала фиксируем, как должен пройти день. Затем показываем, каким типом воздушного судна это выполняется и сколько стоит каждый вариант.</p>
+                    <h3>Сначала задача, затем борт</h3>
+                    <p>Воздушное судно выбирается под маршрут, численность группы, расписание и требования конкретной поездки.</p>
                 </article>
                 <article class="why-card animate-on-scroll">
                     <div class="why-card__num">03</div>
-                    <h3>Груз и земля в том же контуре</h3>
-                    <p>Экипировка, оборудование, трансфер, стыковка с отелем или стадионом входят в сценарий перевозки вместе с пассажирами.</p>
+                    <h3>Цифровой сервис FlightAero</h3>
+                    <p>Сайт и мобильное приложение поддерживают расчёт рейса, оформление пассажиров и получение актуального статуса бронирования.</p>
                 </article>
                 <article class="why-card animate-on-scroll">
                     <div class="why-card__num">04</div>
-                    <h3>Опыт группы с 2015</h3>
-                    <p>FlightAero — отдельный продукт Flight Generation Group для групповых корпоративных и спортивных перевозок. Здесь другая логика задачи, другой масштаб и другой операционный контур.</p>
+                    <h3>Авиационный опыт Flight Generation Group</h3>
+                    <p>Подход FlightAero опирается на опыт Flight Generation Group в организации чартерных перелётов — с 2015 года.</p>
                 </article>
+            </div>
+            <div class="digital animate-on-scroll">
+                <div class="digital__kicker">Цифровой сервис FlightAero</div>
+                <div class="digital__grid">
+                    <div class="digital__item">
+                        <h3>Расчёт маршрута</h3>
+                        <p>Запрос и расчёт чартерного рейса онлайн</p>
+                    </div>
+                    <div class="digital__item">
+                        <h3>Оформление пассажиров</h3>
+                        <p>Данные и документы в одном интерфейсе</p>
+                    </div>
+                    <div class="digital__item">
+                        <h3>Статус рейса</h3>
+                        <p>Подтверждение бронирования и актуальные уведомления</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -698,33 +608,28 @@
         <div class="container">
             <div class="proof__header animate-on-scroll">
                 <div class="section-label">Команда</div>
-                <h2 class="section-title">Операционный контур.<br>Ответственность остаётся у людей.</h2>
+                <h2 class="section-title">Технология помогает работать быстрее.<br>За рейсом остаётся команда.</h2>
             </div>
-            <div class="proof__body">
-                <div class="proof__copy animate-on-scroll">
-                    <p>FlightAero — специализированный контур Flight Generation Group для корпоративных и спортивных групповых перелётов.</p>
-                    <p>Базирование — Москва. Команда координирует задачу от первого брифа до прилёта и передачи группы на землю. Клиент получает операционно собранный сценарий, который можно выполнить.</p>
-                </div>
-                <figure class="proof__photo animate-on-scroll">
-                    <img src="images/team-ops.jpg" loading="lazy" decoding="async" alt="Операционная команда координирует групповой рейс">
-                </figure>
+            <div class="proof__copy animate-on-scroll">
+                <p>FlightAero — российский сервис для организации чартерных перелётов, развиваемый Flight Generation Group.</p>
+                <p>Команда сопровождает групповой запрос от подбора воздушного судна и согласования условий до оформления пассажиров и выполнения рейса.</p>
             </div>
             <div class="markers animate-on-scroll">
                 <div class="marker">
                     <div class="marker__val">С 2015</div>
-                    <div class="marker__label">Авиационный опыт группы</div>
+                    <div class="marker__label">Авиационный опыт Flight Generation Group</div>
                 </div>
                 <div class="marker">
                     <div class="marker__val">24/7</div>
-                    <div class="marker__label">Координация и сопровождение</div>
+                    <div class="marker__label">Поддержка и координация запросов</div>
+                </div>
+                <div class="marker">
+                    <div class="marker__val">Web + App</div>
+                    <div class="marker__label">Цифровые сервисы FlightAero</div>
                 </div>
                 <div class="marker">
                     <div class="marker__val">Москва</div>
-                    <div class="marker__label">Базовый операционный контур</div>
-                </div>
-                <div class="marker">
-                    <div class="marker__val">Корпорации и спорт</div>
-                    <div class="marker__label">Фокус продукта</div>
+                    <div class="marker__label">Российская команда</div>
                 </div>
             </div>
         </div>
@@ -734,14 +639,12 @@
         <div class="container">
             <div class="animate-on-scroll">
                 <h2 class="section-title">Назовите задачу.<br>Мы соберём перелёт.</h2>
-                <p class="cta__text">Маршрут, даты, состав, груз и окно прибытия. Мы вернём сценарий перевозки: тип борта, график и расчёт.</p>
+                <p class="cta__text">Сообщите маршрут, даты, количество пассажиров и желаемое время вылета или прибытия. Команда FlightAero предложит подходящий вариант перелёта и рассчитает стоимость.</p>
                 <div class="cta__actions">
-                    <a href="mailto:info@flightaero.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D1%83" class="btn btn--primary">Обсудить задачу</a>
+                    <a href="mailto:sales@flightaero.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D0%B5%D1%80%D0%B5%D0%BB%D1%91%D1%82" class="btn btn--primary">Обсудить перелёт</a>
                     <a href="https://flightaero.ru" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">flightaero.ru</a>
-                    <button type="button" class="btn btn--ghost no-print" onclick="window.print()">Версия для печати</button>
                 </div>
-                <p class="cta__hint">Для первого расчёта достаточно 5 параметров: маршрут, даты, состав группы, груз и окно прибытия.</p>
-                <p class="cta__phone"><a href="mailto:info@flightaero.ru">info@flightaero.ru</a></p>
+                <p class="cta__phone"><a href="tel:+74951285757">+7 495 128 57 57</a> · <a href="mailto:sales@flightaero.ru">sales@flightaero.ru</a></p>
             </div>
         </div>
     </section>
@@ -760,7 +663,8 @@
                 <div class="footer__links">
                     <a href="https://flightaero.ru" target="_blank" rel="noopener noreferrer" class="footer__link">flightaero.ru</a>
                     <a href="https://fgg.aero" target="_blank" rel="noopener noreferrer" class="footer__link">fgg.aero</a>
-                    <a href="mailto:info@flightaero.ru" class="footer__link">Контакты</a>
+                    <a href="mailto:sales@flightaero.ru" class="footer__link">sales@flightaero.ru</a>
+                    <a href="tel:+74951285757" class="footer__link">+7 495 128 57 57</a>
                 </div>
                 <p class="footer__copy">© 2026 FlightAero — продукт Flight Generation Group для корпоративных и спортивных групповых перелётов</p>
             </div>
