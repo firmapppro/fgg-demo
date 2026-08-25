@@ -1,0 +1,24 @@
+name: Deploy corporate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "corporate/**"
+      - ".github/workflows/deploy-corporate.yml"
+  workflow_dispatch:
+
+jobs:
+  ftp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload corporate presentation to chypulis.top
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./corporate/
+          server-dir: /corporate/
+          protocol: ftp

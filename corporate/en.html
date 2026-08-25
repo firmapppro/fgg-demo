@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate and sports group travel — FlightAero</title>
+    <meta name="description" content="Group flights for corporations and sports teams. FlightAero builds a single transfer scenario: headcount, cargo, slots, and arrival on schedule.">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="https://chypulis.top/corporate/en.html">
+    <meta property="og:title" content="Corporate and sports group travel — FlightAero">
+    <meta property="og:description" content="Group flights for corporations and sports teams. One transfer scenario: people, cargo, slots, and schedule.">
+    <meta property="og:image" content="https://chypulis.top/corporate/images/og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="800">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0B0F1A;
+            --color-bg-section: #101624;
+            --color-bg-card: #161D2E;
+            --color-accent: #2A81AF;
+            --color-accent-light: #3A9BD5;
+            --color-text: #E8ECF1;
+            --color-text-muted: #8A95A8;
+            --color-text-heading: #FFFFFF;
+            --color-border: rgba(255,255,255,0.08);
+            --color-border-card: rgba(255,255,255,0.06);
+            --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            --max-width: 1280px;
+            --section-padding: 96px 0;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-main);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        img { max-width: 100%; height: auto; display: block; }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 40px; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-on-scroll { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+        .section-label {
+            display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 16px;
+        }
+        .section-label::before { content: ''; display: block; width: 20px; height: 2px; background: var(--color-accent); border-radius: 1px; }
+        .section-title { font-size: clamp(26px, 3.4vw, 40px); font-weight: 800; line-height: 1.2; color: var(--color-text-heading); margin-bottom: 20px; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 20px; border-radius: 10px;
+            font-family: var(--font-main); font-size: 14px; font-weight: 600; cursor: pointer; border: none;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1); white-space: nowrap;
+        }
+        .btn--primary { background: var(--color-accent); color: #fff; }
+        .btn--primary:hover { background: var(--color-accent-light); }
+        .btn--ghost { background: transparent; color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.12); }
+        .btn--ghost:hover { color: var(--color-text); border-color: rgba(255,255,255,0.22); }
+
+        .lang-switcher {
+            position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; gap: 4px;
+            background: rgba(11,15,26,0.8); backdrop-filter: blur(12px);
+            border: 1px solid var(--color-border); border-radius: 10px; padding: 4px;
+        }
+        .lang-switcher a { padding: 7px 12px; font-size: 12px; font-weight: 600; color: var(--color-text-muted); border-radius: 8px; }
+        .lang-switcher a.active { background: var(--color-accent); color: #fff; }
+
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+        .hero__bg { position: absolute; inset: 0; z-index: 0; background: #0d1320; }
+        .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 72% 50%; }
+        .hero__bg::after {
+            content: ''; position: absolute; inset: 0;
+            background:
+                linear-gradient(90deg, rgba(11,15,26,0.94) 0%, rgba(11,15,26,0.78) 42%, rgba(11,15,26,0.28) 72%, rgba(11,15,26,0.45) 100%),
+                linear-gradient(180deg, rgba(11,15,26,0.18) 0%, rgba(11,15,26,0.2) 55%, rgba(11,15,26,0.96) 100%);
+        }
+        .hero__content { position: relative; z-index: 2; width: 100%; padding: 140px 0 88px; }
+        .hero__logo { margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.1s both; }
+        .brand { display: inline-flex; align-items: center; gap: 12px; }
+        .brand__mark { width: 40px; height: 40px; display: block; }
+        .brand__name { font-size: 15px; font-weight: 800; letter-spacing: 2.4px; text-transform: uppercase; color: #fff; }
+        .hero__kicker {
+            display: inline-flex; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--color-accent-light); margin-bottom: 18px; animation: fadeInUp 0.8s ease-out 0.18s both;
+        }
+        .hero__headline {
+            font-size: clamp(30px, 4.2vw, 50px); font-weight: 800; line-height: 1.18;
+            color: var(--color-text-heading); margin-bottom: 20px; max-width: 720px;
+            animation: fadeInUp 0.8s ease-out 0.25s both;
+        }
+        .hero__subtitle { font-size: 19px; font-weight: 500; color: var(--color-text); margin-bottom: 16px; max-width: 620px; animation: fadeInUp 0.8s ease-out 0.38s both; }
+        .hero__description { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); max-width: 620px; margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.48s both; }
+        .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.58s both; }
+        .hero__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; animation: fadeInUp 0.8s ease-out 0.68s both; }
+        .chip {
+            font-size: 12px; font-weight: 600; color: var(--color-text);
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 999px; padding: 7px 12px;
+        }
+
+        .exchange { padding: 0 0 72px; background: var(--color-bg); }
+        .exchange__grid {
+            display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: stretch;
+            background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 22px; padding: 32px 36px;
+        }
+        .exchange h3 { font-size: 13px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 16px; }
+        .exchange ul { list-style: none; display: grid; gap: 8px; }
+        .exchange li { position: relative; padding-left: 14px; font-size: 15px; color: var(--color-text); font-weight: 600; }
+        .exchange li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
+        .exchange__arrow {
+            align-self: center; font-size: 22px; font-weight: 700; color: var(--color-accent-light); letter-spacing: -1px;
+        }
+
+        .philosophy { padding: var(--section-padding); background: var(--color-bg-section); }
+        .philosophy__inner { max-width: 760px; margin: 0 auto; }
+        .philosophy__text { font-size: 17px; line-height: 1.75; color: var(--color-text-muted); margin-top: 8px; }
+        .philosophy__text p { margin-bottom: 16px; }
+        .philosophy__close {
+            margin-top: 24px; font-size: 20px; font-weight: 700; color: var(--color-text-heading);
+            border-left: 3px solid var(--color-accent); padding-left: 20px; line-height: 1.4;
+        }
+        .io { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+        .io__col {
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 16px; padding: 22px 22px 24px;
+        }
+        .io__who {
+            font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--color-accent-light); margin-bottom: 14px;
+        }
+        .io ul { list-style: none; display: grid; gap: 8px; }
+        .io li { position: relative; padding-left: 14px; font-size: 15px; color: var(--color-text); font-weight: 600; line-height: 1.4; }
+        .io li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
+
+        .audiences { padding: var(--section-padding); background: var(--color-bg); }
+        .audiences__header { max-width: 760px; margin-bottom: 40px; }
+        .audiences__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
+        .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .audience {
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 22px; overflow: hidden;
+        }
+        .audience__photo { height: 240px; background: #12192a; }
+        .audience__photo img { width: 100%; height: 100%; object-fit: cover; }
+        .audience__body { padding: 28px 28px 32px; }
+        .audience__type { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 12px; }
+        .audience h3 { font-size: 24px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 14px; }
+        .audience p { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 18px; }
+        .audience ul { list-style: none; display: grid; gap: 8px; }
+        .audience li { position: relative; padding-left: 14px; font-size: 14px; color: var(--color-text); font-weight: 600; line-height: 1.45; }
+        .audience li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
+
+        .event { padding: var(--section-padding); background: var(--color-bg-section); }
+        .event__header { max-width: 760px; margin-bottom: 48px; }
+        .event__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
+        .timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        .t-step {
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 18px; padding: 22px 20px 24px; height: 100%;
+        }
+        .t-step__num { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: var(--color-accent); margin-bottom: 12px; }
+        .t-step__title { font-size: 16px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
+        .t-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+        .outcome {
+            margin-top: 28px; background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 18px; padding: 24px 28px;
+        }
+        .outcome h3 { font-size: 13px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 14px; }
+        .outcome ul { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        .outcome li { font-size: 14px; font-weight: 600; color: var(--color-text); line-height: 1.4; padding-left: 14px; position: relative; }
+        .outcome li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
+        .event__photo { margin-top: 28px; border-radius: 22px; overflow: hidden; height: 380px; border: 1px solid var(--color-border); }
+        .event__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+
+        .fleet { padding: var(--section-padding); background: var(--color-bg); }
+        .fleet__header { max-width: 760px; margin-bottom: 40px; }
+        .fleet__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
+        .corridors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .corridor {
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 22px; overflow: hidden;
+        }
+        .corridor__photo { height: 180px; background: #12192a; }
+        .corridor__photo img { width: 100%; height: 100%; object-fit: cover; }
+        .corridor__body { padding: 22px 22px 26px; }
+        .corridor__range { font-size: 13px; font-weight: 800; letter-spacing: 1.2px; color: var(--color-accent); margin-bottom: 8px; }
+        .corridor h3 { font-size: 20px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 6px; }
+        .corridor__type { font-size: 13px; font-weight: 600; color: var(--color-accent-light); margin-bottom: 10px; }
+        .corridor p { font-size: 14px; color: var(--color-text-muted); line-height: 1.65; }
+        .fleet__note {
+            margin-top: 28px; max-width: 760px; font-size: 17px; font-weight: 700;
+            color: var(--color-text-heading); border-left: 3px solid var(--color-accent);
+            padding-left: 20px; line-height: 1.45;
+        }
+
+        .case-study { padding: var(--section-padding); background: var(--color-bg-section); }
+        .case__header { max-width: 760px; margin: 0 auto 48px; text-align: center; }
+        .case__lead { font-size: 17px; color: var(--color-text-muted); line-height: 1.6; max-width: 640px; margin: 0 auto; }
+        .cases { display: flex; flex-direction: column; gap: 28px; }
+        .case {
+            display: grid; grid-template-columns: 0.92fr 1.08fr;
+            background: var(--color-bg-card); border: 1px solid var(--color-border-card);
+            border-radius: var(--radius-lg); overflow: hidden; min-height: 360px;
+        }
+        .case--flip { grid-template-columns: 1.08fr 0.92fr; }
+        .case__visual { position: relative; min-height: 360px; background: #12192a; }
+        .case__visual img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .case__visual-overlay {
+            position: absolute; inset: auto 0 0 0; padding: 22px 24px;
+            background: linear-gradient(0deg, rgba(11,15,26,0.92) 0%, transparent 100%);
+        }
+        .case--flip .case__visual { order: 2; }
+        .case__tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; color: var(--color-accent-light); margin-bottom: 8px; }
+        .case__visual h3 { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.2; }
+        .case-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+        .case-chip {
+            font-size: 12px; font-weight: 600; color: var(--color-text);
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 999px; padding: 6px 10px;
+        }
+        .case__content { padding: 36px 36px 36px 32px; display: flex; flex-direction: column; justify-content: center; }
+        .case__scenario { font-size: 18px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 14px; line-height: 1.4; }
+        .case__text { font-size: 15px; color: var(--color-text-muted); margin-bottom: 12px; line-height: 1.65; }
+        .case__why {
+            margin-top: 8px; padding: 14px 16px; border-radius: 12px;
+            background: rgba(42,129,175,0.08); border: 1px solid rgba(42,129,175,0.2);
+        }
+        .case__why-label { font-size: 11px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 6px; }
+        .case__why p { font-size: 14px; color: var(--color-text); line-height: 1.5; margin: 0; }
+
+        .why { padding: var(--section-padding); background: var(--color-bg); }
+        .why__header { max-width: 760px; margin-bottom: 40px; }
+        .why__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
+        .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .why-card {
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 18px; padding: 24px 22px 26px;
+        }
+        .why-card__num { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; color: var(--color-accent); margin-bottom: 10px; }
+        .why-card h3 { font-size: 17px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
+        .why-card p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+
+        .proof { padding: var(--section-padding); background: var(--color-bg-section); }
+        .proof__header { max-width: 760px; margin-bottom: 40px; }
+        .proof__body { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; margin-bottom: 24px; }
+        .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
+        .proof__photo { border-radius: 20px; overflow: hidden; min-height: 280px; border: 1px solid var(--color-border); }
+        .proof__photo img { width: 100%; height: 100%; object-fit: cover; }
+        .markers {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+        }
+        .marker {
+            background: var(--color-bg-card); border: 1px solid var(--color-border);
+            border-radius: 16px; padding: 20px 18px 22px;
+        }
+        .marker__val { font-size: 18px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.25; }
+        .marker__label { font-size: 13px; color: var(--color-text-muted); line-height: 1.4; }
+
+        .cta { padding: var(--section-padding); background: linear-gradient(135deg, rgba(42,129,175,0.12) 0%, rgba(11,15,26,1) 55%); text-align: center; }
+        .cta__text { font-size: 17px; color: var(--color-text-muted); max-width: 640px; margin: 0 auto 28px; line-height: 1.65; }
+        .cta__actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .cta__hint { margin-top: 18px; font-size: 14px; color: var(--color-text-muted); }
+        .cta__phone { margin-top: 10px; font-size: 14px; color: var(--color-text-muted); }
+        .cta__phone a { color: var(--color-text); font-weight: 600; }
+
+        .footer { padding: 32px 0; border-top: 1px solid var(--color-border); background: var(--color-bg); }
+        .footer__inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .footer__links { display: flex; gap: 28px; flex-wrap: wrap; }
+        .footer__link { font-size: 13px; color: var(--color-text-muted); }
+        .footer__link:hover { color: var(--color-text); }
+        .footer__copy { font-size: 12px; color: var(--color-text-muted); opacity: 0.7; max-width: 420px; }
+
+        @media (max-width: 1024px) {
+            :root { --section-padding: 80px 0; }
+            .exchange__grid, .io, .audience-grid, .proof__body, .why-grid, .case, .case--flip { grid-template-columns: 1fr; }
+            .exchange__arrow { transform: rotate(90deg); justify-self: center; }
+            .case--flip .case__visual { order: 0; }
+            .timeline { grid-template-columns: 1fr 1fr; }
+            .outcome ul, .markers { grid-template-columns: 1fr 1fr; }
+            .corridors { grid-template-columns: 1fr; }
+            .case__visual { min-height: 260px; }
+            .case__content { padding: 28px; }
+            .event__photo { height: 240px; }
+            .hero__bg img { object-position: 80% 50%; }
+        }
+        @media (max-width: 640px) {
+            :root { --section-padding: 64px 0; }
+            .container { padding: 0 20px; }
+            .timeline, .markers, .outcome ul { grid-template-columns: 1fr; }
+            .hero__actions, .cta__actions { flex-direction: column; align-items: stretch; }
+            .footer__inner { flex-direction: column; text-align: center; }
+            .footer__links { justify-content: center; }
+        }
+
+        @media print {
+            :root { --section-padding: 28px 0; }
+            html { scroll-behavior: auto; }
+            body {
+                background: #fff; color: #1a2332; overflow: visible;
+                -webkit-print-color-adjust: exact; print-color-adjust: exact;
+            }
+            .lang-switcher, .no-print { display: none !important; }
+            .container { max-width: none; padding: 0 16mm; }
+            .hero { min-height: 0; page-break-after: always; }
+            .hero__bg::after { background: linear-gradient(90deg, rgba(11,15,26,0.82), rgba(11,15,26,0.35)); }
+            .hero__content { padding: 10mm 0 8mm; }
+            .hero__headline, .section-title, .philosophy__close, .fleet__note, .case__scenario, .audience h3, .corridor h3, .why-card h3, .marker__val, .brand__name, .exchange h3, .outcome h3 {
+                color: #0B0F1A;
+            }
+            .hero__subtitle, .hero__description, .philosophy__text, .audiences__header p, .event__header p, .fleet__header p, .case__lead, .case__text, .why__header p, .proof__copy p, .cta__text, .t-step__desc, .corridor p, .audience p, .why-card p, .marker__label, .footer__copy, .footer__link, .cta__hint {
+                color: #445066;
+            }
+            .section-label, .hero__kicker, .audience__type, .t-step__num, .corridor__range, .case__tag, .why-card__num, .io__who {
+                color: #1f6a94;
+            }
+            .exchange, .philosophy, .audiences, .event, .fleet, .case-study, .why, .proof, .cta, .footer {
+                background: #fff; page-break-after: always;
+            }
+            .cta, .footer { page-break-after: auto; }
+            .exchange__grid, .io__col, .audience, .t-step, .corridor, .case, .why-card, .marker, .outcome {
+                background: #f4f7fb; border-color: #d8dee8; break-inside: avoid;
+            }
+            .animate-on-scroll { opacity: 1; transform: none; }
+            a { color: inherit; }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switcher">
+        <a href="index.html">RU</a>
+        <a href="en.html" class="active">EN</a>
+    </div>
+
+    <section class="hero">
+        <div class="hero__bg">
+            <img src="images/hero.jpg" alt="A coordinated group walking across the apron toward a charter aircraft">
+        </div>
+        <div class="hero__content">
+            <div class="container">
+                <div class="hero__logo">
+                    <div class="brand">
+                        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+                            <rect width="32" height="32" rx="8" fill="#161D2E"/>
+                            <path d="M6 22c5-8 8-12 10-14 2 2 5 6 10 14" fill="none" stroke="#3A9BD5" stroke-width="1.8" stroke-linecap="round"/>
+                            <circle cx="16" cy="10" r="1.6" fill="#E8ECF1"/>
+                        </svg>
+                        <span class="brand__name">FlightAero</span>
+                    </div>
+                </div>
+                <p class="hero__kicker">FlightAero · Group travel</p>
+                <h1 class="hero__headline">The event has to happen.<br>We get the group there on the minute.</h1>
+                <p class="hero__subtitle">Corporate and sports group flights built around schedule, headcount and cargo — not around whichever aircraft happens to be free.</p>
+                <p class="hero__description">
+                    You set the route, the date, the group size, the cargo and the arrival window. We assemble the full solution: aircraft type, slots, ground handling, transfer and execution on time. The client gets one transfer scenario and one accountable team.
+                </p>
+                <div class="hero__actions">
+                    <a href="mailto:info@flightaero.ru?subject=Discuss%20a%20brief" class="btn btn--primary">Discuss the brief</a>
+                    <a href="https://flightaero.ru" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">flightaero.ru</a>
+                    <button type="button" class="btn btn--ghost no-print" onclick="window.print()">Print version</button>
+                </div>
+                <div class="hero__chips">
+                    <span class="chip">8–180 passengers</span>
+                    <span class="chip">Corporations and sports teams</span>
+                    <span class="chip">Moscow</span>
+                    <span class="chip">24/7 coordination</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="exchange">
+        <div class="container">
+            <div class="exchange__grid animate-on-scroll">
+                <div>
+                    <h3>You send</h3>
+                    <ul>
+                        <li>Route</li>
+                        <li>Dates</li>
+                        <li>Group size</li>
+                        <li>Arrival window</li>
+                    </ul>
+                </div>
+                <div class="exchange__arrow" aria-hidden="true">→</div>
+                <div>
+                    <h3>You get back</h3>
+                    <ul>
+                        <li>A recommended scenario</li>
+                        <li>Aircraft type or a paired setup</li>
+                        <li>The timetable</li>
+                        <li>A cost breakdown</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="philosophy">
+        <div class="container">
+            <div class="philosophy__inner animate-on-scroll">
+                <div class="section-label">Our approach</div>
+                <h2 class="section-title">A group flight is managed logistics, not a hunt for an empty aircraft.</h2>
+                <div class="philosophy__text">
+                    <p>A group movement needs more than a price on the first aircraft that comes up. Headcount, timetable, cargo, ground logistics and the arrival window have to lock together.</p>
+                    <p>FlightAero builds that as one operating scenario: from the brief through arrival and handover on the ground.</p>
+                </div>
+                <p class="philosophy__close">We assemble the flight as a controlled scenario — one logic, one team, one line of responsibility.</p>
+                <div class="io">
+                    <div class="io__col">
+                        <div class="io__who">You provide</div>
+                        <ul>
+                            <li>Route</li>
+                            <li>Dates</li>
+                            <li>Headcount</li>
+                            <li>Cargo</li>
+                            <li>Arrival window</li>
+                        </ul>
+                    </div>
+                    <div class="io__col">
+                        <div class="io__who">You receive</div>
+                        <ul>
+                            <li>Transfer scenario</li>
+                            <li>Aircraft type</li>
+                            <li>Slots</li>
+                            <li>Ground logistics</li>
+                            <li>Budget and an owner</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="audiences">
+        <div class="container">
+            <div class="audiences__header animate-on-scroll">
+                <div class="section-label">Who it is for</div>
+                <h2 class="section-title">One operating standard.<br>Two kinds of brief.</h2>
+                <p>One coordination desk. Different day logic: a closed corporate timetable, or a hard window for a match.</p>
+            </div>
+            <div class="audience-grid">
+                <article class="audience animate-on-scroll">
+                    <div class="audience__photo">
+                        <img src="images/audience-corporate.jpg" loading="lazy" decoding="async" alt="Corporate delegation at a business aviation terminal">
+                    </div>
+                    <div class="audience__body">
+                        <div class="audience__type">Corporations</div>
+                        <h3>Board, staff, roadshow</h3>
+                        <p>Boards, project teams, roadshows, closed forums and offsite strategy sessions. These briefs need confidentiality, a timetable they can trust, a cabin they can work in, and one organisation loop.</p>
+                        <ul>
+                            <li>A dedicated or separated handling flow</li>
+                            <li>One group, one manifest, one timetable</li>
+                            <li>Same-day outbound and return when the agenda requires it</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="audience animate-on-scroll">
+                    <div class="audience__photo">
+                        <img src="images/audience-sport.jpg" loading="lazy" decoding="async" alt="Sports team at a charter aircraft">
+                    </div>
+                    <div class="audience__body">
+                        <div class="audience__type">Sport</div>
+                        <h3>Clubs, squads, tournaments</h3>
+                        <p>Clubs, national teams, academies and tournament organisers. The job is to keep one loop: squad, coaching staff, medical unit, kit, and the arrival window for training or kick-off. The first market is Russian clubs and sports organisations; the service standard scales to larger sporting events.</p>
+                        <ul>
+                            <li>Squad, staff and kit as one task</li>
+                            <li>A fixed arrival window for the fixture or camp</li>
+                            <li>Transfer and ground logistics coordinated with the flight</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="event">
+        <div class="container">
+            <div class="event__header animate-on-scroll">
+                <div class="section-label">How we work</div>
+                <h2 class="section-title">The flight is built as an operating scenario.</h2>
+                <p>Cost matters, but it follows the logic of the day. We compare options on timetable, headcount, cargo, ground and a closed handling loop — then lock a scenario that can actually be flown.</p>
+            </div>
+            <div class="timeline animate-on-scroll">
+                <article class="t-step">
+                    <div class="t-step__num">01</div>
+                    <h3 class="t-step__title">Brief</h3>
+                    <p class="t-step__desc">Dates, cities, headcount, cargo, hard arrival window. The client states what has to happen on the ground.</p>
+                </article>
+                <article class="t-step">
+                    <div class="t-step__num">02</div>
+                    <h3 class="t-step__title">Transfer architecture</h3>
+                    <p class="t-step__desc">One aircraft or a pair. Leadership split from the main group when that is tighter on time and cleaner as a flow.</p>
+                </article>
+                <article class="t-step">
+                    <div class="t-step__num">03</div>
+                    <h3 class="t-step__title">Slots and clearances</h3>
+                    <p class="t-step__desc">Airports, windows, cargo, equipment. Until this is locked, a found aircraft is still not a completed flight.</p>
+                </article>
+                <article class="t-step">
+                    <div class="t-step__num">04</div>
+                    <h3 class="t-step__title">Departure day</h3>
+                    <p class="t-step__desc">The group moves as one flow: a single manifest, a dedicated handling loop, a boarding timeline everyone can follow.</p>
+                </article>
+                <article class="t-step">
+                    <div class="t-step__num">05</div>
+                    <h3 class="t-step__title">Arrival and ground</h3>
+                    <p class="t-step__desc">Transfer, hotel, next fixture or next slot. The movement closes with handover on the ground, not when the wheels touch down.</p>
+                </article>
+            </div>
+            <div class="outcome animate-on-scroll">
+                <h3>What the client receives</h3>
+                <ul>
+                    <li>A recommended scenario</li>
+                    <li>Group setup and aircraft type</li>
+                    <li>The timetable</li>
+                    <li>Ground handling and transfer</li>
+                    <li>A clear cost</li>
+                </ul>
+            </div>
+            <figure class="event__photo animate-on-scroll">
+                <img src="images/event-ops.jpg" loading="lazy" decoding="async" alt="Operations team coordinating a group charter">
+            </figure>
+        </div>
+    </section>
+
+    <section class="fleet">
+        <div class="container">
+            <div class="fleet__header animate-on-scroll">
+                <div class="section-label">Aircraft</div>
+                <h2 class="section-title">Headcount and cargo first.<br>Then the aircraft.</h2>
+                <p>Aircraft class follows the brief: capacity, range, and the ability to take the group as one flow. Three working corridors — not a model catalogue.</p>
+            </div>
+            <div class="corridors animate-on-scroll">
+                <article class="corridor">
+                    <div class="corridor__photo">
+                        <img src="images/fleet-small.jpg" loading="lazy" decoding="async" alt="Business jet for a leadership group of 8 to 19">
+                    </div>
+                    <div class="corridor__body">
+                        <div class="corridor__range">8–19 people</div>
+                        <h3>Leadership</h3>
+                        <p class="corridor__type">Business jet / super midsize / VIP configuration</p>
+                        <p>A small delegation or a split VIP subgroup. Speed of decision, a closed cabin, and room to work in the air.</p>
+                    </div>
+                </article>
+                <article class="corridor">
+                    <div class="corridor__photo">
+                        <img src="images/fleet-medium.jpg" loading="lazy" decoding="async" alt="Aircraft for a 20 to 50 person delegation">
+                    </div>
+                    <div class="corridor__body">
+                        <div class="corridor__range">20–50 people</div>
+                        <h3>Delegation</h3>
+                        <p class="corridor__type">Larger group aircraft / regional jet / VIP airliner</p>
+                        <p>A project team, a board with staff, a club office. One aircraft, one manifest, predictable boarding and arrival.</p>
+                    </div>
+                </article>
+                <article class="corridor">
+                    <div class="corridor__photo">
+                        <img src="images/fleet-large.jpg" loading="lazy" decoding="async" alt="Narrow-body charter for a full squad">
+                    </div>
+                    <div class="corridor__body">
+                        <div class="corridor__range">50–180 people</div>
+                        <h3>Full squad</h3>
+                        <p class="corridor__type">Narrow-body charter</p>
+                        <p>Squad, staff and cargo on one flight. A dedicated transfer for a fixture, a camp, or a corporate programme.</p>
+                    </div>
+                </article>
+            </div>
+            <p class="fleet__note animate-on-scroll">A VIP subgroup and the main group can fly on different aircraft inside one brief. That is a standard scenario under one coordination desk.</p>
+        </div>
+    </section>
+
+    <section class="case-study">
+        <div class="container">
+            <div class="case__header animate-on-scroll">
+                <h2 class="section-title">The brief first.<br>Then the aircraft.</h2>
+                <p class="case__lead">The aircraft is a tool. Route, headcount, cargo and the arrival minute decide which scenario we build.</p>
+            </div>
+            <div class="cases">
+                <article class="case animate-on-scroll">
+                    <div class="case__visual">
+                        <img src="images/case-corporate.jpg" loading="lazy" decoding="async" alt="Corporate group on the apron in the morning">
+                        <div class="case__visual-overlay">
+                            <div class="case__tag">Scenario 01</div>
+                            <h3>Corporation</h3>
+                            <div class="case-meta">
+                                <span class="case-chip">Moscow → Yekaterinburg</span>
+                                <span class="case-chip">28 people</span>
+                                <span class="case-chip">Same-day return</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case__content">
+                        <p class="case__scenario">Morning departure, a board meeting after lunch, the group back the same evening.</p>
+                        <p class="case__text">What matters is a precise day: an airport close to the meeting, a cabin they can work in, fast terminal flow, and a return that holds the timetable.</p>
+                        <div class="case__why">
+                            <div class="case__why-label">Why this scenario</div>
+                            <p>The flight sits inside the business agenda. Aircraft type follows headcount and the return window, not a shop window of models.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="case case--flip animate-on-scroll">
+                    <div class="case__content">
+                        <p class="case__scenario">Kick-off in the evening. Squad, staff, medical unit and kit must be in the city inside a fixed window.</p>
+                        <p class="case__text">42 passengers and about two tonnes of cargo. One flow, kept apart from fans and press, with coaches timed to the hotel or the stadium.</p>
+                        <div class="case__why">
+                            <div class="case__why-label">Why this scenario</div>
+                            <p>Aircraft type is set by headcount and cargo. The fixture list sets the arrival minute.</p>
+                        </div>
+                    </div>
+                    <div class="case__visual">
+                        <img src="images/case-sport.jpg" loading="lazy" decoding="async" alt="Sports team and kit at a charter aircraft">
+                        <div class="case__visual-overlay">
+                            <div class="case__tag">Scenario 02</div>
+                            <h3>Club</h3>
+                            <div class="case-meta">
+                                <span class="case-chip">42 passengers</span>
+                                <span class="case-chip">~2 t of kit</span>
+                                <span class="case-chip">Match window</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="case animate-on-scroll">
+                    <div class="case__visual">
+                        <img src="images/case-series.jpg" loading="lazy" decoding="async" alt="Charter aircraft and baggage on the apron during a multi-city trip">
+                        <div class="case__visual-overlay">
+                            <div class="case__tag">Scenario 03</div>
+                            <h3>Tour series</h3>
+                            <div class="case-meta">
+                                <span class="case-chip">3 cities</span>
+                                <span class="case-chip">8 days</span>
+                                <span class="case-chip">Tournament / roadshow</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case__content">
+                        <p class="case__scenario">Three cities in eight days: an away tournament or a corporate roadshow.</p>
+                        <p class="case__text">The job is not one sector. It is the chain: route segments, arrival windows, hotels, baggage, roster changes and the move to the next point on the programme.</p>
+                        <div class="case__why">
+                            <div class="case__why-label">Why this scenario</div>
+                            <p>The trip is designed as one managed series under a single desk, not a stack of separate charters.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="why">
+        <div class="container">
+            <div class="why__header animate-on-scroll">
+                <div class="section-label">Position</div>
+                <h2 class="section-title">What sets FlightAero apart</h2>
+                <p>FlightAero sits between mass charter and private aviation. Premium here means control of the day: people, route, cargo, ground, and the time of arrival.</p>
+            </div>
+            <div class="why-grid">
+                <article class="why-card animate-on-scroll">
+                    <div class="why-card__num">01</div>
+                    <h3>One accountable loop</h3>
+                    <p>Air, ground and cargo sit in one brief. One team is responsible for the group being on site at the required minute.</p>
+                </article>
+                <article class="why-card animate-on-scroll">
+                    <div class="why-card__num">02</div>
+                    <h3>Scenario first, aircraft second</h3>
+                    <p>We lock how the day should run, then show which aircraft type carries it and what each option costs.</p>
+                </article>
+                <article class="why-card animate-on-scroll">
+                    <div class="why-card__num">03</div>
+                    <h3>Cargo and ground in the same loop</h3>
+                    <p>Kit, equipment, transfer, and the link to the hotel or the stadium sit in the transfer scenario with the passengers.</p>
+                </article>
+                <article class="why-card animate-on-scroll">
+                    <div class="why-card__num">04</div>
+                    <h3>Group experience since 2015</h3>
+                    <p>FlightAero is a distinct Flight Generation Group product for corporate and sports group travel. Different brief logic, different scale, different operating desk.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="proof">
+        <div class="container">
+            <div class="proof__header animate-on-scroll">
+                <div class="section-label">The team</div>
+                <h2 class="section-title">An operating desk.<br>Responsibility stays with people.</h2>
+            </div>
+            <div class="proof__body">
+                <div class="proof__copy animate-on-scroll">
+                    <p>FlightAero is the Flight Generation Group desk for corporate and sports group flights.</p>
+                    <p>Base — Moscow. The team coordinates from the first brief through arrival and handover on the ground. The client receives an operating scenario that can be flown.</p>
+                </div>
+                <figure class="proof__photo animate-on-scroll">
+                    <img src="images/team-ops.jpg" loading="lazy" decoding="async" alt="Operations team coordinating a group flight">
+                </figure>
+            </div>
+            <div class="markers animate-on-scroll">
+                <div class="marker">
+                    <div class="marker__val">Since 2015</div>
+                    <div class="marker__label">Aviation experience of the group</div>
+                </div>
+                <div class="marker">
+                    <div class="marker__val">24/7</div>
+                    <div class="marker__label">Coordination and support</div>
+                </div>
+                <div class="marker">
+                    <div class="marker__val">Moscow</div>
+                    <div class="marker__label">Home operating desk</div>
+                </div>
+                <div class="marker">
+                    <div class="marker__val">Corporate and sport</div>
+                    <div class="marker__label">Product focus</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <h2 class="section-title">Name the brief.<br>We will build the flight.</h2>
+                <p class="cta__text">Route, dates, headcount, cargo and arrival window. We return a transfer scenario: aircraft type, timetable and cost.</p>
+                <div class="cta__actions">
+                    <a href="mailto:info@flightaero.ru?subject=Discuss%20a%20brief" class="btn btn--primary">Discuss the brief</a>
+                    <a href="https://flightaero.ru" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">flightaero.ru</a>
+                    <button type="button" class="btn btn--ghost no-print" onclick="window.print()">Print version</button>
+                </div>
+                <p class="cta__hint">A first calculation needs five inputs: route, dates, group size, cargo and arrival window.</p>
+                <p class="cta__phone"><a href="mailto:info@flightaero.ru">info@flightaero.ru</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="brand">
+                    <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+                        <rect width="32" height="32" rx="8" fill="#161D2E"/>
+                        <path d="M6 22c5-8 8-12 10-14 2 2 5 6 10 14" fill="none" stroke="#3A9BD5" stroke-width="1.8" stroke-linecap="round"/>
+                        <circle cx="16" cy="10" r="1.6" fill="#E8ECF1"/>
+                    </svg>
+                    <span class="brand__name">FlightAero</span>
+                </div>
+                <div class="footer__links">
+                    <a href="https://flightaero.ru" target="_blank" rel="noopener noreferrer" class="footer__link">flightaero.ru</a>
+                    <a href="https://fgg.aero" target="_blank" rel="noopener noreferrer" class="footer__link">fgg.aero</a>
+                    <a href="mailto:info@flightaero.ru" class="footer__link">Contact</a>
+                </div>
+                <p class="footer__copy">© 2026 FlightAero — a Flight Generation Group product for corporate and sports group travel</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

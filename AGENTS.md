@@ -8,10 +8,13 @@ Static HTML prototypes for First Group Group. The live copies live on **chypulis
 |---|---|---|
 | `domain/` | `/` | https://chypulis.top/ |
 | `presentation/` | `/fgg-presentation/` | https://chypulis.top/fgg-presentation/ |
+| `corporate/` | `/corporate/` | https://chypulis.top/corporate/ |
 | `yachts/` | `/fgg-yachts/` | https://chypulis.top/fgg-yachts/ |
 | `planes/` | `/fgg-planes/` | https://chypulis.top/fgg-planes/ |
 
 English presentation: https://chypulis.top/fgg-presentation/en.html
+
+English FlightAero corporate: https://chypulis.top/corporate/en.html
 
 ## Deploy
 
@@ -19,6 +22,7 @@ Push to `main`. Path filters pick the workflow:
 
 - `domain/**` → homepage
 - `presentation/**` → `/fgg-presentation/`
+- `corporate/**` → `/corporate/`
 - `yachts/**` → `/fgg-yachts/`
 - `planes/**` → `/fgg-planes/`
 

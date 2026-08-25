@@ -9,6 +9,8 @@ Static prototypes for First Group Group. Push to `main` uploads the matching fol
 | Домен | https://chypulis.top/ |
 | Презентация (RU) | https://chypulis.top/fgg-presentation/ |
 | Презентация (EN) | https://chypulis.top/fgg-presentation/en.html |
+| FlightAero corporate (RU) | https://chypulis.top/corporate/ |
+| FlightAero corporate (EN) | https://chypulis.top/corporate/en.html |
 | Яхты — навигация | https://chypulis.top/fgg-yachts/ |
 | Яхты — дашборд | https://chypulis.top/fgg-yachts/dashboard.html |
 | Яхты — лендинг (RU) | https://chypulis.top/fgg-yachts/landing.html |
@@ -31,6 +33,7 @@ GitHub Actions выгружает только затронутую папку:
 |---|---|
 | `domain/` | `/` (корень домена) |
 | `presentation/` | `/fgg-presentation/` |
+| `corporate/` | `/corporate/` |
 | `yachts/` | `/fgg-yachts/` |
 | `planes/` | `/fgg-planes/` |
 

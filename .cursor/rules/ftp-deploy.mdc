@@ -11,6 +11,7 @@ This repo ships static HTML to FTP on push to `main`. Do not invent a new host o
 |---|---|
 | `domain/` | https://chypulis.top/ |
 | `presentation/` | https://chypulis.top/fgg-presentation/ |
+| `corporate/` | https://chypulis.top/corporate/ |
 | `yachts/` | https://chypulis.top/fgg-yachts/ |
 | `planes/` | https://chypulis.top/fgg-planes/ |
 
