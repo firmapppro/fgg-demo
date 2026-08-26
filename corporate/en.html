@@ -30,6 +30,7 @@
             --color-accent: #2A81AF;
             --color-accent-light: #3A9BD5;
             --color-text: #E8ECF1;
+            --color-text-secondary: #B8C1CF;
             --color-text-muted: #8A95A8;
             --color-text-heading: #FFFFFF;
             --color-border: rgba(255,255,255,0.08);
@@ -92,9 +93,10 @@
                 linear-gradient(180deg, rgba(11,15,26,0.08) 0%, rgba(11,15,26,0.1) 58%, rgba(11,15,26,0.78) 100%);
         }
         .hero__content { position: relative; z-index: 2; width: 100%; padding: 140px 0 88px; }
-        .hero__logo { margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.1s both; }
+        .hero__logo { margin-bottom: 21px; animation: fadeInUp 0.8s ease-out 0.1s both; }
         .brand { display: inline-flex; align-items: center; gap: 12px; }
         .brand__mark { height: 46px; width: auto; display: block; }
+        .hero .brand__mark { height: 41px; }
         .brand__name { font-size: 15px; font-weight: 800; letter-spacing: 2.4px; text-transform: uppercase; color: #fff; }
         .footer .brand__mark { height: 32px; }
         .hero__kicker {
@@ -107,12 +109,12 @@
             animation: fadeInUp 0.8s ease-out 0.25s both;
         }
         .hero__subtitle { font-size: 19px; font-weight: 500; color: var(--color-text); margin-bottom: 16px; max-width: 620px; animation: fadeInUp 0.8s ease-out 0.38s both; }
-        .hero__description { font-size: 16px; line-height: 1.7; color: var(--color-text-muted); max-width: 620px; margin-bottom: 32px; animation: fadeInUp 0.8s ease-out 0.48s both; }
+        .hero__description { font-size: 16px; line-height: 1.7; color: var(--color-text); max-width: 620px; margin-bottom: 32px; animation: fadeInUp 0.8s ease-out 0.48s both; }
         .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.58s both; }
 
         .philosophy { padding: var(--section-padding); background: var(--color-bg); }
         .philosophy__inner { max-width: 760px; margin: 0 auto; }
-        .philosophy__text { font-size: 17px; line-height: 1.75; color: var(--color-text-muted); margin-top: 8px; }
+        .philosophy__text { font-size: 17px; line-height: 1.75; color: var(--color-text); margin-top: 8px; }
         .philosophy__text p { margin-bottom: 16px; }
         .philosophy__close {
             margin-top: 28px; font-size: 20px; font-weight: 700; color: var(--color-text-heading);
@@ -121,7 +123,7 @@
 
         .audiences { padding: var(--section-padding); background: var(--color-bg-section); }
         .audiences__header { max-width: 760px; margin-bottom: 40px; }
-        .audiences__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
+        .audiences__header p { font-size: 16px; color: var(--color-text); line-height: 1.7; }
         .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .audience {
             background: var(--color-bg-card); border: 1px solid var(--color-border);
@@ -132,15 +134,15 @@
         .audience__body { padding: 28px 28px 32px; }
         .audience__type { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 12px; }
         .audience h3 { font-size: 22px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 14px; line-height: 1.25; }
-        .audience p { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 18px; }
+        .audience p { font-size: 15px; color: var(--color-text); line-height: 1.7; margin-bottom: 18px; }
         .audience ul { list-style: none; display: grid; gap: 8px; }
-        .audience li { position: relative; padding-left: 14px; font-size: 14px; color: var(--color-text); font-weight: 600; line-height: 1.45; }
+        .audience li { position: relative; padding-left: 14px; font-size: 15px; color: var(--color-text); font-weight: 600; line-height: 1.45; }
         .audience li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
-        .audiences__more { margin-top: 22px; font-size: 14px; color: var(--color-text-muted); line-height: 1.55; }
+        .audiences__more { margin-top: 22px; font-size: 15px; color: var(--color-text-secondary); line-height: 1.55; }
 
         .event { padding: var(--section-padding); background: var(--color-bg); }
         .event__header { max-width: 760px; margin-bottom: 48px; }
-        .event__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
+        .event__header p { font-size: 16px; color: var(--color-text); line-height: 1.7; }
         .timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
         .t-step { position: relative; padding: 0 18px 0 0; }
         .t-step:not(:last-child)::after {
@@ -153,7 +155,7 @@
             background: var(--color-bg); display: inline-block; padding-right: 10px;
         }
         .t-step__title { font-size: 16px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
-        .t-step__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+        .t-step__desc { font-size: 15px; color: var(--color-text-secondary); line-height: 1.6; }
 
         .result {
             margin-top: 40px; background: #1a2338; border: 1px solid var(--color-border);
@@ -164,11 +166,11 @@
         .result__col { padding: 18px 26px 30px; }
         .result__col + .result__col { border-left: 1px solid var(--color-border); }
         .result__title { font-size: 19px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
-        .result__desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.5; }
+        .result__desc { font-size: 15px; color: var(--color-text-secondary); line-height: 1.5; }
 
         .fleet { padding: var(--section-padding); background: var(--color-bg-section); }
         .fleet__header { max-width: 760px; margin-bottom: 40px; }
-        .fleet__header p { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; }
+        .fleet__header p { font-size: 16px; color: var(--color-text); line-height: 1.7; }
         .corridors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
         .corridor {
             background: var(--color-bg-card); border: 1px solid var(--color-border);
@@ -180,7 +182,7 @@
         .corridor__range { font-size: 13px; font-weight: 800; letter-spacing: 1.2px; color: var(--color-accent); margin-bottom: 8px; }
         .corridor h3 { font-size: 18px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 6px; line-height: 1.25; }
         .corridor__type { font-size: 13px; font-weight: 600; color: var(--color-accent-light); margin-bottom: 10px; }
-        .corridor p { font-size: 14px; color: var(--color-text-muted); line-height: 1.65; }
+        .corridor p { font-size: 15px; color: var(--color-text-secondary); line-height: 1.65; }
         .fleet__note {
             margin-top: 28px; max-width: 760px; font-size: 17px; font-weight: 700;
             color: var(--color-text-heading); border-left: 3px solid var(--color-accent);
@@ -190,7 +192,7 @@
 
         .case-study { padding: var(--section-padding); background: var(--color-bg); }
         .case__header { max-width: 760px; margin: 0 auto 48px; text-align: center; }
-        .case__lead { font-size: 17px; color: var(--color-text-muted); line-height: 1.6; max-width: 640px; margin: 0 auto; }
+        .case__lead { font-size: 17px; color: var(--color-text); line-height: 1.6; max-width: 640px; margin: 0 auto; }
         .cases { display: flex; flex-direction: column; gap: 28px; }
         .case {
             display: grid; grid-template-columns: 0.92fr 1.08fr;
@@ -215,13 +217,13 @@
         }
         .case__content { padding: 36px 36px 36px 32px; display: flex; flex-direction: column; justify-content: center; }
         .case__scenario { font-size: 18px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 14px; line-height: 1.4; }
-        .case__text { font-size: 15px; color: var(--color-text-muted); margin-bottom: 12px; line-height: 1.65; }
+        .case__text { font-size: 15px; color: var(--color-text); margin-bottom: 12px; line-height: 1.65; }
         .case__why {
             margin-top: 8px; padding: 14px 16px; border-radius: 12px;
             background: rgba(42,129,175,0.08); border: 1px solid rgba(42,129,175,0.2);
         }
         .case__why-label { font-size: 11px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 6px; }
-        .case__why p { font-size: 14px; color: var(--color-text); line-height: 1.5; margin: 0; }
+        .case__why p { font-size: 15px; color: var(--color-text); line-height: 1.5; margin: 0; }
 
         .why { padding: var(--section-padding); background: var(--color-bg-section); }
         .why__header { max-width: 760px; margin-bottom: 40px; }
@@ -230,32 +232,39 @@
         .why-card + .why-card { border-left: 1px solid var(--color-border); padding-left: 28px; }
         .why-card__num { font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: var(--color-accent); margin-bottom: 12px; }
         .why-card h3 { font-size: 17px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.3; }
-        .why-card p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+        .why-card p { font-size: 15px; color: var(--color-text-secondary); line-height: 1.6; }
 
         .digital {
             margin-top: 36px; background: #1a2338; border: 1px solid var(--color-border);
             border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 1.15fr 0.85fr;
         }
-        .digital__shot { background: #0d1320; min-height: 240px; }
-        .digital__shot img { width: 100%; height: 100%; object-fit: cover; object-position: center 70%; }
+        .digital__shot {
+            min-height: 320px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0d1320;
+        }
+        .digital__shot img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
         .digital__copy { padding: 28px 28px 30px; }
         .digital__kicker { font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-accent-light); margin-bottom: 22px; }
         .digital__item + .digital__item { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-border); }
         .digital__item h3 { font-size: 16px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 6px; }
-        .digital__item p { font-size: 14px; color: var(--color-text-muted); line-height: 1.5; }
+        .digital__item p { font-size: 15px; color: var(--color-text-secondary); line-height: 1.5; }
 
         .proof { padding: var(--section-padding); background: var(--color-bg); }
         .proof__header { max-width: 760px; margin-bottom: 28px; }
         .proof__copy { max-width: 760px; margin-bottom: 36px; }
-        .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text-muted); margin-bottom: 16px; }
+        .proof__copy p { font-size: 16px; line-height: 1.75; color: var(--color-text); margin-bottom: 16px; }
         .markers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
         .marker { padding: 4px 24px 8px 0; }
         .marker + .marker { border-left: 1px solid var(--color-border); padding-left: 28px; }
         .marker__val { font-size: 28px; font-weight: 800; color: var(--color-text-heading); margin-bottom: 8px; line-height: 1.15; }
-        .marker__label { font-size: 13px; color: var(--color-text-muted); line-height: 1.4; }
+        .marker__label { font-size: 13px; color: var(--color-text-secondary); line-height: 1.4; }
 
         .cta { padding: var(--section-padding); background: linear-gradient(135deg, rgba(42,129,175,0.12) 0%, rgba(11,15,26,1) 55%); text-align: center; }
-        .cta__text { font-size: 17px; color: var(--color-text-muted); max-width: 640px; margin: 0 auto 28px; line-height: 1.65; }
+        .cta__text { font-size: 17px; color: var(--color-text); max-width: 640px; margin: 0 auto 28px; line-height: 1.65; }
         .cta__actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .cta__phone { margin-top: 18px; font-size: 14px; color: var(--color-text-muted); }
         .cta__phone a { color: var(--color-text); font-weight: 600; }
@@ -314,7 +323,6 @@
                 <div class="hero__logo">
                     <div class="brand">
                         <img class="brand__mark" src="images/flight-aero-logo.png" alt="">
-                        <span class="brand__name">FlightAero</span>
                     </div>
                 </div>
                 <p class="hero__kicker">FlightAero · Corporate and sports charters</p>
@@ -349,7 +357,7 @@
         <div class="container">
             <div class="audiences__header animate-on-scroll">
                 <div class="section-label">Who it is for</div>
-                <h2 class="section-title">Corporate travel<br>and sports movements.</h2>
+                <h2 class="section-title">Corporate travel<br>and sports team charters.</h2>
                 <p>Different briefs — one principle: a dedicated flight built around the group's schedule.</p>
             </div>
             <div class="audience-grid">
@@ -384,7 +392,7 @@
                     </div>
                 </article>
             </div>
-            <p class="audiences__more animate-on-scroll">We also arrange flights for official delegations, touring companies and film crews.</p>
+            <p class="audiences__more animate-on-scroll">We also arrange flights for official delegations, touring productions and film crews.</p>
         </div>
     </section>
 
@@ -468,8 +476,8 @@
                     <div class="corridor__body">
                         <div class="corridor__range">50–70 passengers</div>
                         <h3>Regional jets</h3>
-                        <p class="corridor__type">CRJ-200, Embraer 145</p>
-                        <p>CRJ-200, Embraer 145 and similar types for group flights on short and medium routes.</p>
+                        <p class="corridor__type">CRJ, Embraer Regional Jets</p>
+                        <p>Regional jets for group flights on short and medium routes.</p>
                     </div>
                 </article>
                 <article class="corridor">
@@ -509,7 +517,7 @@
             <div class="cases">
                 <article class="case animate-on-scroll">
                     <div class="case__visual">
-                        <img src="images/case-corporate.jpg" loading="lazy" decoding="async" alt="Corporate group walking to a charter aircraft in the morning">
+                        <img src="images/case-corporate.jpg" loading="lazy" decoding="async" alt="Corporate delegation boarding a regional charter aircraft by the airstairs">
                         <div class="case__visual-overlay">
                             <div class="case__tag">Case 01</div>
                             <h3>Corporation</h3>
@@ -543,7 +551,7 @@
                         <img src="images/case-sport.jpg" loading="lazy" decoding="async" alt="A team boarding a charter aircraft by the airstairs">
                         <div class="case__visual-overlay">
                             <div class="case__tag">Case 02</div>
-                            <h3>Club</h3>
+                            <h3>Sports club</h3>
                             <div class="case-meta">
                                 <span class="case-chip">42 passengers</span>
                                 <span class="case-chip">One team flight</span>
@@ -558,7 +566,7 @@
                         <img src="images/case-series.jpg" loading="lazy" decoding="async" alt="A group walking to a charter aircraft on the next sector of the trip">
                         <div class="case__visual-overlay">
                             <div class="case__tag">Case 03</div>
-                            <h3>Tour series</h3>
+                            <h3>Multi-city programme</h3>
                             <div class="case-meta">
                                 <span class="case-chip">3 cities</span>
                                 <span class="case-chip">8 days</span>
@@ -568,10 +576,10 @@
                     </div>
                     <div class="case__content">
                         <p class="case__scenario">Three cities in eight days: an away tournament or a corporate roadshow.</p>
-                        <p class="case__text">The job is not one flight. It is managing a sequence of flights: routes, dates, arrival windows, roster changes and the move to the next point on the programme.</p>
+                        <p class="case__text">The job is not one flight. It is managing a sequence of flights: routes, dates, arrival windows, roster changes and the order of the following sectors.</p>
                         <div class="case__why">
                             <div class="case__why-label">The logic</div>
-                            <p>The trip is designed as one managed series under shared coordination, not a stack of separate charters.</p>
+                            <p>All sectors are planned as one programme under shared coordination, not a stack of separate charters.</p>
                         </div>
                     </div>
                 </article>
@@ -594,7 +602,7 @@
                 <article class="why-card">
                     <div class="why-card__num">02</div>
                     <h3>A dedicated manager</h3>
-                    <p>One contact supports the request from the first quote through to the flight being operated.</p>
+                    <p>One manager handles the request from the first quote through to the flight being operated.</p>
                 </article>
                 <article class="why-card">
                     <div class="why-card__num">03</div>
@@ -609,7 +617,7 @@
             </div>
             <div class="digital animate-on-scroll">
                 <div class="digital__shot">
-                    <img src="images/app-quote.jpg" loading="lazy" decoding="async" alt="FlightAero charter quote interface">
+                    <img src="images/app-quote.png" loading="lazy" decoding="async" alt="FlightAero charter quote interface">
                 </div>
                 <div class="digital__copy">
                     <div class="digital__kicker">FlightAero digital service</div>
