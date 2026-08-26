@@ -14,6 +14,7 @@ This repo ships static HTML to FTP on push to `main`. Do not invent a new host o
 | `corporate/` | https://chypulis.top/corporate/ |
 | `yachts/` | https://chypulis.top/fgg-yachts/ |
 | `planes/` | https://chypulis.top/fgg-planes/ |
+| `filter-proto/` | https://chypulis.top/filter-proto/ |
 
 After HTML or asset edits: commit, push `main`, then confirm the matching GitHub Actions deploy job. Workflows live in `.github/workflows/deploy-*.yml`. Secrets are already on the GitHub repo (`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`).
 

@@ -11,6 +11,7 @@ Static HTML prototypes for First Group Group. The live copies live on **chypulis
 | `corporate/` | `/corporate/` | https://chypulis.top/corporate/ |
 | `yachts/` | `/fgg-yachts/` | https://chypulis.top/fgg-yachts/ |
 | `planes/` | `/fgg-planes/` | https://chypulis.top/fgg-planes/ |
+| `filter-proto/` | `/filter-proto/` | https://chypulis.top/filter-proto/ |
 
 English presentation: https://chypulis.top/fgg-presentation/en.html
 
@@ -25,6 +26,7 @@ Push to `main`. Path filters pick the workflow:
 - `corporate/**` → `/corporate/`
 - `yachts/**` → `/fgg-yachts/`
 - `planes/**` → `/fgg-planes/`
+- `filter-proto/**` → `/filter-proto/`
 
 FTP secrets on the GitHub repo: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`. Do not commit credentials. Local `*.py` upload scripts are gitignored.
 
