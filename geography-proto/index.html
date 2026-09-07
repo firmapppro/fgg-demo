@@ -1,1681 +1,743 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FGG Dashboard — Редактирование борта (География полетов)</title>
-  <meta name="robots" content="noindex">
-  
-  <!-- Шрифт Mulish & Manrope (фирменный стек FGG) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Стили jsVectorMap -->
-  <link rel="stylesheet" href="assets/jsvectormap.min.css">
-  
-  <style>
-    :root {
-      --bg-page: #F4F6F9;
-      --bg-card: #FFFFFF;
-      --text-main: #1E293B;
-      --text-muted: #64748B;
-      --text-hint: #94A3B8;
-      --primary: #2563EB;
-      --primary-hover: #1D4ED8;
-      --primary-light: #EFF6FF;
-      --primary-border: #BFDBFE;
-      --border-color: #E2E8F0;
-      --border-focus: #3B82F6;
-      --danger: #EF4444;
-      --danger-hover: #DC2626;
-      --danger-light: #FEE2E2;
-      --success: #10B981;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-      --shadow-dropdown: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Mulish', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
-    }
-
-    /* Верхняя панель навигации дашборда */
-    .dashboard-topbar {
-      background: #FFFFFF;
-      border-bottom: 1px solid var(--border-color);
-      padding: 14px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 17px;
-      color: #0F172A;
-      letter-spacing: -0.3px;
-    }
-
-    .logo-badge span {
-      background: #0F172A;
-      color: #FFFFFF;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .env-badge {
-      background: #FEF3C7;
-      color: #92400E;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .user-pill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #334155;
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    /* Основной контейнер */
-    .main-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 24px 32px 100px 32px;
-    }
-
-    /* Навигационная цепочка и шапка страницы */
-    .page-header {
-      margin-bottom: 24px;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--primary);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      cursor: pointer;
-      transition: color 0.15s;
-    }
-
-    .back-link:hover {
-      color: var(--primary-hover);
-    }
-
-    .page-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .page-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #0F172A;
-      letter-spacing: -0.5px;
-    }
-
-    .btn-delete-board {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      color: var(--danger);
-      border: none;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      transition: background 0.15s;
-    }
-
-    .btn-delete-board:hover {
-      background: var(--danger-light);
-    }
-
-    /* Карточки разделов */
-    .section-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 24px 28px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-color);
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .section-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: #0F172A;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .new-tag {
-      background: linear-gradient(135deg, #2563EB, #1D4ED8);
-      color: #FFFFFF;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-link-action {
-      color: var(--primary);
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .btn-link-action:hover {
-      text-decoration: underline;
-    }
-
-    /* Сетка формы */
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px 24px;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      position: relative;
-    }
-
-    .form-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .info-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      background: #E2E8F0;
-      color: #64748B;
-      font-size: 10px;
-      font-weight: 800;
-      font-style: normal;
-      cursor: help;
-      position: relative;
-    }
-
-    .info-icon:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #0F172A;
-      color: #FFFFFF;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      white-space: normal;
-      width: 240px;
-      line-height: 1.4;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      pointer-events: none;
-    }
-
-    .form-input, .form-select {
-      width: 100%;
-      height: 42px;
-      padding: 0 14px;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      font-family: inherit;
-      font-size: 14px;
-      color: var(--text-main);
-      background-color: #FFFFFF;
-      outline: none;
-      transition: all 0.15s ease;
-    }
-
-    .form-input:focus, .form-select:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-
-    /* Превью фото борта */
-    .photos-grid {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .photo-card {
-      width: 170px;
-      height: 110px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      position: relative;
-      background: #E2E8F0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .photo-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 23, 42, 0.75);
-      color: #FFFFFF;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 4px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    /* Тумблеры */
-    .switch-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      height: 42px;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 44px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #CBD5E1;
-      transition: .2s;
-      border-radius: 24px;
-    }
-
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .2s;
-      border-radius: 50%;
-    }
-
-    input:checked + .toggle-slider {
-      background-color: var(--primary);
-    }
-
-    input:checked + .toggle-slider:before {
-      transform: translateX(20px);
-    }
-
-    /* ========================================================
-       ГЕОГРАФИЯ ПОЛЕТОВ (ЦЕЛЕВОЙ РАЗДЕЛ)
-       ======================================================== */
-    .geography-section {
-      border: 2px solid var(--primary-border);
-      background: #FFFFFF;
-      position: relative;
-    }
-
-    .geography-section-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: -12px;
-      margin-bottom: 20px;
-      max-width: 900px;
-    }
-
-    .geography-grid {
-      display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 28px;
-      align-items: stretch;
-    }
-
-    @media (max-width: 1100px) {
-      .geography-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Левая колонка: Управление и теги */
-    .geography-controls-card {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      background: #F8FAFC;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 20px;
-    }
-
-    .block-subtitle {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    /* Пресеты */
-    .presets-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .preset-pill {
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #334155;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-      user-select: none;
-    }
-
-    .preset-pill:hover {
-      background: var(--primary-light);
-      border-color: var(--primary);
-      color: var(--primary);
-      transform: translateY(-1px);
-    }
-
-    .preset-pill.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #FFFFFF;
-    }
-
-    .preset-pill .preset-badge {
-      background: rgba(0, 0, 0, 0.07);
-      padding: 1px 6px;
-      border-radius: 10px;
-      font-size: 11px;
-    }
-
-    .preset-pill.active .preset-badge {
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    /* Поле поиска страны */
-    .country-search-wrapper {
-      position: relative;
-    }
-
-    .country-search-input-group {
-      display: flex;
-      gap: 8px;
-    }
-
-    .country-search-input {
-      flex: 1;
-      height: 42px;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 0 14px 0 38px;
-      font-family: inherit;
-      font-size: 14px;
-      color: var(--text-main);
-      background: #FFFFFF;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
-    .country-search-input:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 12px;
-      top: 13px;
-      color: var(--text-hint);
-      pointer-events: none;
-    }
-
-    .btn-add-country {
-      background: var(--primary);
-      color: #FFFFFF;
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 0 16px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.15s;
-      white-space: nowrap;
-    }
-
-    .btn-add-country:hover {
-      background: var(--primary-hover);
-    }
-
-    /* Выпадающий список автодополнения */
-    .autocomplete-dropdown {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      right: 0;
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      max-height: 240px;
-      overflow-y: auto;
-      z-index: 40;
-      box-shadow: var(--shadow-dropdown);
-      display: none;
-    }
-
-    .autocomplete-dropdown.open {
-      display: block;
-    }
-
-    .autocomplete-item {
-      padding: 9px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      cursor: pointer;
-      border-bottom: 1px solid #F1F5F9;
-      transition: background 0.1s;
-    }
-
-    .autocomplete-item:hover, .autocomplete-item.highlighted {
-      background: var(--primary-light);
-    }
-
-    .autocomplete-item .item-flag {
-      font-size: 16px;
-    }
-
-    .autocomplete-item .item-name {
-      font-weight: 600;
-      color: #1E293B;
-    }
-
-    .autocomplete-item .item-en {
-      color: var(--text-muted);
-      font-size: 12px;
-      margin-left: auto;
-    }
-
-    .autocomplete-item .item-code {
-      font-size: 11px;
-      font-weight: 700;
-      background: #E2E8F0;
-      color: #475569;
-      padding: 1px 5px;
-      border-radius: 4px;
-    }
-
-    /* Контейнер тегов выбранных стран */
-    .selected-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .selected-counter {
-      font-size: 13px;
-      font-weight: 700;
-      color: #0F172A;
-    }
-
-    .selected-counter .count-badge {
-      background: var(--primary);
-      color: #FFFFFF;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 12px;
-      margin-left: 4px;
-    }
-
-    .btn-clear-all {
-      font-size: 12px;
-      color: var(--text-muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn-clear-all:hover {
-      color: var(--danger);
-      text-decoration: underline;
-    }
-
-    .tags-container {
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 12px;
-      min-height: 180px;
-      max-height: 290px;
-      overflow-y: auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      gap: 6px;
-    }
-
-    .country-tag {
-      background: #F1F5F9;
-      border: 1px solid #CBD5E1;
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #1E293B;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      animation: fadeInTag 0.15s ease-out;
-      transition: all 0.15s ease;
-    }
-
-    .country-tag:hover {
-      border-color: #94A3B8;
-      background: #E2E8F0;
-    }
-
-    .country-tag .tag-remove {
-      cursor: pointer;
-      color: #94A3B8;
-      font-size: 14px;
-      line-height: 1;
-      padding: 2px;
-      border-radius: 4px;
-      transition: all 0.1s;
-    }
-
-    .country-tag .tag-remove:hover {
-      color: var(--danger);
-      background: var(--danger-light);
-    }
-
-    .tags-empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 160px;
-      color: var(--text-hint);
-      text-align: center;
-      font-size: 13px;
-      gap: 8px;
-    }
-
-    @keyframes fadeInTag {
-      from { opacity: 0; transform: scale(0.92); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* Правая колонка: Карта мира */
-    .geography-map-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .map-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .map-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #0F172A;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .map-legend {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .legend-color {
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
-    }
-
-    .legend-selected {
-      background: var(--primary);
-    }
-
-    .legend-available {
-      background: #E2E8F0;
-    }
-
-    /* Контейнер для SVG-карты jsVectorMap */
-    #world-map {
-      width: 100%;
-      height: 460px;
-      background: #F8FAFC;
-      border-radius: var(--radius-sm);
-      border: 1px solid #E2E8F0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Кастомизация всплывающей подсказки jsVectorMap */
-    .jvm-tooltip {
-      background: #0F172A !important;
-      color: #FFFFFF !important;
-      font-family: inherit !important;
-      font-size: 12px !important;
-      font-weight: 600 !important;
-      border-radius: 6px !important;
-      padding: 6px 10px !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-      border: none !important;
-      z-index: 1000 !important;
-    }
-
-    .jvm-zoom-btn {
-      background: #FFFFFF !important;
-      color: #0F172A !important;
-      border: 1px solid var(--border-color) !important;
-      border-radius: 6px !important;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
-      font-weight: 700 !important;
-      width: 28px !important;
-      height: 28px !important;
-      line-height: 26px !important;
-      transition: all 0.15s !important;
-    }
-
-    .jvm-zoom-btn:hover {
-      background: var(--primary-light) !important;
-      color: var(--primary) !important;
-      border-color: var(--primary) !important;
-    }
-
-    /* Нижняя плашка действий (сохранение) */
-    .sticky-footer-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #FFFFFF;
-      border-top: 1px solid var(--border-color);
-      padding: 14px 32px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-      z-index: 40;
-    }
-
-    .btn-secondary {
-      height: 42px;
-      padding: 0 20px;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      background: #FFFFFF;
-      color: #334155;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .btn-secondary:hover {
-      background: #F1F5F9;
-    }
-
-    .btn-primary {
-      height: 42px;
-      padding: 0 24px;
-      border: none;
-      border-radius: var(--radius-md);
-      background: var(--primary);
-      color: #FFFFFF;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.15s;
-      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-hover);
-    }
-
-    /* Модалка с демонстрацией отправляемого JSON */
-    .modal-backdrop {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(2px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal-card {
-      background: #FFFFFF;
-      border-radius: var(--radius-lg);
-      width: 90%;
-      max-width: 600px;
-      box-shadow: var(--shadow-dropdown);
-      overflow: hidden;
-      animation: modalSlide 0.2s ease-out;
-    }
-
-    @keyframes modalSlide {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .modal-header {
-      padding: 18px 24px;
-      background: #0F172A;
-      color: #FFFFFF;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-header h3 {
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .modal-body {
-      padding: 24px;
-    }
-
-    .modal-body pre {
-      background: #0F172A;
-      color: #38BDF8;
-      padding: 16px;
-      border-radius: var(--radius-md);
-      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-      font-size: 12px;
-      max-height: 320px;
-      overflow-y: auto;
-    }
-
-    .modal-footer {
-      padding: 14px 24px;
-      background: #F8FAFC;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      justify-content: flex-end;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FGG Dashboard - Редактирование борта</title>
+    <meta name="robots" content="noindex">
+    
+    <!-- Стек FGG Dashboard: Tailwind CSS + FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Стили jsVectorMap -->
+    <link rel="stylesheet" href="assets/jsvectormap.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb', 
+                        sidebar: '#ffffff', 
+                        bgmain: '#f3f4f6'   
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Стили карты и кастомизация jsVectorMap */
+        #world-map {
+            width: 100%;
+            height: 390px;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jvm-tooltip {
+            background: #1e293b !important;
+            color: #ffffff !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+            border: none !important;
+            z-index: 100 !important;
+        }
+
+        .jvm-zoom-btn {
+            background: #ffffff !important;
+            color: #334155 !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 6px !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+            font-weight: 700 !important;
+            width: 26px !important;
+            height: 26px !important;
+            line-height: 24px !important;
+            transition: all 0.15s !important;
+        }
+
+        .jvm-zoom-btn:hover {
+            background: #eff6ff !important;
+            color: #2563eb !important;
+            border-color: #93c5fd !important;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-bgmain text-gray-800 font-sans antialiased h-screen flex overflow-hidden">
 
-  <!-- Навбар -->
-  <header class="dashboard-topbar">
-    <div class="topbar-left">
-      <div class="logo-badge">
-        <span>FGG</span> FlightAero Admin
-      </div>
-      <div class="env-badge">Prototype</div>
-    </div>
-    <div class="topbar-right">
-      <div class="user-pill">
-        <div class="user-avatar">АЧ</div>
-        <span>Артём Чипулис (PM)</span>
-      </div>
-    </div>
-  </header>
+    <!-- Toast Notifications (как в planes/dashboard.html) -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Основная рабочая область -->
-  <main class="main-container">
+    <!-- Боковое меню FGG Dashboard -->
+    <aside class="w-64 bg-sidebar border-r border-gray-200 flex flex-col hidden md:flex shrink-0">
+        <div class="h-16 flex items-center px-6 border-b border-gray-200">
+            <i class="fa-solid fa-plane-departure text-primary text-xl mr-3"></i>
+            <span class="text-lg font-bold text-gray-900">FGG Dashboard</span>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <a href="#" class="flex items-center px-4 py-2.5 bg-blue-50 text-primary rounded-lg font-medium text-sm">
+                <i class="fa-solid fa-plane w-5 mr-3"></i> Борта
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg font-medium text-sm transition">
+                <i class="fa-solid fa-calendar w-5 mr-3"></i> Расписание
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg font-medium text-sm transition">
+                <i class="fa-solid fa-users w-5 mr-3"></i> Клиенты
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg font-medium text-sm transition">
+                <i class="fa-solid fa-gas-pump w-5 mr-3"></i> Кэш топлива
+            </a>
+        </nav>
+        <div class="p-4 border-t border-gray-200 text-xs text-gray-400">
+            FGG Fleet Operations v2.4
+        </div>
+    </aside>
 
-    <!-- Заголовок страницы -->
-    <div class="page-header">
-      <a class="back-link" onclick="history.back()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        Назад к списку бортов
-      </a>
-      <div class="page-title-row">
-        <h1 class="page-title">Редактирование борта</h1>
-        <button class="btn-delete-board" onclick="alert('Демонстрационный режим: удаление борта')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-          Удалить
-        </button>
-      </div>
-    </div>
-
-    <!-- 1. Добавление фотографий борта -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2 class="section-title">1. Добавление фотографий борта</h2>
-        <a class="btn-link-action" onclick="alert('Добавление фотографий борта')">+ Добавить фотографию</a>
-      </div>
-      <div class="photos-grid">
-        <div class="photo-card">
-          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=400&q=80" alt="Экстерьер">
-          <div class="photo-caption">Экстерьер</div>
-        </div>
-        <div class="photo-card">
-          <img src="https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=400&q=80" alt="Интерьер">
-          <div class="photo-caption">Салон ДЕНЬ</div>
-        </div>
-        <div class="photo-card" style="background: #F1F5F9; border: 2px dashed #CBD5E1; cursor: pointer;">
-          <div style="font-size: 11px; font-weight: 700; color: #64748B; text-align: center; padding: 10px;">
-            + Схема компоновки (ДЕНЬ / НОЧЬ)
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. Основная информация о самолете (ПОЛЕ ГЕОГРАФИЯ ПОЛЕТОВ УДАЛЕНО!) -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2 class="section-title">2. Основная информация о самолете</h2>
-      </div>
-
-      <!-- Ряд 1: Статус, Модель, Бортовой номер -->
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">
-            Статус самолета
-            <i class="info-icon" data-tooltip="Текущее рабочее состояние судна в системе.">i</i>
-          </label>
-          <select class="form-select">
-            <option selected>Активный</option>
-            <option>На обслуживании</option>
-            <option>Неактивный</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Модель самолета
-            <i class="info-icon" data-tooltip="Тип воздушного судна из справочника.">i</i>
-          </label>
-          <select class="form-select">
-            <option selected>Embraer Legacy 650</option>
-            <option>Bombardier Global 6000</option>
-            <option>Gulfstream G550</option>
-            <option>Cessna Citation XLS+</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Бортовой номер
-            <i class="info-icon" data-tooltip="Регистрационный номер воздушного судна (например, RA-02875).">i</i>
-          </label>
-          <input type="text" class="form-input" value="RA-02875">
-        </div>
-      </div>
-
-      <!-- Ряд 2: ВАЛЮТА и АЭРОПОРТ БАЗИРОВАНИЯ (старый выпадающий список «География полетов» УДАЛЕН!) -->
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">
-            Валюта
-            <i class="info-icon" data-tooltip="Основная валюта для расчетов по этому борту. Поле больше не блокируется старыми зонами.">i</i>
-          </label>
-          <select class="form-select">
-            <option selected>Российские рубли (RUB)</option>
-            <option>Евро (EUR)</option>
-            <option>Доллары США (USD)</option>
-            <option>Дирхамы ОАЭ (AED)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Аэропорт базирования
-            <i class="info-icon" data-tooltip="Основной аэропорт приписки борта (код ICAO и название).">i</i>
-          </label>
-          <input type="text" class="form-input" value="UUEE, Sheremetyevo International Airport, Moscow">
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Год выпуска
-            <i class="info-icon" data-tooltip="Год производства самолета согласно документам.">i</i>
-          </label>
-          <input type="text" class="form-input" value="2018">
-        </div>
-      </div>
-
-      <!-- Ряд 3: Обновления и тайминги -->
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">
-            Год обновления экстерьера
-            <i class="info-icon" data-tooltip="Год последней покраски или обновления экстерьера.">i</i>
-          </label>
-          <input type="text" class="form-input" value="2023">
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Год обновления интерьера
-            <i class="info-icon" data-tooltip="Год реновации салона и кресел.">i</i>
-          </label>
-          <input type="text" class="form-input" value="2023">
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Время на рулежку, мин
-            <i class="info-icon" data-tooltip="Нормативное время на руление для калькуляции рейса.">i</i>
-          </label>
-          <input type="number" class="form-input" value="10">
-        </div>
-      </div>
-
-      <!-- Ряд 4: Базирование и переводы -->
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">
-            Суток вне базы
-            <i class="info-icon" data-tooltip="Допустимый срок нахождения борта вне домашнего аэропорта.">i</i>
-          </label>
-          <input type="number" class="form-input" value="7">
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Floating base
-            <i class="info-icon" data-tooltip="Плавающая база без жесткой привязки к домашнему порту.">i</i>
-          </label>
-          <div class="switch-row">
-            <label class="toggle-switch">
-              <input type="checkbox">
-              <span class="toggle-slider"></span>
-            </label>
-            <span style="font-size: 13px; color: var(--text-muted);">Выключено</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Temporary base
-            <i class="info-icon" data-tooltip="Временный аэропорт дислокации борта.">i</i>
-          </label>
-          <div class="switch-row">
-            <label class="toggle-switch">
-              <input type="checkbox">
-              <span class="toggle-slider"></span>
-            </label>
-            <span style="font-size: 13px; color: var(--text-muted);">Выключено</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Характеристики самолета -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2 class="section-title">3. Характеристики самолета</h2>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">
-            Фактическая дальность, км
-            <i class="info-icon" data-tooltip="Паспортная дальность за вычетом резерва топлива IFR.">i</i>
-          </label>
-          <input type="text" class="form-input" value="7 223">
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Max Pax (Пассажиры)
-            <i class="info-icon" data-tooltip="Максимальное число пассажирских мест.">i</i>
-          </label>
-          <input type="number" class="form-input" value="13">
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Размеры салона (ДхШхВ), см
-            <i class="info-icon" data-tooltip="Габариты пассажирского салона.">i</i>
-          </label>
-          <input type="text" class="form-input" value="1290 x 210 x 182">
-        </div>
-        <div class="form-group">
-          <label class="form-label">
-            Багаж, м³
-            <i class="info-icon" data-tooltip="Общий объем багажных отсеков.">i</i>
-          </label>
-          <input type="text" class="form-input" value="6.8">
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================
-         4. ГЕОГРАФИЯ ПОЛЕТОВ (НОВЫЙ ЦЕЛЕВОЙ РАЗДЕЛ)
-         ======================================================== -->
-    <section class="section-card geography-section" id="section-geography">
-      <div class="section-header">
-        <h2 class="section-title">
-          4. География полетов
-          <span class="new-tag">Новый алгоритм</span>
-        </h2>
-      </div>
-      
-      <p class="geography-section-desc">
-        Укажите страны, в которые разрешены полеты данного судна. Выберите готовый регион/пресет, добавляйте страны вручную через строку поиска или <strong>кликайте прямо по карте мира</strong>. Изменения синхронизируются мгновенно в обе стороны.
-      </p>
-
-      <div class="geography-grid">
+    <!-- Основная часть -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden">
         
-        <!-- Левая колонка: Пресеты, поиск, список тегов -->
-        <div class="geography-controls-card">
-          
-          <!-- Блок быстрых пресетов -->
-          <div>
-            <div class="block-subtitle" style="margin-bottom: 8px;">
-              <span>Быстрые пресеты регионов</span>
-              <i class="info-icon" data-tooltip="Клик по пресету ДОПОЛНЯЕТ список стран. Вы можете убрать любую страну крестиком.">i</i>
+        <!-- Шапка дашборда (в точности как в planes/dashboard.html) -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0">
+            <div class="flex items-center">
+                <h1 class="text-xl font-semibold text-gray-800" id="pageTitle">Редактирование борта RA-02875</h1>
+                <span class="ml-3 px-2.5 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Активный</span>
             </div>
-            <div class="presets-container" id="presets-list">
-              <!-- Рендерится из JS -->
-            </div>
-          </div>
-
-          <!-- Поле ввода страны с автодополнением -->
-          <div>
-            <div class="block-subtitle" style="margin-bottom: 8px;">Добавить страну вручную</div>
-            <div class="country-search-wrapper" id="search-wrapper">
-              <div class="country-search-input-group">
-                <div style="position: relative; flex: 1;">
-                  <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                  <input type="text" id="country-search-input" class="country-search-input" placeholder="Введите название страны или код (напр. ОАЭ, Турция, FR)..." autocomplete="off">
-                </div>
-                <button type="button" class="btn-add-country" id="btn-add-search">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                  Добавить
+            <div class="flex items-center space-x-3">
+                <button onclick="savePlane()" class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center shadow-sm text-sm">
+                    <i class="fa-solid fa-check mr-2"></i> Сохранить изменения
                 </button>
-              </div>
-              
-              <!-- Выпадающий список совпадений -->
-              <div class="autocomplete-dropdown" id="search-dropdown"></div>
             </div>
-          </div>
+        </header>
 
-          <!-- Выбранные страны (Теги) -->
-          <div>
-            <div class="selected-header-row" style="margin-bottom: 8px;">
-              <div class="selected-counter">
-                Разрешенные страны:
-                <span class="count-badge" id="selected-count">0</span>
-              </div>
-              <button type="button" class="btn-clear-all" id="btn-clear-all">Очистить всё</button>
+        <!-- Контент формы -->
+        <div class="flex-1 overflow-auto p-8">
+            <div class="max-w-6xl mx-auto space-y-6">
+
+                <!-- Навигация назад и удаление -->
+                <div class="flex justify-between items-center">
+                    <button onclick="history.back()" class="text-gray-500 hover:text-gray-900 flex items-center transition font-medium text-sm">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Вернуться к списку
+                    </button>
+                    <button onclick="if(confirm('Удалить данный борт из системы?')) showToast('Борт удален', 'error');" class="bg-red-500 hover:bg-red-600 text-white px-3.5 py-1.5 rounded-lg font-medium transition flex items-center shadow-sm text-xs">
+                        <i class="fa-solid fa-trash-can mr-1.5"></i> Удалить борт
+                    </button>
+                </div>
+
+                <!-- 1. Добавление фотографий борта -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-3">
+                        <h2 class="text-base font-semibold text-gray-800 flex items-center">
+                            <i class="fa-solid fa-camera text-gray-400 mr-2"></i> 1. Добавление фотографий борта
+                        </h2>
+                        <button type="button" class="text-primary hover:text-blue-700 text-xs font-semibold flex items-center">
+                            <i class="fa-solid fa-plus mr-1"></i> Добавить фото
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="border border-gray-200 rounded-lg p-2 bg-gray-50 flex flex-col items-center">
+                            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=400&q=80" alt="Экстерьер" class="w-full h-24 object-cover rounded-md mb-1.5">
+                            <span class="text-xs text-gray-600 font-medium">Экстерьер</span>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-2 bg-gray-50 flex flex-col items-center">
+                            <img src="https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=400&q=80" alt="Салон день" class="w-full h-24 object-cover rounded-md mb-1.5">
+                            <span class="text-xs text-gray-600 font-medium">Салон (ДЕНЬ)</span>
+                        </div>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center text-gray-400 hover:border-primary hover:text-primary transition cursor-pointer">
+                            <i class="fa-solid fa-cloud-arrow-up text-xl mb-1"></i>
+                            <span class="text-xs font-medium text-center">Схема салона</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Основная информация о самолете (ПОЛЕ ГЕОГРАФИЯ УДАЛЕНО, ВАЛЮТА С АВТОПЕРЕКЛЮЧЕНИЕМ) -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h2 class="text-base font-semibold mb-4 text-gray-800 border-b border-gray-100 pb-3 flex items-center">
+                        <i class="fa-solid fa-circle-info text-gray-400 mr-2"></i> 2. Основная информация о самолете
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Статус самолета</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:border-primary bg-white outline-none">
+                                <option selected>Активный</option>
+                                <option>На обслуживании</option>
+                                <option>Неактивный</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Модель самолета</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:border-primary bg-white outline-none">
+                                <option selected>Embraer Legacy 650</option>
+                                <option>Bombardier Global 6000</option>
+                                <option>Gulfstream G550</option>
+                                <option>Cessna Citation XLS+</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Бортовой номер</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="RA-02875">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <!-- Поле Валюта: автоподстановка + ручное изменение -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="block text-xs font-medium text-gray-600">Валюта расчетов</label>
+                                <span id="currency-mode-badge" class="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded transition">Авто</span>
+                            </div>
+                            <select id="plane-currency" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:border-primary bg-white outline-none transition">
+                                <option value="RUB">Российский рубль (RUB)</option>
+                                <option value="EUR">Евро (EUR)</option>
+                                <option value="USD">Доллар США (USD)</option>
+                                <option value="AED">Дирхам ОАЭ (AED)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Аэропорт базирования</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="UUEE, Sheremetyevo International">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Год выпуска</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="2018">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Год обновления экстерьера</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="2023">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Год обновления интерьера</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="2023">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Время на рулежку, мин</label>
+                            <input type="number" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="10">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Характеристики самолета -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h2 class="text-base font-semibold mb-4 text-gray-800 border-b border-gray-100 pb-3 flex items-center">
+                        <i class="fa-solid fa-sliders text-gray-400 mr-2"></i> 3. Характеристики самолета
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Фактическая дальность (км)</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="7 223">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Max Pax (Пассажиры)</label>
+                            <input type="number" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="13">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Размеры салона (см)</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="1290 x 210 x 182">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Багаж (м³)</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="6.8">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================
+                     4. ГЕОГРАФИЯ ПОЛЕТОВ (НОВЫЙ КОМПАКТНЫЙ БЛОК В СТИЛЕ FGG)
+                     ======================================================== -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm" id="section-geography">
+                    <div class="flex justify-between items-center mb-3 border-b border-gray-100 pb-3">
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-base font-semibold text-gray-800 flex items-center">
+                                <i class="fa-solid fa-earth-americas text-primary mr-2"></i> 4. География полетов
+                            </h2>
+                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-xs font-medium rounded">Унификация</span>
+                        </div>
+                        <span class="text-xs text-gray-400">Клик по карте добавляет/убирает страну</span>
+                    </div>
+
+                    <!-- Сетка: компактное управление слева + карта справа -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                        
+                        <!-- Левая колонка: Пресеты, ввод и теги (5 колонок) -->
+                        <div class="lg:col-span-5 space-y-4">
+                            
+                            <!-- Пресеты регионов -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                                    Быстрые пресеты регионов:
+                                </label>
+                                <div class="flex flex-wrap gap-1.5" id="presets-container">
+                                    <!-- Генерируется из JS -->
+                                </div>
+                            </div>
+
+                            <!-- Ручной ввод страны с автодополнением -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                                    Добавить страну вручную:
+                                </label>
+                                <div class="relative flex gap-2">
+                                    <div class="relative flex-1">
+                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                                        <input type="text" id="country-search-input" placeholder="Поиск страны (напр. Франция, ОАЭ, TR)..." autocomplete="off" class="w-full border border-gray-300 rounded-lg pl-8 pr-3 py-1.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary bg-white outline-none">
+                                        
+                                        <!-- Выпадающий список -->
+                                        <div id="search-dropdown" class="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-30 hidden"></div>
+                                    </div>
+                                    <button type="button" id="btn-add-search" class="bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center">
+                                        <i class="fa-solid fa-plus mr-1"></i> Добавить
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Выбранные страны (Теги) -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <span class="text-xs font-semibold text-gray-700">
+                                        Выбрано стран: <span id="selected-count" class="font-bold text-primary">0</span>
+                                    </span>
+                                    <button type="button" id="btn-clear-all" class="text-xs text-gray-400 hover:text-red-600 transition">
+                                        Очистить всё
+                                    </button>
+                                </div>
+
+                                <div id="tags-container" class="border border-gray-200 rounded-lg p-2.5 bg-gray-50 min-h-[140px] max-h-[180px] overflow-y-auto flex flex-wrap gap-1.5 content-start">
+                                    <!-- Чипы стран генерируются из JS -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Правая колонка: Карта мира (7 колонок) -->
+                        <div class="lg:col-span-7 bg-white rounded-lg border border-gray-200 p-3">
+                            <div class="flex justify-between items-center mb-2 px-1">
+                                <div class="flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="w-3 h-3 rounded-sm bg-primary inline-block"></span> Выбрано
+                                    </span>
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="w-3 h-3 rounded-sm bg-gray-200 inline-block"></span> Не выбрано
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <button type="button" id="map-zoom-in" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-xs font-bold transition" title="Приблизить">+</button>
+                                    <button type="button" id="map-zoom-out" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-xs font-bold transition" title="Отдалить">-</button>
+                                    <button type="button" id="map-zoom-reset" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded text-xs font-medium transition" title="Сбросить масштаб">
+                                        <i class="fa-solid fa-arrows-rotate mr-1"></i> Сброс
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Карта jsVectorMap -->
+                            <div id="world-map"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 5. Цены и тарифы -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm opacity-90">
+                    <h2 class="text-base font-semibold mb-4 text-gray-800 border-b border-gray-100 pb-3 flex items-center">
+                        <i class="fa-solid fa-ruble-sign text-gray-400 mr-2"></i> 5. Цены и тарифы
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Сбор за коммерческий рейс, час</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="450 000 ₽">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Сбор за коммерческий рейс (за рубеж)</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="5 500 €">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Сбор за перегоночный рейс, час</label>
+                            <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary focus:outline-none" value="380 000 ₽">
+                        </div>
+                    </div>
+                </div>
+
             </div>
+        </div>
+    </main>
+
+    <!-- Скрипты: база стран и jsVectorMap -->
+    <script src="assets/countries-data.js"></script>
+    <script src="assets/jsvectormap.min.js"></script>
+    <script src="assets/world.js"></script>
+
+    <script>
+        // Функция всплывающих уведомлений (Toast) в стиле дашборда
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
             
-            <div class="tags-container" id="tags-container">
-              <!-- Теги стран рендерятся из JS -->
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Правая колонка: Интерактивная векторная карта мира -->
-        <div class="geography-map-card">
-          <div class="map-header-row">
-            <div class="map-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-              Интерактивная карта мира (кликните по стране)
-            </div>
-            <div class="map-legend">
-              <div class="legend-item">
-                <div class="legend-color legend-selected"></div>
-                <span>Выбрано</span>
-              </div>
-              <div class="legend-item">
-                <div class="legend-color legend-available"></div>
-                <span>Не выбрано</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Контейнер для jsVectorMap -->
-          <div id="world-map"></div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 5. Цены и тарифы (для визуальной целостности) -->
-    <section class="section-card" style="opacity: 0.85;">
-      <div class="section-header">
-        <h2 class="section-title">5. Цены и тарифы</h2>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Сбор за коммерческий рейс, час</label>
-          <input type="text" class="form-input" value="450 000 ₽">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Сбор за коммерческий рейс (за рубеж)</label>
-          <input type="text" class="form-input" value="5 500 €">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Сбор за перегоночный рейс, час</label>
-          <input type="text" class="form-input" value="380 000 ₽">
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Фиксированная нижняя панель сохранения -->
-  <footer class="sticky-footer-bar">
-    <div style="margin-right: auto; font-size: 13px; color: var(--text-muted);">
-      Борт: <strong>RA-02875</strong> (Embraer Legacy 650) &bull; Изменения готовы к сохранению
-    </div>
-    <button type="button" class="btn-secondary" onclick="alert('Изменения отменены')">Отмена</button>
-    <button type="button" class="btn-primary" id="btn-save-changes">Сохранить изменения</button>
-  </footer>
-
-  <!-- Модальное окно с JSON для демонстрации API -->
-  <div class="modal-backdrop" id="payload-modal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>Payload для API (PUT /dashboard/planes/units/31)</h3>
-        <button style="background:none; border:none; color:white; font-size:20px; cursor:pointer;" onclick="document.getElementById('payload-modal').classList.remove('open')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size: 13px; color: #475569; margin-bottom: 12px;">
-          Структура данных, сформированная новым компонентом географии полетов для отправки на бэкенд:
-        </p>
-        <pre id="payload-json"></pre>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-primary" onclick="document.getElementById('payload-modal').classList.remove('open')">Понятно</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Подключение скриптов: база данных стран, jsVectorMap и карта мира -->
-  <script src="assets/countries-data.js"></script>
-  <script src="assets/jsvectormap.min.js"></script>
-  <script src="assets/world.js"></script>
-
-  <!-- Логика двусторонней синхронизации интерфейса и карты -->
-  <script>
-    (function() {
-      // 1. Начальное состояние (стартовые разрешенные страны для RA-02875)
-      const initialCodes = ['RU', 'BY', 'AE', 'TR', 'KZ', 'UZ', 'SA', 'QA', 'OM', 'EG', 'TH', 'MV'];
-      const selectedCountries = new Set(initialCodes);
-
-      let mapInstance = null;
-      let isUpdatingProgrammatically = false;
-
-      // Элементы DOM
-      const tagsContainer = document.getElementById('tags-container');
-      const selectedCountEl = document.getElementById('selected-count');
-      const presetsContainer = document.getElementById('presets-list');
-      const searchInput = document.getElementById('country-search-input');
-      const searchDropdown = document.getElementById('search-dropdown');
-      const btnAddSearch = document.getElementById('btn-add-search');
-      const btnClearAll = document.getElementById('btn-clear-all');
-      const btnSaveChanges = document.getElementById('btn-save-changes');
-      const modal = document.getElementById('payload-modal');
-      const payloadPre = document.getElementById('payload-json');
-
-      // 2. Инициализация интерактивной карты jsVectorMap
-      function initMap() {
-        mapInstance = new jsVectorMap({
-          selector: '#world-map',
-          map: 'world',
-          backgroundColor: '#F8FAFC',
-          draggable: true,
-          zoomButtons: true,
-          zoomOnScroll: true,
-          zoomOnScrollSpeed: 3,
-          zoomMax: 12,
-          zoomMin: 1,
-          zoomStep: 1.4,
-          regionsSelectable: true,
-          regionsSelectableOne: false,
-          selectedRegions: Array.from(selectedCountries),
-
-          regionStyle: {
-            initial: {
-              fill: '#E2E8F0',
-              fillOpacity: 1,
-              stroke: '#FFFFFF',
-              strokeWidth: 0.6,
-              strokeOpacity: 1
-            },
-            hover: {
-              fill: '#93C5FD',
-              cursor: 'pointer',
-              fillOpacity: 0.95
-            },
-            selected: {
-              fill: '#2563EB',
-              fillOpacity: 1
-            },
-            selectedHover: {
-              fill: '#1D4ED8',
-              fillOpacity: 1
+            let bgColor = 'bg-blue-600';
+            let icon = 'fa-circle-info';
+            if (type === 'error') {
+                bgColor = 'bg-red-500';
+                icon = 'fa-circle-exclamation';
+            } else if (type === 'success') {
+                bgColor = 'bg-emerald-600';
+                icon = 'fa-circle-check';
             }
-          },
-
-          // Тултип при наведении
-          onRegionTooltipShow: function(event, tooltip, code) {
-            const country = window.COUNTRIES_DATA[code];
-            const isSelected = selectedCountries.has(code);
-            const name = country ? `${country.flag} ${country.nameRu} (${country.nameEn})` : code;
-            const status = isSelected 
-              ? '<span style="color: #4ADE80;">✓ Разрешено к полетам</span>' 
-              : '<span style="color: #94A3B8;">Кликните, чтобы добавить</span>';
             
-            tooltip.text(
-              `<div style="text-align: left;">
-                <div style="font-weight: 700; font-size: 13px; margin-bottom: 2px;">${name}</div>
-                <div style="font-size: 11px;">${status}</div>
-              </div>`,
-              true // разрешить HTML
-            );
-          },
+            toast.className = `flex items-center gap-3 px-4 py-2.5 rounded-lg shadow-lg text-white transform transition-all duration-200 translate-x-full opacity-0 ${bgColor} text-xs font-medium`;
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-full', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 250);
+            }, 3200);
+        }
 
-          // Клик по стране на карте
-          onRegionSelected: function(index, isSelected, currentSelectedRegions) {
-            if (isUpdatingProgrammatically) return;
+        // Сохранение борта
+        function savePlane() {
+            const currency = document.getElementById('plane-currency').value;
+            const count = selectedCountries.size;
+            showToast(`Борт RA-02875 сохранен. Валюта: ${currency}, разрешено стран: ${count}`, 'success');
+        }
 
-            const code = index;
-            if (isSelected) {
-              selectedCountries.add(code);
+        // ========================================================
+        // ЛОГИКА ГЕОГРАФИИ ПОЛЕТОВ И АВТОМАТИЧЕСКОЙ ВАЛЮТЫ
+        // ========================================================
+        const initialCountries = ['RU', 'BY'];
+        const selectedCountries = new Set(initialCountries);
+        
+        let mapInstance = null;
+        let isProgrammatic = false;
+        let userManuallyChangedCurrency = false;
+
+        const currencySelect = document.getElementById('plane-currency');
+        const currencyModeBadge = document.getElementById('currency-mode-badge');
+        const tagsContainer = document.getElementById('tags-container');
+        const selectedCountEl = document.getElementById('selected-count');
+        const presetsContainer = document.getElementById('presets-container');
+        const searchInput = document.getElementById('country-search-input');
+        const searchDropdown = document.getElementById('search-dropdown');
+        const btnAddSearch = document.getElementById('btn-add-search');
+        const btnClearAll = document.getElementById('btn-clear-all');
+
+        // Отслеживаем ручной выбор валюты админом
+        currencySelect.addEventListener('change', function() {
+            userManuallyChangedCurrency = true;
+            currencyModeBadge.textContent = 'Вручную';
+            currencyModeBadge.className = 'text-[11px] font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded cursor-pointer hover:bg-gray-200';
+            currencyModeBadge.title = 'Кликните, чтобы вернуть автоопределение';
+            showToast(`Валюта вручную установлена: ${this.value}`, 'info');
+        });
+
+        // Клик по бейджу возвращает автоопределение
+        currencyModeBadge.addEventListener('click', function() {
+            if (userManuallyChangedCurrency) {
+                userManuallyChangedCurrency = false;
+                evaluateCurrency();
+                showToast('Включено автоопределение валюты по географии полетов', 'success');
+            }
+        });
+
+        // Проверка и авто-переключение валюты:
+        // Если только РФ и/или Беларусь -> RUB
+        // Если добавлены европейские или международные страны -> EUR
+        function evaluateCurrency() {
+            if (userManuallyChangedCurrency) return;
+
+            const codes = Array.from(selectedCountries);
+            if (codes.length === 0) {
+                currencySelect.value = 'RUB';
+                currencyModeBadge.textContent = 'Авто (RUB)';
+                return;
+            }
+
+            // Проверяем наличие стран кроме РФ и РБ
+            const hasForeignCountries = codes.some(c => c !== 'RU' && c !== 'BY');
+
+            if (hasForeignCountries) {
+                if (currencySelect.value !== 'EUR') {
+                    currencySelect.value = 'EUR';
+                    currencyModeBadge.textContent = 'Авто (EUR)';
+                    currencyModeBadge.className = 'text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded';
+                    showToast('Валюта автоматически переключена на EUR (международные рейсы)', 'success');
+                }
             } else {
-              selectedCountries.delete(code);
+                if (currencySelect.value !== 'RUB') {
+                    currencySelect.value = 'RUB';
+                    currencyModeBadge.textContent = 'Авто (RUB)';
+                    currencyModeBadge.className = 'text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded';
+                    showToast('Валюта автоматически переключена на RUB (только РФ и РБ)', 'info');
+                }
             }
-            renderTags();
-          }
+        }
+
+        // Инициализация карты без резкого/дерганного зума
+        function initMap() {
+            mapInstance = new jsVectorMap({
+                selector: '#world-map',
+                map: 'world',
+                backgroundColor: '#f8fafc',
+                draggable: true,
+                zoomButtons: false, // Используем свои плавные кнопки управления
+                zoomOnScroll: false, // ВЫКЛЮЧАЕМ скролл карты колесиком, чтобы страница не дергалась при пролистывании!
+                zoomMax: 8,
+                zoomMin: 1,
+                zoomStep: 1.25,
+                regionsSelectable: true,
+                regionsSelectableOne: false,
+                selectedRegions: Array.from(selectedCountries),
+
+                regionStyle: {
+                    initial: {
+                        fill: '#e2e8f0',
+                        fillOpacity: 1,
+                        stroke: '#ffffff',
+                        strokeWidth: 0.5
+                    },
+                    hover: {
+                        fill: '#93c5fd',
+                        cursor: 'pointer',
+                        fillOpacity: 0.95
+                    },
+                    selected: {
+                        fill: '#2563eb',
+                        fillOpacity: 1
+                    },
+                    selectedHover: {
+                        fill: '#1d4ed8'
+                    }
+                },
+
+                onRegionTooltipShow: function(event, tooltip, code) {
+                    const country = window.COUNTRIES_DATA[code];
+                    const isSelected = selectedCountries.has(code);
+                    const name = country ? `${country.flag} ${country.nameRu}` : code;
+                    const status = isSelected ? '✓ Разрешено к полетам' : 'Кликните, чтобы добавить';
+                    tooltip.text(
+                        `<div class="text-left font-sans">
+                            <div class="font-bold text-xs">${name} (${code})</div>
+                            <div class="text-[10px] text-gray-300">${status}</div>
+                        </div>`,
+                        true
+                    );
+                },
+
+                onRegionSelected: function(index, isSelected) {
+                    if (isProgrammatic) return;
+                    if (isSelected) {
+                        selectedCountries.add(index);
+                    } else {
+                        selectedCountries.delete(index);
+                    }
+                    renderTags();
+                    evaluateCurrency();
+                }
+            });
+
+            // Плавные кнопки масштабирования
+            document.getElementById('map-zoom-in').addEventListener('click', () => {
+                if (mapInstance) {
+                    mapInstance.zoomIn();
+                }
+            });
+
+            document.getElementById('map-zoom-out').addEventListener('click', () => {
+                if (mapInstance) {
+                    mapInstance.zoomOut();
+                }
+            });
+
+            document.getElementById('map-zoom-reset').addEventListener('click', () => {
+                if (mapInstance) {
+                    mapInstance.reset();
+                }
+            });
+        }
+
+        // Рендер тегов выбранных стран
+        function renderTags() {
+            tagsContainer.innerHTML = '';
+            selectedCountEl.textContent = selectedCountries.size;
+
+            if (selectedCountries.size === 0) {
+                tagsContainer.innerHTML = `
+                    <div class="w-full h-full flex flex-col items-center justify-center text-gray-400 text-xs py-6">
+                        <i class="fa-solid fa-map-location-dot text-lg mb-1 text-gray-300"></i>
+                        <span>Страны не выбраны. Кликните по карте или выберите пресет.</span>
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedCodes = Array.from(selectedCountries).sort((a, b) => {
+                const nameA = window.COUNTRIES_DATA[a]?.nameRu || a;
+                const nameB = window.COUNTRIES_DATA[b]?.nameRu || b;
+                return nameA.localeCompare(nameB, 'ru');
+            });
+
+            sortedCodes.forEach(code => {
+                const country = window.COUNTRIES_DATA[code] || { nameRu: code, flag: '🌐' };
+                const chip = document.createElement('div');
+                chip.className = 'inline-flex items-center gap-1.5 px-2 py-1 bg-white border border-gray-200 rounded text-xs font-medium text-gray-800 shadow-2xs hover:border-gray-300 transition';
+                chip.innerHTML = `
+                    <span>${country.flag}</span>
+                    <span>${country.nameRu}</span>
+                    <button type="button" class="text-gray-400 hover:text-red-500 ml-0.5" title="Удалить">&times;</button>
+                `;
+
+                chip.querySelector('button').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeCountry(code);
+                });
+
+                tagsContainer.appendChild(chip);
+            });
+        }
+
+        function removeCountry(code) {
+            if (selectedCountries.has(code)) {
+                selectedCountries.delete(code);
+                syncMap();
+                renderTags();
+                evaluateCurrency();
+            }
+        }
+
+        function addCountry(code) {
+            if (!code || !window.COUNTRIES_DATA[code]) return;
+            if (!selectedCountries.has(code)) {
+                selectedCountries.add(code);
+                syncMap();
+                renderTags();
+                evaluateCurrency();
+            }
+        }
+
+        function syncMap() {
+            if (!mapInstance) return;
+            isProgrammatic = true;
+            mapInstance.setSelectedRegions(Array.from(selectedCountries));
+            isProgrammatic = false;
+        }
+
+        // Рендер быстрых пресетов
+        function renderPresets() {
+            presetsContainer.innerHTML = '';
+            const presets = window.GEOGRAPHY_PRESETS;
+
+            for (const [key, preset] of Object.entries(presets)) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'px-2.5 py-1 text-xs font-medium bg-white hover:bg-blue-50 hover:text-primary hover:border-blue-300 border border-gray-200 rounded-md transition text-gray-700 shadow-2xs';
+                btn.innerHTML = `${preset.title} <span class="text-gray-400 text-[10px] ml-1">+${preset.countries.length}</span>`;
+                
+                btn.addEventListener('click', () => {
+                    preset.countries.forEach(c => selectedCountries.add(c));
+                    syncMap();
+                    renderTags();
+                    evaluateCurrency();
+                    showToast(`Добавлен регион: ${preset.title}`, 'info');
+                });
+
+                presetsContainer.appendChild(btn);
+            }
+        }
+
+        // Поиск с автодополнением
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            if (!query) {
+                searchDropdown.classList.add('hidden');
+                searchDropdown.innerHTML = '';
+                return;
+            }
+
+            const matches = Object.values(window.COUNTRIES_DATA).filter(item => {
+                return item.nameRu.toLowerCase().includes(query) ||
+                       item.nameEn.toLowerCase().includes(query) ||
+                       item.code.toLowerCase().includes(query);
+            }).slice(0, 8);
+
+            if (matches.length === 0) {
+                searchDropdown.innerHTML = `<div class="p-2.5 text-xs text-gray-400 text-center">Не найдено</div>`;
+                searchDropdown.classList.remove('hidden');
+                return;
+            }
+
+            searchDropdown.innerHTML = matches.map(item => `
+                <div class="px-3 py-1.5 hover:bg-blue-50 cursor-pointer flex items-center justify-between text-xs border-b border-gray-100 last:border-none" data-code="${item.code}">
+                    <span class="font-medium text-gray-800">${item.flag} ${item.nameRu}</span>
+                    <span class="text-gray-400 text-[10px] font-mono">${item.code}</span>
+                </div>
+            `).join('');
+
+            searchDropdown.classList.remove('hidden');
+
+            searchDropdown.querySelectorAll('[data-code]').forEach(el => {
+                el.addEventListener('click', function() {
+                    const code = this.getAttribute('data-code');
+                    addCountry(code);
+                    searchInput.value = '';
+                    searchDropdown.classList.add('hidden');
+                });
+            });
         });
-      }
 
-      // 3. Рендер тегов в левой колонке
-      function renderTags() {
-        tagsContainer.innerHTML = '';
-        selectedCountEl.textContent = selectedCountries.size;
+        // Кнопка "+ Добавить"
+        btnAddSearch.addEventListener('click', function() {
+            const query = searchInput.value.trim().toLowerCase();
+            if (!query) return;
 
-        if (selectedCountries.size === 0) {
-          tagsContainer.innerHTML = `
-            <div class="tags-empty-state">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-              </svg>
-              <div>География полетов не выбрана.<br>Выберите пресет или кликните по карте.</div>
-            </div>
-          `;
-          return;
-        }
+            const exact = Object.values(window.COUNTRIES_DATA).find(c => 
+                c.code.toLowerCase() === query || 
+                c.nameRu.toLowerCase() === query || 
+                c.nameEn.toLowerCase() === query
+            );
 
-        // Сортируем страны по русскому названию
-        const sortedCodes = Array.from(selectedCountries).sort((a, b) => {
-          const nameA = window.COUNTRIES_DATA[a]?.nameRu || a;
-          const nameB = window.COUNTRIES_DATA[b]?.nameRu || b;
-          return nameA.localeCompare(nameB, 'ru');
+            if (exact) {
+                addCountry(exact.code);
+                searchInput.value = '';
+                searchDropdown.classList.add('hidden');
+            } else {
+                const first = searchDropdown.querySelector('[data-code]');
+                if (first) first.click();
+            }
         });
 
-        sortedCodes.forEach(code => {
-          const country = window.COUNTRIES_DATA[code] || { nameRu: code, flag: '🌐' };
-          const tag = document.createElement('div');
-          tag.className = 'country-tag';
-          tag.innerHTML = `
-            <span>${country.flag}</span>
-            <span>${country.nameRu}</span>
-            <span style="font-size: 10px; color: #64748B; font-weight: 700;">${code}</span>
-            <span class="tag-remove" title="Удалить">&times;</span>
-          `;
-
-          // Клик по крестику тега
-          tag.querySelector('.tag-remove').addEventListener('click', function(e) {
-            e.stopPropagation();
-            removeCountry(code);
-          });
-
-          tagsContainer.appendChild(tag);
+        // Закрытие при клике вне
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('country-search-input').contains(e.target) &&
+                !searchDropdown.contains(e.target)) {
+                searchDropdown.classList.add('hidden');
+            }
         });
-      }
 
-      // 4. Добавление и удаление страны со синхронизацией карты
-      function addCountry(code) {
-        if (!code || !window.COUNTRIES_DATA[code]) return;
-        if (!selectedCountries.has(code)) {
-          selectedCountries.add(code);
-          syncMap();
-          renderTags();
-        }
-      }
-
-      function removeCountry(code) {
-        if (selectedCountries.has(code)) {
-          selectedCountries.delete(code);
-          syncMap();
-          renderTags();
-        }
-      }
-
-      function syncMap() {
-        if (!mapInstance) return;
-        isUpdatingProgrammatically = true;
-        mapInstance.setSelectedRegions(Array.from(selectedCountries));
-        isUpdatingProgrammatically = false;
-      }
-
-      // 5. Рендер кнопок пресетов
-      function renderPresets() {
-        presetsContainer.innerHTML = '';
-        const presets = window.GEOGRAPHY_PRESETS;
-
-        for (const [key, preset] of Object.entries(presets)) {
-          const pill = document.createElement('button');
-          pill.type = 'button';
-          pill.className = 'preset-pill';
-          pill.title = preset.subtitle;
-          pill.innerHTML = `
-            <span>${preset.title}</span>
-            <span class="preset-badge">+${preset.countries.length}</span>
-          `;
-
-          // Клик по пресету дополняет выборку
-          pill.addEventListener('click', function() {
-            preset.countries.forEach(code => selectedCountries.add(code));
-            syncMap();
-            renderTags();
-          });
-
-          presetsContainer.appendChild(pill);
-        }
-      }
-
-      // 6. Поиск страны с автодополнением
-      let highlightedIndex = -1;
-
-      searchInput.addEventListener('input', function() {
-        const query = this.value.trim().toLowerCase();
-        if (!query) {
-          searchDropdown.classList.remove('open');
-          searchDropdown.innerHTML = '';
-          return;
-        }
-
-        const matches = Object.values(window.COUNTRIES_DATA).filter(item => {
-          return item.nameRu.toLowerCase().includes(query) ||
-                 item.nameEn.toLowerCase().includes(query) ||
-                 item.code.toLowerCase().includes(query);
-        }).slice(0, 10);
-
-        if (matches.length === 0) {
-          searchDropdown.innerHTML = `<div style="padding: 12px; font-size: 13px; color: #94A3B8; text-align: center;">Ничего не найдено</div>`;
-          searchDropdown.classList.add('open');
-          return;
-        }
-
-        searchDropdown.innerHTML = matches.map((item, idx) => `
-          <div class="autocomplete-item ${idx === 0 ? 'highlighted' : ''}" data-code="${item.code}">
-            <span class="item-flag">${item.flag}</span>
-            <span class="item-name">${item.nameRu}</span>
-            <span class="item-en">${item.nameEn}</span>
-            <span class="item-code">${item.code}</span>
-          </div>
-        `).join('');
-
-        highlightedIndex = 0;
-        searchDropdown.classList.add('open');
-
-        // Клик по элементу списка
-        searchDropdown.querySelectorAll('.autocomplete-item').forEach(el => {
-          el.addEventListener('click', function() {
-            const code = this.getAttribute('data-code');
-            addCountry(code);
-            searchInput.value = '';
-            searchDropdown.classList.remove('open');
-          });
+        // Очистить всё
+        btnClearAll.addEventListener('click', function() {
+            if (confirm('Очистить всю выбранную географию полетов?')) {
+                selectedCountries.clear();
+                syncMap();
+                renderTags();
+                evaluateCurrency();
+                showToast('Список стран очищен', 'info');
+            }
         });
-      });
 
-      // Навигация клавишами Enter и стрелками в автодополнении
-      searchInput.addEventListener('keydown', function(e) {
-        const items = searchDropdown.querySelectorAll('.autocomplete-item');
-        if (!items.length || !searchDropdown.classList.contains('open')) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            btnAddSearch.click();
-          }
-          return;
-        }
+        // Старт
+        initMap();
+        renderPresets();
+        renderTags();
+        evaluateCurrency();
 
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          highlightedIndex = (highlightedIndex + 1) % items.length;
-          updateHighlight(items);
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          highlightedIndex = (highlightedIndex - 1 + items.length) % items.length;
-          updateHighlight(items);
-        } else if (e.key === 'Enter') {
-          e.preventDefault();
-          if (items[highlightedIndex]) {
-            items[highlightedIndex].click();
-          }
-        } else if (e.key === 'Escape') {
-          searchDropdown.classList.remove('open');
-        }
-      });
-
-      function updateHighlight(items) {
-        items.forEach((item, i) => {
-          if (i === highlightedIndex) {
-            item.classList.add('highlighted');
-            item.scrollIntoView({ block: 'nearest' });
-          } else {
-            item.classList.remove('highlighted');
-          }
-        });
-      }
-
-      // Закрытие дропдауна при клике вне
-      document.addEventListener('click', function(e) {
-        if (!document.getElementById('search-wrapper').contains(e.target)) {
-          searchDropdown.classList.remove('open');
-        }
-      });
-
-      // Кнопка "+ Добавить"
-      btnAddSearch.addEventListener('click', function() {
-        const query = searchInput.value.trim().toLowerCase();
-        if (!query) return;
-
-        // Поиск точного совпадения
-        const exact = Object.values(window.COUNTRIES_DATA).find(c => 
-          c.code.toLowerCase() === query || 
-          c.nameRu.toLowerCase() === query || 
-          c.nameEn.toLowerCase() === query
-        );
-
-        if (exact) {
-          addCountry(exact.code);
-          searchInput.value = '';
-          searchDropdown.classList.remove('open');
-        } else {
-          const first = searchDropdown.querySelector('.autocomplete-item');
-          if (first) {
-            first.click();
-          }
-        }
-      });
-
-      // Очистить все
-      btnClearAll.addEventListener('click', function() {
-        if (confirm('Очистить всю выбранную географию полетов?')) {
-          selectedCountries.clear();
-          syncMap();
-          renderTags();
-        }
-      });
-
-      // Сохранить изменения (вывод JSON)
-      btnSaveChanges.addEventListener('click', function() {
-        const payload = {
-          planeUnitId: 31,
-          tailNumber: "RA-02875",
-          model: "Embraer Legacy 650",
-          flightAvailability: {
-            isAllWorld: selectedCountries.size === Object.keys(window.COUNTRIES_DATA).length,
-            totalCountriesCount: selectedCountries.size,
-            allowedCountryCodes: Array.from(selectedCountries).sort(),
-            allowedCountries: Array.from(selectedCountries).map(code => ({
-              code: code,
-              nameRu: window.COUNTRIES_DATA[code]?.nameRu || code,
-              nameEn: window.COUNTRIES_DATA[code]?.nameEn || code
-            }))
-          },
-          updatedAt: new Date().toISOString()
-        };
-
-        payloadPre.textContent = JSON.stringify(payload, null, 2);
-        modal.classList.add('open');
-      });
-
-      // Старт
-      initMap();
-      renderPresets();
-      renderTags();
-
-    })();
-  </script>
+    </script>
 </body>
 </html>
