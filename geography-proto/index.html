@@ -928,8 +928,8 @@
       showToast(`Борт сохранен. Валюта: ${cur}, стран в географии: ${count}`);
     }
 
-    // Состояние выбранных стран (по умолчанию РФ и Беларусь)
-    const selectedCodes = new Set(['RU', 'BY']);
+    // Состояние выбранных стран (по умолчанию не выбрано, чистая карта)
+    const selectedCodes = new Set();
     let map = null;
     let isCodeSyncing = false;
     let adminManuallyOverrodeCurrency = false;
