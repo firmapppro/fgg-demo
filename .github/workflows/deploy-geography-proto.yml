@@ -1,0 +1,22 @@
+name: Deploy geography proto
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "geography-proto/**"
+      - ".github/workflows/deploy-geography-proto.yml"
+      - ".github/scripts/ftp_upload.py"
+  workflow_dispatch:
+
+jobs:
+  ftp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload geography proto to chypulis.top
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: python3 .github/scripts/ftp_upload.py --local geography-proto --remote /geography-proto --skip-suffix .py

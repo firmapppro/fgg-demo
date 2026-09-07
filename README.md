@@ -19,6 +19,7 @@ Static prototypes for First Group Group. Push to `main` uploads the matching fol
 | Самолёты — лендинг (EN) | https://chypulis.top/fgg-planes/landing_en.html |
 | Самолёты — дашборд | https://chypulis.top/fgg-planes/dashboard.html |
 | Фильтры кэша топлива | https://chypulis.top/filter-proto/ |
+| География полетов (борт) | https://chypulis.top/geography-proto/ |
 
 ## Деплой
 
@@ -38,6 +39,7 @@ GitHub Actions выгружает только затронутую папку:
 | `yachts/` | `/fgg-yachts/` |
 | `planes/` | `/fgg-planes/` |
 | `filter-proto/` | `/filter-proto/` |
+| `geography-proto/` | `/geography-proto/` |
 
 Ручной повтор: GitHub → Actions → нужный workflow → Run workflow.
 

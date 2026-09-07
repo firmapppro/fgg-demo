@@ -12,6 +12,7 @@ Static HTML prototypes for First Group Group. The live copies live on **chypulis
 | `yachts/` | `/fgg-yachts/` | https://chypulis.top/fgg-yachts/ |
 | `planes/` | `/fgg-planes/` | https://chypulis.top/fgg-planes/ |
 | `filter-proto/` | `/filter-proto/` | https://chypulis.top/filter-proto/ |
+| `geography-proto/` | `/geography-proto/` | https://chypulis.top/geography-proto/ |
 
 English presentation: https://chypulis.top/fgg-presentation/en.html
 
@@ -27,6 +28,7 @@ Push to `main`. Path filters pick the workflow:
 - `yachts/**` → `/fgg-yachts/`
 - `planes/**` → `/fgg-planes/`
 - `filter-proto/**` → `/filter-proto/`
+- `geography-proto/**` → `/geography-proto/`
 
 FTP secrets on the GitHub repo: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`. Do not commit credentials. Local `*.py` upload scripts are gitignored.
 
