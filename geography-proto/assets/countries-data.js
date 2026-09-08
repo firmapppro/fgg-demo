@@ -1242,6 +1242,17 @@ window.GEOGRAPHY_PRESETS = {
       "MZ"
     ]
   },
+  "europe": {
+    "id": "europe",
+    "title": "Европа",
+    "subtitle": "Все страны Европы (ЕС, Великобритания, Швейцария, Норвегия, Балканы и др.)",
+    "countries": [
+      "AL", "AT", "BA", "BE", "BG", "BY", "CH", "CY", "CZ", "DE",
+      "DK", "EE", "ES", "FI", "FR", "GB", "GR", "HR", "HU", "IE",
+      "IS", "IT", "LT", "LU", "LV", "MD", "ME", "MK", "NL", "NO",
+      "PL", "PT", "RO", "RS", "SE", "SI", "SK", "UA"
+    ]
+  },
   "eu": {
     "id": "eu",
     "title": "Евросоюз (ЕС)",
