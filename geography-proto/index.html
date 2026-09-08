@@ -173,19 +173,76 @@
       gap: 6px;
     }
 
+    .header-with-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-popover-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
     .info-circle {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      border: 1px solid #98A2B3;
+      border: 1.5px solid #98A2B3;
       color: #667085;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       font-style: normal;
-      cursor: help;
+      cursor: pointer;
+      background: transparent;
+      padding: 0;
+      line-height: 1;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .info-circle:hover, .info-circle.active {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+      background: #EFF8FF;
+    }
+
+    .info-popover {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: #FFFFFF;
+      border: 1px solid #E4E7EC;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(16, 24, 40, 0.12), 0 8px 10px -6px rgba(16, 24, 40, 0.06);
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #344054;
+      font-weight: 400;
+      width: 320px;
+      z-index: 120;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+      pointer-events: none;
+    }
+
+    .info-popover.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .info-popover.popover-align-right {
+      left: auto;
+      right: -8px;
     }
 
     .input-text, .select-input {
@@ -717,7 +774,13 @@
           </select>
         </div>
         <div class="field-group">
-          <label class="field-label">Бортовой номер <i class="info-circle">i</i></label>
+          <label class="field-label">
+            Бортовой номер
+            <span class="info-popover-wrap">
+              <button type="button" class="info-circle" aria-label="Информация" title="Подсказка">i</button>
+              <span class="info-popover popover-align-right">Регистрационный номер воздушного судна (например, RA-12345). Должен быть уникальным.</span>
+            </span>
+          </label>
           <input type="text" class="input-text" value="RA-02875">
         </div>
       </div>
@@ -860,11 +923,14 @@
          4. РАЗРЕШЕННЫЕ СТРАНЫ (АККУРАТНЫЙ БЛОК В СТИЛЕ ДАШБОРДА)
          ======================================================== -->
     <div class="card" id="section-geography">
-      <div class="card-header" style="margin-bottom: 12px;">
-        <h2 class="card-title">4. Разрешенные страны</h2>
-      </div>
-      <div class="card-subtitle">
-        Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.
+      <div class="card-header" style="margin-bottom: 20px;">
+        <div class="header-with-info">
+          <h2 class="card-title" style="margin: 0;">4. Разрешенные страны</h2>
+          <div class="info-popover-wrap">
+            <button type="button" class="info-circle" id="info-btn-countries" aria-label="Информация" title="Подсказка">i</button>
+            <div class="info-popover">Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.</div>
+          </div>
+        </div>
       </div>
 
       <div class="geography-layout">
@@ -918,6 +984,7 @@
             <div class="map-btns">
               <button type="button" class="map-ctrl-btn" id="map-in" title="Приблизить">+</button>
               <button type="button" class="map-ctrl-btn" id="map-out" title="Отдалить">-</button>
+              <button type="button" class="map-ctrl-btn" id="map-reset-view" title="Вернуть исходный вид карты">⟲</button>
             </div>
           </div>
 
@@ -967,11 +1034,21 @@
     const btnAddCountry = document.getElementById('btn-add-country');
     const btnResetTags = document.getElementById('btn-reset-tags');
 
+    // Функция возврата карты в исходный отцентрированный масштаб
+    function resetMapView() {
+      if (!map) return;
+      map.scale = map._baseScale;
+      map.transX = map._baseTransX;
+      map.transY = map._baseTransY;
+      map._applyTransform();
+    }
+
     // Кнопка «Сбросить» над списком выбранных стран
     btnResetTags.addEventListener('click', () => {
       selectedCodes.clear();
       syncMap();
       renderTags();
+      resetMapView();
       showToast('Список разрешенных стран очищен');
     });
 
@@ -1036,18 +1113,35 @@
         }
       });
 
-      // Кнопки зума карты (плавное приближение и отдаление)
-      document.getElementById('map-in').addEventListener('click', () => {
+      // Кнопки зума карты (плавное приближение, отдаление и возврат исходного вида)
+      const mapInBtn = document.getElementById('map-in');
+      const mapOutBtn = document.getElementById('map-out');
+      const mapResetBtn = document.getElementById('map-reset-view');
+
+      mapInBtn.addEventListener('click', () => {
         if (!map) return;
-        const step = map.params.zoomStep || 1.35;
-        map._setScale(map.scale * step, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
+        const maxScale = map.params.zoomMax * map._baseScale;
+        const targetScale = Math.min(map.scale * 1.35, maxScale);
+        map._setScale(targetScale, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
       });
 
-      document.getElementById('map-out').addEventListener('click', () => {
+      mapOutBtn.addEventListener('click', () => {
         if (!map) return;
-        const step = map.params.zoomStep || 1.35;
-        map._setScale(map.scale / step, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
+        const minScale = map._baseScale;
+        const targetScale = map.scale / 1.35;
+        if (targetScale <= minScale * 1.08) {
+          resetMapView();
+        } else {
+          map._setScale(targetScale, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
+        }
       });
+
+      if (mapResetBtn) {
+        mapResetBtn.addEventListener('click', () => {
+          resetMapView();
+          showToast('Исходный вид карты возвращен');
+        });
+      }
     }
 
     // Рендер тегов в точном стиле рукописного макета [ ОАЭ x ] (без эмодзи!)
@@ -1204,6 +1298,50 @@
     document.addEventListener('click', function(e) {
       if (!document.querySelector('.country-input-wrap').contains(e.target)) {
         autocompleteBox.classList.remove('active');
+      }
+    });
+
+    // Обработка клика по информерам (i) с всплывающими подсказками (как на реальном дашборде)
+    document.querySelectorAll('.info-popover-wrap').forEach(wrap => {
+      const btn = wrap.querySelector('.info-circle');
+      const popover = wrap.querySelector('.info-popover');
+      if (!btn || !popover) return;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const isOpen = popover.classList.contains('show');
+        document.querySelectorAll('.info-popover.show').forEach(p => {
+          if (p !== popover) p.classList.remove('show');
+        });
+        document.querySelectorAll('.info-circle.active').forEach(b => {
+          if (b !== btn) b.classList.remove('active');
+        });
+
+        popover.classList.toggle('show', !isOpen);
+        btn.classList.toggle('active', !isOpen);
+      });
+    });
+
+    // Закрытие всплывающих подсказок при клике вне или по нажатию Escape
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.info-popover-wrap')) {
+        document.querySelectorAll('.info-popover.show').forEach(p => p.classList.remove('show'));
+        document.querySelectorAll('.info-circle.active').forEach(b => b.classList.remove('active'));
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.info-popover.show').forEach(p => p.classList.remove('show'));
+        document.querySelectorAll('.info-circle.active').forEach(b => b.classList.remove('active'));
+      }
+    });
+
+    // Автоматическая адаптация карты при изменении размера экрана
+    window.addEventListener('resize', () => {
+      if (map) {
+        map.updateSize();
       }
     });
 
