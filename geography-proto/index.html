@@ -120,6 +120,14 @@
       color: var(--text-main);
     }
 
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: -10px;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
     .action-link {
       color: var(--primary-blue);
       font-size: 14px;
@@ -424,6 +432,24 @@
       color: var(--primary-blue);
     }
 
+    .btn-reset-tags {
+      background: transparent;
+      border: none;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .btn-reset-tags:hover {
+      color: var(--danger);
+      background: #FEE4E2;
+    }
+
     /* Контейнер тегов */
     .tags-box {
       border: 1px solid var(--border-input);
@@ -699,10 +725,7 @@
       <!-- Ряд 2 (БЕЗ поля «География полетов»!) -->
       <div class="form-grid-3">
         <div class="field-group">
-          <label class="field-label">
-            Валюта <i class="info-circle">i</i>
-            <span id="currency-mode-tag" style="margin-left: auto; font-size: 11px; color: #0070F3; font-weight: 600;">Авто</span>
-          </label>
+          <label class="field-label">Валюта <i class="info-circle">i</i></label>
           <select id="currency-select" class="select-input">
             <option value="RUB" selected>Российские рубли</option>
             <option value="EUR">Евро</option>
@@ -834,23 +857,26 @@
     </div>
 
     <!-- ========================================================
-         4. ГЕОГРАФИЯ ПОЛЕТОВ (АККУРАТНЫЙ БЛОК В СТИЛЕ ДАШБОРДА)
+         4. РАЗРЕШЕННЫЕ СТРАНЫ (АККУРАТНЫЙ БЛОК В СТИЛЕ ДАШБОРДА)
          ======================================================== -->
     <div class="card" id="section-geography">
-      <div class="card-header" style="margin-bottom: 16px;">
-        <h2 class="card-title">4. География полетов</h2>
+      <div class="card-header" style="margin-bottom: 12px;">
+        <h2 class="card-title">4. Разрешенные страны</h2>
+      </div>
+      <div class="card-subtitle">
+        Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.
       </div>
 
       <div class="geography-layout">
         
-        <!-- Левая колонка: Пресеты, ввод страны и теги -->
+        <!-- Левая колонка: Быстрый выбор, ввод страны и теги -->
         <div class="geo-left-panel">
           
-          <!-- Пресеты -->
+          <!-- Быстрый выбор -->
           <div>
-            <div class="geo-subheading">Пресеты:</div>
+            <div class="geo-subheading">Быстрый выбор:</div>
             <div class="presets-wrap" id="presets-wrap">
-              <!-- Кнопки пресетов рендерятся из JS -->
+              <!-- Кнопки быстрого выбора рендерятся из JS -->
             </div>
           </div>
 
@@ -872,6 +898,7 @@
               <div class="geo-subheading" style="margin-bottom: 0;">
                 Выбрано: <span id="tags-count" style="color: var(--primary-blue);">0</span>
               </div>
+              <button type="button" class="btn-reset-tags" id="btn-reset-tags" title="Очистить все выбранные страны">Сбросить</button>
             </div>
             
             <div id="tags-container" class="tags-box">
@@ -891,7 +918,6 @@
             <div class="map-btns">
               <button type="button" class="map-ctrl-btn" id="map-in" title="Приблизить">+</button>
               <button type="button" class="map-ctrl-btn" id="map-out" title="Отдалить">-</button>
-              <button type="button" class="map-ctrl-btn" id="map-reset" title="Сбросить все страны и масштаб">Сбросить</button>
             </div>
           </div>
 
@@ -925,72 +951,29 @@
     function saveFlightUnit() {
       const cur = document.getElementById('currency-select').value;
       const count = selectedCodes.size;
-      showToast(`Борт сохранен. Валюта: ${cur}, стран в географии: ${count}`);
+      showToast(`Борт сохранен. Валюта: ${cur}, разрешенных стран: ${count}`);
     }
 
     // Состояние выбранных стран (по умолчанию не выбрано, чистая карта)
     const selectedCodes = new Set();
     let map = null;
     let isCodeSyncing = false;
-    let adminManuallyOverrodeCurrency = false;
 
-    const currencySelect = document.getElementById('currency-select');
-    const currencyModeTag = document.getElementById('currency-mode-tag');
     const tagsContainer = document.getElementById('tags-container');
     const tagsCountEl = document.getElementById('tags-count');
     const presetsWrap = document.getElementById('presets-wrap');
     const countryInput = document.getElementById('country-input');
     const autocompleteBox = document.getElementById('country-autocomplete');
     const btnAddCountry = document.getElementById('btn-add-country');
-    const btnReset = document.getElementById('map-reset');
+    const btnResetTags = document.getElementById('btn-reset-tags');
 
-    // Ручное изменение валюты админом
-    currencySelect.addEventListener('change', function() {
-      adminManuallyOverrodeCurrency = true;
-      currencyModeTag.textContent = 'Вручную';
-      currencyModeTag.style.color = '#667085';
-      showToast(`Валюта вручную установлена: ${this.value}`);
+    // Кнопка «Сбросить» над списком выбранных стран
+    btnResetTags.addEventListener('click', () => {
+      selectedCodes.clear();
+      syncMap();
+      renderTags();
+      showToast('Список разрешенных стран очищен');
     });
-
-    currencyModeTag.addEventListener('click', function() {
-      if (adminManuallyOverrodeCurrency) {
-        adminManuallyOverrodeCurrency = false;
-        checkAutoCurrency();
-        showToast('Включено автоопределение валюты по географии');
-      }
-    });
-
-    // Логика автоматической валюты:
-    // Если только РФ и/или Беларусь -> RUB
-    // Если есть страны Европы или зарубежные -> EUR
-    function checkAutoCurrency() {
-      if (adminManuallyOverrodeCurrency) return;
-
-      const codes = Array.from(selectedCodes);
-      if (codes.length === 0) {
-        currencySelect.value = 'RUB';
-        currencyModeTag.textContent = 'Авто (RUB)';
-        return;
-      }
-
-      const hasForeign = codes.some(c => c !== 'RU' && c !== 'BY');
-
-      if (hasForeign) {
-        if (currencySelect.value !== 'EUR') {
-          currencySelect.value = 'EUR';
-          currencyModeTag.textContent = 'Авто (EUR)';
-          currencyModeTag.style.color = '#0070F3';
-          showToast('Валюта изменена на EUR на основе выбранных стран');
-        }
-      } else {
-        if (currencySelect.value !== 'RUB') {
-          currencySelect.value = 'RUB';
-          currencyModeTag.textContent = 'Авто (RUB)';
-          currencyModeTag.style.color = '#0070F3';
-          showToast('Валюта изменена на Российские рубли');
-        }
-      }
-    }
 
     // Инициализация карты jsVectorMap:
     // zoomOnScroll выключен, чтобы страница не дергалась при скролле!
@@ -1004,7 +987,8 @@
         zoomOnScroll: false,
         zoomMax: 8,
         zoomMin: 1,
-        zoomStep: 1.25,
+        zoomStep: 1.35,
+        zoomAnimate: true,
         regionsSelectable: true,
         regionsSelectableOne: false,
         selectedRegions: Array.from(selectedCodes),
@@ -1034,7 +1018,7 @@
           const country = window.COUNTRIES_DATA[code];
           const isSelected = selectedCodes.has(code);
           const name = country ? country.nameRu : code;
-          const status = isSelected ? '✓ В географии полетов' : 'Кликните для добавления';
+          const status = isSelected ? '✓ Разрешено для полетов' : 'Кликните для добавления';
           tooltip.text(
             `<div style="font-family: inherit;"><b>${name}</b><br/><span style="font-size: 10px; color: #94A3B8;">${status}</span></div>`,
             true
@@ -1049,22 +1033,20 @@
             selectedCodes.delete(code);
           }
           renderTags();
-          checkAutoCurrency();
         }
       });
 
-      // Кнопки зума
-      document.getElementById('map-in').addEventListener('click', () => map && map.zoomIn());
-      document.getElementById('map-out').addEventListener('click', () => map && map.zoomOut());
-      
-      // Кнопка «Сбросить»: сбрасывает И зум карты, И очищает список выбранных стран!
-      btnReset.addEventListener('click', () => {
-        selectedCodes.clear();
-        syncMap();
-        renderTags();
-        if (map) map.reset();
-        checkAutoCurrency();
-        showToast('География полетов и масштаб сброшены');
+      // Кнопки зума карты (плавное приближение и отдаление)
+      document.getElementById('map-in').addEventListener('click', () => {
+        if (!map) return;
+        const step = map.params.zoomStep || 1.35;
+        map._setScale(map.scale * step, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
+      });
+
+      document.getElementById('map-out').addEventListener('click', () => {
+        if (!map) return;
+        const step = map.params.zoomStep || 1.35;
+        map._setScale(map.scale / step, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
       });
     }
 
@@ -1074,7 +1056,7 @@
       tagsCountEl.textContent = selectedCodes.size;
 
       if (selectedCodes.size === 0) {
-        tagsContainer.innerHTML = `<div class="tags-placeholder">Страны не выбраны. Выберите пресет или кликните по карте.</div>`;
+        tagsContainer.innerHTML = `<div class="tags-placeholder">Страны не выбраны. Выберите регион или кликните по карте.</div>`;
         return;
       }
 
@@ -1107,7 +1089,6 @@
         selectedCodes.delete(code);
         syncMap();
         renderTags();
-        checkAutoCurrency();
       }
     }
 
@@ -1117,7 +1098,6 @@
         selectedCodes.add(code);
         syncMap();
         renderTags();
-        checkAutoCurrency();
       }
     }
 
@@ -1128,7 +1108,7 @@
       isCodeSyncing = false;
     }
 
-    // Рендер пресетов (без эмодзи, только чистый текст)
+    // Рендер кнопок быстрого выбора (без эмодзи, только чистый текст)
     function renderPresets() {
       presetsWrap.innerHTML = '';
       const presets = [
@@ -1154,7 +1134,6 @@
           presetData.countries.forEach(c => selectedCodes.add(c));
           syncMap();
           renderTags();
-          checkAutoCurrency();
           showToast(`Добавлен регион: ${p.title}`);
         });
 
@@ -1231,7 +1210,6 @@
     initMap();
     renderPresets();
     renderTags();
-    checkAutoCurrency();
 
   </script>
 </body>
