@@ -1016,6 +1016,12 @@
     }
 
     function saveFlightUnit() {
+      if (selectedCodes.size === 0) {
+        showToast('Для сохранения выберите хотя бы одну разрешенную страну');
+        const sec = document.getElementById('section-geography');
+        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
       showToast('Успешно сохранено');
     }
 

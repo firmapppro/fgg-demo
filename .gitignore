@@ -3,5 +3,6 @@ __pycache__/
 *.py
 !.github/scripts/*.py
 *.json
+*.zip
 .DS_Store
 fgg-logo.png
