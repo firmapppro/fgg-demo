@@ -259,28 +259,34 @@ body {
 }
 
 .status-pill.active {
-  background-color: var(--success-bg);
-  color: var(--success);
-  border: 1px solid var(--success-border);
+  background-color: #F1F5F9;
+  color: #334155;
+  border: 1px solid #CBD5E1;
 }
 
 .status-pill.draft {
-  background-color: #F3F4F6;
-  color: #4B5563;
-  border: 1px solid #E5E7EB;
+  background-color: #F8FAFC;
+  color: #475569;
+  border: 1px solid #E2E8F0;
 }
 
 .status-pill.moderation {
-  background-color: var(--warning-bg);
-  color: var(--warning);
-  border: 1px solid var(--warning-border);
+  background-color: #F1F5F9;
+  color: #475569;
+  border: 1px solid #CBD5E1;
 }
 
 .status-pill.diff-alert {
-  background-color: #FEF3C7;
-  color: #92400E;
-  border: 1px solid #FCD34D;
+  background-color: #EFF6FF;
+  color: #1E599F;
+  border: 1px solid #BFDBFE;
   font-weight: 700;
+}
+
+.status-pill.warning {
+  background-color: #F1F5F9;
+  color: #475569;
+  border: 1px solid #CBD5E1;
 }
 
 /* Buttons */
@@ -769,10 +775,10 @@ body {
   to { transform: translateY(0); opacity: 1; }
 }
 
-.toast.success { background-color: #15803D; color: #FFFFFF; }
+.toast.success { background-color: #1E293B; color: #FFFFFF; }
 .toast.info { background-color: var(--primary); color: #FFFFFF; }
-.toast.warning { background-color: #D97706; color: #FFFFFF; }
-.toast.error { background-color: var(--danger); color: #FFFFFF; }
+.toast.warning { background-color: #334155; color: #FFFFFF; }
+.toast.error { background-color: #991B1B; color: #FFFFFF; }
 
 /* Empty Leg Detail View (Image 2 style) */
 .empty-leg-view-card {
@@ -950,6 +956,53 @@ body {
 }
 
 /* Plane Card Specific */
+.plane-header-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-light);
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.plane-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.plane-thumb-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.plane-thumb-img {
+  width: 140px;
+  height: 90px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  border: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.plane-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.plane-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .version-cards-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1.3fr;
@@ -1044,14 +1097,84 @@ body {
   background-color: var(--bg-subtle);
 }
 
+/* Map geography-proto styles */
+.map-controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.map-legend-items {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.legend-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.bullet-selected {
+  background: #1E599F;
+}
+
+.bullet-default {
+  background: #CBD5E1;
+}
+
+.map-btns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.map-ctrl-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.1s;
+}
+
+.map-ctrl-btn:hover {
+  background: #F1F5F9;
+  color: var(--text-main);
+}
+
+#world-map,
 #mapContainer {
   width: 100%;
-  height: 360px;
+  height: 400px;
   background-color: #F8FAFC;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
   overflow: hidden;
   position: relative;
+}
+
+.jvm-tooltip {
+  background: #1E293B !important;
+  color: #FFFFFF !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  border: none !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+  z-index: 1000 !important;
 }
 
 .country-presets-bar {
@@ -1065,11 +1188,12 @@ body {
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
-  padding: 5px 12px;
+  padding: 6px 14px;
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
+  transition: var(--transition);
 }
 
 .btn-preset.active, .btn-preset:hover {
@@ -1081,9 +1205,9 @@ body {
 .selected-countries-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-  max-height: 120px;
+  gap: 8px;
+  margin-top: 14px;
+  max-height: 140px;
   overflow-y: auto;
 }
 
@@ -1091,17 +1215,21 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: var(--bg-subtle);
-  border: 1px solid var(--border-light);
-  padding: 3px 10px;
+  background-color: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  padding: 4px 10px;
   border-radius: var(--radius-full);
   font-size: 12px;
-  color: var(--text-secondary);
+  font-weight: 600;
+  color: #334155;
 }
 
 .country-chip-remove {
   cursor: pointer;
-  color: var(--text-muted);
+  color: #64748B;
+  font-weight: 800;
+  font-size: 14px;
+  margin-left: 2px;
 }
 
 .country-chip-remove:hover {
@@ -1127,29 +1255,60 @@ body {
   border: 1px solid var(--border-light);
 }
 
+/* Passenger Counter in Sandbox */
+.counter-input,
 .counter-control {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: space-between;
   border: 1px solid var(--border-input);
   border-radius: var(--radius-md);
   background-color: #FFFFFF;
   overflow: hidden;
+  height: 38px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
+.counter-btn,
 .btn-counter {
-  background: transparent;
+  background: #F8FAFC;
   border: none;
-  padding: 6px 10px;
+  width: 36px;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  padding: 0;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.counter-btn:hover,
+.btn-counter:hover {
+  background-color: #F1F5F9;
+  color: var(--primary);
+}
+
+.counter-btn:active,
+.btn-counter:active {
+  background-color: #E2E8F0;
 }
 
 .counter-value {
   flex: 1;
   text-align: center;
-  font-size: 12px;
+  padding: 0 8px;
+  font-size: 13px;
   font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  user-select: none;
 }
 
 .btn-remove-leg {

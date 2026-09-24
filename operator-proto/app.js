@@ -1332,111 +1332,217 @@ function submitToModeration() {
   const statusPill = document.getElementById("planeStatusPill");
   if (statusPill) {
     statusPill.textContent = "На модерации FGG";
-    statusPill.className = "status-pill warning";
+    statusPill.className = "badge-strict-neutral";
   }
   showToast("Пакет изменений отправлен координатору FGG на утверждение", "success");
 }
 
-let jvmMapInstance = null;
+let map = null;
+let isCodeSyncing = false;
+let selectedCodes = new Set([
+  "EE", "DE", "FR", "IT", "ES", "AT", "CH", "GB", "NL", "BE", "PT", "US", "CA"
+]);
+
 function initPlaneCardMap() {
-  const mapElement = document.getElementById("mapContainer");
+  const mapElement = document.getElementById("world-map") || document.getElementById("mapContainer");
   if (!mapElement || typeof jsVectorMap === "undefined") return;
-  if (jvmMapInstance) return;
+
+  if (map) {
+    try {
+      if (typeof map.updateSize === "function") {
+        map.updateSize();
+      }
+    } catch (e) {}
+    syncMap();
+    renderTags();
+    return;
+  }
 
   try {
-    jvmMapInstance = new jsVectorMap({
-      selector: "#mapContainer",
+    map = new jsVectorMap({
+      selector: mapElement.id === "world-map" ? "#world-map" : "#mapContainer",
       map: "world",
-      zoomButtons: true,
+      backgroundColor: "#F8FAFC",
+      draggable: true,
+      zoomButtons: false,
       zoomOnScroll: false,
+      zoomMax: 8,
+      zoomMin: 1,
+      zoomStep: 1.35,
+      zoomAnimate: true,
       regionsSelectable: true,
       regionsSelectableOne: false,
-      selectedRegions: appState.selectedCountries,
+      selectedRegions: Array.from(selectedCodes),
+
       regionStyle: {
         initial: {
-          fill: "#E2E8F0",
+          fill: "#CBD5E1",
           fillOpacity: 1,
           stroke: "#FFFFFF",
-          strokeWidth: 0.5,
-          strokeOpacity: 1
+          strokeWidth: 0.5
         },
         hover: {
-          fillOpacity: 0.8,
-          cursor: "pointer"
+          fill: "#7DD3FC",
+          cursor: "pointer",
+          fillOpacity: 0.95
         },
         selected: {
-          fill: "#1E599F"
+          fill: "#1E599F",
+          fillOpacity: 1
         },
         selectedHover: {
           fill: "#16467F"
         }
       },
-      onRegionSelected: function (index, isSelected, selectedRegions) {
-        appState.selectedCountries = selectedRegions;
-        updateSelectedCountriesUI();
+
+      onRegionTooltipShow: function (event, tooltip, code) {
+        const country = window.COUNTRIES_DATA ? window.COUNTRIES_DATA[code] : null;
+        const isSelected = selectedCodes.has(code);
+        const name = country ? country.nameRu : code;
+        const status = isSelected ? "Разрешено для полетов" : "Кликните для добавления";
+        tooltip.text(
+          `<div style="font-family: inherit;"><b>${name}</b><br/><span style="font-size: 11px; color: #94A3B8;">${status}</span></div>`,
+          true
+        );
+      },
+
+      onRegionSelected: function (code, isSelected) {
+        if (isCodeSyncing) return;
+        if (isSelected) {
+          selectedCodes.add(code);
+        } else {
+          selectedCodes.delete(code);
+        }
+        appState.selectedCountries = Array.from(selectedCodes);
+        renderTags();
       }
     });
-    updateSelectedCountriesUI();
-  } catch (e) {
-    console.warn("Map init note:", e);
+
+    const mapInBtn = document.getElementById("map-in");
+    const mapOutBtn = document.getElementById("map-out");
+    const mapResetBtn = document.getElementById("map-reset-view");
+
+    if (mapInBtn) {
+      mapInBtn.onclick = () => {
+        if (!map) return;
+        const maxScale = map.params.zoomMax * map._baseScale;
+        const targetScale = Math.min(map.scale * 1.35, maxScale);
+        map._setScale(targetScale, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
+      };
+    }
+
+    if (mapOutBtn) {
+      mapOutBtn.onclick = () => {
+        if (!map) return;
+        const minScale = map._baseScale;
+        const targetScale = map.scale / 1.35;
+        if (targetScale <= minScale * 1.08) {
+          resetMapView();
+        } else {
+          map._setScale(targetScale, map._width / 2, map._height / 2, false, map.params.zoomAnimate);
+        }
+      };
+    }
+
+    if (mapResetBtn) {
+      mapResetBtn.onclick = () => {
+        resetMapView();
+        showToast("Исходный вид карты возвращен", "info");
+      };
+    }
+
+    renderTags();
+  } catch (err) {
+    console.warn("Map init note:", err);
   }
 }
 
-function updateSelectedCountriesUI() {
+function resetMapView() {
+  if (!map) return;
+  map.scale = map._baseScale;
+  map.transX = map._baseTransX;
+  map.transY = map._baseTransY;
+  map._applyTransform();
+}
+
+function syncMap() {
+  if (!map) return;
+  isCodeSyncing = true;
+  map.clearSelectedRegions();
+  map.setSelectedRegions(Array.from(selectedCodes));
+  isCodeSyncing = false;
+}
+
+function renderTags() {
+  const container = document.getElementById("selectedCountriesChips");
   const countEl = document.getElementById("selectedCountriesCount");
-  const chipsContainer = document.getElementById("selectedCountriesChips");
-  if (countEl) countEl.textContent = appState.selectedCountries.length;
-  if (!chipsContainer) return;
+  if (countEl) countEl.textContent = selectedCodes.size;
+  if (!container) return;
 
-  const countryNames = {
-    "EE": "Эстония", "DE": "Германия", "FR": "Франция", "IT": "Италия",
-    "ES": "Испания", "AT": "Австрия", "CH": "Швейцария", "GB": "Великобритания",
-    "NL": "Нидерланды", "BE": "Бельгия", "PT": "Португалия", "US": "США", "CA": "Канада"
-  };
+  if (selectedCodes.size === 0) {
+    container.innerHTML = '<div style="font-size: 13px; color: var(--text-muted); padding: 8px 0;">Страны не выбраны. Выберите регион или кликните по карте.</div>';
+    return;
+  }
 
-  chipsContainer.innerHTML = appState.selectedCountries.slice(0, 16).map(code => {
-    const name = countryNames[code] || code;
+  const sorted = Array.from(selectedCodes).sort((a, b) => {
+    const nameA = window.COUNTRIES_DATA?.[a]?.nameRu || a;
+    const nameB = window.COUNTRIES_DATA?.[b]?.nameRu || b;
+    return nameA.localeCompare(nameB, "ru");
+  });
+
+  container.innerHTML = sorted.map(code => {
+    const country = window.COUNTRIES_DATA?.[code] || { nameRu: code };
     return `
       <div class="country-chip">
-        <span>${name}</span>
-        <span class="remove-chip" onclick="removeCountry('${code}')">×</span>
+        <span>${country.nameRu}</span>
+        <span class="country-chip-remove" onclick="removeCountry('${code}')" title="Удалить">×</span>
       </div>
     `;
-  }).join("") + (appState.selectedCountries.length > 16 ? `<div class="country-chip">+${appState.selectedCountries.length - 16} других</div>` : "");
+  }).join("");
 }
 
 function removeCountry(code) {
-  appState.selectedCountries = appState.selectedCountries.filter(c => c !== code);
-  if (jvmMapInstance) {
-    jvmMapInstance.clearSelectedRegions();
-    jvmMapInstance.setSelectedRegions(appState.selectedCountries);
+  if (selectedCodes.has(code)) {
+    selectedCodes.delete(code);
+    appState.selectedCountries = Array.from(selectedCodes);
+    syncMap();
+    renderTags();
   }
-  updateSelectedCountriesUI();
 }
 
-function applyCountryPreset(presetName) {
-  if (presetName === "schengen") {
-    appState.selectedCountries = ["AT","BE","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","SK","SI","ES","SE","CH"];
-    showToast("Применен пресет: Страны Шенгенской зоны (26 стран)", "info");
-  } else if (presetName === "cis") {
-    appState.selectedCountries = ["RU", "BY", "KZ", "AM", "AZ", "KG", "TJ", "UZ"];
-    showToast("Применен пресет: СНГ и ЕАЭС", "info");
-  } else if (presetName === "middle_east") {
-    appState.selectedCountries = ["AE", "SA", "QA", "OM", "KW", "BH", "TR", "EG"];
-    showToast("Применен пресет: Ближний Восток", "info");
-  } else if (presetName === "all") {
-    appState.selectedCountries = Object.keys(jvmMapInstance ? jvmMapInstance._mapData.paths : {});
-    showToast("Выбраны все страны мира", "info");
-  } else if (presetName === "clear") {
+function applyCountryPreset(presetKey) {
+  document.querySelectorAll(".btn-preset").forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.querySelector(`.btn-preset[data-preset="${presetKey}"]`);
+  if (activeBtn) activeBtn.classList.add("active");
+
+  if (presetKey === "clear") {
+    selectedCodes.clear();
     appState.selectedCountries = [];
-    showToast("Список географии очищен", "info");
+    syncMap();
+    renderTags();
+    resetMapView();
+    showToast("География полетов очищена", "info");
+    return;
   }
 
-  if (jvmMapInstance) {
-    jvmMapInstance.clearSelectedRegions();
-    jvmMapInstance.setSelectedRegions(appState.selectedCountries);
+  if (presetKey === "all") {
+    const allCodes = Object.keys(window.COUNTRIES_DATA || {});
+    allCodes.forEach(c => selectedCodes.add(c));
+    appState.selectedCountries = Array.from(selectedCodes);
+    syncMap();
+    renderTags();
+    showToast("Выбраны все страны мира", "info");
+    return;
   }
-  updateSelectedCountriesUI();
+
+  const presetData = window.GEOGRAPHY_PRESETS?.[presetKey];
+  if (presetData && presetData.countries) {
+    presetData.countries.forEach(c => selectedCodes.add(c));
+    appState.selectedCountries = Array.from(selectedCodes);
+    syncMap();
+    renderTags();
+    showToast(`Добавлен регион: ${presetData.title}`, "info");
+  }
 }
 
 // Initial bootstrap

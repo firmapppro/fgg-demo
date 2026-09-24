@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="assets/jsvectormap.min.css">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -338,9 +338,9 @@
               <div>
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <h1 style="font-size: 22px; font-weight: 800; color: var(--text-main);">Cessna Citation XLS+</h1>
-                  <span class="status-pill draft">Midsize</span>
-                  <span class="status-pill active" id="planeStatusPill">Активен</span>
-                  <span class="status-pill diff-alert">Есть неопубликованные изменения</span>
+                  <span class="badge-strict-neutral">Midsize</span>
+                  <span class="badge-strict-active" id="planeStatusPill">Активен</span>
+                  <span class="badge-strict-primary">Есть неопубликованные изменения</span>
                 </div>
                 <div class="plane-meta-row">
                   <span class="plane-meta-item">
@@ -385,7 +385,7 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                   <span>Черновик</span>
                 </div>
-                <span class="status-pill moderation" style="font-size: 11px;">Готов к отправке</span>
+                <span class="badge-strict-neutral" style="font-size: 11px;">Готов к отправке</span>
               </div>
               <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">
                 <strong>Версия:</strong> v13
@@ -402,7 +402,7 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                   <span>Опубликованная версия</span>
                 </div>
-                <span class="status-pill active" style="font-size: 11px;">Активна</span>
+                <span class="badge-strict-active" style="font-size: 11px;">Активна</span>
               </div>
               <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">
                 <strong>Версия:</strong> v12
@@ -575,15 +575,29 @@
           <!-- Quick Presets -->
           <div class="country-presets-bar">
             <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); align-self: center;">Быстрый выбор:</span>
-            <button type="button" class="btn-preset active" onclick="applyCountryPreset('europe')">Европа</button>
-            <button type="button" class="btn-preset" onclick="applyCountryPreset('eu')">Евросоюз (ЕС)</button>
-            <button type="button" class="btn-preset" onclick="applyCountryPreset('world')">Весь мир</button>
-            <button type="button" class="btn-preset" onclick="applyCountryPreset('me')">Ближний Восток</button>
-            <button type="button" class="btn-preset" onclick="applyCountryPreset('cis')">СНГ</button>
+            <button type="button" class="btn-preset active" data-preset="europe" onclick="applyCountryPreset('europe')">Европа</button>
+            <button type="button" class="btn-preset" data-preset="eu" onclick="applyCountryPreset('eu')">Евросоюз (ЕС)</button>
+            <button type="button" class="btn-preset" data-preset="all" onclick="applyCountryPreset('all')">Весь мир</button>
+            <button type="button" class="btn-preset" data-preset="middle_east" onclick="applyCountryPreset('middle_east')">Ближний Восток</button>
+            <button type="button" class="btn-preset" data-preset="cis" onclick="applyCountryPreset('cis')">СНГ</button>
+            <button type="button" class="btn-preset" data-preset="clear" onclick="applyCountryPreset('clear')">Сбросить</button>
+          </div>
+
+          <!-- Map Controls Header (geography-proto) -->
+          <div class="map-controls-row">
+            <div class="map-legend-items">
+              <span><i class="legend-bullet bullet-selected"></i>Разрешено</span>
+              <span><i class="legend-bullet bullet-default"></i>Не выбрано</span>
+            </div>
+            <div class="map-btns">
+              <button type="button" class="map-ctrl-btn" id="map-in" title="Приблизить">+</button>
+              <button type="button" class="map-ctrl-btn" id="map-out" title="Отдалить">-</button>
+              <button type="button" class="map-ctrl-btn" id="map-reset-view" title="Вернуть исходный вид карты">⟲</button>
+            </div>
           </div>
 
           <!-- Map -->
-          <div id="mapContainer"></div>
+          <div id="world-map"></div>
 
           <!-- Chips List -->
           <div class="selected-countries-chips" id="selectedCountriesChips"></div>
@@ -733,10 +747,10 @@
             <thead>
               <tr>
                 <th>Борт / Модель</th>
-                <th>Класс</th>
+                <th>Бортовой номер</th>
                 <th>Базирование</th>
                 <th>Статус</th>
-                <th>Версионность</th>
+                <th>Версия</th>
                 <th style="text-align: right;">Действия</th>
               </tr>
             </thead>
@@ -747,11 +761,11 @@
                     <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
                     <div>
                       <div style="font-weight: 800; color: var(--text-main);">Cessna Citation XLS+</div>
-                      <div style="font-size: 12px; color: var(--text-muted);">S5-BBM · 2022 г.</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022 г. · Midsize</div>
                     </div>
                   </div>
                 </td>
-                <td><span class="badge-strict-neutral">Midsize</span></td>
+                <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">S5-BBM</strong></td>
                 <td>LJU, Ljubljana</td>
                 <td><span class="badge-strict-active">Активен</span></td>
                 <td>
@@ -763,23 +777,23 @@
                 </td>
               </tr>
 
-              <tr>
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/g550-exterior.jpg" alt="Gulfstream G550" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
                     <div>
                       <div style="font-weight: 800; color: var(--text-main);">Gulfstream G550</div>
-                      <div style="font-size: 12px; color: var(--text-muted);">RA-10222 · 2019 г.</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2019 г. · Ultra Long Range</div>
                     </div>
                   </div>
                 </td>
-                <td><span class="badge-strict-neutral">Ultra Long Range</span></td>
+                <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">RA-10222</strong></td>
                 <td>VKO, Москва</td>
                 <td><span class="badge-strict-active">Активен</span></td>
                 <td><span class="badge-strict-neutral">v8 (Опубликован)</span></td>
                 <td style="text-align: right;">
-                  <button class="btn-secondary btn-sm" onclick="navigateTo('plane-card')">Редактировать</button>
-                  <button class="btn-secondary btn-sm" onclick="navigateTo('sandbox')">В песочницу</button>
+                  <button class="btn-primary btn-sm" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
+                  <button class="btn-secondary btn-sm" onclick="event.stopPropagation(); navigateTo('sandbox')">В песочницу</button>
                 </td>
               </tr>
             </tbody>
@@ -1435,6 +1449,6 @@
   <script src="assets/jsvectormap.min.js"></script>
   <script src="assets/world.js"></script>
   <script src="assets/countries-data.js"></script>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
