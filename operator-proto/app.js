@@ -11,6 +11,7 @@ const appState = {
   sandboxLocationMode: "manual",
   sandboxAirport: "LJU, Ljubljana",
   sandboxTripType: "multi",
+  sandboxPax: 6,
   selectedCountries: ["EE", "DE", "FR", "IT", "ES", "AT", "CH", "GB", "NL", "BE", "PT", "US", "CA"],
   emptyLegs: [
     {
@@ -116,7 +117,7 @@ const appState = {
       activeUntil: "21.09.2026, 08:00:00",
       status: "Неактивно",
       priority: "Обычный",
-      image: "images/case-corporate.jpg"
+      image: "images/citation-exterior.jpg"
     },
     {
       id: "192",
@@ -136,48 +137,146 @@ const appState = {
   ],
   orders: [
     {
-      id: "228",
-      dateTime: "24.09.2026 09:25",
+      id: "ORD-8492",
+      flightNum: "FGG-702",
+      dateTime: "28.09.2026 11:30 UTC",
       route: "LJU → BER → NCE",
+      routeCities: "Любляна (LJU) → Берлин (BER) → Ницца (NCE)",
       plane: "Cessna Citation XLS+ (S5-BBM)",
       pax: 6,
       price: 38500,
       status: "pending",
       statusLabel: "Требует подтверждения",
-      slaMinutesLeft: 18
+      slaMinutesLeft: 18,
+      client: "FlightAero VIP Corporate",
+      flightHours: "3 ч 40 мин",
+      breakdown: [
+        { label: "Коммерческий летный час (3.7 ч)", amount: "€27 500" },
+        { label: "Наземное обслуживание в BER", amount: "€2 200" },
+        { label: "Наземное обслуживание в NCE", amount: "€2 400" },
+        { label: "Кейтеринг VIP (6 PAX)", amount: "€1 200" },
+        { label: "Сборы аэронавигации (Eurocontrol)", amount: "€5 200" }
+      ]
     },
     {
-      id: "226",
-      dateTime: "02.10.2026 14:00",
+      id: "ORD-8488",
+      flightNum: "FGG-690",
+      dateTime: "02.10.2026 14:00 UTC",
       route: "VKO → DXB",
+      routeCities: "Москва (VKO) → Дубай (DXB, Al Maktoum)",
       plane: "Gulfstream G550 (RA-10222)",
       pax: 8,
       price: 118400,
       status: "confirmed",
       statusLabel: "Подтвержден",
-      slaMinutesLeft: null
+      slaMinutesLeft: null,
+      client: "Emirates Private Charter Ltd.",
+      flightHours: "5 ч 20 мин",
+      breakdown: [
+        { label: "Коммерческий летный час (5.3 ч)", amount: "€95 400" },
+        { label: "Handling Al Maktoum (DWC)", amount: "€6 500" },
+        { label: "Overnight & Crew Per Diem", amount: "€3 800" },
+        { label: "VIP Catering & Champagne", amount: "€2 700" },
+        { label: "Eurocontrol & Overflight permits", amount: "€10 000" }
+      ]
     },
     {
-      id: "224",
-      dateTime: "22.09.2026 19:15",
+      id: "ORD-8472",
+      flightNum: "FGG-654",
+      dateTime: "22.09.2026 19:15 UTC",
       route: "GVA → LTN",
+      routeCities: "Женева (GVA) → Лондон (LTN, Luton)",
       plane: "Cessna Citation XLS+ (S5-BBM)",
       pax: 4,
       price: 16200,
       status: "in_flight",
       statusLabel: "В полете",
-      slaMinutesLeft: null
+      slaMinutesLeft: null,
+      client: "Geneva Finance Advisory",
+      flightHours: "1 ч 35 мин",
+      breakdown: [
+        { label: "Коммерческий летный час (1.6 ч)", amount: "€11 500" },
+        { label: "Handling London Luton", amount: "€2 100" },
+        { label: "Passenger Service Fee (4 PAX)", amount: "€600" },
+        { label: "Eurocontrol navigation", amount: "€2 000" }
+      ]
     },
     {
-      id: "220",
-      dateTime: "15.09.2026 10:00",
+      id: "ORD-8460",
+      flightNum: "FGG-610",
+      dateTime: "15.09.2026 10:00 UTC",
       route: "FCO → IST",
+      routeCities: "Рим (FCO) → Стамбул (IST)",
       plane: "Cessna Citation XLS+ (S5-BBM)",
       pax: 5,
       price: 24000,
       status: "completed",
       statusLabel: "Завершен",
-      slaMinutesLeft: null
+      slaMinutesLeft: null,
+      client: "Mediterranean Holding Group",
+      flightHours: "2 ч 25 мин",
+      breakdown: [
+        { label: "Коммерческий летный час (2.4 ч)", amount: "€18 000" },
+        { label: "Handling Istanbul Airport", amount: "€2 500" },
+        { label: "De-icing reservation", amount: "€1 500" },
+        { label: "Eurocontrol", amount: "€2 000" }
+      ]
+    },
+    {
+      id: "ORD-8451",
+      flightNum: "FGG-590",
+      dateTime: "12.09.2026 08:30 UTC",
+      route: "MUC → OLB",
+      routeCities: "Мюнхен (MUC) → Ольбия (OLB)",
+      plane: "Cessna Citation XLS+ (S5-BBM)",
+      pax: 7,
+      price: 21500,
+      status: "rejected",
+      statusLabel: "Отклонен",
+      slaMinutesLeft: null,
+      client: "Bavaria Auto VIP",
+      flightHours: "1 ч 45 мин",
+      breakdown: [
+        { label: "Причина отклонения", amount: "Внеплановое ТО борта (AOG)" }
+      ]
+    }
+  ],
+  scheduleSlots: [
+    {
+      id: "slot-1",
+      dateRange: "22.09.2026",
+      time: "19:15 UTC",
+      title: "22.09.2026 · GVA → LTN (FGG-654)",
+      subtitle: "Cessna Citation XLS+ · 4 пассажира · Рейс FGG",
+      type: "fgg",
+      statusText: "В полете"
+    },
+    {
+      id: "slot-2",
+      dateRange: "24.09.2026",
+      time: "08:00 - 18:00 UTC",
+      title: "24.09.2026 · Плановый осмотр двигателей (A-Check)",
+      subtitle: "Базовый ангар Любляна (LJU) · Техническое обслуживание",
+      type: "maintenance",
+      statusText: "Тех. обслуживание"
+    },
+    {
+      id: "slot-3",
+      dateRange: "28.09.2026",
+      time: "11:30 UTC",
+      title: "28.09.2026 · LJU → BER → NCE (FGG-702)",
+      subtitle: "Cessna Citation XLS+ · 6 пассажиров · Рейс FGG",
+      type: "fgg",
+      statusText: "Ожидает подтверждения"
+    },
+    {
+      id: "slot-4",
+      dateRange: "02.10.2026",
+      time: "14:00 UTC",
+      title: "02.10.2026 · VKO → DXB (Чартер владельца)",
+      subtitle: "Gulfstream G550 · 8 пассажиров · Собственный рейс",
+      type: "owner",
+      statusText: "Забронирован"
     }
   ],
   faqArticles: {
@@ -356,10 +455,10 @@ function navigateTo(screenId) {
   const topbarAction = document.getElementById("topbarActionSlot");
   if (topbarAction) {
     if (screenId === "emptylegs") {
-      topbarAction.innerHTML = `<button class="btn-primary" onclick="openCreateEmptyLegView()">Создать Empty legs</button>`;
+      topbarAction.innerHTML = `<button class="btn-primary" onclick="openCreateEmptyLegView()">+ Добавить Empty leg</button>`;
       topbarAction.style.display = "block";
     } else if (screenId === "fleet") {
-      topbarAction.innerHTML = `<button class="btn-primary" onclick="navigateTo('plane-card')">Добавить борт</button>`;
+      topbarAction.innerHTML = `<button class="btn-primary" onclick="navigateTo('plane-card')">+ Добавить борт</button>`;
       topbarAction.style.display = "block";
     } else {
       topbarAction.innerHTML = "";
@@ -373,19 +472,457 @@ function navigateTo(screenId) {
     renderOrders();
   } else if (screenId === "emptylegs") {
     renderEmptyLegsTable();
+  } else if (screenId === "schedule") {
+    renderScheduleList();
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// Empty legs management
+// ==========================================
+// SANDBOX: TRIP TYPE & REALISTIC ENGINE
+// ==========================================
+
+function setSandboxTripType(tripType) {
+  appState.sandboxTripType = tripType;
+
+  // Toggle active tab buttons
+  const tabs = document.querySelectorAll("#sandboxTripTypeTabs .tab-btn");
+  tabs.forEach(btn => {
+    if (btn.getAttribute("data-trip") === tripType) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+
+  const legsContainer = document.getElementById("flightLegsList");
+  const addLegWrap = document.getElementById("addLegButtonWrap");
+
+  if (tripType === "oneway") {
+    if (addLegWrap) addLegWrap.style.display = "none";
+    legsContainer.innerHTML = `
+      <div class="flight-leg-row" data-leg="1">
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Прилет">
+        </div>
+        <div class="form-group" style="width: 140px;">
+          <input type="date" class="form-control" value="2026-11-07">
+        </div>
+        <div class="form-group" style="width: 100px;">
+          <input type="time" class="form-control" value="16:30">
+        </div>
+        <div class="counter-input">
+          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+        </div>
+      </div>
+    `;
+  } else if (tripType === "roundtrip") {
+    if (addLegWrap) addLegWrap.style.display = "none";
+    legsContainer.innerHTML = `
+      <div class="flight-leg-row" data-leg="1">
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Прилет">
+        </div>
+        <div class="form-group" style="width: 140px;">
+          <input type="date" class="form-control" value="2026-11-07">
+        </div>
+        <div class="form-group" style="width: 100px;">
+          <input type="time" class="form-control" value="16:30">
+        </div>
+        <div class="counter-input">
+          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+        </div>
+      </div>
+      <div class="flight-leg-row" data-leg="2">
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Вылет">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Прилет">
+        </div>
+        <div class="form-group" style="width: 140px;">
+          <input type="date" class="form-control" value="2026-11-10">
+        </div>
+        <div class="form-group" style="width: 100px;">
+          <input type="time" class="form-control" value="12:15">
+        </div>
+        <div class="counter-input">
+          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+        </div>
+      </div>
+    `;
+  } else {
+    // Multi-leg
+    if (addLegWrap) addLegWrap.style.display = "block";
+    legsContainer.innerHTML = `
+      <div class="flight-leg-row" data-leg="1">
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Прилет">
+        </div>
+        <div class="form-group" style="width: 140px;">
+          <input type="date" class="form-control" value="2026-11-07">
+        </div>
+        <div class="form-group" style="width: 100px;">
+          <input type="time" class="form-control" value="16:30">
+        </div>
+        <div class="counter-input">
+          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+        </div>
+      </div>
+      <div class="flight-leg-row" data-leg="2">
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Вылет">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Прилет">
+        </div>
+        <div class="form-group" style="width: 140px;">
+          <input type="date" class="form-control" value="2026-11-10">
+        </div>
+        <div class="form-group" style="width: 100px;">
+          <input type="time" class="form-control" value="12:15">
+        </div>
+        <div class="counter-input">
+          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+        </div>
+        <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
+      </div>
+      <div class="flight-leg-row" data-leg="3">
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Вылет">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Прилет">
+        </div>
+        <div class="form-group" style="width: 140px;">
+          <input type="date" class="form-control" value="2026-11-14">
+        </div>
+        <div class="form-group" style="width: 100px;">
+          <input type="time" class="form-control" value="18:40">
+        </div>
+        <div class="counter-input">
+          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+        </div>
+        <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
+      </div>
+    `;
+  }
+
+  recalculateSandbox();
+}
+
+function recalculateSandbox() {
+  const isDraft = appState.sandboxSettingsVersion === "draft";
+  const trip = appState.sandboxTripType;
+  
+  let priceStr = "€71 450";
+  let flightHoursStr = "6 ч 15 мин";
+  let distanceStr = "3 850 км";
+  let routeDesc = "TLL → BER → NCE → TLL (3 плеча)";
+  let breakdown = [];
+
+  if (trip === "oneway") {
+    priceStr = isDraft ? "€18 400" : "€17 800";
+    flightHoursStr = "1 ч 45 мин";
+    distanceStr = "1 040 км";
+    routeDesc = "TLL → BER (1 плечо)";
+    breakdown = [
+      { label: `Ferry-подлет: LJU → TLL (базирование)`, val: isDraft ? "€5 800" : "€5 500" },
+      { label: `Коммерческий летный час TLL → BER (1.75 ч)`, val: isDraft ? "€7 500" : "€7 000" },
+      { label: `Аэропортовые сборы BER (Бранденбург)`, val: "€2 200" },
+      { label: `VIP-кейтеринг (${appState.sandboxPax} PAX)`, val: "€1 200" },
+      { label: `Аэронавигация (Eurocontrol)`, val: "€1 700" }
+    ];
+  } else if (trip === "roundtrip") {
+    priceStr = isDraft ? "€35 200" : "€33 900";
+    flightHoursStr = "3 ч 30 мин";
+    distanceStr = "2 080 км";
+    routeDesc = "TLL ⇄ BER (туда и обратно)";
+    breakdown = [
+      { label: `Ferry-подлет: LJU → TLL (базирование)`, val: isDraft ? "€5 800" : "€5 500" },
+      { label: `Коммерческие летные часы (3.5 ч)`, val: isDraft ? "€26 250" : "€24 500" },
+      { label: `Стоянка в BER (3 суток) и хэндлинг`, val: "€2 950" },
+      { label: `VIP-кейтеринг (${appState.sandboxPax} PAX, 2 рейса)`, val: "€2 400" },
+      { label: `Аэронавигация (Eurocontrol)`, val: "€3 400" }
+    ];
+  } else {
+    // Multi-leg
+    priceStr = isDraft ? "€71 450" : "€69 000";
+    flightHoursStr = "6 ч 15 мин";
+    distanceStr = "3 850 км";
+    routeDesc = "TLL → BER → NCE → TLL (3 плеча)";
+    breakdown = [
+      { label: `Ferry-подлет: LJU → TLL`, val: isDraft ? "€5 800" : "€5 500" },
+      { label: `Коммерческие летные часы (6.25 ч)`, val: isDraft ? "€46 875" : "€43 750" },
+      { label: `Handling в Ницце (NCE, спецсбор)`, val: isDraft ? "€2 400" : "€2 200" },
+      { label: `Стоянки и суточные экипажа (4 дня)`, val: "€4 800" },
+      { label: `VIP-кейтеринг (${appState.sandboxPax} PAX)`, val: "€3 600" },
+      { label: `Аэронавигация (Eurocontrol)`, val: "€7 975" }
+    ];
+  }
+
+  const priceDisplay = document.getElementById("sandboxTotalPrice");
+  const finalBottomPrice = document.getElementById("finalBottomPrice");
+  const flightHoursEl = document.getElementById("sandboxFlightHours");
+  const distanceEl = document.getElementById("sandboxDistance");
+  const routeDescEl = document.getElementById("sandboxRouteDesc");
+  const breakdownListEl = document.getElementById("sandboxBreakdownList");
+
+  if (priceDisplay) priceDisplay.textContent = priceStr;
+  if (finalBottomPrice) finalBottomPrice.textContent = priceStr;
+  if (flightHoursEl) flightHoursEl.textContent = flightHoursStr;
+  if (distanceEl) distanceEl.textContent = distanceStr;
+  if (routeDescEl) routeDescEl.textContent = routeDesc;
+
+  if (breakdownListEl) {
+    breakdownListEl.innerHTML = breakdown.map(item => `
+      <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+        <span>${item.label}</span>
+        <span style="font-weight: 700; color: var(--text-main);">${item.val}</span>
+      </div>
+    `).join("");
+  }
+}
+
+function setSandboxSettingsVersion(ver) {
+  appState.sandboxSettingsVersion = ver;
+  const btnDraft = document.getElementById("btnSandboxDraft");
+  const btnPub = document.getElementById("btnSandboxPublished");
+  const hint = document.getElementById("sandboxVersionHint");
+
+  if (ver === "draft") {
+    if (btnDraft) btnDraft.classList.add("active");
+    if (btnPub) btnPub.classList.remove("active");
+    if (hint) hint.textContent = "Используются черновые настройки тарифов борта (v13)";
+    showToast("В расчет подставлены параметры из Черновика (v13)", "info");
+  } else {
+    if (btnDraft) btnDraft.classList.remove("active");
+    if (btnPub) btnPub.classList.add("active");
+    if (hint) hint.textContent = "Используются опубликованные действующие настройки (v12)";
+    showToast("В расчет подставлены действующие опубликованные тарифы (v12)", "info");
+  }
+
+  recalculateSandbox();
+}
+
+function changePax(btn, delta) {
+  appState.sandboxPax = Math.max(1, Math.min(12, appState.sandboxPax + delta));
+  document.querySelectorAll(".counter-value").forEach(span => {
+    span.textContent = `${appState.sandboxPax} пассажиров`;
+  });
+  recalculateSandbox();
+}
+
+function addFlightLeg() {
+  const container = document.getElementById("flightLegsList");
+  if (!container) return;
+  const legNum = container.children.length + 1;
+  const row = document.createElement("div");
+  row.className = "flight-leg-row";
+  row.dataset.leg = legNum;
+  row.innerHTML = `
+    <div class="form-group" style="flex: 2;">
+      <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
+    </div>
+    <div class="form-group" style="flex: 2;">
+      <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Прилет">
+    </div>
+    <div class="form-group" style="width: 140px;">
+      <input type="date" class="form-control" value="2026-11-18">
+    </div>
+    <div class="form-group" style="width: 100px;">
+      <input type="time" class="form-control" value="14:00">
+    </div>
+    <div class="counter-input">
+      <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+      <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+      <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+    </div>
+    <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
+  `;
+  container.appendChild(row);
+  recalculateSandbox();
+}
+
+function clearSandboxForm() {
+  setSandboxTripType("multi");
+  showToast("Форма расчета очищена к исходным значениям", "info");
+}
+
+function setSandboxLocationMode(mode) {
+  appState.sandboxLocationMode = mode;
+  const airportGroup = document.getElementById("sandboxAirportGroup");
+  if (airportGroup) {
+    airportGroup.style.display = mode === "manual" ? "block" : "none";
+  }
+}
+
+// ==========================================
+// ORDERS (ЗАЯВКИ): STRICT CORPORATE & MODAL
+// ==========================================
+
+function renderOrders() {
+  const container = document.getElementById("ordersTableBody");
+  if (!container) return;
+
+  container.innerHTML = appState.orders.map(order => {
+    const isPending = order.status === "pending";
+    
+    // Strict corporate status pill (no rainbow neon traffic lights)
+    let badgeClass = "badge-strict-neutral";
+    if (order.status === "pending") badgeClass = "badge-strict-primary";
+    if (order.status === "in_flight") badgeClass = "badge-strict-active";
+
+    return `
+      <tr style="cursor: pointer;" onclick="openOrderDetailModal('${order.id}')">
+        <td>
+          <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">${order.id}</div>
+          <div style="font-size: 11px; color: var(--text-muted);">${order.flightNum}</div>
+        </td>
+        <td>
+          <div style="font-weight: 700; color: var(--text-main);">${order.route}</div>
+          <div style="font-size: 11px; color: var(--text-muted);">${order.routeCities}</div>
+        </td>
+        <td style="font-size: 13px; color: var(--text-secondary);">${order.plane}</td>
+        <td style="font-size: 13px;">${order.dateTime} · ${order.pax} PAX</td>
+        <td style="font-weight: 700; color: var(--primary); font-size: 14px;">€${order.price.toLocaleString("ru-RU")}</td>
+        <td>
+          <span class="${badgeClass}">${order.statusLabel}</span>
+          ${order.slaMinutesLeft ? `<div style="font-size: 11px; color: var(--primary); font-weight: 700; margin-top: 4px;">SLA: ${order.slaMinutesLeft} мин осталось</div>` : ""}
+        </td>
+        <td style="text-align: right;" onclick="event.stopPropagation();">
+          ${isPending ? `
+            <div style="display: flex; gap: 6px; justify-content: flex-end;">
+              <button class="btn-primary btn-sm" onclick="confirmOrderAction('${order.id}')">Подтвердить</button>
+              <button class="btn-secondary btn-sm" onclick="openOrderDetailModal('${order.id}')">Изменить цену</button>
+              <button class="btn-secondary btn-sm" onclick="rejectOrderAction('${order.id}')" style="color: var(--danger);">Отклонить</button>
+            </div>
+          ` : `
+            <button class="btn-secondary btn-sm" onclick="openOrderDetailModal('${order.id}')">Подробнее</button>
+          `}
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function openOrderDetailModal(orderId) {
+  const order = appState.orders.find(o => o.id === orderId) || appState.orders[0];
+  
+  document.getElementById("modalOrderTitle").textContent = `Заявка на рейс ${order.id} (${order.flightNum})`;
+  document.getElementById("modalOrderRoute").textContent = order.routeCities;
+  document.getElementById("modalOrderPlane").textContent = order.plane;
+  document.getElementById("modalOrderDateTime").textContent = order.dateTime;
+  document.getElementById("modalOrderPax").textContent = `${order.pax} пассажиров (VIP обслуживание)`;
+  document.getElementById("modalOrderPrice").textContent = `€${order.price.toLocaleString("ru-RU")}`;
+  document.getElementById("modalOrderClient").textContent = order.client || "FlightAero VIP Corporate";
+  document.getElementById("modalOrderFlightHours").textContent = order.flightHours || "2 ч 40 мин";
+  
+  const statusEl = document.getElementById("modalOrderStatus");
+  if (statusEl) {
+    statusEl.textContent = order.statusLabel;
+    statusEl.className = order.status === "pending" ? "badge-strict-primary" : "badge-strict-neutral";
+  }
+
+  const breakdownContainer = document.getElementById("modalOrderBreakdown");
+  if (breakdownContainer) {
+    breakdownContainer.innerHTML = (order.breakdown || []).map(b => `
+      <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); padding: 6px 0; border-bottom: 1px solid var(--border-light);">
+        <span>${b.label}</span>
+        <span style="font-weight: 700; color: var(--text-main);">${b.amount}</span>
+      </div>
+    `).join("");
+  }
+
+  const actionsContainer = document.getElementById("modalOrderActions");
+  if (actionsContainer) {
+    if (order.status === "pending") {
+      actionsContainer.innerHTML = `
+        <button class="btn-secondary" onclick="rejectOrderAction('${order.id}')" style="color: var(--danger); border-color: var(--border-light);">Отклонить заявку</button>
+        <button class="btn-secondary" onclick="openModifyPriceForm('${order.id}')">Предложить свою цену</button>
+        <button class="btn-primary" onclick="confirmOrderAction('${order.id}')">Подтвердить рейс</button>
+      `;
+    } else {
+      actionsContainer.innerHTML = `
+        <button class="btn-secondary" onclick="closeModal('modalOrderDetail')">Закрыть</button>
+      `;
+    }
+  }
+
+  document.getElementById("modalOrderDetail").classList.add("active");
+}
+
+function confirmOrderAction(orderId) {
+  const order = appState.orders.find(o => o.id === orderId);
+  if (order) {
+    order.status = "confirmed";
+    order.statusLabel = "Подтвержден";
+    order.slaMinutesLeft = null;
+  }
+  closeModal("modalOrderDetail");
+  renderOrders();
+  showToast(`Заказ ${orderId} успешно подтвержден! Слот вылета забронирован.`, "success");
+}
+
+function openModifyPriceForm(orderId) {
+  const newPrice = prompt("Укажите новую расчетную стоимость для FGG, €:", "41200");
+  if (newPrice) {
+    const order = appState.orders.find(o => o.id === orderId);
+    if (order) {
+      order.price = parseInt(newPrice) || order.price;
+      order.statusLabel = "На согласовании FGG";
+    }
+    closeModal("modalOrderDetail");
+    renderOrders();
+    showToast(`Встречное ценовое предложение €${newPrice} отправлено координаторам FGG`, "info");
+  }
+}
+
+function rejectOrderAction(orderId) {
+  const order = appState.orders.find(o => o.id === orderId);
+  if (order) {
+    order.status = "rejected";
+    order.statusLabel = "Отклонен";
+    order.slaMinutesLeft = null;
+  }
+  closeModal("modalOrderDetail");
+  renderOrders();
+  showToast(`Заявка ${orderId} отклонена с фиксацией в журнале координации`, "info");
+}
+
+// ==========================================
+// EMPTY LEGS: CLEAN TABLE & DETAIL CARD
+// ==========================================
+
 function renderEmptyLegsTable() {
   const tbody = document.getElementById("emptyLegsTableBody");
   if (!tbody) return;
 
   tbody.innerHTML = appState.emptyLegs.map(el => {
     const isActive = el.status === "Активный";
-    const statusColor = isActive ? "var(--success)" : "var(--danger)";
+    const statusColor = isActive ? "var(--primary)" : "var(--text-muted)";
     return `
       <tr style="cursor: pointer;" onclick="openEmptyLegView('${el.id}')">
         <td style="font-weight: 700; color: var(--primary);">${el.id}</td>
@@ -413,21 +950,38 @@ function openEmptyLegView(id) {
   appState.selectedEmptyLegId = el.id;
   appState.isEditingEmptyLeg = false;
 
-  document.getElementById("elViewHeroImg").src = el.image || "images/g550-cabin.jpg";
-  document.getElementById("elViewOrigin").textContent = el.origin;
-  document.getElementById("elViewDestination").textContent = el.destination;
-  document.getElementById("elViewDateTime").textContent = el.dateTime;
-  document.getElementById("elViewPlane").textContent = el.planeModel;
-  document.getElementById("elViewTail").textContent = el.tailNumber;
-  document.getElementById("elViewCurrency").textContent = el.currency;
-  document.getElementById("elViewPax").textContent = el.pax;
-  document.getElementById("elViewPrice").textContent = el.price.toLocaleString("ru-RU");
-  document.getElementById("elViewStatus").textContent = el.status;
-  document.getElementById("elViewActiveUntil").textContent = el.activeUntil;
-  document.getElementById("elViewPriority").textContent = el.priority;
+  const titleId = document.getElementById("elViewTitleId");
+  if (titleId) titleId.textContent = el.id;
 
-  document.getElementById("elViewModeContainer").style.display = "block";
-  document.getElementById("elEditModeContainer").style.display = "none";
+  const heroImg = document.getElementById("elViewHeroImg");
+  if (heroImg) heroImg.src = el.image || "images/g550-cabin.jpg";
+
+  const setField = (id, val) => {
+    const elDom = document.getElementById(id);
+    if (elDom) elDom.textContent = val;
+  };
+
+  setField("elViewOrigin", el.origin);
+  setField("elViewDestination", el.destination);
+  setField("elViewDateTime", el.dateTime);
+  setField("elViewPlane", el.planeModel);
+  setField("elViewTail", el.tailNumber);
+  setField("elViewCurrency", el.currency);
+  setField("elViewPax", el.pax);
+  setField("elViewPrice", el.price.toLocaleString("ru-RU"));
+  setField("elViewActiveUntil", el.activeUntil);
+  setField("elViewPriority", el.priority);
+
+  const statusEl = document.getElementById("elViewStatus");
+  if (statusEl) {
+    statusEl.textContent = el.status;
+    statusEl.style.color = el.status === "Активный" ? "var(--primary)" : "var(--text-muted)";
+  }
+
+  const viewMode = document.getElementById("elViewModeContainer");
+  const editMode = document.getElementById("elEditModeContainer");
+  if (viewMode) viewMode.style.display = "block";
+  if (editMode) editMode.style.display = "none";
 
   navigateTo("emptylegs-view");
 }
@@ -442,20 +996,27 @@ function enableEmptyLegEdit() {
   const el = appState.emptyLegs.find(item => item.id === appState.selectedEmptyLegId);
   if (!el) return;
 
-  document.getElementById("elEditOrigin").value = el.origin;
-  document.getElementById("elEditDestination").value = el.destination;
-  document.getElementById("elEditDateTime").value = el.dateTime;
-  document.getElementById("elEditPlane").value = el.planeModel;
-  document.getElementById("elEditTail").value = el.tailNumber;
-  document.getElementById("elEditCurrency").value = el.currency;
-  document.getElementById("elEditPax").value = el.pax;
-  document.getElementById("elEditPrice").value = el.price;
-  document.getElementById("elEditStatus").value = el.status;
-  document.getElementById("elEditActiveUntil").value = el.activeUntil;
-  document.getElementById("elEditPriority").value = el.priority;
+  const setVal = (id, val) => {
+    const elDom = document.getElementById(id);
+    if (elDom) elDom.value = val;
+  };
 
-  document.getElementById("elViewModeContainer").style.display = "none";
-  document.getElementById("elEditModeContainer").style.display = "block";
+  setVal("elEditOrigin", el.origin);
+  setVal("elEditDestination", el.destination);
+  setVal("elEditDateTime", el.dateTime);
+  setVal("elEditPlane", el.planeModel);
+  setVal("elEditTail", el.tailNumber);
+  setVal("elEditCurrency", el.currency);
+  setVal("elEditPax", el.pax);
+  setVal("elEditPrice", el.price);
+  setVal("elEditStatus", el.status);
+  setVal("elEditActiveUntil", el.activeUntil);
+  setVal("elEditPriority", el.priority);
+
+  const viewMode = document.getElementById("elViewModeContainer");
+  const editMode = document.getElementById("elEditModeContainer");
+  if (viewMode) viewMode.style.display = "none";
+  if (editMode) editMode.style.display = "block";
 }
 
 function cancelEmptyLegEdit() {
@@ -516,13 +1077,82 @@ function submitNewEmptyLeg() {
   openEmptyLegView(newId);
 }
 
-// FAQ Modal & Reader Logic
+// ==========================================
+// CALENDAR (КАЛЕНДАРЬ ЗАНЯТОСТИ): STRICT
+// ==========================================
+
+function renderScheduleList() {
+  const container = document.getElementById("scheduleSlotsList");
+  if (!container) return;
+
+  container.innerHTML = appState.scheduleSlots.map(slot => {
+    let borderColor = "var(--primary)";
+    if (slot.type === "maintenance") borderColor = "#94A3B8";
+    if (slot.type === "owner") borderColor = "#475569";
+
+    return `
+      <div style="background: #FFFFFF; padding: 14px 18px; border-radius: 8px; border-left: 4px solid ${borderColor}; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); border-left-width: 4px;">
+        <div>
+          <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">${slot.title}</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">${slot.subtitle}</div>
+        </div>
+        <span class="badge-strict-neutral">${slot.statusText}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+function handleBlockSchedule(event) {
+  event.preventDefault();
+  const plane = document.getElementById("schedPlaneSelect").value;
+  const type = document.getElementById("schedTypeSelect").value;
+  const location = document.getElementById("schedLocationInput").value || "LJU, Базовый ангар";
+  const startDate = document.getElementById("schedStartDate").value;
+  const startTime = document.getElementById("schedStartTime").value;
+  const endDate = document.getElementById("schedEndDate").value;
+  const endTime = document.getElementById("schedEndTime").value;
+  const note = document.getElementById("schedNoteInput").value || "Блокировка периода";
+
+  if (!startDate || !endDate) {
+    showToast("Укажите даты начала и окончания периода", "error");
+    return;
+  }
+
+  let typeName = "Техническое обслуживание";
+  let statusText = "Тех. обслуживание";
+  if (type === "owner") {
+    typeName = "Собственный рейс";
+    statusText = "Забронирован";
+  } else if (type === "crew_rest") {
+    typeName = "Санитарный отдых экипажа";
+    statusText = "Отдых экипажа";
+  }
+
+  const newSlot = {
+    id: `slot-${Date.now()}`,
+    dateRange: `${startDate} - ${endDate}`,
+    time: `${startTime} - ${endTime} UTC`,
+    title: `${startDate} · ${note}`,
+    subtitle: `${plane} · ${location} · ${typeName}`,
+    type: type,
+    statusText: statusText
+  };
+
+  appState.scheduleSlots.unshift(newSlot);
+  renderScheduleList();
+  showToast("Период занятости успешно заблокирован!", "success");
+  document.getElementById("blockScheduleForm").reset();
+}
+
+// ==========================================
+// FAQ MODAL & READER
+// ==========================================
+
 function openFaqModal(articleId) {
   const article = appState.faqArticles[articleId] || appState.faqArticles["1"];
   document.getElementById("faqModalTitle").textContent = article.title;
   document.getElementById("faqModalDesc").textContent = article.desc;
   document.getElementById("faqModalContent").innerHTML = article.content;
-  document.getElementById("faqModalVideoBox").style.display = "none";
   document.getElementById("modalFaqDetail").classList.add("active");
 }
 
@@ -537,116 +1167,79 @@ function openFaqVideoModal(articleId) {
       <div style="font-size: 14px; color: var(--text-muted); max-width: 420px; margin: 0 auto; line-height: 1.5;">Мы готовим наглядную видеоинструкцию по данному разделу. Ознакомьтесь с подробным текстом инструкции, нажав кнопку «Читать инструкцию».</div>
     </div>
   `;
-  const videoBox = document.getElementById("faqModalVideoBox");
-  if (videoBox) videoBox.style.display = "none";
   document.getElementById("modalFaqDetail").classList.add("active");
 }
 
-// Sandbox Calculator
-function setSandboxSettingsVersion(ver) {
-  appState.sandboxSettingsVersion = ver;
-  const btnDraft = document.getElementById("btnSandboxDraft");
-  const btnPub = document.getElementById("btnSandboxPublished");
-  const hint = document.getElementById("sandboxVersionHint");
-  const priceDisplay = document.getElementById("sandboxTotalPrice");
-  const finalBottomPrice = document.getElementById("finalBottomPrice");
+// ==========================================
+// PROFILE: PASSWORD CHANGE & LOGOUT
+// ==========================================
 
-  if (ver === "draft") {
-    btnDraft.classList.add("active");
-    btnPub.classList.remove("active");
-    hint.textContent = "Используются черновые настройки тарифов борта (v13)";
-    if (priceDisplay) priceDisplay.textContent = "€71 450";
-    if (finalBottomPrice) finalBottomPrice.textContent = "€71 450";
-    showToast("В расчет подставлены параметры из Черновика (v13)", "info");
-  } else {
-    btnDraft.classList.remove("active");
-    btnPub.classList.add("active");
-    hint.textContent = "Используются опубликованные действующие настройки (v12)";
-    if (priceDisplay) priceDisplay.textContent = "€69 000";
-    if (finalBottomPrice) finalBottomPrice.textContent = "€69 000";
-    showToast("В расчет подставлены действующие опубликованные тарифы (v12)", "info");
+function handleChangePassword(event) {
+  event.preventDefault();
+  const curr = document.getElementById("currentPasswordInput").value;
+  const p1 = document.getElementById("newPasswordInput").value;
+  const p2 = document.getElementById("confirmPasswordInput").value;
+
+  if (!curr) {
+    showToast("Введите текущий пароль", "error");
+    return;
   }
-}
-
-function setSandboxLocationMode(mode) {
-  appState.sandboxLocationMode = mode;
-  const airportGroup = document.getElementById("sandboxAirportGroup");
-  if (airportGroup) {
-    airportGroup.style.display = mode === "manual" ? "block" : "none";
+  if (!p1 || p1.length < 8) {
+    showToast("Новый пароль должен содержать не менее 8 символов", "error");
+    return;
   }
-}
-
-function recalculateSandbox() {
-  const calcBtn = document.getElementById("btnRecalculateSandbox");
-  if (calcBtn) {
-    calcBtn.disabled = true;
-    calcBtn.textContent = "Выполняется расчет FGG Engine...";
+  if (p1 !== p2) {
+    showToast("Новые пароли не совпадают", "error");
+    return;
   }
-  setTimeout(() => {
-    if (calcBtn) {
-      calcBtn.disabled = false;
-      calcBtn.textContent = "Обновить результаты";
-    }
-    const priceDisplay = document.getElementById("sandboxTotalPrice");
-    const finalBottomPrice = document.getElementById("finalBottomPrice");
-    const price = appState.sandboxSettingsVersion === "draft" ? "€71 450" : "€69 000";
-    if (priceDisplay) priceDisplay.textContent = price;
-    if (finalBottomPrice) finalBottomPrice.textContent = price;
-    showToast("Расчет перелета успешно обновлен", "success");
-  }, 400);
+
+  document.getElementById("changePasswordForm").reset();
+  showToast("Пароль успешно изменен!", "success");
 }
 
-function addFlightLeg() {
-  const container = document.getElementById("flightLegsList");
-  if (!container) return;
-  const row = document.createElement("div");
-  row.className = "flight-leg-row";
-  row.innerHTML = `
-    <div><input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Откуда"></div>
-    <div><input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Куда"></div>
-    <div><input type="date" class="form-control" value="2026-11-18"></div>
-    <div><input type="time" class="form-control" value="14:00"></div>
-    <div class="counter-control">
-      <button class="btn-counter" onclick="changePax(this, -1)">-</button>
-      <span class="counter-value">6 пассажиров</span>
-      <button class="btn-counter" onclick="changePax(this, 1)">+</button>
-    </div>
-    <div>
-      <button class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove()" title="Удалить плечо">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-  `;
-  container.appendChild(row);
-  showToast("Добавлено дополнительное плечо маршрута", "info");
+function logout() {
+  const authModal = document.getElementById("authModalScreen");
+  if (authModal) {
+    authModal.style.display = "flex";
+  }
+  showToast("Вы вышли из кабинета оператора", "info");
 }
 
-function clearSandboxForm() {
-  showToast("Форма маршрута сброшена", "info");
+function handleLoginStep1(event) {
+  event.preventDefault();
+  document.getElementById("authStep1").style.display = "none";
+  document.getElementById("authStep2").style.display = "block";
 }
 
-function changePax(btn, delta) {
-  const span = btn.parentElement.querySelector(".counter-value");
-  let current = parseInt(span.textContent) || 1;
-  current = Math.max(1, Math.min(14, current + delta));
-  span.textContent = `${current} ${current === 1 ? "пассажир" : "пассажиров"}`;
+function handleLoginStep2(event) {
+  event.preventDefault();
+  const authModal = document.getElementById("authModalScreen");
+  if (authModal) authModal.style.display = "none";
+  showToast("Добро пожаловать в кабинет оператора FGG!", "success");
 }
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) modal.classList.remove("active");
+}
+
+// ==========================================
+// PLANE CARD & MAP LOGIC
+// ==========================================
 
 function toggleAccordion(header) {
-  header.classList.toggle("open");
   const body = header.nextElementSibling;
-  if (body) {
-    body.classList.toggle("open");
-  }
+  header.classList.toggle("open");
+  body.classList.toggle("open");
 }
 
-// Plane Card functions
 function setPlaneVersion(version) {
   appState.planeVersionTab = version;
   const cardDraft = document.getElementById("cardVersionDraft");
   const cardPublished = document.getElementById("cardVersionPublished");
   const diffCard = document.getElementById("cardDiffSummary");
   const noteBanner = document.getElementById("planeVersionNote");
+
   const paxInput = document.getElementById("planePaxInput");
   const commRateInput = document.getElementById("planeCommRateInput");
   const ferryRateInput = document.getElementById("planeFerryRateInput");
@@ -657,9 +1250,9 @@ function setPlaneVersion(version) {
     cardPublished.classList.remove("is-active-tab");
     if (diffCard) diffCard.style.display = "block";
     if (noteBanner) {
-      noteBanner.innerHTML = `<svg class="informer-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div><strong>Черновик v13 сохранен 18.09.2026, 12:40.</strong> Опубликованная версия v12 продолжает использоваться в клиентских расчетах на сайте и в приложении до утверждения модератором.</div>`;
-      noteBanner.className = "informer-box diff";
+      noteBanner.innerHTML = `<svg class="informer-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div><strong>Внимание: Вы редактируете Черновик v13.</strong> Эти изменения еще не проверены FGG. Клиенты видят расчеты по версии v12.</div>`;
+      noteBanner.className = "informer-box warning";
     }
 
     if (paxInput) {
@@ -736,161 +1329,123 @@ function openModerationModal() {
 
 function submitToModeration() {
   closeModal("modalModeration");
-  appState.planeStatus = "moderation";
   const statusPill = document.getElementById("planeStatusPill");
   if (statusPill) {
-    statusPill.className = "status-pill moderation";
-    statusPill.innerHTML = `На модерации FGG`;
+    statusPill.textContent = "На модерации FGG";
+    statusPill.className = "status-pill warning";
   }
-  showToast("Пакет изменений отправлен координатору FGG", "warning");
+  showToast("Пакет изменений отправлен координатору FGG на утверждение", "success");
 }
 
-// Vector map logic
-let vectorMapInstance = null;
+let jvmMapInstance = null;
 function initPlaneCardMap() {
   const mapElement = document.getElementById("mapContainer");
-  if (!mapElement || vectorMapInstance) return;
+  if (!mapElement || typeof jsVectorMap === "undefined") return;
+  if (jvmMapInstance) return;
 
-  if (typeof jsVectorMap !== "undefined") {
-    try {
-      vectorMapInstance = new jsVectorMap({
-        selector: "#mapContainer",
-        map: "world",
-        backgroundColor: "#F8FAFC",
-        draggable: true,
-        zoomButtons: true,
-        zoomOnScroll: false,
-        selectedRegions: appState.selectedCountries,
-        regionStyle: {
-          initial: { fill: "#CBD5E1", fillOpacity: 1, stroke: "#FFFFFF", strokeWidth: 0.5 },
-          hover: { fillOpacity: 0.85, cursor: "pointer" },
-          selected: { fill: "#1E599F" },
-          selectedHover: { fill: "#16467F" }
+  try {
+    jvmMapInstance = new jsVectorMap({
+      selector: "#mapContainer",
+      map: "world",
+      zoomButtons: true,
+      zoomOnScroll: false,
+      regionsSelectable: true,
+      regionsSelectableOne: false,
+      selectedRegions: appState.selectedCountries,
+      regionStyle: {
+        initial: {
+          fill: "#E2E8F0",
+          fillOpacity: 1,
+          stroke: "#FFFFFF",
+          strokeWidth: 0.5,
+          strokeOpacity: 1
         },
-        onRegionSelected: function (index, isSelected, selectedRegions) {
-          appState.selectedCountries = selectedRegions;
-          updateSelectedCountriesUI();
+        hover: {
+          fillOpacity: 0.8,
+          cursor: "pointer"
+        },
+        selected: {
+          fill: "#1E599F"
+        },
+        selectedHover: {
+          fill: "#16467F"
         }
-      });
-      updateSelectedCountriesUI();
-    } catch (e) {
-      console.error("Map init error:", e);
-    }
+      },
+      onRegionSelected: function (index, isSelected, selectedRegions) {
+        appState.selectedCountries = selectedRegions;
+        updateSelectedCountriesUI();
+      }
+    });
+    updateSelectedCountriesUI();
+  } catch (e) {
+    console.warn("Map init note:", e);
   }
 }
 
 function updateSelectedCountriesUI() {
   const countEl = document.getElementById("selectedCountriesCount");
-  if (countEl) countEl.textContent = appState.selectedCountries.length;
-
   const chipsContainer = document.getElementById("selectedCountriesChips");
+  if (countEl) countEl.textContent = appState.selectedCountries.length;
   if (!chipsContainer) return;
 
   const countryNames = {
-    "EE": "Эстония", "DE": "Германия", "FR": "Франция", "IT": "Италия", "ES": "Испания",
-    "AT": "Австрия", "CH": "Швейцария", "GB": "Великобритания", "NL": "Нидерланды",
-    "BE": "Бельгия", "PT": "Португалия", "US": "США", "CA": "Канада", "AE": "ОАЭ",
-    "TR": "Турция", "CY": "Кипр", "GR": "Греция"
+    "EE": "Эстония", "DE": "Германия", "FR": "Франция", "IT": "Италия",
+    "ES": "Испания", "AT": "Австрия", "CH": "Швейцария", "GB": "Великобритания",
+    "NL": "Нидерланды", "BE": "Бельгия", "PT": "Португалия", "US": "США", "CA": "Канада"
   };
 
-  chipsContainer.innerHTML = appState.selectedCountries.map(code => {
+  chipsContainer.innerHTML = appState.selectedCountries.slice(0, 16).map(code => {
     const name = countryNames[code] || code;
-    return `<div class="country-chip">
-      <span>${name}</span>
-      <span class="country-chip-remove" onclick="removeCountry('${code}')">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </span>
-    </div>`;
-  }).join("");
+    return `
+      <div class="country-chip">
+        <span>${name}</span>
+        <span class="remove-chip" onclick="removeCountry('${code}')">×</span>
+      </div>
+    `;
+  }).join("") + (appState.selectedCountries.length > 16 ? `<div class="country-chip">+${appState.selectedCountries.length - 16} других</div>` : "");
 }
 
 function removeCountry(code) {
   appState.selectedCountries = appState.selectedCountries.filter(c => c !== code);
-  if (vectorMapInstance) {
-    vectorMapInstance.clearSelectedRegions();
-    vectorMapInstance.setSelectedRegions(appState.selectedCountries);
+  if (jvmMapInstance) {
+    jvmMapInstance.clearSelectedRegions();
+    jvmMapInstance.setSelectedRegions(appState.selectedCountries);
   }
   updateSelectedCountriesUI();
 }
 
 function applyCountryPreset(presetName) {
-  let list = [];
-  if (presetName === "world") {
-    list = ["EE", "DE", "FR", "IT", "ES", "AT", "CH", "GB", "NL", "BE", "PT", "US", "CA", "AE", "TR", "GR", "CY"];
-  } else if (presetName === "europe") {
-    list = ["EE", "DE", "FR", "IT", "ES", "AT", "CH", "GB", "NL", "BE", "PT", "GR", "CY"];
-  } else if (presetName === "eu") {
-    list = ["EE", "DE", "FR", "IT", "ES", "AT", "NL", "BE", "PT", "GR", "CY"];
-  } else if (presetName === "me") {
-    list = ["AE", "SA", "QA", "OM", "KW", "BH"];
+  if (presetName === "schengen") {
+    appState.selectedCountries = ["AT","BE","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","SK","SI","ES","SE","CH"];
+    showToast("Применен пресет: Страны Шенгенской зоны (26 стран)", "info");
   } else if (presetName === "cis") {
-    list = ["KZ", "UZ", "AM", "AZ", "BY", "KG", "TJ"];
+    appState.selectedCountries = ["RU", "BY", "KZ", "AM", "AZ", "KG", "TJ", "UZ"];
+    showToast("Применен пресет: СНГ и ЕАЭС", "info");
+  } else if (presetName === "middle_east") {
+    appState.selectedCountries = ["AE", "SA", "QA", "OM", "KW", "BH", "TR", "EG"];
+    showToast("Применен пресет: Ближний Восток", "info");
+  } else if (presetName === "all") {
+    appState.selectedCountries = Object.keys(jvmMapInstance ? jvmMapInstance._mapData.paths : {});
+    showToast("Выбраны все страны мира", "info");
+  } else if (presetName === "clear") {
+    appState.selectedCountries = [];
+    showToast("Список географии очищен", "info");
   }
-  appState.selectedCountries = list;
-  if (vectorMapInstance) {
-    vectorMapInstance.clearSelectedRegions();
-    vectorMapInstance.setSelectedRegions(list);
+
+  if (jvmMapInstance) {
+    jvmMapInstance.clearSelectedRegions();
+    jvmMapInstance.setSelectedRegions(appState.selectedCountries);
   }
   updateSelectedCountriesUI();
 }
 
-// Orders render
-function renderOrders() {
-  const container = document.getElementById("ordersTableBody");
-  if (!container) return;
-
-  container.innerHTML = appState.orders.map(order => {
-    let statusColor = "var(--text-muted)";
-    if (order.status === "confirmed") statusColor = "var(--success)";
-    if (order.status === "pending") statusColor = "var(--warning)";
-    if (order.status === "in_flight") statusColor = "var(--primary)";
-
-    const isPending = order.status === "pending";
-
-    return `
-      <tr>
-        <td style="font-weight: 700;">${order.id}</td>
-        <td>${order.dateTime}</td>
-        <td style="font-weight: 600;">${order.route}</td>
-        <td>${order.plane}</td>
-        <td>${order.pax} PAX</td>
-        <td style="font-weight: 700; color: var(--primary);">€${order.price.toLocaleString("ru-RU")}</td>
-        <td>
-          <span style="font-weight: 600; color: ${statusColor};">${order.statusLabel}</span>
-          ${order.slaMinutesLeft ? `<div style="font-size: 11px; color: var(--danger); font-weight: 700;">SLA: ${order.slaMinutesLeft} мин</div>` : ""}
-        </td>
-        <td style="text-align: right;">
-          ${isPending ? `
-            <button class="btn-primary btn-sm" onclick="confirmOrderAction('${order.id}')">Подтвердить</button>
-            <button class="btn-secondary btn-sm" onclick="showToast('Запрос цены отправлен', 'info')">Изменить цену</button>
-          ` : `
-            <a class="action-link" onclick="showToast('Детализация рейса #${order.id}', 'info')">Детали</a>
-          `}
-        </td>
-      </tr>
-    `;
-  }).join("");
-}
-
-function confirmOrderAction(orderId) {
-  const order = appState.orders.find(o => o.id === orderId);
-  if (order) {
-    order.status = "confirmed";
-    order.statusLabel = "Подтвержден";
-    order.slaMinutesLeft = null;
-  }
-  renderOrders();
-  showToast(`Заказ #${orderId} подтвержден!`, "success");
-}
-
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal) modal.classList.remove("active");
-}
-
+// Initial bootstrap
 document.addEventListener("DOMContentLoaded", () => {
   renderOrders();
   renderEmptyLegsTable();
+  renderScheduleList();
+  recalculateSandbox();
+
   const hash = window.location.hash.replace("#", "");
   if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "schedule", "faq", "profile"].includes(hash)) {
     navigateTo(hash);

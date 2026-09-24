@@ -846,8 +846,9 @@ body {
 
 .faq-grid-4x2 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 18px;
+  width: 100%;
 }
 
 .faq-card {
@@ -859,6 +860,8 @@ body {
   flex-direction: column;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
+  min-width: 0 !important;
+  width: 100%;
 }
 
 .faq-card:hover {
@@ -869,15 +872,19 @@ body {
 .faq-card-thumb-wrap {
   position: relative;
   width: 100%;
-  height: 120px;
+  height: 130px;
+  max-height: 130px;
   background: #F1F5F9;
   overflow: hidden;
 }
 
+.faq-card-thumb-wrap img,
 .faq-card-thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 130px !important;
+  max-height: 130px !important;
+  object-fit: cover !important;
+  display: block !important;
 }
 
 .faq-card-content {
@@ -1226,4 +1233,60 @@ body {
   .flight-leg-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* Strict Corporate Badges & Buttons */
+.badge-strict-neutral {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: #F1F5F9;
+  color: #334155;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.badge-strict-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid #BAE6FD;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.badge-strict-active {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: #F8FAFC;
+  color: var(--primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.btn-remove-leg {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  line-height: 1;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-remove-leg:hover {
+  background: #F1F5F9;
+  color: var(--danger);
 }
