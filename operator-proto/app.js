@@ -2,8 +2,6 @@
 
 const appState = {
   currentScreen: "sandbox",
-  selectedEmptyLegId: "199",
-  isEditingEmptyLeg: false,
   activePlaneId: "xls-s5bbm",
   planeVersionTab: "draft",
   planeStatus: "active",
@@ -13,128 +11,6 @@ const appState = {
   sandboxTripType: "multi",
   sandboxPax: 6,
   selectedCountries: ["EE", "DE", "FR", "IT", "ES", "AT", "CH", "GB", "NL", "BE", "PT", "US", "CA"],
-  emptyLegs: [
-    {
-      id: "199",
-      dateTime: "24.09.2026 09:25",
-      origin: "UMGG, Gomel Airport, Gomel, Belarus",
-      destination: "LIEE, Cagliari / Elmas Airport, Cagliari, Italy",
-      planeModel: "Embraer Phenom 300",
-      tailNumber: "—",
-      currency: "Евро",
-      pax: 6,
-      price: 1000,
-      activeUntil: "24.09.2026, 09:26:00",
-      status: "Активный",
-      priority: "Обычный",
-      image: "images/g550-cabin.jpg"
-    },
-    {
-      id: "198",
-      dateTime: "25.09.2026 11:02",
-      origin: "UWKD, Kazan Airport, Kazan, Russia",
-      destination: "UUWW, Vnukovo Airport, Moscow, Russia",
-      planeModel: "Cessna Citation XLS+",
-      tailNumber: "S5-BBM",
-      currency: "Рубли",
-      pax: 8,
-      price: 240000,
-      activeUntil: "26.09.2026, 11:05:00",
-      status: "Неактивно",
-      priority: "Обычный",
-      image: "images/citation-exterior.jpg"
-    },
-    {
-      id: "197",
-      dateTime: "06.09.2026 00:05",
-      origin: "UUWW, Moscow, Russia",
-      destination: "UHWW, Vladivostok, Russia",
-      planeModel: "Gulfstream G550",
-      tailNumber: "RA-10222",
-      currency: "Рубли",
-      pax: 14,
-      price: 9450000,
-      activeUntil: "06.09.2026, 12:00:00",
-      status: "Неактивно",
-      priority: "Обычный",
-      image: "images/g550-exterior.jpg"
-    },
-    {
-      id: "196",
-      dateTime: "10.09.2026 11:00",
-      origin: "OMDW, Jebel Ali, UAE",
-      destination: "OTHH, Doha, Qatar",
-      planeModel: "Challenger 350",
-      tailNumber: "OE-HOO",
-      currency: "Евро",
-      pax: 8,
-      price: 18400,
-      activeUntil: "10.09.2026, 08:00:00",
-      status: "Неактивно",
-      priority: "Обычный",
-      image: "images/fleet-large.jpg"
-    },
-    {
-      id: "195",
-      dateTime: "12.09.2026 11:00",
-      origin: "OMDW, Jebel Ali, UAE",
-      destination: "HEAL, El Alamein, Egypt",
-      planeModel: "Cessna Citation XLS+",
-      tailNumber: "S5-BBM",
-      currency: "Евро",
-      pax: 8,
-      price: 43575,
-      activeUntil: "12.09.2026, 08:00:00",
-      status: "Неактивно",
-      priority: "Обычный",
-      image: "images/citation-xls.jpg"
-    },
-    {
-      id: "194",
-      dateTime: "12.09.2026 12:00",
-      origin: "LTFM, Istanbul, Turkey",
-      destination: "OJAM, Amman, Jordan",
-      planeModel: "Embraer Legacy 600",
-      tailNumber: "RA-02857",
-      currency: "Евро",
-      pax: 13,
-      price: 14465,
-      activeUntil: "12.09.2026, 08:00:00",
-      status: "Неактивно",
-      priority: "Обычный",
-      image: "images/fleet-small.jpg"
-    },
-    {
-      id: "193",
-      dateTime: "21.09.2026 12:00",
-      origin: "LCPH, Paphos, Cyprus",
-      destination: "EGBB, Birmingham, UK",
-      planeModel: "Cessna Citation XLS+",
-      tailNumber: "S5-BBM",
-      currency: "Евро",
-      pax: 8,
-      price: 28000,
-      activeUntil: "21.09.2026, 08:00:00",
-      status: "Неактивно",
-      priority: "Обычный",
-      image: "images/citation-exterior.jpg"
-    },
-    {
-      id: "192",
-      dateTime: "23.09.2026 12:00",
-      origin: "LLBG, Tel Aviv, Israel",
-      destination: "LFMN, Nice, France",
-      planeModel: "Gulfstream G550",
-      tailNumber: "RA-10222",
-      currency: "Евро",
-      pax: 14,
-      price: 55000,
-      activeUntil: "23.09.2026, 08:00:00",
-      status: "Неактивно",
-      priority: "Обычный",
-      image: "images/global-express-flight.jpg"
-    }
-  ],
   orders: [
     {
       id: "ORD-8492",
@@ -487,7 +363,7 @@ function navigateTo(screenId) {
   
   const targetView = document.getElementById(`screen-${screenId}`);
   if (targetView) {
-    targetView.style.display = "block";
+    targetView.style.display = screenId === "manager" ? "flex" : "block";
   }
 
   const titles = {
@@ -495,9 +371,7 @@ function navigateTo(screenId) {
     "fleet": "Борты",
     "plane-card": "Борт Cessna Citation XLS+",
     "sandbox": "Песочница",
-    "emptylegs": "Empty legs",
-    "emptylegs-view": "Просмотр Empty leg",
-    "emptylegs-create": "Создать Empty legs",
+    "manager": "Связаться с менеджером",
     "faq": "FAQ и инструкции",
     "profile": "Профиль"
   };
@@ -510,10 +384,7 @@ function navigateTo(screenId) {
   // Topbar actions
   const topbarAction = document.getElementById("topbarActionSlot");
   if (topbarAction) {
-    if (screenId === "emptylegs") {
-      topbarAction.innerHTML = `<button class="btn-primary" onclick="openCreateEmptyLegView()">+ Добавить Empty leg</button>`;
-      topbarAction.style.display = "block";
-    } else if (screenId === "fleet") {
+    if (screenId === "fleet") {
       topbarAction.innerHTML = `<button class="btn-primary" onclick="navigateTo('plane-card')">+ Добавить борт</button>`;
       topbarAction.style.display = "block";
     } else {
@@ -530,11 +401,15 @@ function navigateTo(screenId) {
     }, 100);
   } else if (screenId === "orders") {
     renderOrders();
-  } else if (screenId === "emptylegs") {
-    renderEmptyLegsTable();
   } else if (screenId === "sandbox") {
     setTimeout(() => {
       initInfoPopovers();
+    }, 50);
+  } else if (screenId === "manager") {
+    renderChatMessages();
+    setTimeout(() => {
+      const c = document.getElementById("chatMessages");
+      if (c) c.scrollTop = c.scrollHeight;
     }, 50);
   }
 
@@ -1028,168 +903,6 @@ function rejectOrderAction(orderId) {
 // ==========================================
 // EMPTY LEGS: CLEAN TABLE & DETAIL CARD
 // ==========================================
-
-function renderEmptyLegsTable() {
-  const tbody = document.getElementById("emptyLegsTableBody");
-  if (!tbody) return;
-
-  tbody.innerHTML = appState.emptyLegs.map(el => {
-    const isActive = el.status === "Активный";
-    const statusColor = isActive ? "var(--primary)" : "var(--text-muted)";
-    return `
-      <tr style="cursor: pointer;" onclick="openEmptyLegView('${el.id}')">
-        <td style="font-weight: 700; color: var(--primary);">${el.id}</td>
-        <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">${el.tailNumber || "—"}</strong></td>
-        <td>${el.dateTime}</td>
-        <td>${el.origin}</td>
-        <td>${el.destination}</td>
-        <td style="font-weight: 700; color: var(--text-main);">${el.price.toLocaleString("ru-RU")} ${el.currency === "Рубли" ? "₽" : "€"}</td>
-        <td>${el.activeUntil}</td>
-        <td>
-          <span style="font-weight: 600; color: ${statusColor};">${el.status}</span>
-        </td>
-        <td>
-          <a class="action-link" href="javascript:void(0)" onclick="event.stopPropagation(); openEmptyLegView('${el.id}')">Просмотр</a>
-        </td>
-        <td>
-          <a class="action-link" href="javascript:void(0)" onclick="event.stopPropagation(); openEmptyLegEdit('${el.id}')">Детали</a>
-        </td>
-      </tr>
-    `;
-  }).join("");
-}
-
-function openEmptyLegView(id) {
-  const el = appState.emptyLegs.find(item => item.id === id) || appState.emptyLegs[0];
-  appState.selectedEmptyLegId = el.id;
-  appState.isEditingEmptyLeg = false;
-
-  const titleId = document.getElementById("elViewTitleId");
-  if (titleId) titleId.textContent = el.id;
-
-  const heroImg = document.getElementById("elViewHeroImg");
-  if (heroImg) heroImg.src = el.image || "images/g550-cabin.jpg";
-
-  const setField = (id, val) => {
-    const elDom = document.getElementById(id);
-    if (elDom) elDom.textContent = val;
-  };
-
-  setField("elViewOrigin", el.origin);
-  setField("elViewDestination", el.destination);
-  setField("elViewDateTime", el.dateTime);
-  setField("elViewPlane", el.planeModel);
-  setField("elViewTail", el.tailNumber);
-  setField("elViewCurrency", el.currency);
-  setField("elViewPax", el.pax);
-  setField("elViewPrice", el.price.toLocaleString("ru-RU"));
-  setField("elViewActiveUntil", el.activeUntil);
-  setField("elViewPriority", el.priority);
-
-  const statusEl = document.getElementById("elViewStatus");
-  if (statusEl) {
-    statusEl.textContent = el.status;
-    statusEl.style.color = el.status === "Активный" ? "var(--primary)" : "var(--text-muted)";
-  }
-
-  const viewMode = document.getElementById("elViewModeContainer");
-  const editMode = document.getElementById("elEditModeContainer");
-  if (viewMode) viewMode.style.display = "block";
-  if (editMode) editMode.style.display = "none";
-
-  navigateTo("emptylegs-view");
-}
-
-function openEmptyLegEdit(id) {
-  openEmptyLegView(id);
-  enableEmptyLegEdit();
-}
-
-function enableEmptyLegEdit() {
-  appState.isEditingEmptyLeg = true;
-  const el = appState.emptyLegs.find(item => item.id === appState.selectedEmptyLegId);
-  if (!el) return;
-
-  const setVal = (id, val) => {
-    const elDom = document.getElementById(id);
-    if (elDom) elDom.value = val;
-  };
-
-  setVal("elEditOrigin", el.origin);
-  setVal("elEditDestination", el.destination);
-  setVal("elEditDateTime", el.dateTime);
-  setVal("elEditPlane", el.planeModel);
-  setVal("elEditTail", el.tailNumber);
-  setVal("elEditCurrency", el.currency);
-  setVal("elEditPax", el.pax);
-  setVal("elEditPrice", el.price);
-  setVal("elEditStatus", el.status);
-  setVal("elEditActiveUntil", el.activeUntil);
-  setVal("elEditPriority", el.priority);
-
-  const viewMode = document.getElementById("elViewModeContainer");
-  const editMode = document.getElementById("elEditModeContainer");
-  if (viewMode) viewMode.style.display = "none";
-  if (editMode) editMode.style.display = "block";
-}
-
-function cancelEmptyLegEdit() {
-  openEmptyLegView(appState.selectedEmptyLegId);
-}
-
-function saveEmptyLegEdit() {
-  const el = appState.emptyLegs.find(item => item.id === appState.selectedEmptyLegId);
-  if (el) {
-    el.origin = document.getElementById("elEditOrigin").value;
-    el.destination = document.getElementById("elEditDestination").value;
-    el.dateTime = document.getElementById("elEditDateTime").value;
-    el.planeModel = document.getElementById("elEditPlane").value;
-    el.tailNumber = document.getElementById("elEditTail").value;
-    el.currency = document.getElementById("elEditCurrency").value;
-    el.pax = parseInt(document.getElementById("elEditPax").value) || el.pax;
-    el.price = parseInt(document.getElementById("elEditPrice").value) || el.price;
-    el.status = document.getElementById("elEditStatus").value;
-    el.activeUntil = document.getElementById("elEditActiveUntil").value;
-    el.priority = document.getElementById("elEditPriority").value;
-  }
-  showToast("Empty leg успешно обновлен!", "success");
-  openEmptyLegView(appState.selectedEmptyLegId);
-}
-
-function openCreateEmptyLegView() {
-  navigateTo("emptylegs-create");
-}
-
-function submitNewEmptyLeg() {
-  const origin = document.getElementById("elCreateOrigin").value;
-  const destination = document.getElementById("elCreateDestination").value;
-  const price = parseInt(document.getElementById("elCreatePrice").value) || 5000;
-
-  if (!origin || !destination) {
-    showToast("Пожалуйста, заполните пункты вылета и прилета", "error");
-    return;
-  }
-
-  const newId = (parseInt(appState.emptyLegs[0]?.id || "200") + 1).toString();
-  appState.emptyLegs.unshift({
-    id: newId,
-    dateTime: document.getElementById("elCreateDateTime").value || "25.09.2026, 12:00:00",
-    origin: origin,
-    destination: destination,
-    planeModel: document.getElementById("elCreatePlane").value || "Cessna Citation XLS+",
-    tailNumber: document.getElementById("elCreateTail").value || "S5-BBM",
-    currency: "Евро",
-    pax: parseInt(document.getElementById("elCreatePax").value) || 8,
-    price: price,
-    activeUntil: "26.09.2026, 12:00:00",
-    status: "Активный",
-    priority: "Обычный",
-    image: "images/citation-exterior.jpg"
-  });
-
-  showToast(`Empty leg #${newId} успешно создан!`, "success");
-  openEmptyLegView(newId);
-}
 
 // ==========================================
 // PLANE FLIGHT CALENDAR (КАЛЕНДАРЬ ПОЛЕТОВ БОРТА)
@@ -1898,17 +1611,132 @@ function initPlaneCardMap() {
   }
 }
 
+
+// ==========================================
+// MANAGER CHAT (СВЯЗАТЬСЯ С МЕНЕДЖЕРОМ)
+// ==========================================
+
+const chatMessages = [
+  { id: 1, dir: "in",  text: "Добрый день! Чем могу помочь?",                           time: "11:02", date: "04.08.2026", read: true },
+  { id: 2, dir: "out", text: "Здравствуйте! Хотели уточнить по рейсу Москва — Дубай на 15 сентября.", time: "11:04", date: "04.08.2026", read: true },
+  { id: 3, dir: "in",  text: "Да, конечно. Уточните, пожалуйста, количество пассажиров и предпочтения по времени вылета.", time: "11:07", date: "04.08.2026", read: true },
+  { id: 4, dir: "out", img: "plan_msk_dxb.jpg", time: "11:09", date: "04.08.2026", read: true },
+  { id: 5, dir: "in",  text: "Всё выглядит отлично. Мы подготовили предложение — 6 пассажиров, вылет 15 сентября в 10:00 UTC. Стоимость составит 22 400 €. Подтверждаете?", time: "09:31", date: "05.08.2026", read: true },
+  { id: 6, dir: "out", text: "Да, подтверждаем!", time: "09:45", date: "05.08.2026", read: false }
+];
+
+function renderChatMessages() {
+  const container = document.getElementById("chatMessages");
+  if (!container) return;
+  let lastDate = null;
+  let html = "";
+
+  const readSvgBlue = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#0970CD" d="M10.973 4.319a.5.5 0 0 1 .72.694L5.795 11.14a1.167 1.167 0 0 1-1.74-.066l-2.44-2.953a.5.5 0 1 1 .77-.637l2.441 2.953c.064.077.18.08.249.01zM14.315 4.311a.5.5 0 0 1 .705.71l-6.217 6.164A1.166 1.166 0 0 1 7.1 11.12l-.144-.166a.5.5 0 0 1 .756-.655l.144.167a.167.167 0 0 0 .244.01z"/></svg>`;
+  const readSvgGrey = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#7B8897" d="M10.973 4.319a.5.5 0 0 1 .72.694L5.795 11.14a1.167 1.167 0 0 1-1.74-.066l-2.44-2.953a.5.5 0 1 1 .77-.637l2.441 2.953c.064.077.18.08.249.01zM14.315 4.311a.5.5 0 0 1 .705.71l-6.217 6.164A1.166 1.166 0 0 1 7.1 11.12l-.144-.166a.5.5 0 0 1 .756-.655l.144.167a.167.167 0 0 0 .244.01z"/></svg>`;
+
+  chatMessages.forEach(msg => {
+    if (msg.date !== lastDate) {
+      lastDate = msg.date;
+      html += `<div class="chat-date-sep"><span>${msg.date}</span></div>`;
+    }
+    const isOut = msg.dir === "out";
+    const rowClass = isOut ? "chat-msg-row--out" : "chat-msg-row--in";
+    const bubbleClass = isOut ? "chat-bubble--out" : "chat-bubble--in";
+    let inner = "";
+    if (msg.img) {
+      inner += `<div class="chat-img-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span>${msg.img}</span></div>`;
+    }
+    if (msg.text) {
+      inner += `<p>${msg.text}</p>`;
+    }
+    const readIcon = isOut ? `<span class="chat-read-icon" title="${msg.read ? "Прочитано" : "Не прочитано"}">${msg.read ? readSvgBlue : readSvgGrey}</span>` : "";
+    inner += `<div class="chat-meta"><span class="chat-time">${msg.time}</span>${readIcon}</div>`;
+    html += `<div class="chat-msg-row ${rowClass}"><div class="chat-bubble ${bubbleClass}">${inner}</div></div>`;
+  });
+
+  container.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendChatMessage() {
+  const input = document.getElementById("chatInput");
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const mo = String(now.getMonth() + 1).padStart(2, "0");
+  const yyyy = now.getFullYear();
+  const dateStr = `${dd}.${mo}.${yyyy}`;
+
+  chatMessages.push({ id: chatMessages.length + 1, dir: "out", text, time: `${hh}:${mm}`, date: dateStr, read: false });
+  input.value = "";
+  renderChatMessages();
+
+  // Simulate manager reply after 1.5s
+  setTimeout(() => {
+    chatMessages.push({ id: chatMessages.length + 1, dir: "in", text: "Спасибо за сообщение! Наш менеджер ответит в ближайшее время.", time: `${hh}:${mm}`, date: dateStr, read: true });
+    renderChatMessages();
+  }, 1500);
+}
+
+function handleChatKey(e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+}
+
+function openChatUploadModal() {
+  const modal = document.getElementById("chatUploadModal");
+  if (modal) modal.style.display = "flex";
+}
+
+function closeChatUploadModal() {
+  const modal = document.getElementById("chatUploadModal");
+  if (modal) modal.style.display = "none";
+}
+
+function closeChatUploadModalOutside(e) {
+  if (e.target === document.getElementById("chatUploadModal")) closeChatUploadModal();
+}
+
+function handleChatFileDrop(e) {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file) attachChatFile(file);
+}
+
+function handleChatFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) attachChatFile(file);
+}
+
+function attachChatFile(file) {
+  closeChatUploadModal();
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const mo = String(now.getMonth() + 1).padStart(2, "0");
+  const yyyy = now.getFullYear();
+  chatMessages.push({ id: chatMessages.length + 1, dir: "out", img: file.name, time: `${hh}:${mm}`, date: `${dd}.${mo}.${yyyy}`, read: false });
+  renderChatMessages();
+}
+
 // Initial bootstrap
 document.addEventListener("DOMContentLoaded", () => {
   renderOrders();
-  renderEmptyLegsTable();
   renderPlaneCalendarTable();
   initInfoPopovers();
   setSandboxTripType("multi");
   recalculateSandbox();
 
   const hash = window.location.hash.replace("#", "");
-  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "faq", "profile"].includes(hash)) {
+  if (hash && ["orders", "fleet", "plane-card", "sandbox", "manager", "faq", "profile"].includes(hash)) {
     navigateTo(hash);
   } else {
     navigateTo("sandbox");
@@ -1917,7 +1745,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash.replace("#", "");
-  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "faq", "profile"].includes(hash)) {
+  if (hash && ["orders", "fleet", "plane-card", "sandbox", "manager", "faq", "profile"].includes(hash)) {
     navigateTo(hash);
   }
 });

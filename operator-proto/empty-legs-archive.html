@@ -1,0 +1,227 @@
+<!-- Empty Legs Archive - removed from main dashboard on 2026-09-24 -->
+<!-- Preserved for potential future use -->
+<!-- To restore: add back to index.html before screen-faq and update nav/app.js -->
+
+      <!-- ============================================== -->
+      <!-- SCREEN: EMPTY LEGS (СПИСОК) -->
+      <!-- ============================================== -->
+      <div id="screen-emptylegs" class="screen-view page-content" style="display: none;">
+        <div class="card-header-flex" style="margin-bottom: 20px;">
+          <div>
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Empty legs</h1>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Управление возвратными плечами и специальными тарифами</p>
+          </div>
+          <button class="btn-primary" onclick="openCreateEmptyLegView()">+ Добавить Empty leg</button>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Бортовой номер</th>
+                <th>Дата и время</th>
+                <th>Откуда</th>
+                <th>Куда</th>
+                <th>Стоимость</th>
+                <th>Активен до</th>
+                <th>Состояние</th>
+                <th>Просмотр</th>
+                <th>Детали</th>
+              </tr>
+            </thead>
+            <tbody id="emptyLegsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN: EMPTY LEGS DETAIL VIEW (КАРТОЧКА) -->
+      <!-- ============================================== -->
+      <div id="screen-emptylegs-view" class="screen-view page-content" style="display: none;">
+        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+          <button class="btn-secondary btn-sm" onclick="navigateTo('emptylegs')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Назад ко всем Empty legs</span>
+          </button>
+        </div>
+
+        <div class="empty-leg-view-card">
+          <div class="empty-leg-hero-wrap">
+            <img id="elViewHeroImg" src="images/g550-cabin.jpg" alt="Салон самолета" class="empty-leg-hero-img">
+            <button class="empty-leg-edit-badge-btn" onclick="enableEmptyLegEdit()">Изменить Empty legs</button>
+          </div>
+
+          <!-- VIEW MODE -->
+          <div id="elViewModeContainer">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Откуда</label>
+                <div id="elViewOrigin" class="pill-display-box">UMGG, Gomel Airport, Gomel, Belarus</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Куда</label>
+                <div id="elViewDestination" class="pill-display-box">LIEE, Cagliari / Elmas Airport, Cagliari, Italy</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Дата и время</label>
+                <div id="elViewDateTime" class="pill-display-box">24.09.2026 09:25</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Самолет</label>
+                <div id="elViewPlane" class="pill-display-box">Embraer Phenom 300</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Бортовой номер</label>
+                <div id="elViewTail" class="pill-display-box">—</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Валюта</label>
+                <div id="elViewCurrency" class="pill-display-box">Евро</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Кол-во пассажиров</label>
+                <div id="elViewPax" class="pill-display-box">6</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Стоимость</label>
+                <div id="elViewPrice" class="pill-display-box">1000</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Статус</label>
+                <div id="elViewStatus" class="pill-display-box" style="color: var(--primary); font-weight: 700;">Активный</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Активен до</label>
+                <div id="elViewActiveUntil" class="pill-display-box">24.09.2026, 09:26:00</div>
+              </div>
+              <div style="grid-column: span 2;">
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Приоритет</label>
+                <div id="elViewPriority" class="pill-display-box">Обычный</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- EDIT MODE -->
+          <div id="elEditModeContainer" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div>
+                <label class="form-label">Откуда</label>
+                <input type="text" id="elEditOrigin" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Куда</label>
+                <input type="text" id="elEditDestination" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Дата и время</label>
+                <input type="text" id="elEditDateTime" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Самолет</label>
+                <input type="text" id="elEditPlane" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Бортовой номер</label>
+                <input type="text" id="elEditTail" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Валюта</label>
+                <select id="elEditCurrency" class="form-control">
+                  <option value="Евро">Евро</option>
+                  <option value="Рубли">Рубли</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Кол-во пассажиров</label>
+                <input type="number" id="elEditPax" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Стоимость</label>
+                <input type="number" id="elEditPrice" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Статус</label>
+                <select id="elEditStatus" class="form-control">
+                  <option value="Активный">Активный</option>
+                  <option value="Неактивно">Неактивно</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Активен до</label>
+                <input type="text" id="elEditActiveUntil" class="form-control">
+              </div>
+              <div style="grid-column: span 2;">
+                <label class="form-label">Приоритет</label>
+                <select id="elEditPriority" class="form-control">
+                  <option value="Обычный">Обычный</option>
+                  <option value="Высокий">Высокий</option>
+                </select>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button class="btn-primary" onclick="saveEmptyLegEdit()">Сохранить изменения</button>
+              <button class="btn-secondary" onclick="cancelEmptyLegEdit()">Отмена</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN: CREATE EMPTY LEG -->
+      <!-- ============================================== -->
+      <div id="screen-emptylegs-create" class="screen-view page-content" style="display: none;">
+        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+          <button class="btn-secondary btn-sm" onclick="navigateTo('emptylegs')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Назад ко всем Empty legs</span>
+          </button>
+        </div>
+
+        <div class="card" style="max-width: 600px;">
+          <div class="card-title" style="margin-bottom: 16px;">Создать Empty legs</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div>
+              <label class="form-label">Откуда (ICAO / Название)</label>
+              <input type="text" id="elCreateOrigin" class="form-control" placeholder="например, UMGG, Gomel Airport">
+            </div>
+            <div>
+              <label class="form-label">Куда (ICAO / Название)</label>
+              <input type="text" id="elCreateDestination" class="form-control" placeholder="например, LIEE, Cagliari Airport">
+            </div>
+            <div>
+              <label class="form-label">Дата и время вылета</label>
+              <input type="text" id="elCreateDateTime" class="form-control" value="25.09.2026, 12:00:00">
+            </div>
+            <div>
+              <label class="form-label">Модель самолета</label>
+              <select id="elCreatePlane" class="form-control">
+                <option value="Cessna Citation XLS+">Cessna Citation XLS+</option>
+                <option value="Gulfstream G550">Gulfstream G550</option>
+                <option value="Embraer Phenom 300">Embraer Phenom 300</option>
+                <option value="Challenger 350">Challenger 350</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Бортовой номер</label>
+              <input type="text" id="elCreateTail" class="form-control" value="S5-BBM">
+            </div>
+            <div>
+              <label class="form-label">Количество кресел (PAX)</label>
+              <input type="number" id="elCreatePax" class="form-control" value="8">
+            </div>
+            <div style="grid-column: span 2;">
+              <label class="form-label">Фиксированная стоимость (€)</label>
+              <input type="number" id="elCreatePrice" class="form-control" placeholder="например, 15000">
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button class="btn-primary" onclick="submitNewEmptyLeg()">Создать Empty legs</button>
+            <button class="btn-secondary" onclick="navigateTo('emptylegs')">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+
+
