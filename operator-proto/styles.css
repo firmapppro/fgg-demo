@@ -2163,38 +2163,171 @@ body {
 }
 
 /* ========================================================
-   SECTION 7 & SCHEDULE: КАЛЕНДАРЬ ПОЛЕТОВ И МОДАЛ ДОБАВИТЬ РЕЙС
+   INFO CIRCLE AND POPOVER TOOLTIPS (STRICT FGG STYLE)
+   ======================================================== */
+.info-popover-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.info-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid #98A2B3;
+  color: #667085;
+  font-size: 11px;
+  font-family: inherit;
+  font-weight: 700;
+  font-style: normal;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+  line-height: 1;
+  transition: all 0.15s ease;
+  user-select: none;
+  outline: none;
+}
+
+.info-circle:hover,
+.info-circle:focus,
+.info-circle.active,
+.info-popover-wrap:hover .info-circle {
+  border-color: #1E599F;
+  color: #1E599F;
+  background: #EFF8FF;
+}
+
+.info-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #FFFFFF;
+  border: 1px solid #E4E7EC;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(16, 24, 40, 0.12), 0 8px 10px -6px rgba(16, 24, 40, 0.06);
+  padding: 10px 14px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #344054;
+  font-weight: 400;
+  width: 270px;
+  max-width: 320px;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  text-align: left;
+  white-space: normal;
+}
+
+.info-popover-wrap:hover .info-popover,
+.info-circle:focus + .info-popover,
+.info-popover.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.info-popover.popover-align-right {
+  left: auto;
+  right: -8px;
+  transform: translateY(4px);
+}
+.info-popover-wrap:hover .info-popover.popover-align-right,
+.info-popover.popover-align-right.show {
+  transform: translateY(0);
+}
+
+.info-popover.popover-align-left {
+  left: -8px;
+  transform: translateY(4px);
+}
+.info-popover-wrap:hover .info-popover.popover-align-left,
+.info-popover.popover-align-left.show {
+  transform: translateY(0);
+}
+
+.info-popover.popover-bottom {
+  bottom: auto;
+  top: calc(100% + 8px);
+  transform: translateX(-50%) translateY(-4px);
+}
+.info-popover-wrap:hover .info-popover.popover-bottom,
+.info-popover.popover-bottom.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ========================================================
+   SECTION 7: КАЛЕНДАРЬ ПОЛЕТОВ И МОДАЛ ДОБАВИТЬ РЕЙС
    ======================================================== */
 .modal-add-flight-dialog {
-  max-width: 540px;
-  width: 90%;
+  max-width: 480px;
+  width: 92%;
   background: #FFFFFF;
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -10px rgba(16, 24, 40, 0.18);
+  overflow: visible;
   position: relative;
   z-index: 1050;
+  padding: 24px;
 }
 
 .modal-add-flight-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--border-light);
+  justify-content: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.modal-add-flight-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #050E13;
+  text-align: center;
+}
+
+.modal-add-flight-close {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #667085;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-add-flight-close:hover {
+  color: #111827;
+  background: #F2F4F7;
 }
 
 .modal-add-flight-body {
-  padding: 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .modal-add-flight-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  padding: 16px 24px 20px;
-  border-top: 1px solid var(--border-light);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
 }
+

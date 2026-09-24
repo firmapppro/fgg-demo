@@ -81,7 +81,6 @@
         <a class="nav-item" data-screen="fleet" onclick="navigateTo('fleet')">Борты</a>
         <a class="nav-item active" data-screen="sandbox" onclick="navigateTo('sandbox')">Песочница</a>
         <a class="nav-item" data-screen="emptylegs" onclick="navigateTo('emptylegs')">Empty legs</a>
-        <a class="nav-item" data-screen="schedule" onclick="navigateTo('schedule')">Календарь занятости</a>
         <a class="nav-item" data-screen="faq" onclick="navigateTo('faq')">FAQ</a>
         <a class="nav-item" data-screen="profile" onclick="navigateTo('profile')">Профиль</a>
       </nav>
@@ -125,7 +124,10 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Борт</span>
-                <span class="info-circle" title="Воздушное судно">i</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Выберите воздушное судно из вашего флота для тестового расчета стоимости рейса.</span>
+                </span>
               </label>
               <select class="form-control" id="sandboxPlaneSelect" onchange="recalculateSandbox()">
                 <option value="xls-s5bbm" selected>Cessna Citation XLS+ — S5-BBM</option>
@@ -137,16 +139,20 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Версия настроек</span>
-                <span class="info-circle" title="Версия тарифов">i</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Позволяет протестировать еще не опубликованные изменения тарифов или текущую версию из клиентского приложения.</span>
+                </span>
               </label>
               <div class="sandbox-version-group">
                 <div class="btn-version-toggle">
                   <button type="button" class="active" id="btnVerDraft" onclick="setSandboxSettingsVersion('draft')">Черновые</button>
                   <button type="button" id="btnVerPublished" onclick="setSandboxSettingsVersion('published')">Опубликованные</button>
                 </div>
-                <span style="font-size: 12px; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 4px;">
-                  <span class="info-circle" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+                <span class="info-popover-wrap" style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary);">
+                  <button type="button" class="info-circle" style="width: 14px; height: 14px; min-width: 14px; min-height: 14px; font-size: 10px;" aria-label="Информация">i</button>
                   <span id="sandboxVersionHintText">Используются черновые настройки</span>
+                  <span class="info-popover popover-bottom">Черновые настройки содержат новые расценки и изменения, ожидающие утверждения модератором.</span>
                 </span>
               </div>
             </div>
@@ -154,7 +160,10 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Местонахождение самолета</span>
-                <span class="info-circle" title="Откуда начинается подлет">i</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Исходная точка вылета борта: аэропорт постоянного базирования либо текущая позиция по графику.</span>
+                </span>
               </label>
               <select class="form-control" id="sandboxLocationModeSelect" onchange="setSandboxLocationMode(this.value)">
                 <option value="manual" selected>Задать вручную</option>
@@ -165,7 +174,10 @@
             <div class="form-group" id="sandboxAirportGroup">
               <label class="form-label">
                 <span>Аэропорт</span>
-                <span class="info-circle" title="Аэропорт фактического нахождения">i</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Аэропорт, из которого борт вылетает на первое плечо маршрута (подлет к пассажирам).</span>
+                </span>
               </label>
               <select class="form-control" id="sandboxAirportSelect" onchange="recalculateSandbox()">
                 <option value="LJU" selected>LJU, Ljubljana</option>
@@ -440,23 +452,47 @@
           
           <div class="form-grid-3">
             <div class="form-group">
-              <label class="form-label">Статус самолета</label>
+              <label class="form-label">
+                <span>Статус самолета</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Определяет доступность борта для бронирования. Если выбрать «Неактивный», самолет не будет показываться в выдаче.</span>
+                </span>
+              </label>
               <select class="form-control" disabled>
                 <option selected>Активный</option>
                 <option>Не активный</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Модель самолета</label>
+              <label class="form-label">
+                <span>Модель самолета</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Тип (конкретная модификация) воздушного судна, определяемая производителем. После выбора модели основные характеристики борта заполнятся автоматически.</span>
+                </span>
+              </label>
               <input type="text" class="form-control" value="Cessna Citation XLS+" disabled>
             </div>
             <div class="form-group">
-              <label class="form-label">Бортовой номер</label>
+              <label class="form-label">
+                <span>Бортовой номер</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Регистрационный номер воздушного судна (например, RA-12345). Должен быть уникальным.</span>
+                </span>
+              </label>
               <input type="text" class="form-control" value="S5-BBM" disabled>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Валюта расчетов</label>
+              <label class="form-label">
+                <span>Валюта расчетов</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Основная валюта для расчетов по этому борту. Все цены в карточке будут фиксироваться в ней.</span>
+                </span>
+              </label>
               <select class="form-control">
                 <option selected>Евро (EUR)</option>
                 <option>Доллар США (USD)</option>
@@ -464,24 +500,54 @@
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Аэропорт базирования</label>
+              <label class="form-label">
+                <span>Аэропорт базирования</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Основной аэропорт, где находится самолет, когда он не выполняет рейсы. Влияет на стоимость подачи и логистику.</span>
+                </span>
+              </label>
               <input type="text" class="form-control" value="LJU, Ljubljana">
             </div>
             <div class="form-group">
-              <label class="form-label">Год выпуска</label>
+              <label class="form-label">
+                <span>Год выпуска</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Год производства самолета согласно документам.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="2022">
             </div>
 
             <div class="form-group">
-              <label class="form-label">Год обновления экстерьера</label>
+              <label class="form-label">
+                <span>Год обновления экстерьера</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Год последней покраски или обновления внешнего вида самолета.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="2024">
             </div>
             <div class="form-group">
-              <label class="form-label">Год обновления интерьера</label>
+              <label class="form-label">
+                <span>Год обновления интерьера</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Год последнего изменения салона: замена кресел, перетяжка, обновление отделки.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="2024">
             </div>
             <div class="form-group">
-              <label class="form-label">Время на рулежку, мин</label>
+              <label class="form-label">
+                <span>Время на рулежку, мин</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Стандартное время в минутах от запуска двигателей до взлета. Это время прибавляется к каждому плечу на маршруте.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="15">
             </div>
           </div>
@@ -491,11 +557,19 @@
               <input type="checkbox" class="switch-input" checked>
               <span class="switch-slider"></span>
               <span>Floating base (плавающая база)</span>
+              <span class="info-popover-wrap">
+                <button type="button" class="info-circle" aria-label="Информация">i</button>
+                <span class="info-popover">Режим «плавающей базы». В этом режиме домашней базой самолёта считается аэропорт, в котором он завершил предыдущий рейс.</span>
+              </span>
             </label>
             <label class="switch-label">
               <input type="checkbox" class="switch-input">
               <span class="switch-slider"></span>
               <span>Temporary base (временная база)</span>
+              <span class="info-popover-wrap">
+                <button type="button" class="info-circle" aria-label="Информация">i</button>
+                <span class="info-popover popover-align-right">Аэропорт, в котором самолет фактически находится на момент начала заказа согласно данным Календаря полетов, временно считается его базой.</span>
+              </span>
             </label>
           </div>
         </div>
@@ -506,22 +580,44 @@
 
           <div class="form-grid-4">
             <div class="form-group">
-              <label class="form-label">Фактическая дальность, км</label>
+              <label class="form-label">
+                <span>Фактическая дальность, км</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Это максимальная паспортная дальность самолёта, уменьшенная с учётом обязательных IFR-резервов топлива (резерв на запасной аэродром, финальный резерв и contingency fuel).</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="3400">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Max Pax (вместимость)</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Максимальное количество пассажирских мест в данной комплектации салона.</span>
+                </span>
                 <span class="modified-badge" id="paxModifiedBadge">Изменено: v12 было 8</span>
               </label>
               <input type="number" class="form-control is-modified" id="planePaxInput" value="9">
             </div>
             <div class="form-group">
-              <label class="form-label">Размеры салона (ДхШхВ, см)</label>
+              <label class="form-label">
+                <span>Размеры салона (ДхШхВ, см)</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Габариты пассажирского салона: длина, ширина и высота (в сантиметрах).</span>
+                </span>
+              </label>
               <input type="text" class="form-control" value="560 x 183 x 188">
             </div>
             <div class="form-group">
-              <label class="form-label">Объем багажа, м³</label>
+              <label class="form-label">
+                <span>Объем багажа, м³</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Общий объем багажных отсеков. Указывается в кубических метрах.</span>
+                </span>
+              </label>
               <input type="text" class="form-control" value="2.0">
             </div>
           </div>
@@ -545,7 +641,10 @@
           <div class="card-header-flex" style="margin-bottom: 20px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="card-title" style="margin-bottom: 0;">4. Разрешенные страны</div>
-              <span class="info-circle" title="Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.">i</span>
+              <span class="info-popover-wrap">
+                <button type="button" class="info-circle" aria-label="Информация">i</button>
+                <span class="info-popover">Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.</span>
+              </span>
             </div>
           </div>
 
@@ -613,8 +712,12 @@
           <div class="card-title">5. Цены и тарифы</div>
 
           <!-- Коммерческий рейс -->
-          <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center;">
+          <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
             <span>Сбор за коммерческий рейс (летный час)</span>
+            <span class="info-popover-wrap">
+              <button type="button" class="info-circle" aria-label="Информация">i</button>
+              <span class="info-popover">Базовая ставка за летный час при выполнении коммерческого рейса с пассажирами.</span>
+            </span>
             <span class="modified-badge" id="commRateBadge">Изменено: v12 было €7 000</span>
           </div>
           <div class="form-grid-3">
@@ -633,8 +736,12 @@
           </div>
 
           <!-- Перегоночный рейс -->
-          <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center;">
+          <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
             <span>Сбор за перегоночный рейс (Ferry leg)</span>
+            <span class="info-popover-wrap">
+              <button type="button" class="info-circle" aria-label="Информация">i</button>
+              <span class="info-popover">Пониженная ставка за летный час при техническом перегоне борта без пассажиров.</span>
+            </span>
             <span class="modified-badge" id="ferryRateBadge">Изменено: v12 было €5 500</span>
           </div>
           <div class="form-grid-3">
@@ -656,18 +763,34 @@
           <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main);">Дополнительные сборы в аэропортах</div>
           <div class="form-grid-3">
             <div class="form-group">
-              <label class="form-label">Стоимость парковки за 24 ч</label>
+              <label class="form-label">
+                <span>Стоимость парковки за 24 ч</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Фиксированная суточная ставка стоянки борта в аэропорту при задержках или ожидании пассажиров.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="250">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Handling Неаполь (NAP/RIX)</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Стоимость наземного обслуживания (handling) в аэропорту прилета.</span>
+                </span>
                 <span class="modified-badge" id="handlingNaplesBadge">Изменено: +€200</span>
               </label>
               <input type="number" class="form-control is-modified" id="planeHandlingNaplesInput" value="2400">
             </div>
             <div class="form-group">
-              <label class="form-label">Passenger Service Fee (за пассажира)</label>
+              <label class="form-label">
+                <span>Passenger Service Fee (за пассажира)</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Пассажирский сбор аэропорта за обслуживание одного пассажира.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="300">
             </div>
           </div>
@@ -678,15 +801,33 @@
           <div class="card-title">6. Расходы на экипаж</div>
           <div class="form-grid-3">
             <div class="form-group">
-              <label class="form-label">Суточная ставка экипажа пилотов, €</label>
+              <label class="form-label">
+                <span>Суточная ставка экипажа пилотов, €</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Суточная ставка командировочных расходов экипажа пилотов.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="800">
             </div>
             <div class="form-group">
-              <label class="form-label">Продолжительность рабочей смены пилотов, ч</label>
+              <label class="form-label">
+                <span>Продолжительность рабочей смены пилотов, ч</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Максимально допустимая продолжительность одной рабочей смены пилотов.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="12">
             </div>
             <div class="form-group">
-              <label class="form-label">Минимальный отдых экипажа, ч</label>
+              <label class="form-label">
+                <span>Минимальный отдых экипажа, ч</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Обязательный регламентированный перерыв между сменами экипажа.</span>
+                </span>
+              </label>
               <input type="number" class="form-control" value="10">
             </div>
           </div>
@@ -1053,74 +1194,7 @@
         </div>
       </div>
 
-      <!-- ============================================== -->
-      <!-- SCREEN: SCHEDULE (КАЛЕНДАРЬ ЗАНЯТОСТИ) -->
-      <!-- ============================================== -->
-      <div id="screen-schedule" class="screen-view page-content" style="display: none;">
-        <div class="card-header-flex" style="margin-bottom: 20px;">
-          <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Календарь занятости флота</h1>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">График занятости воздушных судов и оперативное управление рейсами</p>
-          </div>
-          <button type="button" class="btn-primary" onclick="openAddFlightModal()">+ Добавить рейс</button>
-        </div>
 
-        <!-- Таблица рейсов и периодов занятости с выбором опции -->
-        <div class="card" style="margin-bottom: 24px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <div class="card-title" style="margin-bottom: 0;">Рейсы и периоды занятости</div>
-            <div style="display: flex; gap: 12px; align-items: center;">
-              <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Фильтр по борту:</label>
-              <select class="form-control" id="schedulePlaneFilter" style="width: auto; height: 36px; padding: 4px 10px;" onchange="renderScheduleFlightsTable()">
-                <option value="all">Все борта</option>
-                <option value="S5-BBM">Cessna Citation XLS+ (S5-BBM)</option>
-                <option value="RA-10222">Gulfstream G550 (RA-10222)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="data-table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Бортовой номер</th>
-                  <th>Тип занятости</th>
-                  <th>Вылет (UTC+0)</th>
-                  <th>Откуда</th>
-                  <th>Куда</th>
-                  <th>Прилет (UTC+0)</th>
-                  <th>Пассажиры</th>
-                  <th style="text-align: right;">Действия</th>
-                </tr>
-              </thead>
-              <tbody id="scheduleFlightsTableBody">
-                <!-- Populated dynamically in app.js -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Список занятости с фирменной строгой палитрой -->
-        <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <div style="font-weight: 800; font-size: 15px;">Расписание на Сентябрь - Октябрь 2026</div>
-            <div class="tab-group">
-              <button class="tab-btn active">Неделя</button>
-              <button class="tab-btn">Месяц</button>
-            </div>
-          </div>
-          
-          <div style="background: var(--bg-subtle); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--border-light);">
-            <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 14px; font-weight: 700; color: var(--text-secondary); font-size: 13px;">
-              <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #1E599F;"></span> Рейс FGG</span>
-              <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #475569;"></span> Простой перелет</span>
-              <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #94A3B8;"></span> Техническое обслуживание (ТО)</span>
-            </div>
-            
-            <div id="scheduleSlotsList" style="display: flex; flex-direction: column; gap: 10px;"></div>
-          </div>
-        </div>
-      </div>
 
       <!-- ============================================== -->
       <!-- SCREEN: FAQ И ИНСТРУКЦИИ -->
@@ -1462,65 +1536,97 @@
   </div>
 
   <!-- ============================================== -->
-  <!-- MODAL: ADD FLIGHT (ДОБАВИТЬ РЕЙС ПО СКРИНШОТУ 4) -->
+  <!-- MODAL: ADD FLIGHT (ДОБАВИТЬ РЕЙС ПО МАКЕТУ) -->
   <!-- ============================================== -->
   <div id="modalAddFlight" class="modal-overlay">
     <div class="modal-add-flight-dialog">
       <div class="modal-add-flight-header">
-        <div style="font-size: 18px; font-weight: 800; color: var(--text-main);">Добавить рейс</div>
-        <button type="button" class="btn-close-modal" onclick="closeModal('modalAddFlight')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <div class="modal-add-flight-title">Добавить рейс</div>
+        <button type="button" class="modal-add-flight-close" onclick="closeModal('modalAddFlight')" aria-label="Закрыть">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
       <div class="modal-add-flight-body">
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 0;">
           <label class="form-label">Тип</label>
-          <select id="modalFlightType" class="form-control">
-            <option value="Простой перелет">Простой перелет</option>
+          <select id="modalFlightType" class="form-control" onchange="handleFlightTypeChange()">
+            <option value="Простой перелет" selected>Простой перелет</option>
             <option value="Перегоночный рейс">Перегоночный рейс</option>
             <option value="Тех. обслуживание">Тех. обслуживание</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Бортовой номер</label>
-          <select id="modalFlightPlane" class="form-control">
-            <option value="S5-BBM">Cessna Citation XLS+ (S5-BBM)</option>
-            <option value="RA-10222">Gulfstream G550 (RA-10222)</option>
-          </select>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">Откуда</label>
-            <input type="text" id="modalFlightOrigin" class="form-control" placeholder="Выберите аэропорт" value="LJU, Ljubljana">
+        <!-- Section for Maintenance (Тех. обслуживание - минимальная форма по скриншоту) -->
+        <div id="modalMaintFields" style="display: none; flex-direction: column; gap: 16px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Аэропорт</label>
+            <input type="text" id="modalMaintAirport" class="form-control" placeholder="Выберите аэропорт" value="NCE, Nice">
           </div>
-          <div class="form-group">
-            <label class="form-label">Куда</label>
-            <input type="text" id="modalFlightDest" class="form-control" placeholder="Выберите аэропорт" value="BER, Berlin">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">
-              <span>Дата и время вылета</span>
-              <span class="info-circle" title="Время вылета UTC">i</span>
-            </label>
-            <input type="text" id="modalFlightDep" class="form-control" placeholder="Введите дату и время" value="05.10.2026 10:00 UTC">
-          </div>
-          <div class="form-group">
-            <label class="form-label">
-              <span>Дата и время прилета</span>
-              <span class="info-circle" title="Время прилета UTC">i</span>
-            </label>
-            <input type="text" id="modalFlightArr" class="form-control" placeholder="Введите дату и время" value="05.10.2026 12:15 UTC">
+          <div class="form-grid-2">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">
+                <span>Дата и время начала</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
+                </span>
+              </label>
+              <input type="text" id="modalMaintStart" class="form-control" placeholder="Введите дату и время" value="07.10.2026 08:00 UTC">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">
+                <span>Дата и время окончания</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
+                </span>
+              </label>
+              <input type="text" id="modalMaintEnd" class="form-control" placeholder="Введите дату и время" value="07.10.2026 18:00 UTC">
+            </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Кол-во пассажиров</label>
-          <input type="number" id="modalFlightPax" class="form-control" placeholder="Введите кол-во пассажиров" value="6">
+        <!-- Section for Standard Flights (Простой перелет и Перегоночный рейс) -->
+        <div id="modalStandardFlightFields" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="form-grid-2">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Откуда</label>
+              <input type="text" id="modalFlightOrigin" class="form-control" placeholder="Выберите аэропорт" value="LJU, Ljubljana">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Куда</label>
+              <input type="text" id="modalFlightDest" class="form-control" placeholder="Выберите аэропорт" value="BER, Berlin">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">
+                <span>Дата и время вылета</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
+                </span>
+              </label>
+              <input type="text" id="modalFlightDep" class="form-control" placeholder="Введите дату и время" value="05.10.2026 10:00 UTC">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">
+                <span>Дата и время прилета</span>
+                <span class="info-popover-wrap">
+                  <button type="button" class="info-circle" aria-label="Информация">i</button>
+                  <span class="info-popover popover-align-right">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
+                </span>
+              </label>
+              <input type="text" id="modalFlightArr" class="form-control" placeholder="Введите дату и время" value="05.10.2026 12:15 UTC">
+            </div>
+          </div>
+
+          <!-- Pax field: only shown for Простой перелет! Hidden for Перегоночный рейс! -->
+          <div class="form-group" id="modalFlightPaxGroup" style="margin-bottom: 0;">
+            <label class="form-label">Кол-во пассажиров</label>
+            <input type="number" id="modalFlightPax" class="form-control" placeholder="Введите кол-во пассажиров" value="6">
+          </div>
         </div>
       </div>
       <div class="modal-add-flight-footer">

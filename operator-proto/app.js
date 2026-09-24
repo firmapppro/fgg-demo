@@ -271,7 +271,7 @@ const appState = {
       type: "Тех. обслуживание",
       depUtc: "07.10.2026 08:00 UTC",
       origin: "NCE, Nice (A-Check)",
-      dest: "NCE, Nice",
+      dest: "—",
       arrUtc: "07.10.2026 18:00 UTC",
       pax: 0
     },
@@ -498,7 +498,6 @@ function navigateTo(screenId) {
     "emptylegs": "Empty legs",
     "emptylegs-view": "Просмотр Empty leg",
     "emptylegs-create": "Создать Empty legs",
-    "schedule": "Календарь занятости",
     "faq": "FAQ и инструкции",
     "profile": "Профиль"
   };
@@ -527,14 +526,16 @@ function navigateTo(screenId) {
     setTimeout(() => {
       initPlaneCardMap();
       renderPlaneCalendarTable();
+      initInfoPopovers();
     }, 100);
   } else if (screenId === "orders") {
     renderOrders();
   } else if (screenId === "emptylegs") {
     renderEmptyLegsTable();
-  } else if (screenId === "schedule") {
-    renderScheduleFlightsTable();
-    renderScheduleList();
+  } else if (screenId === "sandbox") {
+    setTimeout(() => {
+      initInfoPopovers();
+    }, 50);
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1191,29 +1192,8 @@ function submitNewEmptyLeg() {
 }
 
 // ==========================================
-// CALENDAR (КАЛЕНДАРЬ ЗАНЯТОСТИ): STRICT
+// PLANE FLIGHT CALENDAR (КАЛЕНДАРЬ ПОЛЕТОВ БОРТА)
 // ==========================================
-
-function renderScheduleList() {
-  const container = document.getElementById("scheduleSlotsList");
-  if (!container) return;
-
-  container.innerHTML = appState.scheduleSlots.map(slot => {
-    let borderColor = "var(--primary)";
-    if (slot.type === "maintenance") borderColor = "#94A3B8";
-    if (slot.type === "owner") borderColor = "#475569";
-
-    return `
-      <div style="background: #FFFFFF; padding: 14px 18px; border-radius: 8px; border-left: 4px solid ${borderColor}; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); border-left-width: 4px;">
-        <div>
-          <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">${slot.title}</div>
-          <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">${slot.subtitle}</div>
-        </div>
-        <span class="badge-strict-neutral">${slot.statusText}</span>
-      </div>
-    `;
-  }).join("");
-}
 
 function renderPlaneCalendarTable() {
   const tbody = document.getElementById("planeCalendarTableBody");
@@ -1238,59 +1218,107 @@ function renderPlaneCalendarTable() {
   `).join("");
 }
 
-function renderScheduleFlightsTable() {
-  const tbody = document.getElementById("scheduleFlightsTableBody");
-  if (!tbody) return;
-  const filter = document.getElementById("schedulePlaneFilter")?.value || "all";
-  const flights = filter === "all" ? appState.scheduledFlights : appState.scheduledFlights.filter(f => f.plane === filter);
-  if (flights.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Нет рейсов по выбранному фильтру</td></tr>`;
-    return;
+function handleFlightTypeChange() {
+  const typeSelect = document.getElementById("modalFlightType");
+  if (!typeSelect) return;
+  const type = typeSelect.value;
+  const maintBox = document.getElementById("modalMaintFields");
+  const stdBox = document.getElementById("modalStandardFlightFields");
+  const paxGroup = document.getElementById("modalFlightPaxGroup");
+
+  if (type === "Тех. обслуживание") {
+    if (maintBox) maintBox.style.display = "flex";
+    if (stdBox) stdBox.style.display = "none";
+  } else if (type === "Перегоночный рейс") {
+    if (maintBox) maintBox.style.display = "none";
+    if (stdBox) stdBox.style.display = "flex";
+    if (paxGroup) paxGroup.style.display = "none";
+  } else {
+    // Простой перелет
+    if (maintBox) maintBox.style.display = "none";
+    if (stdBox) stdBox.style.display = "flex";
+    if (paxGroup) paxGroup.style.display = "block";
   }
-  tbody.innerHTML = flights.map(f => `
-    <tr>
-      <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">${f.plane}</strong></td>
-      <td><span class="badge-strict-neutral">${f.type}</span></td>
-      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.depUtc}</td>
-      <td style="font-size: 13px;">${f.origin}</td>
-      <td style="font-size: 13px;">${f.dest}</td>
-      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.arrUtc}</td>
-      <td style="font-size: 13px;">${f.pax > 0 ? f.pax + " чел." : "—"}</td>
-      <td style="text-align: right;">
-        <button type="button" class="btn-secondary btn-sm" onclick="deleteFlightRecord('${f.id}')" style="color: var(--danger); border-color: var(--border-light);">Удалить</button>
-      </td>
-    </tr>
-  `).join("");
 }
 
-function openAddFlightModal(defaultPlane) {
+function openAddFlightModal() {
   const modal = document.getElementById("modalAddFlight");
   if (!modal) return;
-  if (defaultPlane) {
-    const planeSelect = document.getElementById("modalFlightPlane");
-    if (planeSelect) planeSelect.value = defaultPlane;
+  const typeSelect = document.getElementById("modalFlightType");
+  if (typeSelect) {
+    typeSelect.value = "Простой перелет";
   }
+  handleFlightTypeChange();
+  initInfoPopovers();
   modal.classList.add("active");
 }
 
 function submitAddFlightRecord() {
-  const type = document.getElementById("modalFlightType").value;
-  const plane = document.getElementById("modalFlightPlane").value;
-  const origin = document.getElementById("modalFlightOrigin").value.trim();
-  const dest = document.getElementById("modalFlightDest").value.trim();
-  const depUtc = document.getElementById("modalFlightDep").value.trim();
-  const arrUtc = document.getElementById("modalFlightArr").value.trim();
-  const pax = parseInt(document.getElementById("modalFlightPax").value) || 0;
+  const typeSelect = document.getElementById("modalFlightType");
+  const type = typeSelect ? typeSelect.value : "Простой перелет";
+  const plane = "S5-BBM";
 
-  if (!origin || !dest) {
-    showToast("Пожалуйста, заполните пункты вылета и прилета", "error");
-    return;
+  let origin = "";
+  let dest = "—";
+  let depUtc = "";
+  let arrUtc = "";
+  let pax = 0;
+
+  if (type === "Тех. обслуживание") {
+    const airportInput = document.getElementById("modalMaintAirport");
+    const startInput = document.getElementById("modalMaintStart");
+    const endInput = document.getElementById("modalMaintEnd");
+
+    origin = airportInput ? airportInput.value.trim() : "";
+    dest = "—";
+    depUtc = startInput ? startInput.value.trim() : "";
+    arrUtc = endInput ? endInput.value.trim() : "";
+    pax = 0;
+
+    if (!origin || !depUtc || !arrUtc) {
+      showToast("Пожалуйста, заполните аэропорт и даты проведения ТО", "error");
+      return;
+    }
+  } else if (type === "Перегоночный рейс") {
+    const originInput = document.getElementById("modalFlightOrigin");
+    const destInput = document.getElementById("modalFlightDest");
+    const depInput = document.getElementById("modalFlightDep");
+    const arrInput = document.getElementById("modalFlightArr");
+
+    origin = originInput ? originInput.value.trim() : "";
+    dest = destInput ? destInput.value.trim() : "";
+    depUtc = depInput ? depInput.value.trim() : "";
+    arrUtc = arrInput ? arrInput.value.trim() : "";
+    pax = 0;
+
+    if (!origin || !dest) {
+      showToast("Пожалуйста, заполните пункты вылета и прилета", "error");
+      return;
+    }
+  } else {
+    // Простой перелет
+    const originInput = document.getElementById("modalFlightOrigin");
+    const destInput = document.getElementById("modalFlightDest");
+    const depInput = document.getElementById("modalFlightDep");
+    const arrInput = document.getElementById("modalFlightArr");
+    const paxInput = document.getElementById("modalFlightPax");
+
+    origin = originInput ? originInput.value.trim() : "";
+    dest = destInput ? destInput.value.trim() : "";
+    depUtc = depInput ? depInput.value.trim() : "";
+    arrUtc = arrInput ? arrInput.value.trim() : "";
+    pax = paxInput ? (parseInt(paxInput.value) || 0) : 0;
+
+    if (!origin || !dest) {
+      showToast("Пожалуйста, заполните пункты вылета и прилета", "error");
+      return;
+    }
   }
 
   const newFlight = {
     id: `fl-${Date.now()}`,
     plane: plane,
-    planeModel: plane === "S5-BBM" ? "Cessna Citation XLS+" : "Gulfstream G550",
+    planeModel: "Cessna Citation XLS+",
     type: type,
     depUtc: depUtc || "05.10.2026 10:00 UTC",
     origin: origin,
@@ -1301,74 +1329,53 @@ function submitAddFlightRecord() {
 
   appState.scheduledFlights.unshift(newFlight);
 
-  // Add corresponding calendar slot
-  appState.scheduleSlots.unshift({
-    id: `slot-${newFlight.id}`,
-    dateRange: depUtc.split(" ")[0] || "05.10.2026",
-    time: `${(depUtc.split(" ")[1] || "10:00")} - ${(arrUtc.split(" ")[1] || "12:15")} UTC`,
-    title: `${depUtc.split(" ")[0] || "05.10.2026"} · ${origin.split(",")[0]} → ${dest.split(",")[0]}`,
-    subtitle: `${plane} · ${pax > 0 ? pax + " PAX" : "Технический рейс"} · ${type}`,
-    type: type === "Тех. обслуживание" ? "maintenance" : (type === "Простой перелет" ? "fgg" : "owner"),
-    statusText: type
-  });
-
   closeModal("modalAddFlight");
   renderPlaneCalendarTable();
-  renderScheduleFlightsTable();
-  renderScheduleList();
-  showToast(`Рейс успешно добавлен в расписание борта ${plane}!`, "success");
+  showToast(`Рейс успешно добавлен в календарь полетов!`, "success");
 }
 
 function deleteFlightRecord(id) {
   const idx = appState.scheduledFlights.findIndex(f => f.id === id);
   if (idx !== -1) {
-    const deleted = appState.scheduledFlights.splice(idx, 1)[0];
+    appState.scheduledFlights.splice(idx, 1);
     renderPlaneCalendarTable();
-    renderScheduleFlightsTable();
-    showToast(`Рейс удален из расписания`, "info");
+    showToast(`Рейс удален из календаря полетов`, "info");
   }
 }
 
-function handleBlockSchedule(event) {
-  event.preventDefault();
-  const plane = document.getElementById("schedPlaneSelect").value;
-  const type = document.getElementById("schedTypeSelect").value;
-  const location = document.getElementById("schedLocationInput").value || "LJU, Базовый ангар";
-  const startDate = document.getElementById("schedStartDate").value;
-  const startTime = document.getElementById("schedStartTime").value;
-  const endDate = document.getElementById("schedEndDate").value;
-  const endTime = document.getElementById("schedEndTime").value;
-  const note = document.getElementById("schedNoteInput").value || "Блокировка периода";
+function initInfoPopovers() {
+  document.querySelectorAll(".info-circle").forEach(btn => {
+    if (btn.dataset.popoverBound) return;
+    btn.dataset.popoverBound = "1";
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const wrap = btn.closest(".info-popover-wrap");
+      if (!wrap) return;
+      const popover = wrap.querySelector(".info-popover");
+      if (!popover) return;
+      const isShown = popover.classList.contains("show");
+      document.querySelectorAll(".info-popover.show").forEach(p => p.classList.remove("show"));
+      if (!isShown) {
+        popover.classList.add("show");
+      }
+    });
+  });
 
-  if (!startDate || !endDate) {
-    showToast("Укажите даты начала и окончания периода", "error");
-    return;
+  if (!document.body.dataset.popoversDocBound) {
+    document.body.dataset.popoversDocBound = "1";
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".info-popover-wrap")) {
+        document.querySelectorAll(".info-popover.show").forEach(p => p.classList.remove("show"));
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".info-popover.show").forEach(p => p.classList.remove("show"));
+      }
+    });
   }
-
-  let typeName = "Техническое обслуживание";
-  let statusText = "Тех. обслуживание";
-  if (type === "owner") {
-    typeName = "Собственный рейс";
-    statusText = "Забронирован";
-  } else if (type === "crew_rest") {
-    typeName = "Санитарный отдых экипажа";
-    statusText = "Отдых экипажа";
-  }
-
-  const newSlot = {
-    id: `slot-${Date.now()}`,
-    dateRange: `${startDate} - ${endDate}`,
-    time: `${startTime} - ${endTime} UTC`,
-    title: `${startDate} · ${note}`,
-    subtitle: `${plane} · ${location} · ${typeName}`,
-    type: type,
-    statusText: statusText
-  };
-
-  appState.scheduleSlots.unshift(newSlot);
-  renderScheduleList();
-  showToast("Период занятости успешно заблокирован!", "success");
-  document.getElementById("blockScheduleForm").reset();
 }
 
 // ==========================================
@@ -1900,13 +1907,12 @@ document.addEventListener("DOMContentLoaded", () => {
   renderOrders();
   renderEmptyLegsTable();
   renderPlaneCalendarTable();
-  renderScheduleFlightsTable();
-  renderScheduleList();
+  initInfoPopovers();
   setSandboxTripType("multi");
   recalculateSandbox();
 
   const hash = window.location.hash.replace("#", "");
-  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "schedule", "faq", "profile"].includes(hash)) {
+  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "faq", "profile"].includes(hash)) {
     navigateTo(hash);
   } else {
     navigateTo("sandbox");
@@ -1915,7 +1921,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash.replace("#", "");
-  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "schedule", "faq", "profile"].includes(hash)) {
+  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "faq", "profile"].includes(hash)) {
     navigateTo(hash);
   }
 });
