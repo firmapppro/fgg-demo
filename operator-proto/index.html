@@ -11,7 +11,144 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="assets/jsvectormap.min.css">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=20260924_02">
+  <style>
+    /* Critical UI styles - cache proof */
+    .fgg-info-tooltip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      cursor: pointer;
+      color: #828689;
+      line-height: 1;
+      transition: color 0.15s ease;
+      margin-left: 6px;
+      user-select: none;
+      background: transparent;
+      border: none;
+      padding: 0;
+      outline: none;
+    }
+    .fgg-info-tooltip:hover,
+    .fgg-info-tooltip:focus,
+    .fgg-info-tooltip.active {
+      color: #1E599F;
+    }
+    .fgg-info-icon {
+      width: 16px;
+      height: 16px;
+      display: block;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+    .fgg-info-tooltip[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: #FFFFFF;
+      color: #475467;
+      border: 2px solid #E9EEF5;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(16, 24, 40, 0.12), 0 8px 10px -6px rgba(16, 24, 40, 0.06);
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.45;
+      width: 268px;
+      max-width: 320px;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+      text-align: left;
+      white-space: normal;
+    }
+    .fgg-info-tooltip[data-tooltip]:hover::after,
+    .fgg-info-tooltip[data-tooltip]:focus::after,
+    .fgg-info-tooltip.active[data-tooltip]::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .fgg-info-tooltip.align-right[data-tooltip]::after {
+      left: auto;
+      right: -8px;
+      transform: translateY(4px);
+    }
+    .fgg-info-tooltip.align-right[data-tooltip]:hover::after,
+    .fgg-info-tooltip.align-right[data-tooltip]:focus::after,
+    .fgg-info-tooltip.align-right.active[data-tooltip]::after {
+      transform: translateY(0);
+    }
+    .fgg-info-tooltip.align-left[data-tooltip]::after {
+      left: -8px;
+      transform: translateY(4px);
+    }
+    .fgg-info-tooltip.align-left[data-tooltip]:hover::after,
+    .fgg-info-tooltip.align-left[data-tooltip]:focus::after,
+    .fgg-info-tooltip.align-left.active[data-tooltip]::after {
+      transform: translateY(0);
+    }
+    .fgg-info-tooltip.align-bottom[data-tooltip]::after {
+      bottom: auto;
+      top: calc(100% + 8px);
+      transform: translateX(-50%) translateY(-4px);
+    }
+    .fgg-info-tooltip.align-bottom[data-tooltip]:hover::after,
+    .fgg-info-tooltip.align-bottom[data-tooltip]:focus::after,
+    .fgg-info-tooltip.align-bottom.active[data-tooltip]::after {
+      transform: translateX(-50%) translateY(0);
+    }
+    .sandbox-version-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-version-toggle {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      background: #F2F4F7;
+      border: 1px solid #D0D5DD;
+      border-radius: 8px;
+      gap: 2px;
+    }
+    .btn-version-toggle button {
+      border: none;
+      background: transparent;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475467;
+      cursor: pointer;
+      border-radius: 6px;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      line-height: 1.3;
+    }
+    .btn-version-toggle button:hover {
+      color: #101828;
+    }
+    .btn-version-toggle button.active {
+      background: #FFFFFF;
+      color: #1E599F;
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06);
+    }
+    .sandbox-version-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #475467;
+    }
+  </style>
 </head>
 <body>
 
@@ -124,10 +261,7 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Борт</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Выберите воздушное судно из вашего флота для тестового расчета стоимости рейса.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Выберите воздушное судно из вашего флота для тестового расчета стоимости рейса."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <select class="form-control" id="sandboxPlaneSelect" onchange="recalculateSandbox()">
                 <option value="xls-s5bbm" selected>Cessna Citation XLS+ — S5-BBM</option>
@@ -139,31 +273,24 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Версия настроек</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Позволяет протестировать еще не опубликованные изменения тарифов или текущую версию из клиентского приложения.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Позволяет протестировать еще не опубликованные изменения тарифов или текущую версию из клиентского приложения."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <div class="sandbox-version-group">
                 <div class="btn-version-toggle">
                   <button type="button" class="active" id="btnVerDraft" onclick="setSandboxSettingsVersion('draft')">Черновые</button>
                   <button type="button" id="btnVerPublished" onclick="setSandboxSettingsVersion('published')">Опубликованные</button>
                 </div>
-                <span class="info-popover-wrap" style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary);">
-                  <button type="button" class="info-circle" style="width: 14px; height: 14px; min-width: 14px; min-height: 14px; font-size: 10px;" aria-label="Информация">i</button>
+                <div class="sandbox-version-hint">
+                  <span class="fgg-info-tooltip align-bottom" data-tooltip="Черновые настройки содержат новые расценки и изменения, ожидающие утверждения модератором."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
                   <span id="sandboxVersionHintText">Используются черновые настройки</span>
-                  <span class="info-popover popover-bottom">Черновые настройки содержат новые расценки и изменения, ожидающие утверждения модератором.</span>
-                </span>
+                </div>
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">
                 <span>Местонахождение самолета</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Исходная точка вылета борта: аэропорт постоянного базирования либо текущая позиция по графику.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Исходная точка вылета борта: аэропорт постоянного базирования либо текущая позиция по графику."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <select class="form-control" id="sandboxLocationModeSelect" onchange="setSandboxLocationMode(this.value)">
                 <option value="manual" selected>Задать вручную</option>
@@ -174,10 +301,7 @@
             <div class="form-group" id="sandboxAirportGroup">
               <label class="form-label">
                 <span>Аэропорт</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Аэропорт, из которого борт вылетает на первое плечо маршрута (подлет к пассажирам).</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Аэропорт, из которого борт вылетает на первое плечо маршрута (подлет к пассажирам)."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <select class="form-control" id="sandboxAirportSelect" onchange="recalculateSandbox()">
                 <option value="LJU" selected>LJU, Ljubljana</option>
@@ -454,10 +578,7 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Статус самолета</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Определяет доступность борта для бронирования. Если выбрать «Неактивный», самолет не будет показываться в выдаче.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Определяет доступность борта для бронирования. Если выбрать «Неактивный», самолет не будет показываться в выдаче."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <select class="form-control" disabled>
                 <option selected>Активный</option>
@@ -467,20 +588,14 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Модель самолета</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Тип (конкретная модификация) воздушного судна, определяемая производителем. После выбора модели основные характеристики борта заполнятся автоматически.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Тип (конкретная модификация) воздушного судна, определяемая производителем. После выбора модели основные характеристики борта заполнятся автоматически."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" class="form-control" value="Cessna Citation XLS+" disabled>
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Бортовой номер</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Регистрационный номер воздушного судна (например, RA-12345). Должен быть уникальным.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Регистрационный номер воздушного судна (например, RA-12345). Должен быть уникальным."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" class="form-control" value="S5-BBM" disabled>
             </div>
@@ -488,10 +603,7 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Валюта расчетов</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Основная валюта для расчетов по этому борту. Все цены в карточке будут фиксироваться в ней.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Основная валюта для расчетов по этому борту. Все цены в карточке будут фиксироваться в ней."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <select class="form-control">
                 <option selected>Евро (EUR)</option>
@@ -502,20 +614,14 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Аэропорт базирования</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Основной аэропорт, где находится самолет, когда он не выполняет рейсы. Влияет на стоимость подачи и логистику.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Основной аэропорт, где находится самолет, когда он не выполняет рейсы. Влияет на стоимость подачи и логистику."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" class="form-control" value="LJU, Ljubljana">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Год выпуска</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Год производства самолета согласно документам.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Год производства самолета согласно документам."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="2022">
             </div>
@@ -523,30 +629,21 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Год обновления экстерьера</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Год последней покраски или обновления внешнего вида самолета.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Год последней покраски или обновления внешнего вида самолета."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="2024">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Год обновления интерьера</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Год последнего изменения салона: замена кресел, перетяжка, обновление отделки.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Год последнего изменения салона: замена кресел, перетяжка, обновление отделки."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="2024">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Время на рулежку, мин</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Стандартное время в минутах от запуска двигателей до взлета. Это время прибавляется к каждому плечу на маршруте.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Стандартное время в минутах от запуска двигателей до взлета. Это время прибавляется к каждому плечу на маршруте."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="15">
             </div>
@@ -557,19 +654,13 @@
               <input type="checkbox" class="switch-input" checked>
               <span class="switch-slider"></span>
               <span>Floating base (плавающая база)</span>
-              <span class="info-popover-wrap">
-                <button type="button" class="info-circle" aria-label="Информация">i</button>
-                <span class="info-popover">Режим «плавающей базы». В этом режиме домашней базой самолёта считается аэропорт, в котором он завершил предыдущий рейс.</span>
-              </span>
+              <span class="fgg-info-tooltip" data-tooltip="Режим «плавающей базы». В этом режиме домашней базой самолёта считается аэропорт, в котором он завершил предыдущий рейс."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
             </label>
             <label class="switch-label">
               <input type="checkbox" class="switch-input">
               <span class="switch-slider"></span>
               <span>Temporary base (временная база)</span>
-              <span class="info-popover-wrap">
-                <button type="button" class="info-circle" aria-label="Информация">i</button>
-                <span class="info-popover popover-align-right">Аэропорт, в котором самолет фактически находится на момент начала заказа согласно данным Календаря полетов, временно считается его базой.</span>
-              </span>
+              <span class="fgg-info-tooltip align-right" data-tooltip="Аэропорт, в котором самолет фактически находится на момент начала заказа согласно данным Календаря полетов, временно считается его базой."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
             </label>
           </div>
         </div>
@@ -582,20 +673,14 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Фактическая дальность, км</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Это максимальная паспортная дальность самолёта, уменьшенная с учётом обязательных IFR-резервов топлива (резерв на запасной аэродром, финальный резерв и contingency fuel).</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Это максимальная паспортная дальность самолёта, уменьшенная с учётом обязательных IFR-резервов топлива (резерв на запасной аэродром, финальный резерв и contingency fuel)."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="3400">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Max Pax (вместимость)</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Максимальное количество пассажирских мест в данной комплектации салона.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Максимальное количество пассажирских мест в данной комплектации салона."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
                 <span class="modified-badge" id="paxModifiedBadge">Изменено: v12 было 8</span>
               </label>
               <input type="number" class="form-control is-modified" id="planePaxInput" value="9">
@@ -603,20 +688,14 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Размеры салона (ДхШхВ, см)</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Габариты пассажирского салона: длина, ширина и высота (в сантиметрах).</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Габариты пассажирского салона: длина, ширина и высота (в сантиметрах)."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" class="form-control" value="560 x 183 x 188">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Объем багажа, м³</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Общий объем багажных отсеков. Указывается в кубических метрах.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Общий объем багажных отсеков. Указывается в кубических метрах."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" class="form-control" value="2.0">
             </div>
@@ -641,10 +720,7 @@
           <div class="card-header-flex" style="margin-bottom: 20px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <div class="card-title" style="margin-bottom: 0;">4. Разрешенные страны</div>
-              <span class="info-popover-wrap">
-                <button type="button" class="info-circle" aria-label="Информация">i</button>
-                <span class="info-popover">Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.</span>
-              </span>
+              <span class="fgg-info-tooltip" data-tooltip="Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
             </div>
           </div>
 
@@ -714,10 +790,7 @@
           <!-- Коммерческий рейс -->
           <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
             <span>Сбор за коммерческий рейс (летный час)</span>
-            <span class="info-popover-wrap">
-              <button type="button" class="info-circle" aria-label="Информация">i</button>
-              <span class="info-popover">Базовая ставка за летный час при выполнении коммерческого рейса с пассажирами.</span>
-            </span>
+            <span class="fgg-info-tooltip" data-tooltip="Базовая ставка за летный час при выполнении коммерческого рейса с пассажирами."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
             <span class="modified-badge" id="commRateBadge">Изменено: v12 было €7 000</span>
           </div>
           <div class="form-grid-3">
@@ -738,10 +811,7 @@
           <!-- Перегоночный рейс -->
           <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
             <span>Сбор за перегоночный рейс (Ferry leg)</span>
-            <span class="info-popover-wrap">
-              <button type="button" class="info-circle" aria-label="Информация">i</button>
-              <span class="info-popover">Пониженная ставка за летный час при техническом перегоне борта без пассажиров.</span>
-            </span>
+            <span class="fgg-info-tooltip" data-tooltip="Пониженная ставка за летный час при техническом перегоне борта без пассажиров."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
             <span class="modified-badge" id="ferryRateBadge">Изменено: v12 было €5 500</span>
           </div>
           <div class="form-grid-3">
@@ -765,20 +835,14 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Стоимость парковки за 24 ч</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Фиксированная суточная ставка стоянки борта в аэропорту при задержках или ожидании пассажиров.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Фиксированная суточная ставка стоянки борта в аэропорту при задержках или ожидании пассажиров."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="250">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Handling Неаполь (NAP/RIX)</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Стоимость наземного обслуживания (handling) в аэропорту прилета.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Стоимость наземного обслуживания (handling) в аэропорту прилета."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
                 <span class="modified-badge" id="handlingNaplesBadge">Изменено: +€200</span>
               </label>
               <input type="number" class="form-control is-modified" id="planeHandlingNaplesInput" value="2400">
@@ -786,10 +850,7 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Passenger Service Fee (за пассажира)</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Пассажирский сбор аэропорта за обслуживание одного пассажира.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Пассажирский сбор аэропорта за обслуживание одного пассажира."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="300">
             </div>
@@ -803,30 +864,21 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Суточная ставка экипажа пилотов, €</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Суточная ставка командировочных расходов экипажа пилотов.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Суточная ставка командировочных расходов экипажа пилотов."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="800">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Продолжительность рабочей смены пилотов, ч</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Максимально допустимая продолжительность одной рабочей смены пилотов.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Максимально допустимая продолжительность одной рабочей смены пилотов."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="12">
             </div>
             <div class="form-group">
               <label class="form-label">
                 <span>Минимальный отдых экипажа, ч</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Обязательный регламентированный перерыв между сменами экипажа.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Обязательный регламентированный перерыв между сменами экипажа."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="number" class="form-control" value="10">
             </div>
@@ -1566,20 +1618,14 @@
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">
                 <span>Дата и время начала</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Указывайте время в формате UTC+0. Не используйте локальное время аэропорта."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" id="modalMaintStart" class="form-control" placeholder="Введите дату и время" value="07.10.2026 08:00 UTC">
             </div>
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">
                 <span>Дата и время окончания</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Указывайте время в формате UTC+0. Не используйте локальное время аэропорта."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" id="modalMaintEnd" class="form-control" placeholder="Введите дату и время" value="07.10.2026 18:00 UTC">
             </div>
@@ -1603,20 +1649,14 @@
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">
                 <span>Дата и время вылета</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
-                </span>
+                <span class="fgg-info-tooltip" data-tooltip="Указывайте время в формате UTC+0. Не используйте локальное время аэропорта."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" id="modalFlightDep" class="form-control" placeholder="Введите дату и время" value="05.10.2026 10:00 UTC">
             </div>
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">
                 <span>Дата и время прилета</span>
-                <span class="info-popover-wrap">
-                  <button type="button" class="info-circle" aria-label="Информация">i</button>
-                  <span class="info-popover popover-align-right">Указывайте время в формате UTC+0. Не используйте локальное время аэропорта.</span>
-                </span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Указывайте время в формате UTC+0. Не используйте локальное время аэропорта."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
               <input type="text" id="modalFlightArr" class="form-control" placeholder="Введите дату и время" value="05.10.2026 12:15 UTC">
             </div>
@@ -1636,9 +1676,34 @@
     </div>
   </div>
 
+  <script>
+    function handleFlightTypeChange() {
+      var typeSelect = document.getElementById("modalFlightType");
+      if (!typeSelect) return;
+      var type = typeSelect.value;
+      var maintBox = document.getElementById("modalMaintFields");
+      var stdBox = document.getElementById("modalStandardFlightFields");
+      var paxGroup = document.getElementById("modalFlightPaxGroup");
+
+      if (type === "Тех. обслуживание") {
+        if (maintBox) maintBox.style.setProperty("display", "flex", "important");
+        if (stdBox) stdBox.style.setProperty("display", "none", "important");
+      } else if (type === "Перегоночный рейс") {
+        if (maintBox) maintBox.style.setProperty("display", "none", "important");
+        if (stdBox) stdBox.style.setProperty("display", "flex", "important");
+        if (paxGroup) paxGroup.style.setProperty("display", "none", "important");
+      } else {
+        // Простой перелет
+        if (maintBox) maintBox.style.setProperty("display", "none", "important");
+        if (stdBox) stdBox.style.setProperty("display", "flex", "important");
+        if (paxGroup) paxGroup.style.setProperty("display", "block", "important");
+      }
+    }
+  </script>
+
   <script src="assets/jsvectormap.min.js"></script>
   <script src="assets/world.js"></script>
   <script src="assets/countries-data.js"></script>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=20260924_02"></script>
 </body>
 </html>

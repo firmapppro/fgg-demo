@@ -1227,17 +1227,17 @@ function handleFlightTypeChange() {
   const paxGroup = document.getElementById("modalFlightPaxGroup");
 
   if (type === "Тех. обслуживание") {
-    if (maintBox) maintBox.style.display = "flex";
-    if (stdBox) stdBox.style.display = "none";
+    if (maintBox) maintBox.style.setProperty("display", "flex", "important");
+    if (stdBox) stdBox.style.setProperty("display", "none", "important");
   } else if (type === "Перегоночный рейс") {
-    if (maintBox) maintBox.style.display = "none";
-    if (stdBox) stdBox.style.display = "flex";
-    if (paxGroup) paxGroup.style.display = "none";
+    if (maintBox) maintBox.style.setProperty("display", "none", "important");
+    if (stdBox) stdBox.style.setProperty("display", "flex", "important");
+    if (paxGroup) paxGroup.style.setProperty("display", "none", "important");
   } else {
     // Простой перелет
-    if (maintBox) maintBox.style.display = "none";
-    if (stdBox) stdBox.style.display = "flex";
-    if (paxGroup) paxGroup.style.display = "block";
+    if (maintBox) maintBox.style.setProperty("display", "none", "important");
+    if (stdBox) stdBox.style.setProperty("display", "flex", "important");
+    if (paxGroup) paxGroup.style.setProperty("display", "block", "important");
   }
 }
 
@@ -1344,35 +1344,31 @@ function deleteFlightRecord(id) {
 }
 
 function initInfoPopovers() {
-  document.querySelectorAll(".info-circle").forEach(btn => {
-    if (btn.dataset.popoverBound) return;
-    btn.dataset.popoverBound = "1";
-    btn.addEventListener("click", (e) => {
+  document.querySelectorAll(".fgg-info-tooltip").forEach(el => {
+    if (el.dataset.tooltipBound) return;
+    el.dataset.tooltipBound = "1";
+    el.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const wrap = btn.closest(".info-popover-wrap");
-      if (!wrap) return;
-      const popover = wrap.querySelector(".info-popover");
-      if (!popover) return;
-      const isShown = popover.classList.contains("show");
-      document.querySelectorAll(".info-popover.show").forEach(p => p.classList.remove("show"));
-      if (!isShown) {
-        popover.classList.add("show");
+      const isActive = el.classList.contains("active");
+      document.querySelectorAll(".fgg-info-tooltip.active").forEach(item => item.classList.remove("active"));
+      if (!isActive) {
+        el.classList.add("active");
       }
     });
   });
 
-  if (!document.body.dataset.popoversDocBound) {
-    document.body.dataset.popoversDocBound = "1";
+  if (!document.body.dataset.tooltipsDocBound) {
+    document.body.dataset.tooltipsDocBound = "1";
     document.addEventListener("click", (e) => {
-      if (!e.target.closest(".info-popover-wrap")) {
-        document.querySelectorAll(".info-popover.show").forEach(p => p.classList.remove("show"));
+      if (!e.target.closest(".fgg-info-tooltip")) {
+        document.querySelectorAll(".fgg-info-tooltip.active").forEach(item => item.classList.remove("active"));
       }
     });
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        document.querySelectorAll(".info-popover.show").forEach(p => p.classList.remove("show"));
+        document.querySelectorAll(".fgg-info-tooltip.active").forEach(item => item.classList.remove("active"));
       }
     });
   }
