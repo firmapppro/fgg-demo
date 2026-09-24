@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FGG Operator Portal — Кабинет оператора</title>
+  <title>FGG — Кабинет оператора</title>
   <meta name="robots" content="noindex, nofollow">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,128 +18,26 @@
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
 
-  <!-- 2FA Login Screen Modal / Overlay -->
-  <div id="authModalScreen" class="auth-wrapper" style="display: none;">
-    <div class="auth-card">
-      <div class="auth-header">
-        <img src="images/logo.png" alt="Flight Generation Group" class="auth-logo">
-        <h1 class="auth-title">Кабинет оператора</h1>
-        <p class="auth-subtitle">Вход для авторизованных авиакомпаний и партнеров FGG</p>
-      </div>
-
-      <!-- Step 1: Credentials -->
-      <form id="authStep1" onsubmit="handleLoginStep1(event)">
-        <div class="form-group">
-          <label class="form-label">Корпоративный Email</label>
-          <input type="email" class="form-control" value="ops@aviacharter.aero" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Пароль учетной записи</label>
-          <input type="password" class="form-control" value="••••••••••••" required>
-        </div>
-        <div style="margin-top: 24px;">
-          <button type="submit" class="btn-primary" style="width: 100%;">Продолжить</button>
-        </div>
-      </form>
-
-      <!-- Step 2: 2FA SMS Code -->
-      <form id="authStep2" style="display: none;" onsubmit="handleLoginStep2(event)">
-        <div class="informer-box info" style="margin-bottom: 20px;">
-          <svg class="informer-icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          <div>Код подтверждения отправлен в SMS на номер <strong>+49 *** **01</strong></div>
-        </div>
-        <div class="form-group" style="text-align: center;">
-          <label class="form-label" style="justify-content: center;">Введите 4-значный код безопасности</label>
-          <div class="code-inputs-grid">
-            <input type="text" class="code-digit-input" maxlength="1" value="7" autofocus>
-            <input type="text" class="code-digit-input" maxlength="1" value="4">
-            <input type="text" class="code-digit-input" maxlength="1" value="9">
-            <input type="text" class="code-digit-input" maxlength="1" value="2">
-          </div>
-          <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
-            <span id="authTimerText">Повторная отправка через 58 сек</span>
-            <a href="#" id="authResendBtn" style="display: none; color: var(--primary); font-weight: 700; text-decoration: none;" onclick="startCodeTimer(); return false;">Отправить код повторно</a>
-          </div>
-        </div>
-        <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <button type="submit" class="btn-primary" style="width: 100%;">Войти в кабинет</button>
-          <button type="button" class="btn-secondary" style="width: 100%;" onclick="document.getElementById('authStep2').style.display='none'; document.getElementById('authStep1').style.display='block';">Назад</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Main Application Container -->
   <div id="appContainer" class="app-container">
 
-    <!-- Left Sidebar -->
+    <!-- Left Sidebar (Strict FGG Admin Style) -->
     <aside class="app-sidebar">
       <div class="sidebar-header">
         <div class="brand-wrapper">
-          <img src="images/logo.png" alt="FGG Logo" class="brand-logo-img">
-          <div class="brand-title-wrap">
-            <span class="brand-name">Flight Generation</span>
-            <span class="brand-badge">Operator Portal</span>
-          </div>
+          <img src="images/logo.png" alt="Flight Generation" class="brand-logo-img">
         </div>
       </div>
 
       <nav class="sidebar-nav">
-        <div class="nav-section-label">Операционная деятельность</div>
-
-        <a class="nav-item" data-screen="orders" onclick="navigateTo('orders')">
-          <svg class="nav-icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span>Входящие заказы</span>
-          <span class="nav-badge primary">1 новый</span>
-        </a>
-
-        <a class="nav-item" data-screen="fleet" onclick="navigateTo('fleet')">
-          <svg class="nav-icon" viewBox="0 0 24 24"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          <span>Мой флот (Борты)</span>
-          <span class="nav-badge warning">v13 черновик</span>
-        </a>
-
-        <a class="nav-item active" data-screen="sandbox" onclick="navigateTo('sandbox')">
-          <svg class="nav-icon" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-          <span>Песочница (Sandbox)</span>
-        </a>
-
-        <a class="nav-item" data-screen="emptylegs" onclick="navigateTo('emptylegs')">
-          <svg class="nav-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Empty Legs</span>
-          <span class="nav-badge">2</span>
-        </a>
-
-        <a class="nav-item" data-screen="schedule" onclick="navigateTo('schedule')">
-          <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>Календарь занятости</span>
-        </a>
-
-        <div class="nav-section-label">Справка и Настройки</div>
-
-        <a class="nav-item" data-screen="faq" onclick="navigateTo('faq')">
-          <svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          <span>База знаний / Регламенты</span>
-        </a>
-
-        <a class="nav-item" data-screen="profile" onclick="navigateTo('profile')">
-          <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Профиль и Компания</span>
-        </a>
+        <a class="nav-item" data-screen="orders" onclick="navigateTo('orders')">Заявки</a>
+        <a class="nav-item" data-screen="fleet" onclick="navigateTo('fleet')">Борты</a>
+        <a class="nav-item active" data-screen="sandbox" onclick="navigateTo('sandbox')">Песочница</a>
+        <a class="nav-item" data-screen="emptylegs" onclick="navigateTo('emptylegs')">Empty legs</a>
+        <a class="nav-item" data-screen="schedule" onclick="navigateTo('schedule')">Календарь занятости</a>
+        <a class="nav-item" data-screen="faq" onclick="navigateTo('faq')">FAQ</a>
+        <a class="nav-item" data-screen="profile" onclick="navigateTo('profile')">Профиль</a>
       </nav>
-
-      <div class="sidebar-footer">
-        <div class="operator-profile-card">
-          <div class="operator-avatar">AC</div>
-          <div class="operator-info">
-            <div class="operator-name">Avia Charter Ltd.</div>
-            <div class="operator-role">AOC #EU-884920 · OPS</div>
-          </div>
-          <button class="btn-icon-logout" onclick="logout()" title="Выйти из системы">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          </button>
-        </div>
-      </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -148,31 +46,21 @@
       <!-- Topbar -->
       <header class="app-topbar">
         <div class="topbar-left">
-          <h2 class="topbar-page-title" id="topbarPageTitle">Песочница тарифов (Sandbox)</h2>
+          <h2 class="topbar-page-title" id="topbarPageTitle">Песочница</h2>
         </div>
         <div class="topbar-right">
-          <div class="badge-sla">
-            <span class="sla-dot"></span>
-            <span>Дежурная смена: OPS-1 (SLA 15 мин)</span>
-          </div>
-          <button class="btn-topbar-action" onclick="logout()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            <span>Сменить пользователя</span>
-          </button>
+          <div id="topbarActionSlot"></div>
         </div>
       </header>
 
-      <!-- ============================================== -->
-      <!-- SCREEN 1: SANDBOX (ПЕСОЧНИЦА - IMG_3257 / МАКЕТ) -->
-      <!-- ============================================== -->
-      <div id="screen-sandbox" class="screen-view page-content" style="display: block;">
+<div id="screen-sandbox" class="screen-view page-content" style="display: block;">
         
         <div class="sandbox-hero-card">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
             <div>
               <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.4px;">Песочница</h1>
               <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">
-                Проверьте, как FGG Pricing and Game Engine рассчитывает ваш борт. Тестовые расчеты не отображаются клиентам.
+                Проверьте, как FGG Pricing Engine рассчитывает ваш борт. Тестовые расчеты не отображаются клиентам.
               </p>
             </div>
             <button class="btn-primary" onclick="recalculateSandbox()">Рассчитать</button>
@@ -587,7 +475,8 @@
       <!-- ============================================== -->
       <!-- SCREEN 2: PLANE CARD (КАРТОЧКА БОРТА - IMG_3260) -->
       <!-- ============================================== -->
-      <div id="screen-plane-card" class="screen-view page-content" style="display: none;">
+      
+<div id="screen-plane-card" class="screen-view page-content" style="display: none;">
         
         <!-- Header Nav Row -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -958,17 +847,15 @@
       <!-- ============================================== -->
       <!-- SCREEN 3: ORDERS (ВХОДЯЩИЕ ЗАКАЗЫ) -->
       <!-- ============================================== -->
+      
+      <!-- ============================================== -->
+      <!-- SCREEN: ORDERS (ЗАЯВКИ) -->
+      <!-- ============================================== -->
       <div id="screen-orders" class="screen-view page-content" style="display: none;">
         <div class="card-header-flex" style="margin-bottom: 20px;">
           <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Входящие заказы</h1>
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Заявки</h1>
             <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Рейсы клиентов FGG, назначенные на ваш флот</p>
-          </div>
-          <div class="tab-group">
-            <button class="tab-btn active">Все (5)</button>
-            <button class="tab-btn">Требуют подтверждения (1)</button>
-            <button class="tab-btn">Подтверждены (1)</button>
-            <button class="tab-btn">В полете (1)</button>
           </div>
         </div>
 
@@ -991,15 +878,14 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- SCREEN 4: FLEET (МОЙ ФЛОТ) -->
+      <!-- SCREEN: FLEET (БОРТЫ) -->
       <!-- ============================================== -->
       <div id="screen-fleet" class="screen-view page-content" style="display: none;">
         <div class="card-header-flex" style="margin-bottom: 20px;">
           <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Мой флот</h1>
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Борты</h1>
             <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Управление воздушными судами, тарифами и версиями</p>
           </div>
-          <button class="btn-primary" onclick="showToast('Создание нового борта открыто', 'info')">+ Добавить борт</button>
         </div>
 
         <div class="data-table-container">
@@ -1018,7 +904,7 @@
               <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="images/citation-xls.jpg" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
+                    <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
                     <div>
                       <div style="font-weight: 800; color: var(--text-main);">Cessna Citation XLS+</div>
                       <div style="font-size: 12px; color: var(--text-muted);">S5-BBM · 2022 г.</div>
@@ -1040,7 +926,7 @@
               <tr>
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="images/g550-exterior.jpg" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
+                    <img src="images/g550-exterior.jpg" alt="Gulfstream G550" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
                     <div>
                       <div style="font-weight: 800; color: var(--text-main);">Gulfstream G550</div>
                       <div style="font-size: 12px; color: var(--text-muted);">RA-10222 · 2019 г.</div>
@@ -1062,15 +948,14 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- SCREEN 5: EMPTY LEGS -->
+      <!-- SCREEN: EMPTY LEGS (СПИСОК) -->
       <!-- ============================================== -->
       <div id="screen-emptylegs" class="screen-view page-content" style="display: none;">
         <div class="card-header-flex" style="margin-bottom: 20px;">
           <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Empty Legs</h1>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Публикация горящих возвратных плеч на платформе FGG</p>
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Empty legs</h1>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Управление возвратными плечами и специальными тарифами</p>
           </div>
-          <button class="btn-primary" onclick="openCreateEmptyLegModal()">+ Создать Empty Leg</button>
         </div>
 
         <div class="data-table-container">
@@ -1078,12 +963,14 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Борт</th>
-                <th>Маршрут и Дата</th>
-                <th>Фиксированная цена</th>
-                <th>Вместимость</th>
-                <th>Статус</th>
-                <th style="text-align: right;">Действия</th>
+                <th>Дата и время</th>
+                <th>Откуда</th>
+                <th>Куда</th>
+                <th>Стоимость</th>
+                <th>Активен до</th>
+                <th>Состояние</th>
+                <th>Просмотр</th>
+                <th>Детали</th>
               </tr>
             </thead>
             <tbody id="emptyLegsTableBody"></tbody>
@@ -1092,9 +979,194 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- SCREEN 6: SCHEDULE (КАЛЕНДАРЬ ЗАНЯТОСТИ) -->
+      <!-- SCREEN: EMPTY LEGS DETAIL VIEW (КАРТОЧКА) -->
       <!-- ============================================== -->
-      <div id="screen-schedule" class="screen-view page-content" style="display: none;">
+      <div id="screen-emptylegs-view" class="screen-view page-content" style="display: none;">
+        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+          <button class="btn-secondary btn-sm" onclick="navigateTo('emptylegs')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Назад ко всем Empty legs</span>
+          </button>
+        </div>
+
+        <div class="empty-leg-view-card">
+          <div class="empty-leg-hero-wrap">
+            <img id="elViewHeroImg" src="images/g550-cabin.jpg" alt="Салон самолета" class="empty-leg-hero-img">
+            <button class="empty-leg-edit-badge-btn" onclick="enableEmptyLegEdit()">Изменить Empty legs</button>
+          </div>
+
+          <!-- VIEW MODE -->
+          <div id="elViewModeContainer">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Откуда</label>
+                <div id="elViewOrigin" class="pill-display-box">UMGG, Gomel Airport, Gomel, Belarus</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Куда</label>
+                <div id="elViewDestination" class="pill-display-box">LIEE, Cagliari / Elmas Airport, Cagliari, Italy</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Дата и время</label>
+                <div id="elViewDateTime" class="pill-display-box">24.09.2026 09:25</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Самолет</label>
+                <div id="elViewPlane" class="pill-display-box">Embraer Phenom 300</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Борт</label>
+                <div id="elViewTail" class="pill-display-box">—</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Валюта</label>
+                <div id="elViewCurrency" class="pill-display-box">Евро</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Кол-во пассажиров</label>
+                <div id="elViewPax" class="pill-display-box">6</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Стоимость</label>
+                <div id="elViewPrice" class="pill-display-box">1000</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Статус</label>
+                <div id="elViewStatus" class="pill-display-box" style="color: var(--success); font-weight: 700;">Активный</div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Активен до</label>
+                <div id="elViewActiveUntil" class="pill-display-box">24.09.2026, 09:26:00</div>
+              </div>
+              <div style="grid-column: span 2;">
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Приоритет</label>
+                <div id="elViewPriority" class="pill-display-box">Обычный</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- EDIT MODE -->
+          <div id="elEditModeContainer" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div>
+                <label class="form-label">Откуда</label>
+                <input type="text" id="elEditOrigin" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Куда</label>
+                <input type="text" id="elEditDestination" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Дата и время</label>
+                <input type="text" id="elEditDateTime" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Самолет</label>
+                <input type="text" id="elEditPlane" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Борт (хвост)</label>
+                <input type="text" id="elEditTail" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Валюта</label>
+                <select id="elEditCurrency" class="form-control">
+                  <option value="Евро">Евро</option>
+                  <option value="Рубли">Рубли</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Кол-во пассажиров</label>
+                <input type="number" id="elEditPax" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Стоимость</label>
+                <input type="number" id="elEditPrice" class="form-control">
+              </div>
+              <div>
+                <label class="form-label">Статус</label>
+                <select id="elEditStatus" class="form-control">
+                  <option value="Активный">Активный</option>
+                  <option value="Неактивно">Неактивно</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Активен до</label>
+                <input type="text" id="elEditActiveUntil" class="form-control">
+              </div>
+              <div style="grid-column: span 2;">
+                <label class="form-label">Приоритет</label>
+                <select id="elEditPriority" class="form-control">
+                  <option value="Обычный">Обычный</option>
+                  <option value="Высокий">Высокий</option>
+                </select>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button class="btn-primary" onclick="saveEmptyLegEdit()">Сохранить изменения</button>
+              <button class="btn-secondary" onclick="cancelEmptyLegEdit()">Отмена</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN: CREATE EMPTY LEG -->
+      <!-- ============================================== -->
+      <div id="screen-emptylegs-create" class="screen-view page-content" style="display: none;">
+        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+          <button class="btn-secondary btn-sm" onclick="navigateTo('emptylegs')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Назад ко всем Empty legs</span>
+          </button>
+        </div>
+
+        <div class="card" style="max-width: 600px;">
+          <div class="card-title" style="margin-bottom: 16px;">Создать Empty legs</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div>
+              <label class="form-label">Откуда (ICAO / Название)</label>
+              <input type="text" id="elCreateOrigin" class="form-control" placeholder="например, UMGG, Gomel Airport">
+            </div>
+            <div>
+              <label class="form-label">Куда (ICAO / Название)</label>
+              <input type="text" id="elCreateDestination" class="form-control" placeholder="например, LIEE, Cagliari Airport">
+            </div>
+            <div>
+              <label class="form-label">Дата и время вылета</label>
+              <input type="text" id="elCreateDateTime" class="form-control" value="25.09.2026, 12:00:00">
+            </div>
+            <div>
+              <label class="form-label">Модель самолета</label>
+              <select id="elCreatePlane" class="form-control">
+                <option value="Cessna Citation XLS+">Cessna Citation XLS+</option>
+                <option value="Gulfstream G550">Gulfstream G550</option>
+                <option value="Embraer Phenom 300">Embraer Phenom 300</option>
+                <option value="Challenger 350">Challenger 350</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Бортовой номер</label>
+              <input type="text" id="elCreateTail" class="form-control" value="S5-BBM">
+            </div>
+            <div>
+              <label class="form-label">Количество кресел (PAX)</label>
+              <input type="number" id="elCreatePax" class="form-control" value="8">
+            </div>
+            <div style="grid-column: span 2;">
+              <label class="form-label">Фиксированная стоимость (€)</label>
+              <input type="number" id="elCreatePrice" class="form-control" placeholder="например, 15000">
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button class="btn-primary" onclick="submitNewEmptyLeg()">Создать Empty legs</button>
+            <button class="btn-secondary" onclick="navigateTo('emptylegs')">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+<div id="screen-schedule" class="screen-view page-content" style="display: none;">
         <div class="card-header-flex" style="margin-bottom: 20px;">
           <div>
             <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Календарь занятости флота</h1>
@@ -1157,74 +1229,172 @@
       <!-- ============================================== -->
       <!-- SCREEN 7: FAQ / REGULATIONS (БАЗА ЗНАНИЙ) -->
       <!-- ============================================== -->
+      
+      <!-- ============================================== -->
+      <!-- SCREEN: FAQ И ИНСТРУКЦИИ -->
+      <!-- ============================================== -->
       <div id="screen-faq" class="screen-view page-content" style="display: none;">
         <div style="margin-bottom: 24px;">
-          <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">База знаний и Регламенты FGG</h1>
-          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Стандарты обслуживания, правила подтверждения рейсов и контакты координаторов</p>
+          <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">FAQ и инструкции</h1>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Ответы на все вопросы по работе с кабинетом оператора</p>
         </div>
 
-        <div class="card">
-          <div class="accordion-item">
-            <div class="accordion-header open" onclick="toggleAccordion(this)">
-              <div style="font-weight: 800; font-size: 15px;">1. Регламент SLA подтверждения рейсов</div>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        <div class="faq-ai-banner">
+          <div>
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">Помощь через ИИ</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); max-width: 780px;">Вы можете скачать инструкцию в формате PDF и загрузить её в ChatGPT или любой другой ИИ-помощник, чтобы быстро находить ответы на любые вопросы по работе с кабинетом.</p>
+          </div>
+          <button class="btn-primary" onclick="showToast('Загрузка инструкции в формате PDF...', 'info')">Скачать инструкцию для ИИ (PDF)</button>
+        </div>
+
+        <div class="faq-grid-4x2">
+          <!-- Card 1 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/g550-cabin.jpg" alt="Фотографии борта" class="faq-card-thumb">
             </div>
-            <div class="accordion-body open">
-              <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 10px;">
-                Оператор обязуется дать ответ на входящий запрос рейса в следующие временные рамки:
-              </p>
-              <ul style="margin-left: 20px; font-size: 13px; line-height: 1.6; color: var(--text-secondary);">
-                <li><strong>Дневное время (08:00 – 22:00 UTC):</strong> не более 15 минут с момента поступления заказа в кабинет.</li>
-                <li><strong>Ночное время (22:00 – 08:00 UTC):</strong> не более 30 минут.</li>
-                <li>В случае неподтверждения рейса в установленный таймлайн FGG оставляет за собой право переназначить запрос на альтернативный борт.</li>
-              </ul>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Как правильно добавить фотографии борта</div>
+              <div class="faq-card-desc">Требования к фотографиям экстерьера и интерьера, ракурсы, освещение и технические параметры для наилучшего отображения.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('1')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('1')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-              <div style="font-weight: 800; font-size: 15px;">2. Правила расчетов стоянок и ночевок экипажа</div>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <!-- Card 2 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/citation-exterior.jpg" alt="Основная информация о самолёте" class="faq-card-thumb">
             </div>
-            <div class="accordion-body">
-              <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary);">
-                При стоянке борта вне базового аэропорта свыше 4 часов взимается стандартный сбор за парковку согласно тарифной сетке аэропорта назначения. Если время ожидания превышает санитарную норму рабочего дня экипажа (12 часов), автоматически начисляются суточные экипажа и бронирование отеля 4/5* за счет фрахтователя.
-              </p>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-              <div style="font-weight: 800; font-size: 15px;">3. Отмены и компенсации</div>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="accordion-body">
-              <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary);">
-                При отмене подтвержденного рейса оператором по техническим причинам оператор обязан предоставить эквивалентную замену (sub-charter) без увеличения стоимости для клиента либо возместить фактически понесенные расходы по подлету резервного борта FGG.
-              </p>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Основная информация о самолёте</div>
+              <div class="faq-card-desc">Заполнение базовых данных: модель, бортовой номер, год выпуска, конфигурация салона и базовый аэропорт.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('2')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('2')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="accordion-item">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-              <div style="font-weight: 800; font-size: 15px;">4. Круглосуточная диспетчерская FGG 24/7</div>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <!-- Card 3 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/citation-xls.jpg" alt="Характеристики самолёта" class="faq-card-thumb">
             </div>
-            <div class="accordion-body">
-              <div style="font-size: 13px; line-height: 1.6; color: var(--text-secondary);">
-                <p><strong>Горячая линия координации полетов:</strong> +44 20 8123 4567</p>
-                <p><strong>AFTN / SITA:</strong> LJUFGXF / LJUFG7X</p>
-                <p><strong>Дежурный координатор в Telegram:</strong> @fgg_ops_bot</p>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Характеристики самолёта</div>
+              <div class="faq-card-desc">Технические параметры: дальность, крейсерская скорость, вместимость багажного отсека и взлетно-посадочные характеристики.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('3')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('3')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/fleet-large.jpg" alt="Цены и тарифы часть 1" class="faq-card-thumb">
+            </div>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Цены и тарифы — часть 1</div>
+              <div class="faq-card-desc">Настройка базовых часовых ставок, стоимости ожидания, ночевки и расчет коэффициентов сезонности.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('4')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('4')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/audience-corporate.jpg" alt="Цены и тарифы часть 2" class="faq-card-thumb">
+            </div>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Цены и тарифы — часть 2</div>
+              <div class="faq-card-desc">Дополнительные сборы: аэропортовые расходы, кейтеринг, деайсинг, оверфлайт-пермиты и спецобслуживание.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('5')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('5')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/fleet-small.jpg" alt="Расходы на экипаж" class="faq-card-thumb">
+            </div>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Расходы на экипаж</div>
+              <div class="faq-card-desc">Суточные, проживание, транспорт и надбавки за продление рабочего времени экипажа при задержках рейсов.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('6')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('6')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/g550-exterior.jpg" alt="Календарь полётов" class="faq-card-thumb">
+            </div>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Календарь полётов</div>
+              <div class="faq-card-desc">Управление занятостью бортов, блокировка дат под ТО (AOG/C-check), подтверждение броней и синхронизация.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('7')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('7')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8 -->
+          <div class="faq-card">
+            <div class="faq-card-thumb-wrap">
+              <img src="images/global-express-flight.jpg" alt="Интеграция с Leon" class="faq-card-thumb">
+            </div>
+            <div class="faq-card-content">
+              <div class="faq-card-title">Интеграция с Leon</div>
+              <div class="faq-card-desc">Подключение и настройка двухсторонней синхронизации расписания, статусов рейсов и доступности флота с Leon Software.</div>
+              <div class="faq-card-actions">
+                <button class="btn-faq-action primary-subtle" onclick="openFaqModal('8')">Читать инструкцию</button>
+                <button class="btn-faq-action" onclick="openFaqVideoModal('8')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Смотреть видео</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ============================================== -->
-      <!-- SCREEN 8: PROFILE / SETTINGS (ПРОФИЛЬ) -->
-      <!-- ============================================== -->
-      <div id="screen-profile" class="screen-view page-content" style="display: none;">
+<div id="screen-profile" class="screen-view page-content" style="display: none;">
         <div style="margin-bottom: 24px;">
           <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Профиль компании и Настройки</h1>
           <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Данные эксплуатанта, сертификаты и каналы экстренной связи</p>
@@ -1343,32 +1513,30 @@
   <!-- ============================================== -->
   <!-- MODAL: REJECT ORDER -->
   <!-- ============================================== -->
-  <div id="modalRejectOrder" class="modal-overlay">
-    <div class="modal-card">
+  
+
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: FAQ DETAIL & VIDEO -->
+  <!-- ============================================== -->
+  <div id="modalFaqDetail" class="modal-overlay">
+    <div class="modal-card" style="max-width: 650px;">
       <div class="modal-header">
-        <div class="modal-title" style="color: var(--danger);">Отклонение рейса</div>
-        <button class="btn-close-modal" onclick="closeModal('modalRejectOrder')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <div>
+          <h3 id="faqModalTitle" class="modal-title">Инструкция</h3>
+          <p id="faqModalDesc" style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Раздел базы знаний FGG</p>
+        </div>
+        <button class="btn-close-modal" onclick="closeModal('modalFaqDetail')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <div class="modal-body">
-        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
-          Укажите официальную причину отказа для фиксации в журнале координации FGG:
-        </p>
-        <div class="form-group">
-          <label class="form-label">Причина отклонения</label>
-          <select class="form-control" id="rejectReasonSelect">
-            <option>Внеплановое техническое обслуживание борта (AOG)</option>
-            <option>Превышение санитарных норм рабочего времени экипажа</option>
-            <option>Отсутствие слота или отказ аэропорта в приеме</option>
-            <option>Ограничения метеоусловий по маршруту</option>
-            <option>Прямой чартер от владельца воздушного судна</option>
-          </select>
-        </div>
+      <div id="faqModalContent" class="modal-body" style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">
       </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="closeModal('modalRejectOrder')">Отмена</button>
-        <button class="btn-danger-outline" onclick="submitRejectOrder()">Подтвердить отказ</button>
+      <div id="faqModalVideoBox" style="display: none;"></div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end;">
+        <button class="btn-primary" onclick="closeModal('modalFaqDetail')">Закрыть</button>
       </div>
     </div>
   </div>
@@ -1406,51 +1574,6 @@
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeModal('modalModeration')">Вернуться к редактированию</button>
         <button class="btn-primary" onclick="submitToModeration()">Отправить координатору</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================== -->
-  <!-- MODAL: CREATE EMPTY LEG -->
-  <!-- ============================================== -->
-  <div id="modalCreateEmptyLeg" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title">Публикация нового Empty Leg</div>
-        <button class="btn-close-modal" onclick="closeModal('modalCreateEmptyLeg')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label">Воздушное судно</label>
-          <select class="form-control">
-            <option>Cessna Citation XLS+ (S5-BBM) · 8 PAX</option>
-            <option>Gulfstream G550 (RA-10222) · 14 PAX</option>
-          </select>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">Аэропорт вылета</label>
-            <input type="text" class="form-control" id="elOrigin" value="NCE, Ницца (Франция)" placeholder="Откуда">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Аэропорт прилета</label>
-            <input type="text" class="form-control" id="elDestination" value="VKO, Москва (Россия)" placeholder="Куда">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Дата вылета</label>
-            <input type="date" class="form-control" id="elDate" value="2026-09-29">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Специальная цена, €</label>
-            <input type="number" class="form-control" id="elPrice" value="8900">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="closeModal('modalCreateEmptyLeg')">Отмена</button>
-        <button class="btn-primary" onclick="createEmptyLeg()">Опубликовать Empty Leg</button>
       </div>
     </div>
   </div>
