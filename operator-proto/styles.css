@@ -2660,3 +2660,341 @@ body {
 #screen-manager.screen-active-flex {
   display: flex !important;
 }
+
+
+/* ==========================================
+   EMPTY LEGS - STRICT FGG ADMIN DASHBOARD STYLE
+   ========================================== */
+
+.fgg-el-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fgg-el-page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #101828;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.fgg-el-create-btn {
+  background-color: #1E599F;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  transition: background-color 0.15s ease;
+}
+.fgg-el-create-btn:hover {
+  background-color: #16467d;
+}
+
+/* Filters Accordion */
+.fgg-el-filters-section {
+  margin-bottom: 16px;
+}
+
+.fgg-el-filters-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 0;
+}
+
+.fgg-el-filters-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.fgg-el-filters-chevron {
+  color: #475467;
+  transition: transform 0.2s ease;
+}
+
+.fgg-el-filters-chevron.open {
+  transform: rotate(180deg);
+}
+
+.fgg-el-filters-panel {
+  background: #FFFFFF;
+  border: 1px solid #EAECF0;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-top: 10px;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+.fgg-el-filters-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+}
+
+.fgg-el-filter-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 130px;
+}
+
+.fgg-el-filter-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475467;
+}
+
+.fgg-el-input,
+.fgg-el-select {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #D0D5DD;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #101828;
+  background-color: #FFFFFF;
+  outline: none;
+  box-sizing: border-box;
+}
+.fgg-el-input:focus,
+.fgg-el-select:focus {
+  border-color: #1E599F;
+}
+
+.fgg-el-btn-clear {
+  height: 38px;
+  padding: 0 16px;
+  background: transparent;
+  border: none;
+  color: #475467;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.fgg-el-btn-clear:hover {
+  background: #F2F4F7;
+  color: #101828;
+}
+
+/* Card & Table */
+.fgg-el-card {
+  background: #FFFFFF;
+  border: 1px solid #EAECF0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+  overflow: hidden;
+}
+
+.fgg-el-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.fgg-el-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.fgg-el-table th {
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475467;
+  border-bottom: 1px solid #EAECF0;
+  white-space: nowrap;
+  background: #FFFFFF;
+}
+
+.fgg-el-table td {
+  padding: 14px 18px;
+  font-size: 13.5px;
+  color: #101828;
+  border-bottom: 1px solid #F2F4F7;
+  white-space: nowrap;
+}
+
+.fgg-el-table tbody tr:hover {
+  background-color: #F9FAFB;
+}
+
+.fgg-el-link-btn {
+  color: #1E599F;
+  font-size: 13.5px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+.fgg-el-link-btn:hover {
+  color: #16467d;
+  text-decoration: underline;
+}
+
+/* Pagination Bar */
+.fgg-el-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 14px 24px;
+  gap: 20px;
+  font-size: 13px;
+  color: #475467;
+  border-top: 1px solid #EAECF0;
+}
+
+.fgg-el-page-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fgg-el-page-select {
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid #D0D5DD;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #101828;
+  background: #FFFFFF;
+}
+
+.fgg-el-page-info {
+  font-size: 13px;
+  color: #475467;
+}
+
+.fgg-el-page-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fgg-el-page-btn {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #475467;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: background 0.15s;
+}
+.fgg-el-page-btn:hover:not(:disabled) {
+  background: #F2F4F7;
+  color: #101828;
+}
+.fgg-el-page-btn.active {
+  background: #F2F4F7;
+  color: #101828;
+  font-weight: 700;
+}
+.fgg-el-page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Slide-out Drawer */
+.fgg-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1050;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fgg-drawer-panel {
+  width: 380px;
+  max-width: 90vw;
+  height: 100vh;
+  background: #FFFFFF;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.fgg-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fgg-drawer-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #101828;
+  margin: 0;
+}
+
+.fgg-drawer-close {
+  background: transparent;
+  border: none;
+  color: #667085;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 4px;
+}
+.fgg-drawer-close:hover {
+  background: #F2F4F7;
+  color: #101828;
+}
+
+.fgg-drawer-divider {
+  border-bottom: 1px solid #EAECF0;
+  margin: 20px 0;
+}
+
+.fgg-drawer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fgg-drawer-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fgg-drawer-label {
+  font-size: 13px;
+  color: #475467;
+  font-weight: 500;
+}
+
+.fgg-drawer-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #101828;
+}

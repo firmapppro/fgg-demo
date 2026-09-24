@@ -1,6 +1,584 @@
 // FGG Operator Cabinet - Interactive Application Logic
 
 const appState = {
+  selectedEmptyLegId: "197",
+  isEditingEmptyLeg: false,
+  emptyLegsPage: 1,
+  emptyLegsPageSize: 10,
+  emptyLegsSort: { field: "id", order: "DESC" },
+  emptyLegsFilters: { id: "", date: "", origin: "", destination: "", priceFrom: null, priceTo: null, status: "" },
+  emptyLegs: [
+    {
+        "id": "197",
+        "dateTime": "06.09.2026 00:05",
+        "origin": "UUWW, Moscow",
+        "destination": "UHWW, Vladivostok",
+        "price": 9450000,
+        "activeUntil": "06.09.2026, 12:00:00",
+        "status": "Неактивно",
+        "planeModel": "Gulfstream G550",
+        "tailNumber": "RA-10222",
+        "pax": 14,
+        "priority": "Обычный",
+        "currency": "Рубли",
+        "image": "images/g550-cabin.jpg"
+    },
+    {
+        "id": "196",
+        "dateTime": "10.09.2026 11:00",
+        "origin": "OMDW, Jebel Ali",
+        "destination": "OTHH, Doha",
+        "price": 18400,
+        "activeUntil": "10.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/fleet-large.jpg"
+    },
+    {
+        "id": "195",
+        "dateTime": "12.09.2026 11:00",
+        "origin": "OMDW, Jebel Ali",
+        "destination": "HEAL, El Alamein",
+        "price": 43575,
+        "activeUntil": "12.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "194",
+        "dateTime": "12.09.2026 12:00",
+        "origin": "LTFM, Istanbul",
+        "destination": "OJAM, Amman",
+        "price": 14465,
+        "activeUntil": "12.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Legacy 600",
+        "tailNumber": "RA-02857",
+        "pax": 13,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/fleet-small.jpg"
+    },
+    {
+        "id": "193",
+        "dateTime": "21.09.2026 12:00",
+        "origin": "LCPH, Paphos",
+        "destination": "EGBB, Birmingham",
+        "price": 28000,
+        "activeUntil": "21.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "192",
+        "dateTime": "23.09.2026 12:00",
+        "origin": "LLBG, Tel Aviv",
+        "destination": "LFMN, Nice",
+        "price": 55000,
+        "activeUntil": "23.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Gulfstream G550",
+        "tailNumber": "RA-10222",
+        "pax": 14,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/global-express-flight.jpg"
+    },
+    {
+        "id": "191",
+        "dateTime": "12.09.2026 13:00",
+        "origin": "LHBP, Budapest",
+        "destination": "LIEE, Cagliari",
+        "price": 12900,
+        "activeUntil": "12.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/fleet-large.jpg"
+    },
+    {
+        "id": "190",
+        "dateTime": "22.09.2026 12:00",
+        "origin": "LGTS, Thessaloniki",
+        "destination": "LSZH, Zurich",
+        "price": 6300,
+        "activeUntil": "22.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Phenom 300",
+        "tailNumber": "S5-BBM",
+        "pax": 6,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-xls.jpg"
+    },
+    {
+        "id": "189",
+        "dateTime": "14.09.2026 12:00",
+        "origin": "LBSF, Sofia",
+        "destination": "LTBS, Dalaman",
+        "price": 4700,
+        "activeUntil": "14.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "188",
+        "dateTime": "23.09.2026 12:00",
+        "origin": "LTBS, Dalaman",
+        "destination": "LOWW, Vienna",
+        "price": 19950,
+        "activeUntil": "23.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Legacy 600",
+        "tailNumber": "RA-02857",
+        "pax": 13,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/fleet-small.jpg"
+    },
+    {
+        "id": "187",
+        "dateTime": "20.09.2026 10:00",
+        "origin": "LFMN, Nice",
+        "destination": "EGGW, London Luton",
+        "price": 12500,
+        "activeUntil": "20.09.2026, 08:00:00",
+        "status": "Активно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "186",
+        "dateTime": "19.09.2026 11:00",
+        "origin": "LEIB, Ibiza",
+        "destination": "LFPB, Paris Le Bourget",
+        "price": 14200,
+        "activeUntil": "19.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Phenom 300",
+        "tailNumber": "9H-VCA",
+        "pax": 7,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "185",
+        "dateTime": "18.09.2026 12:00",
+        "origin": "LIEO, Olbia",
+        "destination": "LSGG, Geneva",
+        "price": 11800,
+        "activeUntil": "18.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "184",
+        "dateTime": "17.09.2026 13:00",
+        "origin": "LSGG, Geneva",
+        "destination": "LIML, Milan Linate",
+        "price": 6500,
+        "activeUntil": "17.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "183",
+        "dateTime": "16.09.2026 14:00",
+        "origin": "LEMG, Malaga",
+        "destination": "EDDM, Munich",
+        "price": 18500,
+        "activeUntil": "16.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Gulfstream G550",
+        "tailNumber": "RA-10222",
+        "pax": 14,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "182",
+        "dateTime": "15.09.2026 15:00",
+        "origin": "EGGW, London",
+        "destination": "LPPT, Lisbon",
+        "price": 17300,
+        "activeUntil": "15.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Legacy 600",
+        "tailNumber": "RA-02857",
+        "pax": 13,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "181",
+        "dateTime": "14.09.2026 16:00",
+        "origin": "LFPB, Paris",
+        "destination": "LOWW, Vienna",
+        "price": 13400,
+        "activeUntil": "14.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "180",
+        "dateTime": "13.09.2026 17:00",
+        "origin": "OMDB, Dubai",
+        "destination": "EGGW, London",
+        "price": 78000,
+        "activeUntil": "13.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Gulfstream G550",
+        "tailNumber": "RA-10222",
+        "pax": 14,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "179",
+        "dateTime": "12.09.2026 10:00",
+        "origin": "LIRF, Rome",
+        "destination": "LGAV, Athens",
+        "price": 9800,
+        "activeUntil": "12.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "178",
+        "dateTime": "11.09.2026 11:00",
+        "origin": "EDDF, Frankfurt",
+        "destination": "LEBL, Barcelona",
+        "price": 12200,
+        "activeUntil": "11.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Phenom 300",
+        "tailNumber": "9H-VCA",
+        "pax": 7,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "177",
+        "dateTime": "10.09.2026 12:00",
+        "origin": "LEBL, Barcelona",
+        "destination": "LFMN, Nice",
+        "price": 7900,
+        "activeUntil": "10.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "176",
+        "dateTime": "09.09.2026 13:00",
+        "origin": "EHAM, Amsterdam",
+        "destination": "LEIB, Ibiza",
+        "price": 15600,
+        "activeUntil": "09.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "175",
+        "dateTime": "08.09.2026 14:00",
+        "origin": "EDDM, Munich",
+        "destination": "LIEO, Olbia",
+        "price": 10900,
+        "activeUntil": "08.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Legacy 600",
+        "tailNumber": "RA-02857",
+        "pax": 13,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "174",
+        "dateTime": "07.09.2026 15:00",
+        "origin": "LSZH, Zurich",
+        "destination": "LPPR, Porto",
+        "price": 16800,
+        "activeUntil": "07.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Gulfstream G550",
+        "tailNumber": "RA-10222",
+        "pax": 14,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "173",
+        "dateTime": "06.09.2026 16:00",
+        "origin": "LROP, Bucharest",
+        "destination": "LTFM, Istanbul",
+        "price": 5400,
+        "activeUntil": "06.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "172",
+        "dateTime": "20.09.2026 17:00",
+        "origin": "EBBR, Brussels",
+        "destination": "LEMD, Madrid",
+        "price": 13900,
+        "activeUntil": "20.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Phenom 300",
+        "tailNumber": "9H-VCA",
+        "pax": 7,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "171",
+        "dateTime": "19.09.2026 10:00",
+        "origin": "LCLK, Larnaca",
+        "destination": "LLBG, Tel Aviv",
+        "price": 4200,
+        "activeUntil": "19.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "170",
+        "dateTime": "18.09.2026 11:00",
+        "origin": "LOWW, Vienna",
+        "destination": "LGTS, Thessaloniki",
+        "price": 8900,
+        "activeUntil": "18.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "169",
+        "dateTime": "17.09.2026 12:00",
+        "origin": "LFSB, Basel",
+        "destination": "LEPA, Palma de Mallorca",
+        "price": 11200,
+        "activeUntil": "17.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Legacy 600",
+        "tailNumber": "RA-02857",
+        "pax": 13,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "168",
+        "dateTime": "16.09.2026 13:00",
+        "origin": "LEMD, Madrid",
+        "destination": "LFPO, Paris Orly",
+        "price": 14700,
+        "activeUntil": "16.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Gulfstream G550",
+        "tailNumber": "RA-10222",
+        "pax": 14,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "167",
+        "dateTime": "15.09.2026 14:00",
+        "origin": "EGGW, London",
+        "destination": "LIPZ, Venice",
+        "price": 13500,
+        "activeUntil": "15.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "166",
+        "dateTime": "14.09.2026 15:00",
+        "origin": "LIML, Milan",
+        "destination": "LFMN, Nice",
+        "price": 5100,
+        "activeUntil": "14.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "165",
+        "dateTime": "13.09.2026 16:00",
+        "origin": "LGAV, Athens",
+        "destination": "HECA, Cairo",
+        "price": 9600,
+        "activeUntil": "13.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Phenom 300",
+        "tailNumber": "9H-VCA",
+        "pax": 7,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "164",
+        "dateTime": "12.09.2026 17:00",
+        "origin": "OAKB, Kabul",
+        "destination": "OMDW, Dubai",
+        "price": 24500,
+        "activeUntil": "12.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Gulfstream G550",
+        "tailNumber": "RA-10222",
+        "pax": 14,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "163",
+        "dateTime": "11.09.2026 10:00",
+        "origin": "LJLJ, Ljubljana",
+        "destination": "EDDB, Berlin",
+        "price": 8200,
+        "activeUntil": "11.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "162",
+        "dateTime": "10.09.2026 11:00",
+        "origin": "EDDM, Munich",
+        "destination": "EGGW, London",
+        "price": 10400,
+        "activeUntil": "10.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Challenger 350",
+        "tailNumber": "OE-HOO",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "161",
+        "dateTime": "09.09.2026 12:00",
+        "origin": "LEPA, Palma",
+        "destination": "LSGG, Geneva",
+        "price": 9500,
+        "activeUntil": "09.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Embraer Legacy 600",
+        "tailNumber": "RA-02857",
+        "pax": 13,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    },
+    {
+        "id": "160",
+        "dateTime": "08.09.2026 13:00",
+        "origin": "LEBL, Barcelona",
+        "destination": "LIRF, Rome",
+        "price": 8800,
+        "activeUntil": "08.09.2026, 08:00:00",
+        "status": "Неактивно",
+        "planeModel": "Cessna Citation XLS+",
+        "tailNumber": "S5-BBM",
+        "pax": 8,
+        "priority": "Обычный",
+        "currency": "Евро",
+        "image": "images/citation-exterior.jpg"
+    }
+],
   currentScreen: "sandbox",
   activePlaneId: "xls-s5bbm",
   planeVersionTab: "draft",
@@ -371,6 +949,9 @@ function navigateTo(screenId) {
     "fleet": "Борты",
     "plane-card": "Борт Cessna Citation XLS+",
     "sandbox": "Песочница",
+    "emptylegs": "Empty legs",
+    "emptylegs-view": "Просмотр Empty leg",
+    "emptylegs-create": "Создать Empty legs",
     "manager": "Связаться с менеджером",
     "faq": "FAQ и инструкции",
     "profile": "Профиль"
@@ -405,6 +986,8 @@ function navigateTo(screenId) {
     setTimeout(() => {
       initInfoPopovers();
     }, 50);
+  } else if (screenId === "emptylegs") {
+    renderEmptyLegsTable();
   } else if (screenId === "manager") {
     renderChatMessages();
     setTimeout(() => {
@@ -1727,16 +2310,332 @@ function attachChatFile(file) {
   renderChatMessages();
 }
 
+
+// ==========================================
+// EMPTY LEGS LOGIC (MATCHING ORIGINAL FGG ADMIN DASHBOARD)
+// ==========================================
+
+function toggleEmptyLegsFilters() {
+  const panel = document.getElementById("elFiltersPanel");
+  const chevron = document.getElementById("elFiltersChevron");
+  if (!panel) return;
+  const isHidden = panel.style.display === "none";
+  panel.style.display = isHidden ? "block" : "none";
+  if (chevron) {
+    if (isHidden) {
+      chevron.classList.add("open");
+    } else {
+      chevron.classList.remove("open");
+    }
+  }
+}
+
+function applyEmptyLegsFilters() {
+  appState.emptyLegsFilters = {
+    id: (document.getElementById("elFilterId")?.value || "").trim().toLowerCase(),
+    date: document.getElementById("elFilterDate")?.value || "",
+    origin: (document.getElementById("elFilterOrigin")?.value || "").trim().toLowerCase(),
+    destination: (document.getElementById("elFilterDestination")?.value || "").trim().toLowerCase(),
+    priceFrom: parseFloat(document.getElementById("elFilterPriceFrom")?.value) || null,
+    priceTo: parseFloat(document.getElementById("elFilterPriceTo")?.value) || null,
+    status: document.getElementById("elFilterStatus")?.value || ""
+  };
+  appState.emptyLegsPage = 1;
+  renderEmptyLegsTable();
+}
+
+function clearEmptyLegsFilters() {
+  if (document.getElementById("elFilterId")) document.getElementById("elFilterId").value = "";
+  if (document.getElementById("elFilterDate")) document.getElementById("elFilterDate").value = "";
+  if (document.getElementById("elFilterOrigin")) document.getElementById("elFilterOrigin").value = "";
+  if (document.getElementById("elFilterDestination")) document.getElementById("elFilterDestination").value = "";
+  if (document.getElementById("elFilterPriceFrom")) document.getElementById("elFilterPriceFrom").value = "";
+  if (document.getElementById("elFilterPriceTo")) document.getElementById("elFilterPriceTo").value = "";
+  if (document.getElementById("elFilterStatus")) document.getElementById("elFilterStatus").value = "";
+
+  appState.emptyLegsFilters = { id: "", date: "", origin: "", destination: "", priceFrom: null, priceTo: null, status: "" };
+  appState.emptyLegsPage = 1;
+  renderEmptyLegsTable();
+}
+
+function toggleEmptyLegsSort(field) {
+  if (appState.emptyLegsSort.field === field) {
+    appState.emptyLegsSort.order = appState.emptyLegsSort.order === "ASC" ? "DESC" : "ASC";
+  } else {
+    appState.emptyLegsSort.field = field;
+    appState.emptyLegsSort.order = "DESC";
+  }
+  renderEmptyLegsTable();
+}
+
+function changeEmptyLegsPage(page) {
+  appState.emptyLegsPage = page;
+  renderEmptyLegsTable();
+}
+
+function changeEmptyLegsPageSize(size) {
+  appState.emptyLegsPageSize = parseInt(size, 10) || 10;
+  appState.emptyLegsPage = 1;
+  renderEmptyLegsTable();
+}
+
+function renderEmptyLegsTable() {
+  const tbody = document.getElementById("emptyLegsTableBody");
+  if (!tbody) return;
+
+  const f = appState.emptyLegsFilters;
+  let filtered = appState.emptyLegs.filter(item => {
+    if (f.id && !item.id.toLowerCase().includes(f.id)) return false;
+    if (f.origin && !item.origin.toLowerCase().includes(f.origin)) return false;
+    if (f.destination && !item.destination.toLowerCase().includes(f.destination)) return false;
+    if (f.status && item.status !== f.status) return false;
+    if (f.priceFrom !== null && f.priceFrom !== "" && !isNaN(f.priceFrom) && item.price < f.priceFrom) return false;
+    if (f.priceTo !== null && f.priceTo !== "" && !isNaN(f.priceTo) && item.price > f.priceTo) return false;
+    return true;
+  });
+
+  // Sort
+  const sortField = appState.emptyLegsSort.field;
+  const sortOrder = appState.emptyLegsSort.order;
+  filtered.sort((a, b) => {
+    let valA = a[sortField];
+    let valB = b[sortField];
+    if (sortField === "id" || sortField === "price") {
+      valA = Number(valA);
+      valB = Number(valB);
+    }
+    if (valA < valB) return sortOrder === "ASC" ? -1 : 1;
+    if (valA > valB) return sortOrder === "ASC" ? 1 : -1;
+    return 0;
+  });
+
+  const total = filtered.length;
+  const pageSize = appState.emptyLegsPageSize;
+  const totalPages = Math.ceil(total / pageSize) || 1;
+  if (appState.emptyLegsPage > totalPages) appState.emptyLegsPage = totalPages;
+  const page = appState.emptyLegsPage;
+  const startIdx = (page - 1) * pageSize;
+  const endIdx = Math.min(startIdx + pageSize, total);
+  const pagedItems = filtered.slice(startIdx, endIdx);
+
+  if (pagedItems.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: #475467; padding: 32px;">Рейсы не найдены</td></tr>`;
+  } else {
+    tbody.innerHTML = pagedItems.map(el => {
+      const formattedPrice = el.price.toLocaleString("ru-RU");
+      return `
+        <tr>
+          <td>${el.id}</td>
+          <td>${el.dateTime}</td>
+          <td>${el.origin}</td>
+          <td>${el.destination}</td>
+          <td>${formattedPrice}</td>
+          <td>${el.activeUntil}</td>
+          <td>${el.status}</td>
+          <td>
+            <button class="fgg-el-link-btn" onclick="openEmptyLegView('${el.id}')">Просмотр</button>
+          </td>
+          <td>
+            <button class="fgg-el-link-btn" onclick="openEmptyLegDrawer('${el.id}')">Детали</button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  // Update pagination info
+  const infoEl = document.getElementById("elPaginationInfo");
+  if (infoEl) {
+    infoEl.textContent = total > 0 ? `${startIdx + 1}-${endIdx} of ${total}` : "0-0 of 0";
+  }
+
+  // Update pagination controls
+  const controlsEl = document.getElementById("elPaginationControls");
+  if (controlsEl) {
+    let ctrlHtml = `
+      <button class="fgg-el-page-btn" ${page <= 1 ? "disabled" : ""} onclick="changeEmptyLegsPage(${page - 1})" aria-label="Предыдущая страница">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+    `;
+
+    for (let p = 1; p <= totalPages; p++) {
+      ctrlHtml += `
+        <button class="fgg-el-page-btn ${p === page ? "active" : ""}" onclick="changeEmptyLegsPage(${p})">${p}</button>
+      `;
+    }
+
+    ctrlHtml += `
+      <button class="fgg-el-page-btn" ${page >= totalPages ? "disabled" : ""} onclick="changeEmptyLegsPage(${page + 1})" aria-label="Следующая страница">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    `;
+    controlsEl.innerHTML = ctrlHtml;
+  }
+}
+
+// Drawer: Детали
+function openEmptyLegDrawer(id) {
+  const el = appState.emptyLegs.find(item => item.id === id);
+  if (!el) return;
+
+  const typeEl = document.getElementById("elDrawerPlaneType");
+  const unitEl = document.getElementById("elDrawerPlaneUnit");
+  const statusEl = document.getElementById("elDrawerStatus");
+  const paxEl = document.getElementById("elDrawerPax");
+
+  if (typeEl) typeEl.textContent = el.planeModel || "—";
+  if (unitEl) unitEl.textContent = `${el.planeModel}, б/н ${el.tailNumber || "—"}, ${el.origin}`;
+  if (statusEl) statusEl.textContent = el.status;
+  if (paxEl) paxEl.textContent = el.pax || "8";
+
+  const drawer = document.getElementById("emptyLegsDrawer");
+  if (drawer) drawer.style.display = "flex";
+}
+
+function closeEmptyLegDrawer() {
+  const drawer = document.getElementById("emptyLegsDrawer");
+  if (drawer) drawer.style.display = "none";
+}
+
+function closeEmptyLegDrawerOutside(e) {
+  if (e.target === document.getElementById("emptyLegsDrawer")) {
+    closeEmptyLegDrawer();
+  }
+}
+
+// Show: Просмотр
+function openEmptyLegView(id) {
+  const el = appState.emptyLegs.find(item => item.id === id) || appState.emptyLegs[0];
+  appState.selectedEmptyLegId = el.id;
+  appState.isEditingEmptyLeg = false;
+
+  const heroImg = document.getElementById("elViewHeroImg");
+  if (heroImg) heroImg.src = el.image || "images/g550-cabin.jpg";
+
+  const setField = (id, val) => {
+    const elDom = document.getElementById(id);
+    if (elDom) elDom.textContent = val;
+  };
+
+  setField("elViewOrigin", el.origin);
+  setField("elViewDestination", el.destination);
+  setField("elViewDateTime", el.dateTime);
+  setField("elViewPlane", el.planeModel);
+  setField("elViewTail", el.tailNumber || "—");
+  setField("elViewCurrency", el.currency || "Евро");
+  setField("elViewPax", el.pax);
+  setField("elViewPrice", el.price.toLocaleString("ru-RU") + (el.currency === "Рубли" ? " ₽" : " €"));
+  setField("elViewStatus", el.status);
+  setField("elViewActiveUntil", el.activeUntil);
+  setField("elViewPriority", el.priority || "Обычный");
+
+  const viewMode = document.getElementById("elViewModeContainer");
+  const editMode = document.getElementById("elEditModeContainer");
+  if (viewMode) viewMode.style.display = "block";
+  if (editMode) editMode.style.display = "none";
+
+  navigateTo("emptylegs-view");
+}
+
+function enableEmptyLegEdit() {
+  appState.isEditingEmptyLeg = true;
+  const el = appState.emptyLegs.find(item => item.id === appState.selectedEmptyLegId);
+  if (!el) return;
+
+  const setVal = (id, val) => {
+    const elDom = document.getElementById(id);
+    if (elDom) elDom.value = val;
+  };
+
+  setVal("elEditOrigin", el.origin);
+  setVal("elEditDestination", el.destination);
+  setVal("elEditDateTime", el.dateTime);
+  setVal("elEditPlane", el.planeModel);
+  setVal("elEditTail", el.tailNumber || "");
+  setVal("elEditCurrency", el.currency || "Евро");
+  setVal("elEditPax", el.pax);
+  setVal("elEditPrice", el.price);
+  setVal("elEditStatus", el.status);
+  setVal("elEditActiveUntil", el.activeUntil);
+  setVal("elEditPriority", el.priority || "Обычный");
+
+  const viewMode = document.getElementById("elViewModeContainer");
+  const editMode = document.getElementById("elEditModeContainer");
+  if (viewMode) viewMode.style.display = "none";
+  if (editMode) editMode.style.display = "block";
+}
+
+function cancelEmptyLegEdit() {
+  openEmptyLegView(appState.selectedEmptyLegId);
+}
+
+function saveEmptyLegEdit() {
+  const el = appState.emptyLegs.find(item => item.id === appState.selectedEmptyLegId);
+  if (el) {
+    el.origin = document.getElementById("elEditOrigin").value;
+    el.destination = document.getElementById("elEditDestination").value;
+    el.dateTime = document.getElementById("elEditDateTime").value;
+    el.planeModel = document.getElementById("elEditPlane").value;
+    el.tailNumber = document.getElementById("elEditTail").value;
+    el.currency = document.getElementById("elEditCurrency").value;
+    el.pax = parseInt(document.getElementById("elEditPax").value, 10) || el.pax;
+    el.price = parseInt(document.getElementById("elEditPrice").value, 10) || el.price;
+    el.status = document.getElementById("elEditStatus").value;
+    el.activeUntil = document.getElementById("elEditActiveUntil").value;
+    el.priority = document.getElementById("elEditPriority").value;
+  }
+  showToast("Empty leg успешно обновлен!", "success");
+  openEmptyLegView(appState.selectedEmptyLegId);
+}
+
+function openCreateEmptyLegView() {
+  navigateTo("emptylegs-create");
+}
+
+function submitNewEmptyLeg() {
+  const origin = document.getElementById("elCreateOrigin")?.value;
+  const destination = document.getElementById("elCreateDestination")?.value;
+  const price = parseInt(document.getElementById("elCreatePrice")?.value, 10) || 15000;
+
+  if (!origin || !destination) {
+    showToast("Пожалуйста, заполните пункты вылета и прилета", "error");
+    return;
+  }
+
+  const maxId = Math.max(...appState.emptyLegs.map(i => parseInt(i.id, 10) || 0), 197);
+  const newId = (maxId + 1).toString();
+
+  appState.emptyLegs.unshift({
+    id: newId,
+    dateTime: document.getElementById("elCreateDateTime")?.value || "25.09.2026 12:00",
+    origin: origin,
+    destination: destination,
+    planeModel: document.getElementById("elCreatePlane")?.value || "Cessna Citation XLS+",
+    tailNumber: document.getElementById("elCreateTail")?.value || "S5-BBM",
+    currency: "Евро",
+    pax: parseInt(document.getElementById("elCreatePax")?.value, 10) || 8,
+    price: price,
+    activeUntil: "26.09.2026, 12:00:00",
+    status: "Активно",
+    priority: "Обычный",
+    image: "images/citation-exterior.jpg"
+  });
+
+  showToast(`Empty leg #${newId} успешно создан!`, "success");
+  openEmptyLegView(newId);
+}
+
 // Initial bootstrap
 document.addEventListener("DOMContentLoaded", () => {
   renderOrders();
+  renderEmptyLegsTable();
   renderPlaneCalendarTable();
   initInfoPopovers();
   setSandboxTripType("multi");
   recalculateSandbox();
 
   const hash = window.location.hash.replace("#", "");
-  if (hash && ["orders", "fleet", "plane-card", "sandbox", "manager", "faq", "profile"].includes(hash)) {
+  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "manager", "faq", "profile"].includes(hash)) {
     navigateTo(hash);
   } else {
     navigateTo("sandbox");
@@ -1745,7 +2644,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash.replace("#", "");
-  if (hash && ["orders", "fleet", "plane-card", "sandbox", "manager", "faq", "profile"].includes(hash)) {
+  if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "manager", "faq", "profile"].includes(hash)) {
     navigateTo(hash);
   }
 });
