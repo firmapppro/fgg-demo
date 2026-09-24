@@ -1389,7 +1389,13 @@ body {
   .faq-grid-4x2 {
     grid-template-columns: 1fr;
   }
-  .flight-leg-row {
+  .flight-leg-row, .sandbox-leg-row {
+    grid-template-columns: 1fr;
+  }
+  .geography-layout {
+    grid-template-columns: 1fr;
+  }
+  .sandbox-bottom-summary {
     grid-template-columns: 1fr;
   }
 }
@@ -1434,18 +1440,761 @@ body {
   line-height: 1;
 }
 
-.btn-remove-leg {
+/* ========================================================
+   4. ГЕОГРАФИЯ ПОЛЕТОВ (2-КОЛОНОЧНЫЙ МАКЕТ ИЗ GEOGRAPHY-PROTO)
+   ======================================================== */
+.geography-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.geo-left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.geo-subheading {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.presets-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preset-btn {
+  background: #F1F5F9;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  font-family: inherit;
+}
+
+.preset-btn:hover, .preset-btn.active {
+  background: #E0F2FE;
+  border-color: #BAE6FD;
+  color: var(--primary);
+}
+
+.country-input-wrap {
+  position: relative;
+  display: flex;
+  gap: 8px;
+}
+
+.btn-add-tag {
+  background: #F1F5F9;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.btn-add-tag:hover {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+}
+
+.geo-autocomplete {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 50;
+  display: none;
+}
+
+.geo-autocomplete.active {
+  display: block;
+}
+
+.geo-item {
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.geo-item:hover {
+  background: #EFF6FF;
+  color: var(--primary);
+}
+
+.btn-reset-tags {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  font-size: 20px;
-  line-height: 1;
-  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 4px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+  font-family: inherit;
 }
 
-.btn-remove-leg:hover {
-  background: #F1F5F9;
+.btn-reset-tags:hover {
   color: var(--danger);
+  background: #FEE2E2;
+}
+
+.tags-box {
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  background: #FAFAFA;
+  min-height: 140px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px;
+}
+
+.tag-chip {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag-close {
+  cursor: pointer;
+  color: #94A3B8;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color 0.1s;
+}
+
+.tag-close:hover {
+  color: var(--danger);
+}
+
+.tags-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #94A3B8;
+  padding: 20px 0;
+}
+
+.geo-map-panel {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  background: #F8FAFC;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.map-legend-items {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.legend-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.bullet-selected {
+  background: #1E599F;
+}
+
+.bullet-default {
+  background: #CBD5E1;
+}
+
+.map-btns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.map-ctrl-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.1s;
+}
+
+.map-ctrl-btn:hover {
+  background: #F1F5F9;
+  color: var(--text-main);
+}
+
+#world-map {
+  width: 100%;
+  height: 380px;
+  background: #F8FAFC;
+  border-radius: 8px;
+  position: relative;
+}
+
+.jvm-tooltip {
+  background: #101828 !important;
+  color: #FFFFFF !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  border: none !important;
+}
+
+/* ========================================================
+   SANDBOX (ПЕСОЧНИЦА) - ПОЛНЫЙ МАКЕТ СКРИНШОТА 3
+   ======================================================== */
+.sandbox-version-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-version-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.btn-version-toggle button {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.btn-version-toggle button.active {
+  background: #EFF6FF;
+  color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+  font-weight: 700;
+}
+
+.sandbox-trip-radios {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #F8FAFC;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.sandbox-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.sandbox-radio-label input[type="radio"] {
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.sandbox-radio-label.active {
+  color: var(--primary);
+}
+
+.sandbox-leg-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(180px, 2fr) 140px 100px 175px 36px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.leg-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.leg-plane-icon,
+.leg-icon-prefix {
+  position: absolute;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  max-width: 16px;
+  max-height: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+.leg-input-field {
+  width: 100%;
+  height: 38px;
+  padding: 0 30px 0 34px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-main);
+  background: #FFFFFF;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.leg-input-field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(30, 89, 159, 0.12);
+}
+
+.leg-clear-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 4px;
+}
+
+.leg-clear-btn:hover {
+  color: var(--danger);
+}
+
+.leg-date-wrap, .leg-time-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.btn-add-direction {
+  width: 100%;
+  height: 40px;
+  border: 1.5px dashed #CBD5E1;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  transition: var(--transition);
+  margin-top: 8px;
+}
+
+.btn-add-direction:hover {
+  background: #EFF6FF;
+  border-color: var(--primary);
+}
+
+/* Карточка самолета в блоке Результат расчета */
+.res-aircraft-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.res-aircraft-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.res-aircraft-photo {
+  width: 140px;
+  height: 90px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.res-aircraft-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-midsize {
+  background: #EFF6FF;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #BFDBFE;
+}
+
+.res-aircraft-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.res-aircraft-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.res-aircraft-price-col {
+  text-align: right;
+}
+
+.res-huge-price {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.res-price-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.res-details-link {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+.res-details-link:hover {
+  text-decoration: underline;
+}
+
+/* Аккордеон "Как сформировалась стоимость" */
+.sandbox-breakdown-heading {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 14px;
+}
+
+.leg-acc-card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.leg-acc-card:hover {
+  border-color: #CBD5E1;
+}
+
+.leg-acc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  background: #FFFFFF;
+}
+
+.leg-acc-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leg-badge-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #EFF6FF;
+  color: var(--primary);
+  border: 1px solid #BFDBFE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.leg-acc-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.leg-acc-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.leg-acc-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.leg-acc-price,
+.leg-acc-total {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.leg-acc-chevron {
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+}
+
+.leg-acc-card.open .leg-acc-chevron {
+  transform: rotate(180deg);
+}
+
+.leg-acc-body {
+  border-top: 1px solid var(--border-light);
+  padding: 16px 20px;
+  background: #F8FAFC;
+  display: none;
+}
+
+.leg-acc-card.open .leg-acc-body {
+  display: block;
+}
+
+.leg-acc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .leg-acc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leg-calc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.leg-calc-table td {
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border-light);
+}
+
+.leg-calc-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.leg-calc-table tr.total-row td {
+  border-top: 1px solid var(--border-input);
+  border-bottom: none;
+  font-weight: 800;
+  color: var(--primary);
+  padding-top: 8px;
+}
+
+.leg-acc-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  background: #FFFFFF;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  height: fit-content;
+}
+
+/* Нижняя карточка с Дополнительными расходами и Итогом */
+.sandbox-bottom-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
+  padding: 20px 24px;
+  margin-top: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.summary-col-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.summary-line-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 5px 0;
+}
+
+.summary-line-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--primary);
+  background: #EFF6FF;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.summary-disclaimer {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+.summary-huge-price {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1.1;
+  margin-top: 16px;
+}
+
+/* ========================================================
+   SECTION 7 & SCHEDULE: КАЛЕНДАРЬ ПОЛЕТОВ И МОДАЛ ДОБАВИТЬ РЕЙС
+   ======================================================== */
+.modal-add-flight-dialog {
+  max-width: 540px;
+  width: 90%;
+  background: #FFFFFF;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+  z-index: 1050;
+}
+
+.modal-add-flight-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.modal-add-flight-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-add-flight-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--border-light);
 }

@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="assets/jsvectormap.min.css">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -101,32 +101,33 @@
       </header>
 
       <!-- ============================================== -->
-      <!-- SCREEN 1: SANDBOX (ПЕСОЧНИЦА С КАЛЬКУЛЯТОРОМ) -->
+      <!-- ============================================== -->
+      <!-- SCREEN 1: SANDBOX (ПЕСОЧНИЦА ПО МАКЕТУ СКРИНШОТА 3) -->
       <!-- ============================================== -->
       <div id="screen-sandbox" class="screen-view page-content" style="display: block;">
         
-        <div class="sandbox-hero-card">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-            <div>
-              <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.4px;">Песочница</h1>
-              <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">
-                Проверьте, как FGG Pricing Engine рассчитывает ваш борт. Тестовые расчеты не отображаются клиентам.
-              </p>
-            </div>
-            <button class="btn-primary" onclick="recalculateSandbox()">Рассчитать</button>
+        <!-- Header -->
+        <div class="card-header-flex" style="margin-bottom: 20px;">
+          <div>
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.4px;">Песочница</h1>
+            <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">
+              Проверьте, как FGG Pricing Engine рассчитывает ваш борт. Тестовые расчеты не отображаются клиентам.
+            </p>
           </div>
+          <button class="btn-primary" onclick="recalculateSandbox()">Рассчитать</button>
         </div>
 
         <!-- 1. Выбор борта -->
         <div class="card">
           <div class="card-title" style="margin-bottom: 16px;">1. Выбор борта</div>
           
-          <div class="form-grid-3">
+          <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label">
                 <span>Борт</span>
+                <span class="info-circle" title="Воздушное судно">i</span>
               </label>
-              <select class="form-control" id="sandboxPlaneSelect">
+              <select class="form-control" id="sandboxPlaneSelect" onchange="recalculateSandbox()">
                 <option value="xls-s5bbm" selected>Cessna Citation XLS+ — S5-BBM</option>
                 <option value="g550-ra10222">Gulfstream G550 — RA-10222</option>
                 <option value="ch350-oehoo">Challenger 350 — OE-HOO</option>
@@ -136,127 +137,81 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Версия настроек</span>
+                <span class="info-circle" title="Версия тарифов">i</span>
               </label>
-              <div class="tab-group" style="width: 100%; display: flex;">
-                <button type="button" class="tab-btn active" id="btnSandboxDraft" style="flex:1;" onclick="setSandboxSettingsVersion('draft')">Черновые</button>
-                <button type="button" class="tab-btn" id="btnSandboxPublished" style="flex:1;" onclick="setSandboxSettingsVersion('published')">Опубликованные</button>
-              </div>
-              <div style="font-size: 11px; color: var(--primary); font-weight: 600; margin-top: 6px;">
-                <span id="sandboxVersionHint">Используются черновые настройки тарифов борта (v13)</span>
+              <div class="sandbox-version-group">
+                <div class="btn-version-toggle">
+                  <button type="button" class="active" id="btnVerDraft" onclick="setSandboxSettingsVersion('draft')">Черновые</button>
+                  <button type="button" id="btnVerPublished" onclick="setSandboxSettingsVersion('published')">Опубликованные</button>
+                </div>
+                <span style="font-size: 12px; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 4px;">
+                  <span class="info-circle" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+                  <span id="sandboxVersionHintText">Используются черновые настройки</span>
+                </span>
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">
                 <span>Местонахождение самолета</span>
+                <span class="info-circle" title="Откуда начинается подлет">i</span>
               </label>
               <select class="form-control" id="sandboxLocationModeSelect" onchange="setSandboxLocationMode(this.value)">
                 <option value="manual" selected>Задать вручную</option>
                 <option value="base">Базовый аэропорт (Home Base)</option>
               </select>
             </div>
-          </div>
 
-          <div class="form-grid-2" id="sandboxAirportGroup" style="margin-top: 14px;">
-            <div class="form-group">
-              <label class="form-label">Аэропорт фактического нахождения</label>
-              <select class="form-control" id="sandboxAirportSelect">
-                <option value="LJU" selected>LJU, Ljubljana (Любляна, Словения)</option>
-                <option value="BER">BER, Berlin Brandenburg (Берлин, Германия)</option>
-                <option value="NCE">NCE, Nice Cote d'Azur (Ницца, Франция)</option>
-                <option value="VKO">VKO, Moscow Vnukovo-3 (Москва, Россия)</option>
-                <option value="DXB">DXB, Dubai International (Дубай, ОАЭ)</option>
+            <div class="form-group" id="sandboxAirportGroup">
+              <label class="form-label">
+                <span>Аэропорт</span>
+                <span class="info-circle" title="Аэропорт фактического нахождения">i</span>
+              </label>
+              <select class="form-control" id="sandboxAirportSelect" onchange="recalculateSandbox()">
+                <option value="LJU" selected>LJU, Ljubljana</option>
+                <option value="BER">BER, Berlin Brandenburg</option>
+                <option value="NCE">NCE, Nice Cote d'Azur</option>
+                <option value="VKO">VKO, Moscow Vnukovo-3</option>
+                <option value="DXB">DXB, Dubai Al Maktoum</option>
               </select>
             </div>
           </div>
 
           <div class="informer-box info" style="margin-top: 16px; margin-bottom: 0;">
             <svg class="informer-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            <div>Этот тестовый расчет не влияет на цены, доступные клиентам на сайте и в мобильном приложении.</div>
+            <div>Этот тестовый расчет не влияет на цены, доступные клиентам.</div>
           </div>
         </div>
 
-        <!-- 2. Рассчитать перелет (Интерактивные табы) -->
+        <!-- 2. Рассчитать перелет -->
         <div class="card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <div class="card-title">2. Рассчитать перелет</div>
             
-            <div class="tab-group" id="sandboxTripTypeTabs">
-              <button type="button" class="tab-btn" data-trip="oneway" onclick="setSandboxTripType('oneway')">В одну сторону</button>
-              <button type="button" class="tab-btn" data-trip="roundtrip" onclick="setSandboxTripType('roundtrip')">В обе стороны</button>
-              <button type="button" class="tab-btn active" data-trip="multi" onclick="setSandboxTripType('multi')">Мульти-лег</button>
+            <div class="sandbox-trip-radios" id="sandboxTripRadios">
+              <label class="sandbox-radio-label">
+                <input type="radio" name="sandboxTripTypeRadio" value="oneway" onchange="setSandboxTripType('oneway')">
+                <span>В одну сторону</span>
+              </label>
+              <label class="sandbox-radio-label">
+                <input type="radio" name="sandboxTripTypeRadio" value="roundtrip" onchange="setSandboxTripType('roundtrip')">
+                <span>В обе стороны</span>
+              </label>
+              <label class="sandbox-radio-label active">
+                <input type="radio" name="sandboxTripTypeRadio" value="multi" checked onchange="setSandboxTripType('multi')">
+                <span>Мульти-лег</span>
+              </label>
             </div>
           </div>
 
-          <!-- Dynamic Flight Legs -->
+          <!-- Dynamic Flight Legs Container -->
           <div id="flightLegsList" class="flight-legs-container">
             <!-- Populated dynamically by setSandboxTripType() -->
-            <div class="flight-leg-row" data-leg="1">
-              <div class="form-group" style="flex: 2;">
-                <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
-              </div>
-              <div class="form-group" style="flex: 2;">
-                <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Прилет">
-              </div>
-              <div class="form-group" style="width: 140px;">
-                <input type="date" class="form-control" value="2026-11-07">
-              </div>
-              <div class="form-group" style="width: 100px;">
-                <input type="time" class="form-control" value="16:30">
-              </div>
-              <div class="counter-input">
-                <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-                <span class="counter-value">6 пассажиров</span>
-                <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-              </div>
-            </div>
-
-            <div class="flight-leg-row" data-leg="2">
-              <div class="form-group" style="flex: 2;">
-                <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Вылет">
-              </div>
-              <div class="form-group" style="flex: 2;">
-                <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Прилет">
-              </div>
-              <div class="form-group" style="width: 140px;">
-                <input type="date" class="form-control" value="2026-11-10">
-              </div>
-              <div class="form-group" style="width: 100px;">
-                <input type="time" class="form-control" value="12:15">
-              </div>
-              <div class="counter-input">
-                <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-                <span class="counter-value">6 пассажиров</span>
-                <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-              </div>
-              <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
-            </div>
-
-            <div class="flight-leg-row" data-leg="3">
-              <div class="form-group" style="flex: 2;">
-                <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Вылет">
-              </div>
-              <div class="form-group" style="flex: 2;">
-                <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Прилет">
-              </div>
-              <div class="form-group" style="width: 140px;">
-                <input type="date" class="form-control" value="2026-11-14">
-              </div>
-              <div class="form-group" style="width: 100px;">
-                <input type="time" class="form-control" value="18:40">
-              </div>
-              <div class="counter-input">
-                <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-                <span class="counter-value">6 пассажиров</span>
-                <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-              </div>
-              <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
-            </div>
           </div>
 
-          <div id="addLegButtonWrap" style="margin-top: 14px;">
-            <button type="button" class="btn-secondary" onclick="addFlightLeg()">+ Добавить направление</button>
-          </div>
+          <button type="button" class="btn-add-direction" onclick="addFlightLeg()">
+            + Добавить направление
+          </button>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-light);">
             <button type="button" class="btn-secondary" onclick="clearSandboxForm()">Очистить форму</button>
@@ -264,54 +219,79 @@
           </div>
         </div>
 
-        <!-- 3. Результаты расчета -->
+        <!-- 3. Результат расчета -->
         <div class="card">
-          <div class="card-title" style="margin-bottom: 16px;">3. Результаты расчета FGG Pricing Engine</div>
+          <div class="card-title" style="margin-bottom: 18px;">Результат расчета</div>
 
-          <div class="calc-results-grid">
-            <div class="calc-main-card">
-              <div class="calc-price-label">Итоговая расчетная стоимость для оператора</div>
-              <div class="calc-price-value" id="sandboxTotalPrice">€71 450</div>
-              <div class="calc-price-sub">Включает топливо, летные часы, суточные экипажа, сборы Eurocontrol и аэропортов</div>
-              
-              <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.15); display: flex; gap: 24px; font-size: 13px;">
-                <div>Полетное время: <strong id="sandboxFlightHours">6 ч 15 мин</strong></div>
-                <div>Расстояние: <strong id="sandboxDistance">3 850 км</strong></div>
+          <!-- Top Aircraft Banner -->
+          <div class="res-aircraft-banner">
+            <div class="res-aircraft-left">
+              <img id="resAircraftImg" src="images/citation-xls.jpg" alt="Cessna Citation XLS+" class="res-aircraft-photo">
+              <div>
+                <div class="res-aircraft-title">
+                  <span id="resAircraftName">Cessna Citation XLS+</span>
+                  <span class="badge-midsize" id="resAircraftCat">Midsize</span>
+                </div>
+                <div class="res-aircraft-meta">
+                  <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span id="resAircraftPax">до 8</span>
+                  </span>
+                  <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span id="resAircraftYear">2022 г.</span>
+                  </span>
+                  <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    <span>Обновлен: -/-/-</span>
+                  </span>
+                </div>
               </div>
             </div>
-
-            <div class="calc-detail-card">
-              <div style="font-weight: 700; color: var(--text-main); font-size: 15px; margin-bottom: 6px;" id="sandboxRouteDesc">TLL → BER → NCE → TLL (3 плеча)</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Детализация статей калькуляции FGG Engine</div>
-
-              <div id="sandboxBreakdownList">
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
-                  <span>Ferry-подлет: LJU → TLL</span>
-                  <span style="font-weight: 700; color: var(--text-main);">€5 800</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
-                  <span>Коммерческие летные часы (6.25 ч)</span>
-                  <span style="font-weight: 700; color: var(--text-main);">€46 875</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
-                  <span>Handling в Ницце (NCE, спецсбор)</span>
-                  <span style="font-weight: 700; color: var(--text-main);">€2 400</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
-                  <span>Стоянки и суточные экипажа (4 дня)</span>
-                  <span style="font-weight: 700; color: var(--text-main);">€4 800</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
-                  <span>VIP-кейтеринг (6 PAX)</span>
-                  <span style="font-weight: 700; color: var(--text-main);">€3 600</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
-                  <span>Аэронавигация (Eurocontrol)</span>
-                  <span style="font-weight: 700; color: var(--text-main);">€7 975</span>
-                </div>
-              </div>
+            <div class="res-aircraft-price-col">
+              <div class="res-huge-price" id="resHeaderPrice">€69 000</div>
+              <div class="res-price-sub" id="resFerrySub">Включая подлет из LJU</div>
+              <a href="javascript:void(0)" class="res-details-link" onclick="toggleAllAccordionLegs()">Подробнее</a>
             </div>
           </div>
+
+          <!-- Section: Как сформировалась стоимость -->
+          <div class="sandbox-breakdown-heading">Как сформировалась стоимость</div>
+
+          <div id="sandboxAccordionList">
+            <!-- Populated dynamically in app.js -->
+          </div>
+
+          <!-- Bottom 2-col Summary Card -->
+          <div class="sandbox-bottom-summary">
+            <div>
+              <div class="summary-col-title">Дополнительные расходы по маршруту</div>
+              <div class="summary-line-item">
+                <span>Parking</span>
+                <span id="resParkingCost">€2 500,00</span>
+              </div>
+              <div class="summary-line-item">
+                <span>Crew Costs</span>
+                <span id="resCrewCost">€4 200,00</span>
+              </div>
+              <div class="summary-line-total">
+                <span>Всего</span>
+                <span id="resTotalExtraCost">€6 700,00</span>
+              </div>
+              <div class="summary-disclaimer">
+                Эти расходы рассчитываются на уровне всего маршрута, а не отдельных плеч.
+              </div>
+            </div>
+
+            <div>
+              <div class="summary-col-title">Итоговая расчетная цена</div>
+              <div class="summary-disclaimer">
+                Коммерческие и системные корректировки уже учтены в итоговой цене.
+              </div>
+              <div class="summary-huge-price" id="resBottomTotalPrice">€69 000</div>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -560,47 +540,72 @@
           </div>
         </div>
 
-        <!-- 4. Разрешенные страны (Векторная карта geography-proto) -->
-        <div class="card">
-          <div class="card-header-flex">
-            <div>
-              <div class="card-title">4. Разрешенные страны</div>
-              <div class="card-subtitle">Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.</div>
-            </div>
-            <div>
-              <strong>Выбрано стран:</strong> <span id="selectedCountriesCount" style="color: var(--primary); font-weight: 800;">13</span>
+        <!-- 4. Разрешенные страны (Макет из geography-proto) -->
+        <div class="card" id="section-geography">
+          <div class="card-header-flex" style="margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="card-title" style="margin-bottom: 0;">4. Разрешенные страны</div>
+              <span class="info-circle" title="Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты.">i</span>
             </div>
           </div>
 
-          <!-- Quick Presets -->
-          <div class="country-presets-bar">
-            <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); align-self: center;">Быстрый выбор:</span>
-            <button type="button" class="btn-preset active" data-preset="europe" onclick="applyCountryPreset('europe')">Европа</button>
-            <button type="button" class="btn-preset" data-preset="eu" onclick="applyCountryPreset('eu')">Евросоюз (ЕС)</button>
-            <button type="button" class="btn-preset" data-preset="all" onclick="applyCountryPreset('all')">Весь мир</button>
-            <button type="button" class="btn-preset" data-preset="middle_east" onclick="applyCountryPreset('middle_east')">Ближний Восток</button>
-            <button type="button" class="btn-preset" data-preset="cis" onclick="applyCountryPreset('cis')">СНГ</button>
-            <button type="button" class="btn-preset" data-preset="clear" onclick="applyCountryPreset('clear')">Сбросить</button>
-          </div>
+          <div class="geography-layout">
+            
+            <!-- Левая колонка: Быстрый выбор, ввод страны и теги -->
+            <div class="geo-left-panel">
+              
+              <!-- Быстрый выбор -->
+              <div>
+                <div class="geo-subheading">Быстрый выбор:</div>
+                <div class="presets-wrap" id="presets-wrap">
+                  <!-- Presets buttons rendered dynamically from JS -->
+                </div>
+              </div>
 
-          <!-- Map Controls Header (geography-proto) -->
-          <div class="map-controls-row">
-            <div class="map-legend-items">
-              <span><i class="legend-bullet bullet-selected"></i>Разрешено</span>
-              <span><i class="legend-bullet bullet-default"></i>Не выбрано</span>
+              <!-- Поле ввода страны -->
+              <div>
+                <div class="geo-subheading">Страна:</div>
+                <div class="country-input-wrap">
+                  <input type="text" id="country-input" class="form-control" placeholder="Введите название страны..." autocomplete="off">
+                  <button type="button" id="btn-add-country" class="btn-add-tag">+ Добавить</button>
+                  <div id="country-autocomplete" class="geo-autocomplete"></div>
+                </div>
+              </div>
+
+              <!-- Список тегов -->
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <div class="geo-subheading" style="margin-bottom: 0;">
+                    Выбрано: <span id="tags-count" style="color: var(--primary); font-weight: 700;">0</span>
+                  </div>
+                  <button type="button" class="btn-reset-tags" id="btn-reset-tags" title="Очистить все выбранные страны">Сбросить</button>
+                </div>
+                
+                <div id="tags-container" class="tags-box">
+                  <!-- Chips rendered dynamically from JS in style [ Страна × ] -->
+                </div>
+              </div>
+
             </div>
-            <div class="map-btns">
-              <button type="button" class="map-ctrl-btn" id="map-in" title="Приблизить">+</button>
-              <button type="button" class="map-ctrl-btn" id="map-out" title="Отдалить">-</button>
-              <button type="button" class="map-ctrl-btn" id="map-reset-view" title="Вернуть исходный вид карты">⟲</button>
+
+            <!-- Правая колонка: Карта мира -->
+            <div class="geo-map-panel">
+              <div class="map-controls-row">
+                <div class="map-legend-items">
+                  <span><i class="legend-bullet bullet-selected"></i>Выбрано</span>
+                  <span><i class="legend-bullet bullet-default"></i>Не выбрано</span>
+                </div>
+                <div class="map-btns">
+                  <button type="button" class="map-ctrl-btn" id="map-in" title="Приблизить">+</button>
+                  <button type="button" class="map-ctrl-btn" id="map-out" title="Отдалить">-</button>
+                  <button type="button" class="map-ctrl-btn" id="map-reset-view" title="Вернуть исходный вид карты">⟲</button>
+                </div>
+              </div>
+
+              <div id="world-map"></div>
             </div>
+
           </div>
-
-          <!-- Map -->
-          <div id="world-map"></div>
-
-          <!-- Chips List -->
-          <div class="selected-countries-chips" id="selectedCountriesChips"></div>
         </div>
 
         <!-- 5. Цены и тарифы (Сбор за коммерческий и перегоночный рейсы с Diff) -->
@@ -687,6 +692,36 @@
           </div>
         </div>
 
+        <!-- 7. Календарь полетов (Таблица занятости борта по макету) -->
+        <div class="card" id="section-plane-calendar">
+          <div class="card-header-flex" style="margin-bottom: 16px;">
+            <div>
+              <div class="card-title" style="margin-bottom: 4px;">7. Календарь полетов</div>
+              <div class="card-subtitle" style="margin-bottom: 0;">Источник: <strong>Ручной ввод</strong></div>
+            </div>
+            <button type="button" class="btn-primary btn-sm" onclick="openAddFlightModal()">+ Добавить рейс</button>
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Вылет (UTC+0)</th>
+                  <th>Откуда</th>
+                  <th>Куда</th>
+                  <th>Прилет (UTC+0)</th>
+                  <th>Тип занятости</th>
+                  <th>Пассажиры</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody id="planeCalendarTableBody">
+                <!-- Populated dynamically in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Bottom Action Bar -->
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0 40px;">
           <button class="btn-secondary" onclick="navigateTo('fleet')">Отменить</button>
@@ -697,10 +732,6 @@
         </div>
 
       </div>
-
-      <!-- ============================================== -->
-      <!-- SCREEN 3: ORDERS (ВХОДЯЩИЕ ЗАКАЗЫ) -->
-      <!-- ============================================== -->
 
       <!-- ============================================== -->
       <!-- SCREEN: ORDERS (ЗАЯВКИ) -->
@@ -722,7 +753,7 @@
                 <th>Борт</th>
                 <th>Дата / Пассажиры</th>
                 <th>Стоимость оператора</th>
-                <th>Статус / SLA</th>
+                <th>Статус</th>
                 <th style="text-align: right;">Действия</th>
               </tr>
             </thead>
@@ -818,6 +849,7 @@
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Бортовой номер</th>
                 <th>Дата и время</th>
                 <th>Откуда</th>
                 <th>Куда</th>
@@ -870,7 +902,7 @@
                 <div id="elViewPlane" class="pill-display-box">Embraer Phenom 300</div>
               </div>
               <div>
-                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Борт</label>
+                <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Бортовой номер</label>
                 <div id="elViewTail" class="pill-display-box">—</div>
               </div>
               <div>
@@ -920,7 +952,7 @@
                 <input type="text" id="elEditPlane" class="form-control">
               </div>
               <div>
-                <label class="form-label">Борт (хвост)</label>
+                <label class="form-label">Бортовой номер</label>
                 <input type="text" id="elEditTail" class="form-control">
               </div>
               <div>
@@ -1028,61 +1060,44 @@
         <div class="card-header-flex" style="margin-bottom: 20px;">
           <div>
             <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Календарь занятости флота</h1>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">График занятости воздушных судов и ручное блокирование дат</p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">График занятости воздушных судов и оперативное управление рейсами</p>
           </div>
+          <button type="button" class="btn-primary" onclick="openAddFlightModal()">+ Добавить рейс</button>
         </div>
 
-        <!-- Форма ручного ввода периода занятости -->
+        <!-- Таблица рейсов и периодов занятости с выбором опции -->
         <div class="card" style="margin-bottom: 24px;">
-          <div class="card-title" style="margin-bottom: 16px;">Добавить период занятости (блокировка дат)</div>
-          <form id="blockScheduleForm" onsubmit="handleBlockSchedule(event)">
-            <div class="form-grid-3">
-              <div class="form-group">
-                <label class="form-label">Воздушное судно</label>
-                <select class="form-control" id="schedPlaneSelect">
-                  <option value="Cessna Citation XLS+ (S5-BBM)">Cessna Citation XLS+ (S5-BBM)</option>
-                  <option value="Gulfstream G550 (RA-10222)">Gulfstream G550 (RA-10222)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Тип занятости</label>
-                <select class="form-control" id="schedTypeSelect">
-                  <option value="maintenance">Техническое обслуживание (ТО / A-Check)</option>
-                  <option value="owner">Собственный рейс (заказ владельца)</option>
-                  <option value="crew_rest">Санитарный отдых экипажа</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Аэропорт / Локация</label>
-                <input type="text" class="form-control" id="schedLocationInput" value="LJU, Базовый ангар Любляна" placeholder="Код ICAO или аэропорт">
-              </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div class="card-title" style="margin-bottom: 0;">Рейсы и периоды занятости</div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Фильтр по борту:</label>
+              <select class="form-control" id="schedulePlaneFilter" style="width: auto; height: 36px; padding: 4px 10px;" onchange="renderScheduleFlightsTable()">
+                <option value="all">Все борта</option>
+                <option value="S5-BBM">Cessna Citation XLS+ (S5-BBM)</option>
+                <option value="RA-10222">Gulfstream G550 (RA-10222)</option>
+              </select>
             </div>
+          </div>
 
-            <div class="form-grid-3" style="margin-top: 14px;">
-              <div class="form-group">
-                <label class="form-label">Дата и время начала</label>
-                <div style="display: flex; gap: 8px;">
-                  <input type="date" class="form-control" id="schedStartDate" value="2026-10-05" style="flex: 2;">
-                  <input type="time" class="form-control" id="schedStartTime" value="08:00" style="flex: 1;">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Дата и время окончания</label>
-                <div style="display: flex; gap: 8px;">
-                  <input type="date" class="form-control" id="schedEndDate" value="2026-10-08" style="flex: 2;">
-                  <input type="time" class="form-control" id="schedEndTime" value="18:00" style="flex: 1;">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Примечание / Комментарий</label>
-                <input type="text" class="form-control" id="schedNoteInput" placeholder="Причина блокировки дат" value="Плановый регламент C-Check">
-              </div>
-            </div>
-
-            <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
-              <button type="submit" class="btn-primary">Заблокировать период</button>
-            </div>
-          </form>
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Бортовой номер</th>
+                  <th>Тип занятости</th>
+                  <th>Вылет (UTC+0)</th>
+                  <th>Откуда</th>
+                  <th>Куда</th>
+                  <th>Прилет (UTC+0)</th>
+                  <th>Пассажиры</th>
+                  <th style="text-align: right;">Действия</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleFlightsTableBody">
+                <!-- Populated dynamically in app.js -->
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- Список занятости с фирменной строгой палитрой -->
@@ -1098,7 +1113,7 @@
           <div style="background: var(--bg-subtle); padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--border-light);">
             <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 14px; font-weight: 700; color: var(--text-secondary); font-size: 13px;">
               <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #1E599F;"></span> Рейс FGG</span>
-              <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #475569;"></span> Собственный рейс</span>
+              <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #475569;"></span> Простой перелет</span>
               <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 3px; background: #94A3B8;"></span> Техническое обслуживание (ТО)</span>
             </div>
             
@@ -1446,9 +1461,78 @@
     </div>
   </div>
 
+  <!-- ============================================== -->
+  <!-- MODAL: ADD FLIGHT (ДОБАВИТЬ РЕЙС ПО СКРИНШОТУ 4) -->
+  <!-- ============================================== -->
+  <div id="modalAddFlight" class="modal-overlay">
+    <div class="modal-add-flight-dialog">
+      <div class="modal-add-flight-header">
+        <div style="font-size: 18px; font-weight: 800; color: var(--text-main);">Добавить рейс</div>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modalAddFlight')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-add-flight-body">
+        <div class="form-group">
+          <label class="form-label">Тип</label>
+          <select id="modalFlightType" class="form-control">
+            <option value="Простой перелет">Простой перелет</option>
+            <option value="Перегоночный рейс">Перегоночный рейс</option>
+            <option value="Тех. обслуживание">Тех. обслуживание</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Бортовой номер</label>
+          <select id="modalFlightPlane" class="form-control">
+            <option value="S5-BBM">Cessna Citation XLS+ (S5-BBM)</option>
+            <option value="RA-10222">Gulfstream G550 (RA-10222)</option>
+          </select>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Откуда</label>
+            <input type="text" id="modalFlightOrigin" class="form-control" placeholder="Выберите аэропорт" value="LJU, Ljubljana">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Куда</label>
+            <input type="text" id="modalFlightDest" class="form-control" placeholder="Выберите аэропорт" value="BER, Berlin">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">
+              <span>Дата и время вылета</span>
+              <span class="info-circle" title="Время вылета UTC">i</span>
+            </label>
+            <input type="text" id="modalFlightDep" class="form-control" placeholder="Введите дату и время" value="05.10.2026 10:00 UTC">
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <span>Дата и время прилета</span>
+              <span class="info-circle" title="Время прилета UTC">i</span>
+            </label>
+            <input type="text" id="modalFlightArr" class="form-control" placeholder="Введите дату и время" value="05.10.2026 12:15 UTC">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Кол-во пассажиров</label>
+          <input type="number" id="modalFlightPax" class="form-control" placeholder="Введите кол-во пассажиров" value="6">
+        </div>
+      </div>
+      <div class="modal-add-flight-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('modalAddFlight')">Отмена</button>
+        <button type="button" class="btn-primary" onclick="submitAddFlightRecord()">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/jsvectormap.min.js"></script>
   <script src="assets/world.js"></script>
   <script src="assets/countries-data.js"></script>
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

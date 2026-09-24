@@ -241,6 +241,63 @@ const appState = {
       ]
     }
   ],
+  scheduledFlights: [
+    {
+      id: "fl-1",
+      plane: "S5-BBM",
+      planeModel: "Cessna Citation XLS+",
+      type: "Простой перелет",
+      depUtc: "02.10.2026 09:30 UTC",
+      origin: "LJU, Ljubljana",
+      dest: "BER, Berlin",
+      arrUtc: "02.10.2026 11:15 UTC",
+      pax: 6
+    },
+    {
+      id: "fl-2",
+      plane: "S5-BBM",
+      planeModel: "Cessna Citation XLS+",
+      type: "Перегоночный рейс",
+      depUtc: "04.10.2026 14:00 UTC",
+      origin: "BER, Berlin",
+      dest: "NCE, Nice",
+      arrUtc: "04.10.2026 16:10 UTC",
+      pax: 0
+    },
+    {
+      id: "fl-3",
+      plane: "S5-BBM",
+      planeModel: "Cessna Citation XLS+",
+      type: "Тех. обслуживание",
+      depUtc: "07.10.2026 08:00 UTC",
+      origin: "NCE, Nice (A-Check)",
+      dest: "NCE, Nice",
+      arrUtc: "07.10.2026 18:00 UTC",
+      pax: 0
+    },
+    {
+      id: "fl-4",
+      plane: "RA-10222",
+      planeModel: "Gulfstream G550",
+      type: "Простой перелет",
+      depUtc: "03.10.2026 12:00 UTC",
+      origin: "VKO, Moscow",
+      dest: "DXB, Dubai",
+      arrUtc: "03.10.2026 17:20 UTC",
+      pax: 8
+    },
+    {
+      id: "fl-5",
+      plane: "RA-10222",
+      planeModel: "Gulfstream G550",
+      type: "Перегоночный рейс",
+      depUtc: "06.10.2026 10:00 UTC",
+      origin: "DXB, Dubai",
+      dest: "DOH, Doha",
+      arrUtc: "06.10.2026 11:10 UTC",
+      pax: 0
+    }
+  ],
   scheduleSlots: [
     {
       id: "slot-1",
@@ -467,12 +524,16 @@ function navigateTo(screenId) {
   }
 
   if (screenId === "plane-card") {
-    setTimeout(initPlaneCardMap, 100);
+    setTimeout(() => {
+      initPlaneCardMap();
+      renderPlaneCalendarTable();
+    }, 100);
   } else if (screenId === "orders") {
     renderOrders();
   } else if (screenId === "emptylegs") {
     renderEmptyLegsTable();
   } else if (screenId === "schedule") {
+    renderScheduleFlightsTable();
     renderScheduleList();
   }
 
@@ -480,247 +541,108 @@ function navigateTo(screenId) {
 }
 
 // ==========================================
-// SANDBOX: TRIP TYPE & REALISTIC ENGINE
+// SANDBOX: TRIP TYPE & REALISTIC ENGINE (SCREENSHOT 3)
 // ==========================================
+
+function createFlightLegRowHtml(legNum, origin, dest, date, time, showDelete) {
+  return `
+    <div class="sandbox-leg-row" data-leg="${legNum}">
+      <div class="leg-input-wrap">
+        <svg class="leg-plane-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 19h19M4 14l15-7a2 2 0 0 1 2.6 1.1 2 2 0 0 1-1.1 2.6L12 14v4l-3-2-2 1v-3z"/></svg>
+        <input type="text" class="form-control leg-input-field" value="${origin}">
+        <button type="button" class="leg-clear-btn" onclick="clearLegInput(this)" title="Очистить">×</button>
+      </div>
+      <div class="leg-input-wrap">
+        <svg class="leg-plane-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 19h19M4 10l15 7a2 2 0 0 0 2.6-1.1 2 2 0 0 0-1.1-2.6L12 10V6l-3 2-2-1v3z"/></svg>
+        <input type="text" class="form-control leg-input-field" value="${dest}">
+        <button type="button" class="leg-clear-btn" onclick="clearLegInput(this)" title="Очистить">×</button>
+      </div>
+      <input type="date" class="form-control" value="${date}">
+      <input type="time" class="form-control" value="${time}">
+      <div class="counter-input">
+        <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
+        <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+        <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
+      </div>
+      ${showDelete ? `<button type="button" class="btn-remove-leg" onclick="removeFlightLeg(this)" title="Удалить плечо">×</button>` : `<div style="width: 36px;"></div>`}
+    </div>
+  `;
+}
 
 function setSandboxTripType(tripType) {
   appState.sandboxTripType = tripType;
 
-  // Toggle active tab buttons
-  const tabs = document.querySelectorAll("#sandboxTripTypeTabs .tab-btn");
-  tabs.forEach(btn => {
-    if (btn.getAttribute("data-trip") === tripType) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
+  // Toggle active radio button & label
+  const radios = document.querySelectorAll("input[name='sandboxTripTypeRadio']");
+  radios.forEach(r => {
+    r.checked = (r.value === tripType);
+    const label = r.closest(".sandbox-radio-label");
+    if (label) {
+      if (r.value === tripType) label.classList.add("active");
+      else label.classList.remove("active");
     }
   });
 
   const legsContainer = document.getElementById("flightLegsList");
-  const addLegWrap = document.getElementById("addLegButtonWrap");
+  if (!legsContainer) return;
 
   if (tripType === "oneway") {
-    if (addLegWrap) addLegWrap.style.display = "none";
-    legsContainer.innerHTML = `
-      <div class="flight-leg-row" data-leg="1">
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Прилет">
-        </div>
-        <div class="form-group" style="width: 140px;">
-          <input type="date" class="form-control" value="2026-11-07">
-        </div>
-        <div class="form-group" style="width: 100px;">
-          <input type="time" class="form-control" value="16:30">
-        </div>
-        <div class="counter-input">
-          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
-          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-        </div>
-      </div>
-    `;
+    legsContainer.innerHTML = createFlightLegRowHtml(1, "Юлемисте, TLL, Таллин, Эстония", "Бранденбург, BER, Берлин, Германия", "2026-11-07", "16:30", false);
   } else if (tripType === "roundtrip") {
-    if (addLegWrap) addLegWrap.style.display = "none";
-    legsContainer.innerHTML = `
-      <div class="flight-leg-row" data-leg="1">
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Прилет">
-        </div>
-        <div class="form-group" style="width: 140px;">
-          <input type="date" class="form-control" value="2026-11-07">
-        </div>
-        <div class="form-group" style="width: 100px;">
-          <input type="time" class="form-control" value="16:30">
-        </div>
-        <div class="counter-input">
-          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
-          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-        </div>
-      </div>
-      <div class="flight-leg-row" data-leg="2">
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Вылет">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Прилет">
-        </div>
-        <div class="form-group" style="width: 140px;">
-          <input type="date" class="form-control" value="2026-11-10">
-        </div>
-        <div class="form-group" style="width: 100px;">
-          <input type="time" class="form-control" value="12:15">
-        </div>
-        <div class="counter-input">
-          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
-          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-        </div>
-      </div>
-    `;
+    legsContainer.innerHTML = 
+      createFlightLegRowHtml(1, "Юлемисте, TLL, Таллин, Эстония", "Бранденбург, BER, Берлин, Германия", "2026-11-07", "16:30", false) +
+      createFlightLegRowHtml(2, "Бранденбург, BER, Берлин, Германия", "Юлемисте, TLL, Таллин, Эстония", "2026-11-10", "12:15", false);
   } else {
-    // Multi-leg
-    if (addLegWrap) addLegWrap.style.display = "block";
-    legsContainer.innerHTML = `
-      <div class="flight-leg-row" data-leg="1">
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Прилет">
-        </div>
-        <div class="form-group" style="width: 140px;">
-          <input type="date" class="form-control" value="2026-11-07">
-        </div>
-        <div class="form-group" style="width: 100px;">
-          <input type="time" class="form-control" value="16:30">
-        </div>
-        <div class="counter-input">
-          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
-          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-        </div>
-      </div>
-      <div class="flight-leg-row" data-leg="2">
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Бранденбург, BER, Берлин, Германия" placeholder="Вылет">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Прилет">
-        </div>
-        <div class="form-group" style="width: 140px;">
-          <input type="date" class="form-control" value="2026-11-10">
-        </div>
-        <div class="form-group" style="width: 100px;">
-          <input type="time" class="form-control" value="12:15">
-        </div>
-        <div class="counter-input">
-          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
-          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-        </div>
-        <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
-      </div>
-      <div class="flight-leg-row" data-leg="3">
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Вылет">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Прилет">
-        </div>
-        <div class="form-group" style="width: 140px;">
-          <input type="date" class="form-control" value="2026-11-14">
-        </div>
-        <div class="form-group" style="width: 100px;">
-          <input type="time" class="form-control" value="18:40">
-        </div>
-        <div class="counter-input">
-          <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-          <span class="counter-value">${appState.sandboxPax} пассажиров</span>
-          <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-        </div>
-        <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
-      </div>
-    `;
+    // multi
+    legsContainer.innerHTML = 
+      createFlightLegRowHtml(1, "Юлемисте, TLL, Таллин, Эстония", "Бранденбург, BER, Берлин, Германия", "2026-11-07", "16:30", false) +
+      createFlightLegRowHtml(2, "Бранденбург, BER, Берлин, Германия", "Лазурный Берег, NCE, Ницца, Франция", "2026-11-10", "12:15", true) +
+      createFlightLegRowHtml(3, "Лазурный Берег, NCE, Ницца, Франция", "Юлемисте, TLL, Таллин, Эстония", "2026-11-14", "18:40", true);
   }
 
   recalculateSandbox();
 }
 
-function recalculateSandbox() {
-  const isDraft = appState.sandboxSettingsVersion === "draft";
-  const trip = appState.sandboxTripType;
-  
-  let priceStr = "€71 450";
-  let flightHoursStr = "6 ч 15 мин";
-  let distanceStr = "3 850 км";
-  let routeDesc = "TLL → BER → NCE → TLL (3 плеча)";
-  let breakdown = [];
+function addFlightLeg() {
+  const container = document.getElementById("flightLegsList");
+  if (!container) return;
+  const count = container.querySelectorAll(".sandbox-leg-row").length + 1;
+  const newRowHtml = createFlightLegRowHtml(count, "Лазурный Берег, NCE, Ницца, Франция", "Юлемисте, TLL, Таллин, Эстония", "2026-11-18", "14:00", true);
+  container.insertAdjacentHTML("beforeend", newRowHtml);
+  recalculateSandbox();
+}
 
-  if (trip === "oneway") {
-    priceStr = isDraft ? "€18 400" : "€17 800";
-    flightHoursStr = "1 ч 45 мин";
-    distanceStr = "1 040 км";
-    routeDesc = "TLL → BER (1 плечо)";
-    breakdown = [
-      { label: `Ferry-подлет: LJU → TLL (базирование)`, val: isDraft ? "€5 800" : "€5 500" },
-      { label: `Коммерческий летный час TLL → BER (1.75 ч)`, val: isDraft ? "€7 500" : "€7 000" },
-      { label: `Аэропортовые сборы BER (Бранденбург)`, val: "€2 200" },
-      { label: `VIP-кейтеринг (${appState.sandboxPax} PAX)`, val: "€1 200" },
-      { label: `Аэронавигация (Eurocontrol)`, val: "€1 700" }
-    ];
-  } else if (trip === "roundtrip") {
-    priceStr = isDraft ? "€35 200" : "€33 900";
-    flightHoursStr = "3 ч 30 мин";
-    distanceStr = "2 080 км";
-    routeDesc = "TLL ⇄ BER (туда и обратно)";
-    breakdown = [
-      { label: `Ferry-подлет: LJU → TLL (базирование)`, val: isDraft ? "€5 800" : "€5 500" },
-      { label: `Коммерческие летные часы (3.5 ч)`, val: isDraft ? "€26 250" : "€24 500" },
-      { label: `Стоянка в BER (3 суток) и хэндлинг`, val: "€2 950" },
-      { label: `VIP-кейтеринг (${appState.sandboxPax} PAX, 2 рейса)`, val: "€2 400" },
-      { label: `Аэронавигация (Eurocontrol)`, val: "€3 400" }
-    ];
-  } else {
-    // Multi-leg
-    priceStr = isDraft ? "€71 450" : "€69 000";
-    flightHoursStr = "6 ч 15 мин";
-    distanceStr = "3 850 км";
-    routeDesc = "TLL → BER → NCE → TLL (3 плеча)";
-    breakdown = [
-      { label: `Ferry-подлет: LJU → TLL`, val: isDraft ? "€5 800" : "€5 500" },
-      { label: `Коммерческие летные часы (6.25 ч)`, val: isDraft ? "€46 875" : "€43 750" },
-      { label: `Handling в Ницце (NCE, спецсбор)`, val: isDraft ? "€2 400" : "€2 200" },
-      { label: `Стоянки и суточные экипажа (4 дня)`, val: "€4 800" },
-      { label: `VIP-кейтеринг (${appState.sandboxPax} PAX)`, val: "€3 600" },
-      { label: `Аэронавигация (Eurocontrol)`, val: "€7 975" }
-    ];
+function removeFlightLeg(btn) {
+  const row = btn.closest(".sandbox-leg-row");
+  if (row) {
+    row.remove();
+    recalculateSandbox();
   }
+}
 
-  const priceDisplay = document.getElementById("sandboxTotalPrice");
-  const finalBottomPrice = document.getElementById("finalBottomPrice");
-  const flightHoursEl = document.getElementById("sandboxFlightHours");
-  const distanceEl = document.getElementById("sandboxDistance");
-  const routeDescEl = document.getElementById("sandboxRouteDesc");
-  const breakdownListEl = document.getElementById("sandboxBreakdownList");
-
-  if (priceDisplay) priceDisplay.textContent = priceStr;
-  if (finalBottomPrice) finalBottomPrice.textContent = priceStr;
-  if (flightHoursEl) flightHoursEl.textContent = flightHoursStr;
-  if (distanceEl) distanceEl.textContent = distanceStr;
-  if (routeDescEl) routeDescEl.textContent = routeDesc;
-
-  if (breakdownListEl) {
-    breakdownListEl.innerHTML = breakdown.map(item => `
-      <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
-        <span>${item.label}</span>
-        <span style="font-weight: 700; color: var(--text-main);">${item.val}</span>
-      </div>
-    `).join("");
+function clearLegInput(btn) {
+  const input = btn.parentElement.querySelector(".leg-input-field");
+  if (input) {
+    input.value = "";
+    input.focus();
   }
 }
 
 function setSandboxSettingsVersion(ver) {
   appState.sandboxSettingsVersion = ver;
-  const btnDraft = document.getElementById("btnSandboxDraft");
-  const btnPub = document.getElementById("btnSandboxPublished");
-  const hint = document.getElementById("sandboxVersionHint");
+  const btnDraft = document.getElementById("btnVerDraft");
+  const btnPub = document.getElementById("btnVerPublished");
+  const hintText = document.getElementById("sandboxVersionHintText");
 
   if (ver === "draft") {
     if (btnDraft) btnDraft.classList.add("active");
     if (btnPub) btnPub.classList.remove("active");
-    if (hint) hint.textContent = "Используются черновые настройки тарифов борта (v13)";
+    if (hintText) hintText.textContent = "Используются черновые настройки";
     showToast("В расчет подставлены параметры из Черновика (v13)", "info");
   } else {
     if (btnDraft) btnDraft.classList.remove("active");
     if (btnPub) btnPub.classList.add("active");
-    if (hint) hint.textContent = "Используются опубликованные действующие настройки (v12)";
+    if (hintText) hintText.textContent = "Используются опубликованные настройки";
     showToast("В расчет подставлены действующие опубликованные тарифы (v12)", "info");
   }
 
@@ -735,39 +657,12 @@ function changePax(btn, delta) {
   recalculateSandbox();
 }
 
-function addFlightLeg() {
-  const container = document.getElementById("flightLegsList");
-  if (!container) return;
-  const legNum = container.children.length + 1;
-  const row = document.createElement("div");
-  row.className = "flight-leg-row";
-  row.dataset.leg = legNum;
-  row.innerHTML = `
-    <div class="form-group" style="flex: 2;">
-      <input type="text" class="form-control" value="Юлемисте, TLL, Таллин, Эстония" placeholder="Вылет">
-    </div>
-    <div class="form-group" style="flex: 2;">
-      <input type="text" class="form-control" value="Лазурный Берег, NCE, Ницца, Франция" placeholder="Прилет">
-    </div>
-    <div class="form-group" style="width: 140px;">
-      <input type="date" class="form-control" value="2026-11-18">
-    </div>
-    <div class="form-group" style="width: 100px;">
-      <input type="time" class="form-control" value="14:00">
-    </div>
-    <div class="counter-input">
-      <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-      <span class="counter-value">${appState.sandboxPax} пассажиров</span>
-      <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
-    </div>
-    <button type="button" class="btn-remove-leg" onclick="this.closest('.flight-leg-row').remove(); recalculateSandbox();">×</button>
-  `;
-  container.appendChild(row);
-  recalculateSandbox();
-}
-
 function clearSandboxForm() {
   setSandboxTripType("multi");
+  appState.sandboxPax = 6;
+  document.querySelectorAll(".counter-value").forEach(span => {
+    span.textContent = "6 пассажиров";
+  });
   showToast("Форма расчета очищена к исходным значениям", "info");
 }
 
@@ -776,6 +671,224 @@ function setSandboxLocationMode(mode) {
   const airportGroup = document.getElementById("sandboxAirportGroup");
   if (airportGroup) {
     airportGroup.style.display = mode === "manual" ? "block" : "none";
+  }
+  recalculateSandbox();
+}
+
+function toggleAccordionLeg(num) {
+  const card = document.getElementById(`legAcc-${num}`);
+  if (!card) return;
+  card.classList.toggle("open");
+}
+
+let allLegsExpanded = true;
+function toggleAllAccordionLegs() {
+  allLegsExpanded = !allLegsExpanded;
+  document.querySelectorAll(".leg-acc-card").forEach(card => {
+    if (allLegsExpanded) card.classList.add("open");
+    else card.classList.remove("open");
+  });
+}
+
+function recalculateSandbox() {
+  const isDraft = appState.sandboxSettingsVersion === "draft";
+  const trip = appState.sandboxTripType;
+  const airportSelect = document.getElementById("sandboxAirportSelect");
+  const airportVal = airportSelect ? airportSelect.value : "LJU";
+  
+  const subtextEl = document.getElementById("resFerrySub");
+  if (subtextEl) {
+    subtextEl.textContent = `Включая подлет из ${airportVal}`;
+  }
+
+  let priceStr = "€69 000";
+  let parkingStr = "€2 500,00";
+  let crewStr = "€4 200,00";
+  let totalExtraStr = "€6 700,00";
+  let legs = [];
+
+  if (trip === "oneway") {
+    priceStr = isDraft ? "€32 200" : "€31 000";
+    parkingStr = "€0,00";
+    crewStr = "€1 200,00";
+    totalExtraStr = "€1 200,00";
+    legs = [
+      {
+        num: 1,
+        title: `${airportVal} → EETN`,
+        type: "Ferry",
+        total: isDraft ? "€15 411,75" : "€14 800,00",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 45 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: isDraft ? "€13 125,00" : "€12 250,00" },
+          { desc: `Сборы аэропорта вылета: ${airportVal}`, amount: "€950,00" },
+          { desc: "Сборы аэропорта прилета: EETN (Таллин)", amount: "€1 336,75" }
+        ],
+        note: "Перегоночный рейс без пассажиров на борту для подлета к точке начала коммерческого маршрута"
+      },
+      {
+        num: 2,
+        title: "EETN → EDDB",
+        type: "Коммерческий",
+        total: isDraft ? "€15 621,84" : "€14 900,00",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 35 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: isDraft ? "€11 875,00" : "€11 083,33" },
+          { desc: `VIP-обслуживание и пассажирские сборы (${appState.sandboxPax} PAX)`, amount: "€1 246,84" },
+          { desc: "Аэропортовые сборы: EDDB (Берлин Бранденбург)", amount: "€2 500,00" }
+        ]
+      }
+    ];
+  } else if (trip === "roundtrip") {
+    priceStr = isDraft ? "€50 500" : "€48 200";
+    parkingStr = "€1 500,00";
+    crewStr = "€2 400,00";
+    totalExtraStr = "€3 900,00";
+    legs = [
+      {
+        num: 1,
+        title: `${airportVal} → EETN`,
+        type: "Ferry",
+        total: isDraft ? "€15 411,75" : "€14 800,00",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 45 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: isDraft ? "€13 125,00" : "€12 250,00" },
+          { desc: `Сборы аэропорта вылета: ${airportVal}`, amount: "€950,00" },
+          { desc: "Сборы аэропорта прилета: EETN (Таллин)", amount: "€1 336,75" }
+        ],
+        note: "Перегоночный рейс без пассажиров на борту для подлета к точке начала коммерческого маршрута"
+      },
+      {
+        num: 2,
+        title: "EETN → EDDB",
+        type: "Коммерческий",
+        total: isDraft ? "€15 621,84" : "€14 900,00",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 35 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: isDraft ? "€11 875,00" : "€11 083,33" },
+          { desc: `VIP-обслуживание и пассажирские сборы (${appState.sandboxPax} PAX)`, amount: "€1 246,84" },
+          { desc: "Аэропортовые сборы: EDDB (Берлин)", amount: "€2 500,00" }
+        ]
+      },
+      {
+        num: 3,
+        title: "EDDB → EETN",
+        type: "Коммерческий",
+        total: isDraft ? "€15 621,84" : "€14 900,00",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 35 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: isDraft ? "€11 875,00" : "€11 083,33" },
+          { desc: "Аэропортовые сборы и хэндлинг: EDDB", amount: "€2 146,84" },
+          { desc: "Встреча и сервис: EETN", amount: "€1 600,00" }
+        ]
+      }
+    ];
+  } else {
+    // Multi-leg (matches Screenshot 3 exactly)
+    priceStr = isDraft ? "€69 000" : "€66 800";
+    parkingStr = "€2 500,00";
+    crewStr = "€4 200,00";
+    totalExtraStr = "€6 700,00";
+    legs = [
+      {
+        num: 1,
+        title: `${airportVal} → EETN`,
+        type: "Ferry",
+        total: "€15 411,75",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 45 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: "€13 125,00" },
+          { desc: `Сборы аэропорта вылета: ${airportVal}`, amount: "€950,00" },
+          { desc: "Сборы аэропорта прилета: EETN", amount: "€1 336,75" }
+        ],
+        note: "Перегоночный рейс без пассажиров на борту для подлета к точке начала коммерческого маршрута"
+      },
+      {
+        num: 2,
+        title: "EETN → EDDB",
+        type: "Коммерческий",
+        total: "€15 621,84",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 35 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: "€11 875,00" },
+          { desc: `VIP-обслуживание и пассажирские сборы (${appState.sandboxPax} PAX)`, amount: "€1 246,84" },
+          { desc: "Аэропортовые сборы: EDDB (Берлин)", amount: "€2 500,00" }
+        ]
+      },
+      {
+        num: 3,
+        title: "EDDB → LFMN",
+        type: "Коммерческий",
+        total: "€18 140,50",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 55 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: "€14 375,00" },
+          { desc: "Аэропортовые сборы и наземное обслуживание: EDDB", amount: "€1 365,50" },
+          { desc: "Специальный хэндлинг: NCE (Ницца, спецтариф)", amount: "€2 400,00" }
+        ]
+      },
+      {
+        num: 4,
+        title: "LFMN → EETN",
+        type: "Коммерческий",
+        total: "€18 127,66",
+        isOpen: true,
+        rows: [
+          { desc: `Летный час (тариф): 1 ч 55 мин · ${isDraft ? "€7 500" : "€7 000"}/ч`, amount: "€14 375,00" },
+          { desc: "Аэропортовые сборы и оверфлайт-навигация: LFMN", amount: "€2 152,66" },
+          { desc: "Наземный хэндлинг и встреча: EETN", amount: "€1 600,00" }
+        ]
+      }
+    ];
+  }
+
+  const headerPriceEl = document.getElementById("resHeaderPrice");
+  const bottomPriceEl = document.getElementById("resBottomTotalPrice");
+  const parkingCostEl = document.getElementById("resParkingCost");
+  const crewCostEl = document.getElementById("resCrewCost");
+  const totalExtraEl = document.getElementById("resTotalExtraCost");
+  const accordionListEl = document.getElementById("sandboxAccordionList");
+
+  if (headerPriceEl) headerPriceEl.textContent = priceStr;
+  if (bottomPriceEl) bottomPriceEl.textContent = priceStr;
+  if (parkingCostEl) parkingCostEl.textContent = parkingStr;
+  if (crewCostEl) crewCostEl.textContent = crewStr;
+  if (totalExtraEl) totalExtraEl.textContent = totalExtraStr;
+
+  if (accordionListEl) {
+    accordionListEl.innerHTML = legs.map(leg => `
+      <div class="leg-acc-card ${leg.isOpen ? 'open' : ''}" id="legAcc-${leg.num}">
+        <div class="leg-acc-header" onclick="toggleAccordionLeg(${leg.num})">
+          <div class="leg-acc-left">
+            <span class="leg-badge-num">${leg.num}</span>
+            <span class="leg-acc-title">${leg.title}</span>
+            <span class="badge-strict-neutral" style="font-size: 11px;">${leg.type}</span>
+          </div>
+          <div class="leg-acc-right">
+            <span class="leg-acc-total">${leg.total}</span>
+            <svg class="leg-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="leg-acc-body">
+          <table class="leg-calc-table">
+            <tbody>
+              ${leg.rows.map(r => `
+                <tr>
+                  <td>${r.desc}</td>
+                  <td style="text-align: right; font-weight: 700; color: var(--text-main);">${r.amount}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+          ${leg.note ? `
+            <div class="leg-acc-note">
+              <span class="info-circle" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+              <span>${leg.note}</span>
+            </div>
+          ` : ""}
+        </div>
+      </div>
+    `).join("");
   }
 }
 
@@ -810,7 +923,6 @@ function renderOrders() {
         <td style="font-weight: 700; color: var(--primary); font-size: 14px;">€${order.price.toLocaleString("ru-RU")}</td>
         <td>
           <span class="${badgeClass}">${order.statusLabel}</span>
-          ${order.slaMinutesLeft ? `<div style="font-size: 11px; color: var(--primary); font-weight: 700; margin-top: 4px;">SLA: ${order.slaMinutesLeft} мин осталось</div>` : ""}
         </td>
         <td style="text-align: right;" onclick="event.stopPropagation();">
           ${isPending ? `
@@ -926,6 +1038,7 @@ function renderEmptyLegsTable() {
     return `
       <tr style="cursor: pointer;" onclick="openEmptyLegView('${el.id}')">
         <td style="font-weight: 700; color: var(--primary);">${el.id}</td>
+        <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">${el.tailNumber || "—"}</strong></td>
         <td>${el.dateTime}</td>
         <td>${el.origin}</td>
         <td>${el.destination}</td>
@@ -1100,6 +1213,120 @@ function renderScheduleList() {
       </div>
     `;
   }).join("");
+}
+
+function renderPlaneCalendarTable() {
+  const tbody = document.getElementById("planeCalendarTableBody");
+  if (!tbody) return;
+  const flights = appState.scheduledFlights.filter(f => f.plane === "S5-BBM");
+  if (flights.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">Нет запланированных рейсов для данного борта</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = flights.map(f => `
+    <tr>
+      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.depUtc}</td>
+      <td style="font-size: 13px;">${f.origin}</td>
+      <td style="font-size: 13px;">${f.dest}</td>
+      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.arrUtc}</td>
+      <td><span class="badge-strict-neutral">${f.type}</span></td>
+      <td style="font-size: 13px;">${f.pax > 0 ? f.pax + " чел." : "—"}</td>
+      <td>
+        <button type="button" class="btn-secondary btn-sm" onclick="deleteFlightRecord('${f.id}')" style="color: var(--danger); border-color: var(--border-light);">Удалить</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function renderScheduleFlightsTable() {
+  const tbody = document.getElementById("scheduleFlightsTableBody");
+  if (!tbody) return;
+  const filter = document.getElementById("schedulePlaneFilter")?.value || "all";
+  const flights = filter === "all" ? appState.scheduledFlights : appState.scheduledFlights.filter(f => f.plane === filter);
+  if (flights.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 20px;">Нет рейсов по выбранному фильтру</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = flights.map(f => `
+    <tr>
+      <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">${f.plane}</strong></td>
+      <td><span class="badge-strict-neutral">${f.type}</span></td>
+      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.depUtc}</td>
+      <td style="font-size: 13px;">${f.origin}</td>
+      <td style="font-size: 13px;">${f.dest}</td>
+      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.arrUtc}</td>
+      <td style="font-size: 13px;">${f.pax > 0 ? f.pax + " чел." : "—"}</td>
+      <td style="text-align: right;">
+        <button type="button" class="btn-secondary btn-sm" onclick="deleteFlightRecord('${f.id}')" style="color: var(--danger); border-color: var(--border-light);">Удалить</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function openAddFlightModal(defaultPlane) {
+  const modal = document.getElementById("modalAddFlight");
+  if (!modal) return;
+  if (defaultPlane) {
+    const planeSelect = document.getElementById("modalFlightPlane");
+    if (planeSelect) planeSelect.value = defaultPlane;
+  }
+  modal.classList.add("active");
+}
+
+function submitAddFlightRecord() {
+  const type = document.getElementById("modalFlightType").value;
+  const plane = document.getElementById("modalFlightPlane").value;
+  const origin = document.getElementById("modalFlightOrigin").value.trim();
+  const dest = document.getElementById("modalFlightDest").value.trim();
+  const depUtc = document.getElementById("modalFlightDep").value.trim();
+  const arrUtc = document.getElementById("modalFlightArr").value.trim();
+  const pax = parseInt(document.getElementById("modalFlightPax").value) || 0;
+
+  if (!origin || !dest) {
+    showToast("Пожалуйста, заполните пункты вылета и прилета", "error");
+    return;
+  }
+
+  const newFlight = {
+    id: `fl-${Date.now()}`,
+    plane: plane,
+    planeModel: plane === "S5-BBM" ? "Cessna Citation XLS+" : "Gulfstream G550",
+    type: type,
+    depUtc: depUtc || "05.10.2026 10:00 UTC",
+    origin: origin,
+    dest: dest,
+    arrUtc: arrUtc || "05.10.2026 12:15 UTC",
+    pax: pax
+  };
+
+  appState.scheduledFlights.unshift(newFlight);
+
+  // Add corresponding calendar slot
+  appState.scheduleSlots.unshift({
+    id: `slot-${newFlight.id}`,
+    dateRange: depUtc.split(" ")[0] || "05.10.2026",
+    time: `${(depUtc.split(" ")[1] || "10:00")} - ${(arrUtc.split(" ")[1] || "12:15")} UTC`,
+    title: `${depUtc.split(" ")[0] || "05.10.2026"} · ${origin.split(",")[0]} → ${dest.split(",")[0]}`,
+    subtitle: `${plane} · ${pax > 0 ? pax + " PAX" : "Технический рейс"} · ${type}`,
+    type: type === "Тех. обслуживание" ? "maintenance" : (type === "Простой перелет" ? "fgg" : "owner"),
+    statusText: type
+  });
+
+  closeModal("modalAddFlight");
+  renderPlaneCalendarTable();
+  renderScheduleFlightsTable();
+  renderScheduleList();
+  showToast(`Рейс успешно добавлен в расписание борта ${plane}!`, "success");
+}
+
+function deleteFlightRecord(id) {
+  const idx = appState.scheduledFlights.findIndex(f => f.id === id);
+  if (idx !== -1) {
+    const deleted = appState.scheduledFlights.splice(idx, 1)[0];
+    renderPlaneCalendarTable();
+    renderScheduleFlightsTable();
+    showToast(`Рейс удален из расписания`, "info");
+  }
 }
 
 function handleBlockSchedule(event) {
@@ -1343,8 +1570,216 @@ let selectedCodes = new Set([
   "EE", "DE", "FR", "IT", "ES", "AT", "CH", "GB", "NL", "BE", "PT", "US", "CA"
 ]);
 
+function resetMapView() {
+  if (!map) return;
+  map.scale = map._baseScale;
+  map.transX = map._baseTransX;
+  map.transY = map._baseTransY;
+  map._applyTransform();
+}
+
+function syncMap() {
+  if (!map) return;
+  isCodeSyncing = true;
+  map.clearSelectedRegions();
+  map.setSelectedRegions(Array.from(selectedCodes));
+  isCodeSyncing = false;
+}
+
+function renderTags() {
+  const tagsContainer = document.getElementById("tags-container");
+  const tagsCountEl = document.getElementById("tags-count");
+  if (tagsCountEl) tagsCountEl.textContent = selectedCodes.size;
+  if (!tagsContainer) return;
+
+  if (selectedCodes.size === 0) {
+    tagsContainer.innerHTML = '<div style="font-size: 13px; color: var(--text-muted); padding: 8px 0;">Страны не выбраны. Выберите регион или кликните по карте.</div>';
+    return;
+  }
+
+  const sorted = Array.from(selectedCodes).sort((a, b) => {
+    const nameA = window.COUNTRIES_DATA?.[a]?.nameRu || a;
+    const nameB = window.COUNTRIES_DATA?.[b]?.nameRu || b;
+    return nameA.localeCompare(nameB, "ru");
+  });
+
+  tagsContainer.innerHTML = "";
+  sorted.forEach(code => {
+    const country = window.COUNTRIES_DATA?.[code] || { nameRu: code };
+    const chip = document.createElement("div");
+    chip.className = "tag-chip";
+    chip.innerHTML = `
+      <span>${country.nameRu}</span>
+      <span class="tag-close" title="Удалить">&times;</span>
+    `;
+
+    chip.querySelector(".tag-close").addEventListener("click", (e) => {
+      e.stopPropagation();
+      removeCountry(code);
+    });
+
+    tagsContainer.appendChild(chip);
+  });
+}
+
+function removeCountry(code) {
+  if (selectedCodes.has(code)) {
+    selectedCodes.delete(code);
+    appState.selectedCountries = Array.from(selectedCodes);
+    syncMap();
+    renderTags();
+  }
+}
+
+function addCountry(code) {
+  if (!code || !window.COUNTRIES_DATA || !window.COUNTRIES_DATA[code]) return;
+  if (!selectedCodes.has(code)) {
+    selectedCodes.add(code);
+    appState.selectedCountries = Array.from(selectedCodes);
+    syncMap();
+    renderTags();
+  }
+}
+
+function renderPresets() {
+  const presetsWrap = document.getElementById("presets-wrap");
+  if (!presetsWrap) return;
+  presetsWrap.innerHTML = "";
+  const presets = [
+    { id: "all", title: "Весь мир" },
+    { id: "europe", title: "Европа" },
+    { id: "eu", title: "Евросоюз" },
+    { id: "middle_east", title: "Ближний Восток" },
+    { id: "cis", title: "СНГ" },
+    { id: "asia", title: "Азия" },
+    { id: "north_america", title: "Северная Америка" },
+    { id: "south_america", title: "Южная Америка" }
+  ];
+
+  presets.forEach(p => {
+    const presetData = window.GEOGRAPHY_PRESETS ? window.GEOGRAPHY_PRESETS[p.id] : null;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "preset-btn";
+    btn.textContent = p.title;
+    if (presetData?.subtitle) btn.title = presetData.subtitle;
+
+    btn.addEventListener("click", () => {
+      if (p.id === "all") {
+        const allCodes = Object.keys(window.COUNTRIES_DATA || {});
+        allCodes.forEach(c => selectedCodes.add(c));
+      } else if (presetData && presetData.countries) {
+        presetData.countries.forEach(c => selectedCodes.add(c));
+      }
+      appState.selectedCountries = Array.from(selectedCodes);
+      syncMap();
+      renderTags();
+      showToast(`Добавлен регион: ${p.title}`, "info");
+    });
+
+    presetsWrap.appendChild(btn);
+  });
+}
+
+function initCountryAutocomplete() {
+  const countryInput = document.getElementById("country-input");
+  const autocompleteBox = document.getElementById("country-autocomplete");
+  const btnAddCountry = document.getElementById("btn-add-country");
+  const btnResetTags = document.getElementById("btn-reset-tags");
+
+  if (btnResetTags && !btnResetTags.dataset.bound) {
+    btnResetTags.dataset.bound = "1";
+    btnResetTags.addEventListener("click", () => {
+      selectedCodes.clear();
+      appState.selectedCountries = [];
+      syncMap();
+      renderTags();
+      resetMapView();
+      showToast("Список разрешенных стран очищен", "info");
+    });
+  }
+
+  if (countryInput && !countryInput.dataset.bound) {
+    countryInput.dataset.bound = "1";
+    countryInput.addEventListener("input", function () {
+      const q = this.value.trim().toLowerCase();
+      if (!q || !autocompleteBox) {
+        if (autocompleteBox) {
+          autocompleteBox.classList.remove("active");
+          autocompleteBox.innerHTML = "";
+        }
+        return;
+      }
+
+      if (!window.COUNTRIES_DATA) return;
+
+      const matches = Object.values(window.COUNTRIES_DATA).filter(item => {
+        return item.nameRu.toLowerCase().includes(q) ||
+               item.nameEn.toLowerCase().includes(q) ||
+               item.code.toLowerCase().includes(q);
+      }).slice(0, 8);
+
+      if (matches.length === 0) {
+        autocompleteBox.innerHTML = `<div style="padding: 10px; font-size: 12px; color: #98A2B3; text-align: center;">Не найдено</div>`;
+        autocompleteBox.classList.add("active");
+        return;
+      }
+
+      autocompleteBox.innerHTML = matches.map(m => `
+        <div class="geo-item" data-code="${m.code}">
+          <span style="font-weight: 600;">${m.nameRu}</span>
+          <span style="font-size: 11px; color: #94A3B8;">${m.code}</span>
+        </div>
+      `).join("");
+
+      autocompleteBox.classList.add("active");
+
+      autocompleteBox.querySelectorAll("[data-code]").forEach(el => {
+        el.addEventListener("click", function () {
+          addCountry(this.getAttribute("data-code"));
+          countryInput.value = "";
+          autocompleteBox.classList.remove("active");
+        });
+      });
+    });
+
+    if (btnAddCountry && !btnAddCountry.dataset.bound) {
+      btnAddCountry.dataset.bound = "1";
+      btnAddCountry.addEventListener("click", function () {
+        const val = countryInput.value.trim().toLowerCase();
+        if (!val || !window.COUNTRIES_DATA) return;
+
+        const exact = Object.values(window.COUNTRIES_DATA).find(c => 
+          c.code.toLowerCase() === val || 
+          c.nameRu.toLowerCase() === val || 
+          c.nameEn.toLowerCase() === val
+        );
+
+        if (exact) {
+          addCountry(exact.code);
+          countryInput.value = "";
+          if (autocompleteBox) autocompleteBox.classList.remove("active");
+        } else if (autocompleteBox) {
+          const first = autocompleteBox.querySelector("[data-code]");
+          if (first) first.click();
+        }
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".country-input-wrap") && autocompleteBox) {
+        autocompleteBox.classList.remove("active");
+      }
+    });
+  }
+}
+
 function initPlaneCardMap() {
-  const mapElement = document.getElementById("world-map") || document.getElementById("mapContainer");
+  renderPresets();
+  renderTags();
+  initCountryAutocomplete();
+
+  const mapElement = document.getElementById("world-map");
   if (!mapElement || typeof jsVectorMap === "undefined") return;
 
   if (map) {
@@ -1360,7 +1795,7 @@ function initPlaneCardMap() {
 
   try {
     map = new jsVectorMap({
-      selector: mapElement.id === "world-map" ? "#world-map" : "#mapContainer",
+      selector: "#world-map",
       map: "world",
       backgroundColor: "#F8FAFC",
       draggable: true,
@@ -1422,7 +1857,8 @@ function initPlaneCardMap() {
     const mapOutBtn = document.getElementById("map-out");
     const mapResetBtn = document.getElementById("map-reset-view");
 
-    if (mapInBtn) {
+    if (mapInBtn && !mapInBtn.dataset.bound) {
+      mapInBtn.dataset.bound = "1";
       mapInBtn.onclick = () => {
         if (!map) return;
         const maxScale = map.params.zoomMax * map._baseScale;
@@ -1431,7 +1867,8 @@ function initPlaneCardMap() {
       };
     }
 
-    if (mapOutBtn) {
+    if (mapOutBtn && !mapOutBtn.dataset.bound) {
+      mapOutBtn.dataset.bound = "1";
       mapOutBtn.onclick = () => {
         if (!map) return;
         const minScale = map._baseScale;
@@ -1444,7 +1881,8 @@ function initPlaneCardMap() {
       };
     }
 
-    if (mapResetBtn) {
+    if (mapResetBtn && !mapResetBtn.dataset.bound) {
+      mapResetBtn.dataset.bound = "1";
       mapResetBtn.onclick = () => {
         resetMapView();
         showToast("Исходный вид карты возвращен", "info");
@@ -1457,99 +1895,14 @@ function initPlaneCardMap() {
   }
 }
 
-function resetMapView() {
-  if (!map) return;
-  map.scale = map._baseScale;
-  map.transX = map._baseTransX;
-  map.transY = map._baseTransY;
-  map._applyTransform();
-}
-
-function syncMap() {
-  if (!map) return;
-  isCodeSyncing = true;
-  map.clearSelectedRegions();
-  map.setSelectedRegions(Array.from(selectedCodes));
-  isCodeSyncing = false;
-}
-
-function renderTags() {
-  const container = document.getElementById("selectedCountriesChips");
-  const countEl = document.getElementById("selectedCountriesCount");
-  if (countEl) countEl.textContent = selectedCodes.size;
-  if (!container) return;
-
-  if (selectedCodes.size === 0) {
-    container.innerHTML = '<div style="font-size: 13px; color: var(--text-muted); padding: 8px 0;">Страны не выбраны. Выберите регион или кликните по карте.</div>';
-    return;
-  }
-
-  const sorted = Array.from(selectedCodes).sort((a, b) => {
-    const nameA = window.COUNTRIES_DATA?.[a]?.nameRu || a;
-    const nameB = window.COUNTRIES_DATA?.[b]?.nameRu || b;
-    return nameA.localeCompare(nameB, "ru");
-  });
-
-  container.innerHTML = sorted.map(code => {
-    const country = window.COUNTRIES_DATA?.[code] || { nameRu: code };
-    return `
-      <div class="country-chip">
-        <span>${country.nameRu}</span>
-        <span class="country-chip-remove" onclick="removeCountry('${code}')" title="Удалить">×</span>
-      </div>
-    `;
-  }).join("");
-}
-
-function removeCountry(code) {
-  if (selectedCodes.has(code)) {
-    selectedCodes.delete(code);
-    appState.selectedCountries = Array.from(selectedCodes);
-    syncMap();
-    renderTags();
-  }
-}
-
-function applyCountryPreset(presetKey) {
-  document.querySelectorAll(".btn-preset").forEach(btn => btn.classList.remove("active"));
-  const activeBtn = document.querySelector(`.btn-preset[data-preset="${presetKey}"]`);
-  if (activeBtn) activeBtn.classList.add("active");
-
-  if (presetKey === "clear") {
-    selectedCodes.clear();
-    appState.selectedCountries = [];
-    syncMap();
-    renderTags();
-    resetMapView();
-    showToast("География полетов очищена", "info");
-    return;
-  }
-
-  if (presetKey === "all") {
-    const allCodes = Object.keys(window.COUNTRIES_DATA || {});
-    allCodes.forEach(c => selectedCodes.add(c));
-    appState.selectedCountries = Array.from(selectedCodes);
-    syncMap();
-    renderTags();
-    showToast("Выбраны все страны мира", "info");
-    return;
-  }
-
-  const presetData = window.GEOGRAPHY_PRESETS?.[presetKey];
-  if (presetData && presetData.countries) {
-    presetData.countries.forEach(c => selectedCodes.add(c));
-    appState.selectedCountries = Array.from(selectedCodes);
-    syncMap();
-    renderTags();
-    showToast(`Добавлен регион: ${presetData.title}`, "info");
-  }
-}
-
 // Initial bootstrap
 document.addEventListener("DOMContentLoaded", () => {
   renderOrders();
   renderEmptyLegsTable();
+  renderPlaneCalendarTable();
+  renderScheduleFlightsTable();
   renderScheduleList();
+  setSandboxTripType("multi");
   recalculateSandbox();
 
   const hash = window.location.hash.replace("#", "");
