@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="assets/jsvectormap.min.css">
-  <link rel="stylesheet" href="styles.css?v=20260924_04">
+  <link rel="stylesheet" href="styles.css?v=20260927_01">
   <style>
     /* Critical UI styles - cache proof */
     .fgg-info-tooltip {
@@ -1342,105 +1342,57 @@
 
 
       <!-- ============================================== -->
-      <!-- SCREEN: EMPTY LEGS (СПИСОК КАК В ДАШБОРДЕ САЙТА) -->
+      <!-- SCREEN: EMPTY LEGS (ФЛОТ ОПЕРАТОРА) -->
       <!-- ============================================== -->
       <div id="screen-emptylegs" class="screen-view page-content" style="display: none;">
-        <!-- Page Header -->
-        <div class="fgg-el-header">
-          <h1 class="fgg-el-page-title">Empty legs</h1>
-          <button class="fgg-el-create-btn" onclick="openCreateEmptyLegView()">Создать Empty legs</button>
+        <!-- Card Header Flex -->
+        <div class="card-header-flex" style="margin-bottom: 20px;">
+          <div>
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Empty legs</h1>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Управление возвратными рейсами и специальными тарифами флота</p>
+          </div>
+          <button class="btn-primary" onclick="openCreateEmptyLegView()">+ Добавить Empty leg</button>
         </div>
 
-        <!-- Filters Accordion -->
-        <div class="fgg-el-filters-section">
-          <div class="fgg-el-filters-toggle" onclick="toggleEmptyLegsFilters()">
-            <span class="fgg-el-filters-title">Фильтры</span>
-            <svg id="elFiltersChevron" class="fgg-el-filters-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div id="elFiltersPanel" class="fgg-el-filters-panel" style="display: none;">
-            <div class="fgg-el-filters-grid">
-              <div class="fgg-el-filter-col">
-                <label class="fgg-el-filter-label">ID</label>
-                <input type="text" id="elFilterId" class="fgg-el-input" placeholder="Найти" oninput="applyEmptyLegsFilters()">
-              </div>
-              <div class="fgg-el-filter-col">
-                <label class="fgg-el-filter-label">Дата и время</label>
-                <input type="date" id="elFilterDate" class="fgg-el-input" onchange="applyEmptyLegsFilters()">
-              </div>
-              <div class="fgg-el-filter-col">
-                <label class="fgg-el-filter-label">Откуда</label>
-                <input type="text" id="elFilterOrigin" class="fgg-el-input" placeholder="Аэропорт / город" oninput="applyEmptyLegsFilters()">
-              </div>
-              <div class="fgg-el-filter-col">
-                <label class="fgg-el-filter-label">Куда</label>
-                <input type="text" id="elFilterDestination" class="fgg-el-input" placeholder="Аэропорт / город" oninput="applyEmptyLegsFilters()">
-              </div>
-              <div class="fgg-el-filter-col">
-                <label class="fgg-el-filter-label">Стоимость от</label>
-                <input type="number" id="elFilterPriceFrom" class="fgg-el-input" placeholder="Любая" oninput="applyEmptyLegsFilters()">
-              </div>
-              <div class="fgg-el-filter-col">
-                <label class="fgg-el-filter-label">Стоимость до</label>
-                <input type="number" id="elFilterPriceTo" class="fgg-el-input" placeholder="Любая" oninput="applyEmptyLegsFilters()">
-              </div>
-              <div class="fgg-el-filter-col">
-                <label class="fgg-el-filter-label">Состояние</label>
-                <select id="elFilterStatus" class="fgg-el-select" onchange="applyEmptyLegsFilters()">
-                  <option value="">Все</option>
-                  <option value="Активно">Активно</option>
-                  <option value="Неактивно">Неактивно</option>
-                </select>
-              </div>
-              <div class="fgg-el-filter-col" style="align-self: flex-end;">
-                <button class="fgg-el-btn-clear" onclick="clearEmptyLegsFilters()">Очистить</button>
-              </div>
+        <!-- Filter & Search Toolbar Card -->
+        <div class="card" style="padding: 14px 20px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div class="el-filter-tabs">
+              <button class="el-tab-btn active" data-el-tab="all" onclick="filterEmptyLegsTab('all')">Все <span class="el-tab-count" id="countTabAll">(8)</span></button>
+              <button class="el-tab-btn" data-el-tab="active" onclick="filterEmptyLegsTab('active')">Доступные <span class="el-tab-count" id="countTabActive">(4)</span></button>
+              <button class="el-tab-btn" data-el-tab="past" onclick="filterEmptyLegsTab('past')">Просроченные / выполненные <span class="el-tab-count" id="countTabPast">(4)</span></button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <input type="text" id="elSearchInput" class="form-control" placeholder="Поиск по маршруту, борту..." style="width: 260px; height: 38px; font-size: 13px;" oninput="handleEmptyLegSearch(this.value)">
             </div>
           </div>
         </div>
 
-        <!-- Table Card -->
-        <div class="fgg-el-card">
-          <div class="fgg-el-table-wrap">
-            <table class="fgg-el-table">
-              <thead>
-                <tr>
-                  <th style="cursor: pointer;" onclick="toggleEmptyLegsSort('id')">
-                    ID 
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display: inline-block; vertical-align: middle; margin-left: 2px;">
-                      <path d="M12 5v14M19 12l-7 7-7-7"/>
-                    </svg>
-                  </th>
-                  <th>Дата и время</th>
-                  <th>Откуда</th>
-                  <th>Куда</th>
-                  <th>Стоимость</th>
-                  <th>Активен до</th>
-                  <th>Состояние</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="emptyLegsTableBody">
-                <!-- Injected via renderEmptyLegsTable() -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Pagination Bar -->
-          <div class="fgg-el-pagination">
-            <div class="fgg-el-page-size">
-              <span>Rows per page:</span>
-              <select id="elPageSizeSelect" class="fgg-el-page-select" onchange="changeEmptyLegsPageSize(this.value)">
-                <option value="10" selected>10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-              </select>
-            </div>
-            <div class="fgg-el-page-info" id="elPaginationInfo">1-10 of 38</div>
-            <div class="fgg-el-page-controls" id="elPaginationControls">
+        <!-- Table Container -->
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Маршрут</th>
+                <th>Бортовой номер</th>
+                <th>Модель самолета</th>
+                <th>Дата и время</th>
+                <th>Мест</th>
+                <th>Стоимость</th>
+                <th>Состояние</th>
+                <th style="text-align: right;">Действия</th>
+              </tr>
+            </thead>
+            <tbody id="emptyLegsTableBody">
               <!-- Rendered via JS -->
+            </tbody>
+          </table>
+          <div class="data-table-pagination" style="justify-content: space-between;">
+            <div style="font-size: 13px; color: var(--text-muted);" id="elTableCountInfo">
+              Показано рейсов: 8
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">
+              Нажмите на строку или «Просмотр» для перехода в карточку рейса
             </div>
           </div>
         </div>
@@ -1639,7 +1591,7 @@
       <div id="emptyLegsDrawer" class="fgg-drawer-backdrop" style="display: none;" onclick="closeEmptyLegDrawerOutside(event)">
         <div class="fgg-drawer-panel" onclick="event.stopPropagation()">
           <div class="fgg-drawer-header">
-            <h3 class="fgg-drawer-title">Детали</h3>
+            <h3 class="fgg-drawer-title">Детали Empty leg</h3>
             <button class="fgg-drawer-close" onclick="closeEmptyLegDrawer()" aria-label="Закрыть">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
@@ -1647,20 +1599,35 @@
           <div class="fgg-drawer-divider"></div>
           <div class="fgg-drawer-body">
             <div class="fgg-drawer-group">
-              <div class="fgg-drawer-label">Тип самолета</div>
+              <div class="fgg-drawer-label">Маршрут</div>
+              <div class="fgg-drawer-value" id="elDrawerRoute" style="color: var(--primary); font-size: 15px;">—</div>
+            </div>
+            <div class="fgg-drawer-group">
+              <div class="fgg-drawer-label">Дата и время вылета</div>
+              <div class="fgg-drawer-value" id="elDrawerDate">—</div>
+            </div>
+            <div class="fgg-drawer-group">
+              <div class="fgg-drawer-label">Модель самолета</div>
               <div class="fgg-drawer-value" id="elDrawerPlaneType">—</div>
             </div>
             <div class="fgg-drawer-group">
-              <div class="fgg-drawer-label">Борт</div>
-              <div class="fgg-drawer-value" id="elDrawerPlaneUnit">—</div>
+              <div class="fgg-drawer-label">Бортовой номер</div>
+              <div class="fgg-drawer-value" id="elDrawerPlaneUnit" style="font-family: monospace, monospace;">—</div>
+            </div>
+            <div class="fgg-drawer-group">
+              <div class="fgg-drawer-label">Количество мест (PAX)</div>
+              <div class="fgg-drawer-value" id="elDrawerPax">—</div>
+            </div>
+            <div class="fgg-drawer-group">
+              <div class="fgg-drawer-label">Стоимость рейса</div>
+              <div class="fgg-drawer-value" id="elDrawerPrice" style="font-size: 16px; font-weight: 700; color: var(--primary);">—</div>
             </div>
             <div class="fgg-drawer-group">
               <div class="fgg-drawer-label">Статус</div>
               <div class="fgg-drawer-value" id="elDrawerStatus">—</div>
             </div>
-            <div class="fgg-drawer-group">
-              <div class="fgg-drawer-label">Кол-во пассажиров</div>
-              <div class="fgg-drawer-value" id="elDrawerPax">—</div>
+            <div style="margin-top: 16px;">
+              <button class="btn-primary" style="width: 100%;" onclick="openSelectedEmptyLegFromDrawer()">Открыть карточку рейса</button>
             </div>
           </div>
         </div>
@@ -1669,7 +1636,7 @@
       <!-- ============================================== -->
       <!-- SCREEN: СВЯЗАТЬСЯ С МЕНЕДЖЕРОМ (ЧАТ) -->
       <!-- ============================================== -->
-      <div id="screen-manager" class="screen-view" style="display: none; flex: 1 1 0; min-height: 0; overflow: hidden; flex-direction: column;">
+      <div id="screen-manager" class="screen-view" style="display: none; height: calc(100vh - 64px); max-height: calc(100vh - 64px); overflow: hidden; flex-direction: column;">
         <div class="chat-wrap">
           <!-- Messages area -->
           <div class="chat-messages" id="chatMessages">
@@ -2243,6 +2210,6 @@
   <script src="assets/jsvectormap.min.js"></script>
   <script src="assets/world.js"></script>
   <script src="assets/countries-data.js"></script>
-  <script src="app.js?v=20260924_04"></script>
+  <script src="app.js?v=20260927_01"></script>
 </body>
 </html>
