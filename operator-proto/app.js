@@ -550,6 +550,101 @@ function navigateTo(screenId) {
 }
 
 // ==========================================
+// ACCORDIONS & FILTER CONTROLS (FIGMA DS)
+// ==========================================
+
+function toggleFilterAccordion(id) {
+  const acc = document.getElementById(id);
+  if (acc) {
+    acc.classList.toggle("open");
+  }
+}
+
+function applyFleetFilters() {
+  const tail = (document.getElementById("fleetFilterTail")?.value || "").toLowerCase().trim();
+  const model = (document.getElementById("fleetFilterModel")?.value || "").toLowerCase().trim();
+  const airport = (document.getElementById("fleetFilterAirport")?.value || "").toLowerCase().trim();
+  const status = document.getElementById("fleetFilterStatus")?.value || "all";
+
+  const rows = document.querySelectorAll("#fleetTableBody tr");
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    let matchesTail = !tail || text.includes(tail);
+    let matchesModel = !model || text.includes(model);
+    let matchesAirport = !airport || text.includes(airport);
+    let matchesStatus = (status === "all");
+    if (status === "active") matchesStatus = text.includes("активен");
+    else if (status === "draft") matchesStatus = text.includes("черновик");
+    else if (status === "moderation") matchesStatus = text.includes("модерации");
+
+    if (matchesTail && matchesModel && matchesAirport && matchesStatus) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+function resetFleetFilters() {
+  const t = document.getElementById("fleetFilterTail");
+  const m = document.getElementById("fleetFilterModel");
+  const a = document.getElementById("fleetFilterAirport");
+  const s = document.getElementById("fleetFilterStatus");
+  if (t) t.value = "";
+  if (m) m.value = "";
+  if (a) a.value = "";
+  if (s) s.value = "all";
+  applyFleetFilters();
+  showToast("Фильтры флота сброшены", "info");
+}
+
+function applyElAdvancedFilters() {
+  const origin = (document.getElementById("elFilterOrigin")?.value || "").toLowerCase().trim();
+  const dest = (document.getElementById("elFilterDest")?.value || "").toLowerCase().trim();
+  const plane = (document.getElementById("elFilterPlane")?.value || "all").toLowerCase().trim();
+  const status = (document.getElementById("elFilterStatus")?.value || "all").toLowerCase().trim();
+
+  const rows = document.querySelectorAll("#emptyLegsTableBody tr");
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    let matchesOrigin = !origin || text.includes(origin);
+    let matchesDest = !dest || text.includes(dest);
+    let matchesPlane = (plane === "all") || text.includes(plane);
+    let matchesStatus = (status === "all") || text.includes(status);
+
+    if (matchesOrigin && matchesDest && matchesPlane && matchesStatus) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+function resetElAdvancedFilters() {
+  const o = document.getElementById("elFilterOrigin");
+  const d = document.getElementById("elFilterDest");
+  const p = document.getElementById("elFilterPlane");
+  const s = document.getElementById("elFilterStatus");
+  if (o) o.value = "";
+  if (d) d.value = "";
+  if (p) p.value = "all";
+  if (s) s.value = "all";
+  applyElAdvancedFilters();
+  showToast("Фильтры Empty legs сброшены", "info");
+}
+
+function deletePlaneConfirm() {
+  if (confirm("Вы уверены, что хотите удалить этот борт из флота авиакомпании? Это действие необратимо.")) {
+    showToast("Борт успешно удален из системы", "warning");
+    navigateTo("fleet");
+  }
+}
+
+function savePlaneChanges() {
+  showToast("Изменения характеристик и тарифов борта успешно сохранены", "success");
+}
+
+// ==========================================
 // SANDBOX: TRIP TYPE & REALISTIC ENGINE (SCREENSHOT 3)
 // ==========================================
 
@@ -570,7 +665,7 @@ function createFlightLegRowHtml(legNum, origin, dest, date, time, showDelete) {
       <input type="time" class="form-control" value="${time}">
       <div class="counter-input">
         <button type="button" class="counter-btn" onclick="changePax(this, -1)">-</button>
-        <span class="counter-value">${appState.sandboxPax} пассажиров</span>
+        <span class="counter-value">${appState.sandboxPax} PAX</span>
         <button type="button" class="counter-btn" onclick="changePax(this, 1)">+</button>
       </div>
       ${showDelete ? `<button type="button" class="btn-remove-leg" onclick="removeFlightLeg(this)" title="Удалить плечо">×</button>` : `<div style="width: 36px;"></div>`}
@@ -661,7 +756,7 @@ function setSandboxSettingsVersion(ver) {
 function changePax(btn, delta) {
   appState.sandboxPax = Math.max(1, Math.min(12, appState.sandboxPax + delta));
   document.querySelectorAll(".counter-value").forEach(span => {
-    span.textContent = `${appState.sandboxPax} пассажиров`;
+    span.textContent = `${appState.sandboxPax} PAX`;
   });
   recalculateSandbox();
 }
@@ -879,19 +974,20 @@ function recalculateSandbox() {
           </div>
         </div>
         <div class="leg-acc-body">
-          <table class="leg-calc-table">
-            <tbody>
-              ${leg.rows.map(r => `
-                <tr>
-                  <td>${r.desc}</td>
-                  <td style="text-align: right; font-weight: 700; color: var(--text-main);">${r.amount}</td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
+          <div style="padding: 6px 0;">
+            ${leg.rows.map(r => `
+              <div class="breakdown-row">
+                <span class="breakdown-label">${r.desc}</span>
+                <span class="breakdown-dots"></span>
+                <span class="breakdown-value">${r.amount}</span>
+              </div>
+            `).join("")}
+          </div>
           ${leg.note ? `
-            <div class="leg-acc-note">
-              <span class="info-circle" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+            <div class="leg-acc-note" style="margin-top: 10px; display: flex; align-items: flex-start; gap: 8px;">
+              <span class="fgg-info-tooltip" data-tooltip="${leg.note}" style="margin-left: 0; margin-top: 2px;">
+                <svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg>
+              </span>
               <span>${leg.note}</span>
             </div>
           ` : ""}
@@ -2145,7 +2241,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (hash && ["orders", "fleet", "plane-card", "sandbox", "emptylegs", "emptylegs-view", "emptylegs-create", "manager", "faq", "profile"].includes(hash)) {
     navigateTo(hash);
   } else {
-    navigateTo("sandbox");
+    navigateTo("fleet");
   }
 });
 

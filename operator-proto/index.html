@@ -528,14 +528,24 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a class="nav-item" data-screen="orders" onclick="navigateTo('orders')">Заявки</a>
-        <a class="nav-item" data-screen="fleet" onclick="navigateTo('fleet')">Борты</a>
-        <a class="nav-item active" data-screen="sandbox" onclick="navigateTo('sandbox')">Песочница</a>
+        <a class="nav-item active" data-screen="fleet" onclick="navigateTo('fleet')">Борты</a>
+        <a class="nav-item" data-screen="sandbox" onclick="navigateTo('sandbox')">Песочница</a>
         <a class="nav-item" data-screen="emptylegs" onclick="navigateTo('emptylegs')">Empty legs</a>
         <a class="nav-item" data-screen="manager" onclick="navigateTo('manager')">Связаться с менеджером</a>
         <a class="nav-item" data-screen="faq" onclick="navigateTo('faq')">FAQ</a>
         <a class="nav-item" data-screen="profile" onclick="navigateTo('profile')">Профиль</a>
       </nav>
+
+      <div class="sidebar-footer">
+        <a class="nav-item-logout" onclick="logout()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Выйти</span>
+        </a>
+      </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -558,14 +568,14 @@
       <div id="screen-sandbox" class="screen-view page-content" style="display: block;">
         
         <!-- Header -->
-        <div class="card-header-flex" style="margin-bottom: 20px;">
+        <div class="page-header-row">
           <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.4px;">Песочница</h1>
-            <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">
-              Проверьте, как FGG Pricing Engine рассчитывает ваш борт. Тестовые расчеты не отображаются клиентам.
-            </p>
+            <h1 class="page-title">Песочница</h1>
+            <p class="page-subtitle">Проверьте, как FGG Pricing Engine рассчитывает ваш борт. Тестовые расчеты не отображаются клиентам.</p>
           </div>
-          <button class="btn-primary" onclick="recalculateSandbox()">Рассчитать</button>
+          <div class="page-title-actions">
+            <button class="btn-primary" onclick="recalculateSandbox()">Рассчитать стоимость</button>
+          </div>
         </div>
 
         <!-- 1. Выбор борта -->
@@ -1230,12 +1240,15 @@
           </div>
         </div>
 
-        <!-- Bottom Action Bar -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0 40px;">
-          <button class="btn-secondary" onclick="navigateTo('fleet')">Отменить</button>
-          <div style="display: flex; gap: 12px;">
-            <button class="btn-secondary" onclick="saveDraft()">Сохранить черновик</button>
-            <button class="btn-primary" onclick="openModerationModal()">Отправить на модерацию</button>
+        <!-- Sticky Bottom Action Bar matching Figma DS -->
+        <div class="plane-bottom-bar">
+          <button type="button" class="btn-secondary-red" onclick="deletePlaneConfirm()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            <span>Удалить борт</span>
+          </button>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <button type="button" class="btn-secondary-white" onclick="navigateTo('fleet')">Отмена</button>
+            <button type="button" class="btn-primary" onclick="savePlaneChanges()">Сохранить изменения</button>
           </div>
         </div>
 
@@ -1273,70 +1286,176 @@
       <!-- ============================================== -->
       <!-- SCREEN: FLEET (БОРТЫ) -->
       <!-- ============================================== -->
+      <!-- ============================================== -->
+      <!-- SCREEN: FLEET (БОРТЫ - FIGMA 7.1 - 7.5) -->
+      <!-- ============================================== -->
       <div id="screen-fleet" class="screen-view page-content" style="display: none;">
-        <div class="card-header-flex" style="margin-bottom: 20px;">
+        <div class="page-header-row">
           <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Борты</h1>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Управление воздушными судами, тарифами и версиями</p>
+            <h1 class="page-title">Борты</h1>
+            <p class="page-subtitle">Управление воздушными судами, тарифами и версиями настроек</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn-primary" onclick="navigateTo('plane-card')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>+ Добавить борт</span>
+            </button>
           </div>
         </div>
 
+        <!-- Filter Accordion (Figma DS) -->
+        <div class="filter-accordion" id="fleetFilterAccordion">
+          <div class="filter-accordion-header" onclick="toggleFilterAccordion('fleetFilterAccordion')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+              <span>Фильтры</span>
+            </div>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+          <div class="filter-accordion-body">
+            <div class="filter-grid">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Бортовой номер</label>
+                <input type="text" id="fleetFilterTail" class="form-control" placeholder="Любой" oninput="applyFleetFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Модель</label>
+                <input type="text" id="fleetFilterModel" class="form-control" placeholder="Любая" oninput="applyFleetFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Базовый аэропорт</label>
+                <input type="text" id="fleetFilterAirport" class="form-control" placeholder="Любой" oninput="applyFleetFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Статус</label>
+                <select id="fleetFilterStatus" class="form-control" onchange="applyFleetFilters()">
+                  <option value="all">Все</option>
+                  <option value="active">Активен</option>
+                  <option value="draft">Черновик</option>
+                  <option value="moderation">На модерации</option>
+                </select>
+              </div>
+              <div style="display: flex; align-items: flex-end;">
+                <button type="button" class="btn-secondary-white" style="width: 100%; height: 40px;" onclick="resetFleetFilters()">Очистить фильтры</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fleet Table -->
         <div class="data-table-container">
-          <table class="data-table">
+          <table class="data-table" id="fleetTable">
             <thead>
               <tr>
-                <th>Борт / Модель</th>
+                <th style="width: 60px;">Фото</th>
+                <th>Модель самолета</th>
                 <th>Бортовой номер</th>
-                <th>Базирование</th>
+                <th>Базовый аэропорт</th>
+                <th>Версия настроек</th>
                 <th>Статус</th>
-                <th>Версия</th>
                 <th style="text-align: right;">Действия</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="fleetTableBody">
               <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
-                  <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
-                    <div>
-                      <div style="font-weight: 800; color: var(--text-main);">Cessna Citation XLS+</div>
-                      <div style="font-size: 12px; color: var(--text-muted);">2022 г. · Midsize</div>
-                    </div>
-                  </div>
+                  <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
                 </td>
-                <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">S5-BBM</strong></td>
-                <td>LJU, Ljubljana</td>
-                <td><span class="badge-strict-active">Активен</span></td>
+                <td>
+                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Cessna Citation XLS+</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">2022 г. · Midsize · 8 PAX</div>
+                </td>
+                <td><strong style="color: var(--text-main); font-size: 14px;">S5-BBM</strong></td>
+                <td>LJU, Любляна (Словения)</td>
                 <td>
                   <span class="badge-strict-primary">Черновик v13 (не опубликован)</span>
                 </td>
-                <td style="text-align: right;">
-                  <button class="btn-primary btn-sm" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
-                  <button class="btn-secondary btn-sm" onclick="event.stopPropagation(); navigateTo('sandbox')">В песочницу</button>
+                <td><span class="badge-strict-active">Активен</span></td>
+                <td style="text-align: right; white-space: nowrap;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
+                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
                 </td>
               </tr>
 
               <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
-                  <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="images/g550-exterior.jpg" alt="Gulfstream G550" style="width: 54px; height: 36px; border-radius: 6px; object-fit: cover;">
-                    <div>
-                      <div style="font-weight: 800; color: var(--text-main);">Gulfstream G550</div>
-                      <div style="font-size: 12px; color: var(--text-muted);">2019 г. · Ultra Long Range</div>
-                    </div>
-                  </div>
+                  <img src="images/g550-exterior.jpg" alt="Gulfstream G550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
                 </td>
-                <td><strong style="color: var(--text-main); font-family: monospace, monospace; font-size: 13px;">RA-10222</strong></td>
-                <td>VKO, Москва</td>
-                <td><span class="badge-strict-active">Активен</span></td>
+                <td>
+                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G550</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">2019 г. · Ultra Long Range · 14 PAX</div>
+                </td>
+                <td><strong style="color: var(--text-main); font-size: 14px;">RA-10222</strong></td>
+                <td>VKO, Москва (Россия)</td>
                 <td><span class="badge-strict-neutral">v8 (Опубликован)</span></td>
-                <td style="text-align: right;">
-                  <button class="btn-primary btn-sm" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
-                  <button class="btn-secondary btn-sm" onclick="event.stopPropagation(); navigateTo('sandbox')">В песочницу</button>
+                <td><span class="badge-strict-active">Активен</span></td>
+                <td style="text-align: right; white-space: nowrap;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
+                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+                <td>
+                  <img src="images/fleet-large.jpg" alt="Challenger 350" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
+                </td>
+                <td>
+                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Challenger 350</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">2021 г. · Super Midsize · 9 PAX</div>
+                </td>
+                <td><strong style="color: var(--text-main); font-size: 14px;">OE-HOO</strong></td>
+                <td>VIE, Вена (Австрия)</td>
+                <td><span class="badge-strict-neutral">v5 (Опубликован)</span></td>
+                <td><span class="badge-strict-active">Активен</span></td>
+                <td style="text-align: right; white-space: nowrap;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
+                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+                <td>
+                  <img src="images/fleet-small.jpg" alt="Embraer Phenom 300" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
+                </td>
+                <td>
+                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Embraer Phenom 300</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">2020 г. · Light Jet · 6 PAX</div>
+                </td>
+                <td><strong style="color: var(--text-main); font-size: 14px;">9H-VCA</strong></td>
+                <td>TLL, Таллин (Эстония)</td>
+                <td><span class="badge-strict-neutral">v3 (Опубликован)</span></td>
+                <td><span class="badge-strict-neutral">Черновик</span></td>
+                <td style="text-align: right; white-space: nowrap;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
+                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
                 </td>
               </tr>
             </tbody>
           </table>
+
+          <!-- Pagination Bar matching Figma -->
+          <div class="data-table-pagination" style="justify-content: space-between; padding: 14px 24px;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted);">
+              <span>Показывать по:</span>
+              <select class="form-control" style="width: auto; padding: 4px 8px; height: 32px; font-size: 13px;">
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 13px; color: var(--text-muted);">1–4 из 4 бортов</span>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn-secondary-white btn-sm" disabled style="padding: 4px 10px;">&lt;</button>
+                <button class="btn-primary btn-sm" style="padding: 4px 12px;">1</button>
+                <button class="btn-secondary-white btn-sm" disabled style="padding: 4px 10px;">&gt;</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1345,13 +1464,63 @@
       <!-- SCREEN: EMPTY LEGS (ФЛОТ ОПЕРАТОРА) -->
       <!-- ============================================== -->
       <div id="screen-emptylegs" class="screen-view page-content" style="display: none;">
-        <!-- Card Header Flex -->
-        <div class="card-header-flex" style="margin-bottom: 20px;">
+        <!-- Page Header Row (Figma DS) -->
+        <div class="page-header-row">
           <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Empty legs</h1>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Управление возвратными рейсами и специальными тарифами флота</p>
+            <h1 class="page-title">Empty legs</h1>
+            <p class="page-subtitle">Управление возвратными рейсами и специальными тарифами флота</p>
           </div>
-          <button class="btn-primary" onclick="openCreateEmptyLegView()">+ Добавить Empty leg</button>
+          <div class="page-title-actions">
+            <button class="btn-primary" onclick="openCreateEmptyLegView()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>+ Добавить Empty Leg</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Accordion (Figma DS) -->
+        <div class="filter-accordion" id="elFilterAccordion">
+          <div class="filter-accordion-header" onclick="toggleFilterAccordion('elFilterAccordion')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+              <span>Фильтры</span>
+            </div>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+          <div class="filter-accordion-body">
+            <div class="filter-grid">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Откуда</label>
+                <input type="text" id="elFilterOrigin" class="form-control" placeholder="Любой город или IATA" oninput="applyElAdvancedFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Куда</label>
+                <input type="text" id="elFilterDest" class="form-control" placeholder="Любой город или IATA" oninput="applyElAdvancedFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Борт</label>
+                <select id="elFilterPlane" class="form-control" onchange="applyElAdvancedFilters()">
+                  <option value="all">Все борты</option>
+                  <option value="S5-BBM">Cessna Citation XLS+ (S5-BBM)</option>
+                  <option value="RA-10222">Gulfstream G550 (RA-10222)</option>
+                  <option value="9H-VCA">Embraer Phenom 300 (9H-VCA)</option>
+                  <option value="OE-HOO">Challenger 350 (OE-HOO)</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Статус</label>
+                <select id="elFilterStatus" class="form-control" onchange="applyElAdvancedFilters()">
+                  <option value="all">Все</option>
+                  <option value="Доступен">Доступен</option>
+                  <option value="Выполнен">Выполнен</option>
+                  <option value="Просрочен">Просрочен</option>
+                </select>
+              </div>
+              <div style="display: flex; align-items: flex-end;">
+                <button type="button" class="btn-secondary-white" style="width: 100%; height: 40px;" onclick="resetElAdvancedFilters()">Очистить фильтры</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Filter & Search Toolbar Card -->
@@ -1634,10 +1803,16 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- SCREEN: СВЯЗАТЬСЯ С МЕНЕДЖЕРОМ (ЧАТ) -->
+      <!-- SCREEN: СВЯЗАТЬСЯ С МЕНЕДЖЕРОМ (ЧАТ - FIGMA 2) -->
       <!-- ============================================== -->
-      <div id="screen-manager" class="screen-view" style="display: none; height: calc(100vh - 64px); max-height: calc(100vh - 64px); overflow: hidden; flex-direction: column;">
-        <div class="chat-wrap">
+      <div id="screen-manager" class="screen-view page-content" style="display: none; height: 100vh; max-height: 100vh; overflow: hidden; flex-direction: column;">
+        <div class="page-header-row" style="margin-bottom: 16px; flex-shrink: 0;">
+          <div>
+            <h1 class="page-title">Связаться с менеджером</h1>
+            <p class="page-subtitle">Персональный куратор вашего флота: Александр Смирнов (+7 495 123-45-67, Telegram @fgg_ops)</p>
+          </div>
+        </div>
+        <div class="chat-wrap" style="margin: 0; flex: 1 1 0; min-height: 0;">
           <!-- Messages area -->
           <div class="chat-messages" id="chatMessages">
             <!-- Date separator -->
@@ -1755,12 +1930,20 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- SCREEN: FAQ И ИНСТРУКЦИИ -->
+      <!-- SCREEN: FAQ И ИНСТРУКЦИИ (FIGMA 4) -->
       <!-- ============================================== -->
       <div id="screen-faq" class="screen-view page-content" style="display: none;">
-        <div style="margin-bottom: 24px;">
-          <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">FAQ и инструкции</h1>
-          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Ответы на все вопросы по работе с кабинетом оператора</p>
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">FAQ и инструкции</h1>
+            <p class="page-subtitle">Руководство по работе с кабинетом оператора, интеграции с Leon и настройке тарифов</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn-primary" onclick="showToast('Загрузка инструкции в формате PDF...', 'info')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Скачать PDF инструкцию</span>
+            </button>
+          </div>
         </div>
 
         <div class="faq-ai-banner">
@@ -1768,7 +1951,6 @@
             <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">Помощь через ИИ</h3>
             <p style="font-size: 13px; color: var(--text-secondary); max-width: 780px;">Вы можете скачать инструкцию в формате PDF и загрузить её в ChatGPT или любой другой ИИ-помощник, чтобы быстро находить ответы на любые вопросы по работе с кабинетом.</p>
           </div>
-          <button class="btn-primary" onclick="showToast('Загрузка инструкции в формате PDF...', 'info')">Скачать инструкцию для ИИ (PDF)</button>
         </div>
 
         <div class="faq-grid-4x2">
@@ -1919,12 +2101,17 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- SCREEN: PROFILE (ПРОФИЛЬ И НАСТРОЙКИ) -->
+      <!-- SCREEN: PROFILE (ПРОФИЛЬ И НАСТРОЙКИ - FIGMA 3) -->
       <!-- ============================================== -->
       <div id="screen-profile" class="screen-view page-content" style="display: none;">
-        <div style="margin-bottom: 24px;">
-          <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Профиль компании и Настройки</h1>
-          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Данные эксплуатанта, сертификаты и безопасность учетной записи</p>
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Профиль компании</h1>
+            <p class="page-subtitle">Данные эксплуатанта, сертификаты и безопасность учетной записи</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn-primary" onclick="showToast('Профиль компании успешно обновлен', 'success')">Сохранить изменения</button>
+          </div>
         </div>
 
         <div class="card">
