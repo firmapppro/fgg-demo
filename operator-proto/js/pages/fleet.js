@@ -1,6 +1,7 @@
 // Screens 7.1 – 7.5: fleet list with filters and pagination
 import { icon } from "../icons.js";
 import { esc, btn, field, selectField, pagerHtml, $ } from "../ui.js";
+import { store } from "../store.js";
 import { FLEET, MODEL_OPTIONS, AIRPORT_OPTIONS, figmaFixtureFleet } from "../data.js";
 
 const state = { open: false, page: 1, size: 10, f: {}, loading: false };
@@ -11,7 +12,14 @@ let fakePages = 0;
 
 const thumb = (p) => `images/planes/${p.photo}-t.jpg`;
 
-function data() { return fixture ? figmaFixtureFleet() : FLEET; }
+// Seeded fleet + planes created/edited in the plane form, minus deleted ones
+function data() {
+  if (fixture) return figmaFixtureFleet();
+  const added = store.get("newPlanes", []) || [];
+  const gone = new Set(store.get("deletedPlanes", []) || []);
+  const ids = new Set(added.map((p) => p.id));
+  return [...added, ...FLEET.filter((p) => !ids.has(p.id))].filter((p) => !gone.has(p.id));
+}
 
 function filtered() {
   if (fixture) return data().slice(0, Number(new URLSearchParams(location.hash.split('?')[1] || '').get('rows')) || (anyFilter() ? 6 : 99));

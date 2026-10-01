@@ -68,6 +68,7 @@ img { display: block; max-width: 100%; }
 }
 .page { display: flex; flex-direction: column; gap: 24px; width: 100%; max-width: 1560px; }
 .page-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; }
+.page-head--top { align-items: flex-start; }
 .page-head__titles { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .page-head__title { font-size: 20px; line-height: 28px; font-weight: 700; }
 .page-head__sub { color: var(--grey); }

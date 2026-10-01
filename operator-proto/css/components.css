@@ -64,7 +64,10 @@ textarea.control__input { resize: none; display: block; }
 .control__icon--grey { color: var(--grey); }
 .control__btn { display: inline-flex; color: var(--grey); }
 .control__btn:hover { color: var(--black); }
+.control__btn--dark { color: var(--black); }
+.dt-native { position: absolute; right: 0; bottom: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .control--select { cursor: pointer; }
+.control--select.is-open .control__value.is-placeholder { color: var(--black); }
 .control--select .control__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .control--select .control__value.is-placeholder { color: var(--grey); }
 .control--select .chev { transition: transform .15s; }
@@ -173,11 +176,13 @@ textarea.control__input { resize: none; display: block; }
 .chip:hover { background: var(--white-hover); }
 
 /* ---------- Modal ---------- */
-.modal-overlay { position: fixed; inset: 0; z-index: 80; background: rgba(5, 14, 19, .4); display: flex; align-items: center; justify-content: center; padding: 24px; animation: fade-in .15s ease; }
-.modal { background: var(--white); border-radius: 24px; padding: 24px; width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 24px; box-shadow: 0 16px 48px rgba(0,0,0,.16); max-height: calc(100vh - 48px); overflow: auto; }
-.modal__head { display: flex; flex-direction: column; gap: 8px; }
+.modal-overlay { position: fixed; inset: 0; z-index: 80; background: rgba(5, 14, 19, .6); display: flex; align-items: center; justify-content: center; padding: 24px; animation: fade-in .15s ease; }
+.modal { position: relative; background: var(--white); border-radius: 16px; padding: 24px; width: 100%; max-width: 472px; display: flex; flex-direction: column; align-items: center; gap: 24px; max-height: calc(100vh - 48px); overflow: auto; }
+.modal--sm { max-width: 400px; }
+.modal__head { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; align-self: stretch; }
 .modal__title { font-size: 20px; line-height: 28px; font-weight: 700; }
-.modal__text { color: var(--grey); }
-.modal__actions { display: flex; gap: 12px; }
+.modal__text { font-weight: 500; }
+.modal__actions { display: flex; gap: 24px; align-self: stretch; }
 .modal__actions .btn { flex: 1; }
+.modal__x { position: absolute; top: 16px; right: 16px; width: 24px; height: 24px; display: grid; place-items: center; color: var(--black); }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }

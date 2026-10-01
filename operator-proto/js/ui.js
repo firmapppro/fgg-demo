@@ -46,6 +46,28 @@ export function selectField({ label = "", id = "", options = [], value = "", pla
   </div>`;
 }
 
+/* Date + time: free text "дд/мм/гггг чч:мм" with a calendar button that opens the native picker */
+export function dateTimeField({ label = "", id = "", placeholder = "дд/мм/гггг. -:-", value = "", error = "", cls = "", noIcon = false }) {
+  return `<div class="field ${error ? "is-error" : ""} ${cls}" data-field="${id}">
+    ${label ? `<label class="field__label" for="${id}">${esc(label)}</label>` : ""}
+    <div class="control">
+      <input class="control__input" id="${id}" name="${id}" type="text" value="${esc(value)}" placeholder="${esc(placeholder)}" autocomplete="off" inputmode="numeric">
+      ${noIcon ? "" : `<button type="button" class="control__btn control__btn--dark" data-dt-pick="${id}" tabindex="-1" aria-label="Выбрать дату">${icon("calendar", 20)}</button>
+      <input class="dt-native" type="datetime-local" tabindex="-1" aria-hidden="true" data-dt-native="${id}">`}
+    </div>
+    <div class="field__error" data-error>${esc(error)}</div>
+  </div>`;
+}
+const pad2 = (n) => String(n).padStart(2, "0");
+export function fmtDT(d) { return `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${d.getFullYear()} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`; }
+// "дд/мм/гггг чч:мм" (also "." or "-" separators; time optional) -> Date | null
+export function parseDT(str) {
+  const m = String(str || "").trim().match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})(?:[,\s]+(\d{1,2}):(\d{2}))?$/);
+  if (!m) return null;
+  const d = new Date(+m[3], +m[2] - 1, +m[1], +(m[4] || 0), +(m[5] || 0));
+  return isNaN(d) || d.getMonth() !== +m[2] - 1 ? null : d;
+}
+
 export function setError(id, msg) {
   const f = document.querySelector(`[data-field="${id}"]`);
   if (!f) return;
@@ -88,6 +110,14 @@ export function initGlobalUi() {
       if (!open) { sel.classList.add("is-open"); sel.querySelector(".dropdown").hidden = false; }
       return;
     }
+    const dp = e.target.closest("[data-dt-pick]");
+    if (dp) {
+      const nat = document.querySelector(`[data-dt-native="${dp.dataset.dtPick}"]`);
+      const cur = parseDT(document.getElementById(dp.dataset.dtPick).value);
+      if (cur) nat.value = `${cur.getFullYear()}-${pad2(cur.getMonth() + 1)}-${pad2(cur.getDate())}T${pad2(cur.getHours())}:${pad2(cur.getMinutes())}`;
+      try { nat.showPicker(); } catch { nat.focus(); }
+      return;
+    }
     const tp = e.target.closest("[data-toggle-pass]");
     if (tp) {
       const inp = document.getElementById(tp.dataset.togglePass);
@@ -97,6 +127,13 @@ export function initGlobalUi() {
       return;
     }
     closeSelects();
+  });
+  document.addEventListener("change", (e) => {
+    const n = e.target.closest && e.target.closest("[data-dt-native]");
+    if (!n || !n.value) return;
+    const inp = document.getElementById(n.dataset.dtNative);
+    inp.value = fmtDT(new Date(n.value));
+    inp.dispatchEvent(new Event("input", { bubbles: true }));
   });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") { closeSelects(); closeModal(); }
@@ -138,14 +175,15 @@ export function closeModal() {
   if (ov._onClose) ov._onClose();
 }
 
-export function confirmModal({ title, text, confirmText, cancelText = "Отмена", danger = false, onConfirm }) {
+export function confirmModal({ title, text, confirmText, cancelText = "Отмена", cancelKind = "secondary", danger = false, closable = false, size = "", textWidth = 0, onConfirm }) {
   const ov = openModal(`
-    <div class="modal__head"><div class="modal__title">${esc(title)}</div><div class="modal__text">${esc(text)}</div></div>
+    ${closable ? `<button type="button" class="modal__x" data-modal-cancel aria-label="Закрыть">${icon("x", 16)}</button>` : ""}
+    <div class="modal__head"><div class="modal__title">${esc(title)}</div><div class="modal__text" ${textWidth ? `style="max-width:${textWidth}px"` : ""}>${esc(text)}</div></div>
     <div class="modal__actions">
-      ${btn({ text: cancelText, kind: "secondary", attrs: 'data-modal-cancel' })}
-      ${btn({ text: confirmText, kind: danger ? "red" : "primary", attrs: 'data-modal-ok' })}
-    </div>`);
-  ov.querySelector("[data-modal-cancel]").onclick = () => closeModal();
+      ${btn({ text: cancelText, kind: cancelKind, attrs: "data-modal-cancel" })}
+      ${btn({ text: confirmText, kind: danger ? "red" : "primary", attrs: "data-modal-ok" })}
+    </div>`, { cls: size });
+  ov.querySelectorAll("[data-modal-cancel]").forEach((b) => (b.onclick = () => closeModal()));
   ov.querySelector("[data-modal-ok]").onclick = () => { closeModal(); onConfirm && onConfirm(); };
 }
 
