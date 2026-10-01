@@ -40,7 +40,7 @@ export function getLegs() {
   const del = new Set(store.get("legsDeleted", []));
   const edit = store.get("legsEdit", {});
   const created = store.get("legsNew", []);
-  return [...SEED, ...created].filter((l) => !del.has(l.id)).map((l) => (edit[l.id] ? { ...l, ...edit[l.id] } : l));
+  return [...created.slice().reverse(), ...SEED].filter((l) => !del.has(l.id)).map((l) => (edit[l.id] ? { ...l, ...edit[l.id] } : l));
 }
 export const getLeg = (id) => getLegs().find((l) => l.id === String(id));
 

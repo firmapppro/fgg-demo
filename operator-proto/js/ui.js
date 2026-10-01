@@ -47,13 +47,17 @@ export function selectField({ label = "", id = "", options = [], value = "", pla
 }
 
 /* Date + time: free text "дд/мм/гггг чч:мм" with a calendar button that opens the native picker */
-export function dateTimeField({ label = "", id = "", placeholder = "дд/мм/гггг. -:-", value = "", error = "", cls = "", noIcon = false }) {
+export function dateTimeField({ label = "", id = "", placeholder = "дд/мм/гггг. -:-", value = "", error = "", cls = "", noIcon = false, kind = "datetime", iconLeft = false, infoIcon = false }) {
+  const native = kind === "time" ? "time" : kind === "date" ? "date" : "datetime-local";
+  const btnHtml = noIcon ? "" : `<button type="button" class="control__btn control__btn--dark" data-dt-pick="${id}" tabindex="-1" aria-label="${kind === "time" ? "Выбрать время" : "Выбрать дату"}">${icon(kind === "time" ? "clock" : "calendar", 20)}</button>
+      <input class="dt-native" type="${native}" tabindex="-1" aria-hidden="true" data-dt-native="${id}">`;
+  const lbl = label ? `<label class="field__label" for="${id}">${esc(label)}${infoIcon ? icon("info", 16) : ""}</label>` : "";
   return `<div class="field ${error ? "is-error" : ""} ${cls}" data-field="${id}">
-    ${label ? `<label class="field__label" for="${id}">${esc(label)}</label>` : ""}
+    ${lbl}
     <div class="control">
+      ${iconLeft ? btnHtml : ""}
       <input class="control__input" id="${id}" name="${id}" type="text" value="${esc(value)}" placeholder="${esc(placeholder)}" autocomplete="off" inputmode="numeric">
-      ${noIcon ? "" : `<button type="button" class="control__btn control__btn--dark" data-dt-pick="${id}" tabindex="-1" aria-label="Выбрать дату">${icon("calendar", 20)}</button>
-      <input class="dt-native" type="datetime-local" tabindex="-1" aria-hidden="true" data-dt-native="${id}">`}
+      ${iconLeft ? "" : btnHtml}
     </div>
     <div class="field__error" data-error>${esc(error)}</div>
   </div>`;
@@ -113,8 +117,12 @@ export function initGlobalUi() {
     const dp = e.target.closest("[data-dt-pick]");
     if (dp) {
       const nat = document.querySelector(`[data-dt-native="${dp.dataset.dtPick}"]`);
-      const cur = parseDT(document.getElementById(dp.dataset.dtPick).value);
-      if (cur) nat.value = `${cur.getFullYear()}-${pad2(cur.getMonth() + 1)}-${pad2(cur.getDate())}T${pad2(cur.getHours())}:${pad2(cur.getMinutes())}`;
+      const raw = document.getElementById(dp.dataset.dtPick).value.trim();
+      if (nat.type === "time") { if (/^\d{1,2}:\d{2}$/.test(raw)) nat.value = raw.padStart(5, "0"); }
+      else {
+        const cur = parseDT(raw);
+        if (cur) { const d = `${cur.getFullYear()}-${pad2(cur.getMonth() + 1)}-${pad2(cur.getDate())}`; nat.value = nat.type === "date" ? d : `${d}T${pad2(cur.getHours())}:${pad2(cur.getMinutes())}`; }
+      }
       try { nat.showPicker(); } catch { nat.focus(); }
       return;
     }
@@ -132,7 +140,9 @@ export function initGlobalUi() {
     const n = e.target.closest && e.target.closest("[data-dt-native]");
     if (!n || !n.value) return;
     const inp = document.getElementById(n.dataset.dtNative);
-    inp.value = fmtDT(new Date(n.value));
+    if (n.type === "time") inp.value = n.value;
+    else if (n.type === "date") { const [y, m, d] = n.value.split("-"); inp.value = `${d}/${m}/${y}`; }
+    else inp.value = fmtDT(new Date(n.value));
     inp.dispatchEvent(new Event("input", { bubbles: true }));
   });
   document.addEventListener("keydown", (e) => {

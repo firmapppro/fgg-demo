@@ -68,7 +68,9 @@ async function render() {
   const mySeq = ++seq;
   const r = resolve();
   if (!r) { go("/fleet"); return; }
-  let mod = await r.handler();
+  let mod;
+  try { mod = await r.handler(); }
+  catch (e) { console.error(e); mod = { default: { title: () => "Раздел", render: () => `<div class="page"><div class="empty-state"><div class="t-sub">Не удалось загрузить раздел</div><div class="c-grey">Обновите страницу и попробуйте еще раз</div></div></div>` } }; }
   if (mod.redirect) { go(mod.redirect); return; }
   const page = mod.default;
   if (mySeq !== seq) return;
