@@ -561,41 +561,52 @@ function toggleFilterAccordion(id) {
 }
 
 function applyFleetFilters() {
-  const tail = (document.getElementById("fleetFilterTail")?.value || "").toLowerCase().trim();
+  const id = (document.getElementById("fleetFilterId")?.value || "").toLowerCase().trim();
   const model = (document.getElementById("fleetFilterModel")?.value || "").toLowerCase().trim();
+  const status = (document.getElementById("fleetFilterStatus")?.value || "").toLowerCase().trim();
+  const tail = (document.getElementById("fleetFilterTail")?.value || "").toLowerCase().trim();
   const airport = (document.getElementById("fleetFilterAirport")?.value || "").toLowerCase().trim();
-  const status = document.getElementById("fleetFilterStatus")?.value || "all";
+  const range = (document.getElementById("fleetFilterRange")?.value || "").toLowerCase().trim();
+  const toilet = (document.getElementById("fleetFilterToilet")?.value || "").toLowerCase().trim();
+  const seats = (document.getElementById("fleetFilterSeats")?.value || "").toLowerCase().trim();
+  const stewardess = (document.getElementById("fleetFilterStewardess")?.value || "").toLowerCase().trim();
+  const cabinSize = (document.getElementById("fleetFilterCabinSize")?.value || "").toLowerCase().trim();
+  const baggage = (document.getElementById("fleetFilterBaggage")?.value || "").toLowerCase().trim();
+  const price = (document.getElementById("fleetFilterPrice")?.value || "").toLowerCase().trim();
 
   const rows = document.querySelectorAll("#fleetTableBody tr");
   rows.forEach(row => {
     const text = row.innerText.toLowerCase();
-    let matchesTail = !tail || text.includes(tail);
-    let matchesModel = !model || text.includes(model);
-    let matchesAirport = !airport || text.includes(airport);
-    let matchesStatus = (status === "all");
-    if (status === "active") matchesStatus = text.includes("активен");
-    else if (status === "draft") matchesStatus = text.includes("черновик");
-    else if (status === "moderation") matchesStatus = text.includes("модерации");
-
-    if (matchesTail && matchesModel && matchesAirport && matchesStatus) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
+    let show = true;
+    if (id && !text.includes(id)) show = false;
+    if (model && !text.includes(model)) show = false;
+    if (status) {
+      if (status === "active" && !text.includes("активен")) show = false;
+      else if (status === "inactive" && !text.includes("неактивен")) show = false;
     }
+    if (tail && !text.includes(tail)) show = false;
+    if (airport && !text.includes(airport)) show = false;
+    if (range && !text.includes(range)) show = false;
+    if (seats && !text.includes(seats)) show = false;
+    if (cabinSize && !text.includes(cabinSize)) show = false;
+    if (baggage && !text.includes(baggage)) show = false;
+    if (price && !text.includes(price)) show = false;
+    row.style.display = show ? "" : "none";
   });
 }
 
 function resetFleetFilters() {
-  const t = document.getElementById("fleetFilterTail");
-  const m = document.getElementById("fleetFilterModel");
-  const a = document.getElementById("fleetFilterAirport");
-  const s = document.getElementById("fleetFilterStatus");
-  if (t) t.value = "";
-  if (m) m.value = "";
-  if (a) a.value = "";
-  if (s) s.value = "all";
+  const fieldIds = [
+    "fleetFilterId", "fleetFilterModel", "fleetFilterStatus", "fleetFilterTail",
+    "fleetFilterAirport", "fleetFilterRange", "fleetFilterToilet", "fleetFilterSeats",
+    "fleetFilterStewardess", "fleetFilterCabinSize", "fleetFilterBaggage", "fleetFilterPrice"
+  ];
+  fieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
   applyFleetFilters();
-  showToast("Фильтры флота сброшены", "info");
+  showToast("Фильтры сброшены", "info");
 }
 
 function applyElAdvancedFilters() {
@@ -1372,22 +1383,42 @@ function handleChangePassword(event) {
 function logout() {
   const authModal = document.getElementById("authModalScreen");
   if (authModal) {
+    showAuthView("login");
     authModal.style.display = "flex";
   }
   showToast("Вы вышли из кабинета оператора", "info");
 }
 
-function handleLoginStep1(event) {
-  event.preventDefault();
-  document.getElementById("authStep1").style.display = "none";
-  document.getElementById("authStep2").style.display = "block";
+function showAuthView(view) {
+  const loginCard = document.getElementById("authCardLogin");
+  const recoveryCard = document.getElementById("authCardRecovery");
+  const successCard = document.getElementById("authCardSuccess");
+  if (loginCard) loginCard.style.display = (view === "login") ? "block" : "none";
+  if (recoveryCard) recoveryCard.style.display = (view === "recovery") ? "block" : "none";
+  if (successCard) successCard.style.display = (view === "success") ? "block" : "none";
 }
 
-function handleLoginStep2(event) {
+function handleLoginSubmit(event) {
   event.preventDefault();
   const authModal = document.getElementById("authModalScreen");
   if (authModal) authModal.style.display = "none";
-  showToast("Добро пожаловать в кабинет оператора FGG!", "success");
+  showToast("Добро пожаловать в кабинет оператора!", "success");
+}
+
+function handleRecoverySubmit(event) {
+  event.preventDefault();
+  showAuthView("success");
+  showToast("Ссылка для сброса пароля отправлена", "info");
+}
+
+function togglePasswordVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const isPw = input.type === "password";
+  input.type = isPw ? "text" : "password";
+  btn.innerHTML = isPw
+    ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>'
+    : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
 }
 
 function closeModal(modalId) {

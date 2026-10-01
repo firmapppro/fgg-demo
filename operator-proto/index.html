@@ -469,50 +469,71 @@
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
 
-  <!-- 2FA Login Screen Modal / Overlay -->
+  <!-- Login Screen Overlay (Figma: 1.01 - 1.08 Вход) -->
   <div id="authModalScreen" class="auth-wrapper" style="display: none;">
-    <div class="auth-card">
-      <div class="auth-header">
-        <img src="images/logo.png" alt="Flight Generation Group" class="auth-logo">
-        <h1 class="auth-title">Кабинет оператора</h1>
-        <p class="auth-subtitle">Вход для авторизованных авиакомпаний и партнеров FGG</p>
+    <!-- Left Column: Plane Image -->
+    <div class="auth-split-image"></div>
+
+    <!-- Right Column: Login Card -->
+    <div class="auth-split-content">
+      <img src="images/logo.png" alt="Flight Generation Group" class="auth-brand-logo">
+
+      <!-- Login Form (Figma 1.01) -->
+      <div id="authCardLogin" class="auth-card">
+        <h1 class="auth-title">Вход</h1>
+        <form id="authLoginForm" onsubmit="handleLoginSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="email" id="loginEmail" class="form-control" placeholder="Введите ваш e-mail" value="ops@aviacharter.aero" required>
+          </div>
+          <div class="form-group" style="margin-top: 16px;">
+            <label class="form-label">Пароль</label>
+            <div class="password-input-wrap">
+              <input type="password" id="loginPassword" class="form-control" placeholder="Введите ваш пароль" value="password123" required>
+              <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('loginPassword', this)" aria-label="Показать пароль">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <div style="text-align: right; margin-top: 8px;">
+              <a href="javascript:void(0)" onclick="showAuthView('recovery')" style="font-size: 13px; color: var(--primary); font-weight: 600; text-decoration: none;">Забыли пароль?</a>
+            </div>
+          </div>
+          <div style="margin-top: 28px;">
+            <button type="submit" class="btn-primary" style="width: 100%; height: 48px; font-size: 15px; font-weight: 700;">Войти</button>
+          </div>
+        </form>
       </div>
 
-      <!-- Step 1: Credentials -->
-      <form id="authStep1" onsubmit="handleLoginStep1(event)">
-        <div class="form-group">
-          <label class="form-label">Корпоративный Email</label>
-          <input type="email" class="form-control" value="ops@aviacharter.aero" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Пароль учетной записи</label>
-          <input type="password" class="form-control" value="••••••••••••" required>
-        </div>
-        <div style="margin-top: 24px;">
-          <button type="submit" class="btn-primary" style="width: 100%;">Продолжить</button>
-        </div>
-      </form>
-
-      <!-- Step 2: 2FA Code -->
-      <form id="authStep2" style="display: none;" onsubmit="handleLoginStep2(event)">
-        <div class="informer-box info" style="margin-bottom: 20px;">
-          <svg class="informer-icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          <div>Код подтверждения отправлен в SMS на номер <strong>+49 *** **01</strong></div>
-        </div>
-        <div class="form-group" style="text-align: center;">
-          <label class="form-label" style="justify-content: center;">Введите 4-значный код безопасности</label>
-          <div class="code-inputs-grid">
-            <input type="text" class="code-digit-input" maxlength="1" value="7" autofocus>
-            <input type="text" class="code-digit-input" maxlength="1" value="4">
-            <input type="text" class="code-digit-input" maxlength="1" value="9">
-            <input type="text" class="code-digit-input" maxlength="1" value="2">
+      <!-- Password Recovery Form (Figma 1.05) -->
+      <div id="authCardRecovery" class="auth-card" style="display: none;">
+        <h1 class="auth-title">Восстановление пароля</h1>
+        <p class="auth-subtitle">Введите ваш e-mail для получения ссылки на сброс пароля</p>
+        <form onsubmit="handleRecoverySubmit(event)">
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="email" id="recoveryEmail" class="form-control" placeholder="Введите ваш e-mail" required>
           </div>
+          <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
+            <button type="submit" class="btn-primary" style="width: 100%; height: 48px; font-size: 15px; font-weight: 700;">Отправить</button>
+            <button type="button" class="btn-secondary-white" style="width: 100%; height: 44px; font-size: 14px;" onclick="showAuthView('login')">Вернуться на страницу входа</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Password Recovery Success (Figma 1.08) -->
+      <div id="authCardSuccess" class="auth-card" style="display: none; text-align: center;">
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: #ECFDF3; border: 2px solid #A6F4C5; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#027A48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
         </div>
-        <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <button type="submit" class="btn-primary" style="width: 100%;">Войти в кабинет</button>
-          <button type="button" class="btn-secondary" style="width: 100%;" onclick="document.getElementById('authStep2').style.display='none'; document.getElementById('authStep1').style.display='block';">Назад</button>
-        </div>
-      </form>
+        <h1 class="auth-title" style="margin-bottom: 12px;">Инструкция отправлена</h1>
+        <p class="auth-subtitle" style="margin-bottom: 28px;">Мы отправили ссылку для восстановления пароля на указанный email</p>
+        <button type="button" class="btn-primary" style="width: 100%; height: 48px; font-size: 15px; font-weight: 700;" onclick="showAuthView('login')">Войти в кабинет</button>
+      </div>
     </div>
   </div>
 
@@ -1284,176 +1305,329 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- SCREEN: FLEET (БОРТЫ) -->
-      <!-- ============================================== -->
-      <!-- ============================================== -->
-      <!-- SCREEN: FLEET (БОРТЫ - FIGMA 7.1 - 7.5) -->
+      <!-- SCREEN: FLEET (БОРТЫ - FIGMA 7.1 / 7.2) -->
       <!-- ============================================== -->
       <div id="screen-fleet" class="screen-view page-content" style="display: none;">
         <div class="page-header-row">
           <div>
             <h1 class="page-title">Борты</h1>
-            <p class="page-subtitle">Управление воздушными судами, тарифами и версиями настроек</p>
           </div>
           <div class="page-title-actions">
             <button class="btn-primary" onclick="navigateTo('plane-card')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span>+ Добавить борт</span>
+              <span>Добавить борт</span>
             </button>
           </div>
         </div>
 
-        <!-- Filter Accordion (Figma DS) -->
+        <!-- Filter Accordion (Figma 7.2) -->
         <div class="filter-accordion" id="fleetFilterAccordion">
           <div class="filter-accordion-header" onclick="toggleFilterAccordion('fleetFilterAccordion')">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-              <span>Фильтры</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+              <span style="color: var(--primary); font-weight: 600;">Фильтры</span>
             </div>
-            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </div>
           <div class="filter-accordion-body">
-            <div class="filter-grid">
+            <div class="fleet-filter-grid">
+              <!-- Row 1 -->
               <div class="form-group" style="margin-bottom: 0;">
-                <label class="form-label">Бортовой номер</label>
-                <input type="text" id="fleetFilterTail" class="form-control" placeholder="Любой" oninput="applyFleetFilters()">
+                <label class="form-label">ID борта</label>
+                <input type="text" id="fleetFilterId" class="form-control" placeholder="Введите ID" oninput="applyFleetFilters()">
               </div>
               <div class="form-group" style="margin-bottom: 0;">
-                <label class="form-label">Модель</label>
-                <input type="text" id="fleetFilterModel" class="form-control" placeholder="Любая" oninput="applyFleetFilters()">
-              </div>
-              <div class="form-group" style="margin-bottom: 0;">
-                <label class="form-label">Базовый аэропорт</label>
-                <input type="text" id="fleetFilterAirport" class="form-control" placeholder="Любой" oninput="applyFleetFilters()">
+                <label class="form-label">Модель самолета</label>
+                <select id="fleetFilterModel" class="form-control" onchange="applyFleetFilters()">
+                  <option value="">Выберите модель</option>
+                  <option value="gulfstream-g550">Gulfstream G-550</option>
+                  <option value="cessna-citation-xls">Cessna Citation XLS+</option>
+                  <option value="challenger-350">Challenger 350</option>
+                  <option value="embraer-phenom-300">Embraer Phenom 300</option>
+                </select>
               </div>
               <div class="form-group" style="margin-bottom: 0;">
                 <label class="form-label">Статус</label>
                 <select id="fleetFilterStatus" class="form-control" onchange="applyFleetFilters()">
-                  <option value="all">Все</option>
+                  <option value="">Выберите</option>
                   <option value="active">Активен</option>
-                  <option value="draft">Черновик</option>
-                  <option value="moderation">На модерации</option>
+                  <option value="inactive">Неактивен</option>
                 </select>
               </div>
-              <div style="display: flex; align-items: flex-end;">
-                <button type="button" class="btn-secondary-white" style="width: 100%; height: 40px;" onclick="resetFleetFilters()">Очистить фильтры</button>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Бортовой номер</label>
+                <input type="text" id="fleetFilterTail" class="form-control" placeholder="Введите номер" oninput="applyFleetFilters()">
               </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Аэропорт базирования</label>
+                <select id="fleetFilterAirport" class="form-control" onchange="applyFleetFilters()">
+                  <option value="">Выберите локацию</option>
+                  <option value="LTFM">LTFM</option>
+                  <option value="UUWW">UUWW (VKO)</option>
+                  <option value="LOWW">LOWW (VIE)</option>
+                  <option value="EETN">EETN (TLL)</option>
+                  <option value="LJLJ">LJLJ (LJU)</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Дальность</label>
+                <input type="text" id="fleetFilterRange" class="form-control" placeholder="Введите дальность" oninput="applyFleetFilters()">
+              </div>
+              <!-- Row 2 -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Туалет</label>
+                <select id="fleetFilterToilet" class="form-control" onchange="applyFleetFilters()">
+                  <option value="">Выберите</option>
+                  <option value="yes">Да</option>
+                  <option value="no">Нет</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Количество сидений</label>
+                <input type="text" id="fleetFilterSeats" class="form-control" placeholder="Введите количество" oninput="applyFleetFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Стюардесса</label>
+                <select id="fleetFilterStewardess" class="form-control" onchange="applyFleetFilters()">
+                  <option value="">Выберите</option>
+                  <option value="yes">Да</option>
+                  <option value="no">Нет</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Размер салона</label>
+                <input type="text" id="fleetFilterCabinSize" class="form-control" placeholder="Введите размер" oninput="applyFleetFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Багаж</label>
+                <input type="text" id="fleetFilterBaggage" class="form-control" placeholder="Введите размер" oninput="applyFleetFilters()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Стоимость часа полета</label>
+                <input type="text" id="fleetFilterPrice" class="form-control" placeholder="Введите стоимость" oninput="applyFleetFilters()">
+              </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+              <button type="button" class="btn-link-blue" onclick="resetFleetFilters()" style="font-size: 14px;">Очистить</button>
             </div>
           </div>
         </div>
 
-        <!-- Fleet Table -->
+        <!-- Fleet Table (Figma 7.1) -->
         <div class="data-table-container">
           <table class="data-table" id="fleetTable">
             <thead>
               <tr>
-                <th style="width: 60px;">Фото</th>
                 <th>Модель самолета</th>
-                <th>Бортовой номер</th>
-                <th>Базовый аэропорт</th>
-                <th>Версия настроек</th>
+                <th>ID борта</th>
                 <th>Статус</th>
-                <th style="text-align: right;">Действия</th>
+                <th>Бортовой номер</th>
+                <th>Аэропорт базирования</th>
+                <th>Количество пассажиров</th>
+                <th style="text-align: right;"></th>
               </tr>
             </thead>
             <tbody id="fleetTableBody">
               <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
-                  <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
                 </td>
-                <td>
-                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Cessna Citation XLS+</div>
-                  <div style="font-size: 12px; color: var(--text-muted);">2022 г. · Midsize · 8 PAX</div>
-                </td>
-                <td><strong style="color: var(--text-main); font-size: 14px;">S5-BBM</strong></td>
-                <td>LJU, Любляна (Словения)</td>
-                <td>
-                  <span class="badge-strict-primary">Черновик v13 (не опубликован)</span>
-                </td>
-                <td><span class="badge-strict-active">Активен</span></td>
-                <td style="text-align: right; white-space: nowrap;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
-                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
-                </td>
-              </tr>
-
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
-                <td>
-                  <img src="images/g550-exterior.jpg" alt="Gulfstream G550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
-                </td>
-                <td>
-                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G550</div>
-                  <div style="font-size: 12px; color: var(--text-muted);">2019 г. · Ultra Long Range · 14 PAX</div>
-                </td>
-                <td><strong style="color: var(--text-main); font-size: 14px;">RA-10222</strong></td>
-                <td>VKO, Москва (Россия)</td>
-                <td><span class="badge-strict-neutral">v8 (Опубликован)</span></td>
-                <td><span class="badge-strict-active">Активен</span></td>
-                <td style="text-align: right; white-space: nowrap;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
-                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-active">Активен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
                 </td>
               </tr>
 
               <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
-                  <img src="images/fleet-large.jpg" alt="Challenger 350" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
                 </td>
-                <td>
-                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Challenger 350</div>
-                  <div style="font-size: 12px; color: var(--text-muted);">2021 г. · Super Midsize · 9 PAX</div>
-                </td>
-                <td><strong style="color: var(--text-main); font-size: 14px;">OE-HOO</strong></td>
-                <td>VIE, Вена (Австрия)</td>
-                <td><span class="badge-strict-neutral">v5 (Опубликован)</span></td>
-                <td><span class="badge-strict-active">Активен</span></td>
-                <td style="text-align: right; white-space: nowrap;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
-                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-inactive">Неактивен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
                 </td>
               </tr>
 
               <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
-                  <img src="images/fleet-small.jpg" alt="Embraer Phenom 300" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/citation-xls.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
                 </td>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-active">Активен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
                 <td>
-                  <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Embraer Phenom 300</div>
-                  <div style="font-size: 12px; color: var(--text-muted);">2020 г. · Light Jet · 6 PAX</div>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
                 </td>
-                <td><strong style="color: var(--text-main); font-size: 14px;">9H-VCA</strong></td>
-                <td>TLL, Таллин (Эстония)</td>
-                <td><span class="badge-strict-neutral">v3 (Опубликован)</span></td>
-                <td><span class="badge-strict-neutral">Черновик</span></td>
-                <td style="text-align: right; white-space: nowrap;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Редактировать</button>
-                  <span style="color: #CBD5E1; margin: 0 6px;">|</span>
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('sandbox')">Песочница</button>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-inactive">Неактивен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+                <td>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/fleet-large.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-active">Активен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+                <td>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/fleet-small.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-inactive">Неактивен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+                <td>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-active">Активен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+                <td>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/citation-xls.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-active">Активен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                </td>
+              </tr>
+
+              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+                <td>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="images/fleet-large.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
+                    <div>
+                      <div style="font-weight: 700; color: var(--text-main); font-size: 14px;">Gulfstream G-550</div>
+                      <div style="font-size: 12px; color: var(--text-muted);">2022г. Midsize</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="color: var(--text-main); font-size: 14px;">12345</td>
+                <td><span class="status-badge status-active">Активен</span></td>
+                <td style="color: var(--text-main); font-size: 14px;">2K-26 Test</td>
+                <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
+                <td style="color: var(--text-main); font-size: 14px;">7</td>
+                <td style="text-align: right;">
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <!-- Pagination Bar matching Figma -->
+          <!-- Pagination (Figma 7.1) -->
           <div class="data-table-pagination" style="justify-content: space-between; padding: 14px 24px;">
-            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted);">
-              <span>Показывать по:</span>
-              <select class="form-control" style="width: auto; padding: 4px 8px; height: 32px; font-size: 13px;">
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <button class="pagination-btn" disabled>&lt;</button>
+              <button class="pagination-btn pagination-btn--active">1</button>
+              <button class="pagination-btn">2</button>
+              <button class="pagination-btn">3</button>
+              <span style="color: var(--text-muted); font-size: 14px; padding: 0 4px;">...</span>
+              <button class="pagination-btn">20</button>
+              <button class="pagination-btn">&gt;</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-secondary);">
+              <span>Количество строк на странице:</span>
+              <select class="form-control" style="width: auto; padding: 4px 12px; height: 36px; font-size: 14px;">
                 <option value="10" selected>10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
               </select>
-            </div>
-            <div style="display: flex; align-items: center; gap: 16px;">
-              <span style="font-size: 13px; color: var(--text-muted);">1–4 из 4 бортов</span>
-              <div style="display: flex; gap: 4px;">
-                <button class="btn-secondary-white btn-sm" disabled style="padding: 4px 10px;">&lt;</button>
-                <button class="btn-primary btn-sm" style="padding: 4px 12px;">1</button>
-                <button class="btn-secondary-white btn-sm" disabled style="padding: 4px 10px;">&gt;</button>
-              </div>
             </div>
           </div>
         </div>
