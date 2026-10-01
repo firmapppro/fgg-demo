@@ -60,7 +60,7 @@ class Client:
                 self.ensure_dir(str(Path(remote).parent).replace("\\", "/"))
                 existing = self.size(remote)
                 size = local.stat().st_size
-                if existing == size:
+                if existing == size and local.suffix.lower() not in {".html", ".htm", ".js", ".css", ".json"}:
                     return "skip"
                 with local.open("rb") as fh:
                     self.ftp.storbinary(f"STOR {remote}", fh, blocksize=1024 * 256)
