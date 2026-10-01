@@ -780,196 +780,218 @@
 
 <div id="screen-plane-card" class="screen-view page-content" style="display: none;">
         
-        <!-- Header Nav Row -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <a href="#" class="btn-secondary btn-sm" onclick="navigateTo('fleet'); return false;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            <span>Назад ко всем бортам</span>
+        <!-- Breadcrumb / Back link & Title Row (Figma 7.6 / 7.9) -->
+        <div style="margin-bottom: 20px;">
+          <a href="#" class="plane-back-link" onclick="navigateTo('fleet'); return false;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Назад</span>
           </a>
-          <div style="display: flex; gap: 10px;">
-            <button class="btn-secondary" onclick="saveDraft()">Сохранить черновик</button>
-            <button class="btn-primary" onclick="openModerationModal()">Отправить на модерацию</button>
+          
+          <div class="plane-title-row">
+            <h1 class="plane-title-text" id="planeCardScreenTitle">Редактирование борта</h1>
+            <button type="button" class="btn-delete-plane-top" id="btnDeletePlaneTop" onclick="openDeletePlaneModal()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              <span>Удалить</span>
+            </button>
           </div>
         </div>
 
-        <!-- Plane Header Info Card -->
-        <div class="plane-header-card">
-          <div class="plane-header-top">
-            <div class="plane-thumb-info">
-              <img src="images/citation-xls.jpg" alt="Cessna Citation XLS+" class="plane-thumb-img">
-              <div>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <h1 style="font-size: 22px; font-weight: 800; color: var(--text-main);">Cessna Citation XLS+</h1>
-                  <span class="badge-strict-neutral">Midsize</span>
-                  <span class="badge-strict-active" id="planeStatusPill">Активен</span>
-                  <span class="badge-strict-primary">Есть неопубликованные изменения</span>
+        <!-- Card: Версии и публикация (Figma 7.6 / 7.11 / 7.12) -->
+        <div class="card card-version-publication" id="cardVersionsAndPublish">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 15px; font-weight: 700; color: #101828;">Версии и публикация</span>
+              <span class="badge-unpublished-pill" id="badgeUnpublishedChanges">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>Есть неопубликованные изменения</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="version-radios-grid">
+            <!-- Option 1: Published -->
+            <div class="version-radio-card is-selected" id="radioOptPublished" onclick="setPlaneCardVersion('published')">
+              <div class="custom-radio-dot"></div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="version-radio-title">Опубликованная версия</span>
+                  <span class="version-tag-pill active">Активна</span>
                 </div>
-                <div class="plane-meta-row">
-                  <span class="plane-meta-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                    <span>до 8 / 9 PAX</span>
-                  </span>
-                  <span class="plane-meta-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-                    <span>2022 г.</span>
-                  </span>
-                  <span class="plane-meta-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span>Обновлен: 2024</span>
-                  </span>
-                  <span class="plane-meta-item">
-                    <strong>Бортовой номер:</strong> S5-BBM
-                  </span>
-                  <span class="plane-meta-item">
-                    <strong>Базовый аэропорт:</strong> LJU
-                  </span>
+                <div class="version-radio-meta">
+                  <span>Версия: v12</span>
+                  <span>Изменен: 18.09.2026, 12:40</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Option 2: Draft -->
+            <div class="version-radio-card" id="radioOptDraft" onclick="setPlaneCardVersion('draft')">
+              <div class="custom-radio-dot"></div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="version-radio-title">Черновик</span>
+                  <span class="version-tag-pill">Готов к отправке</span>
+                </div>
+                <div class="version-radio-meta">
+                  <span>Изменен: 18.09.2026, 12:40</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Dynamic Version Alert Note -->
-          <div class="informer-box diff" id="planeVersionNote">
-            <svg class="informer-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <div>
-              <strong>Черновик v13 сохранен 18.09.2026, 12:40.</strong> Опубликованная версия v12 продолжает использоваться в клиентских расчетах на сайте и в мобильном приложении до подтверждения модератором.
-            </div>
+          <!-- Dynamic notes -->
+          <div id="versionPublishedNote" class="version-active-note">
+            Опубликованная версия <strong>v12</strong> (Активна). Это действующие параметры борта в системе FGG.
           </div>
 
-          <!-- Versions Switcher Grid (IMG_3260.MOV) -->
-          <div style="font-size: 14px; font-weight: 800; margin-bottom: 12px;">Версии и публикация</div>
-          <div class="version-cards-grid">
-            
-            <!-- Draft Card -->
-            <div class="version-card is-active-tab" id="cardVersionDraft" onclick="setPlaneVersion('draft')" style="cursor: pointer;">
-              <div class="version-card-header">
-                <div class="version-card-title">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                  <span>Черновик</span>
-                </div>
-                <span class="badge-strict-neutral" style="font-size: 11px;">Готов к отправке</span>
-              </div>
-              <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">
-                <strong>Версия:</strong> v13
-              </div>
-              <div style="font-size: 12px; color: var(--text-muted);">
-                Изменен: 18.09.2026, 12:40
-              </div>
+          <div id="versionDraftWarningWrap" style="display: none;">
+            <div class="version-amber-warning">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span><strong>Внимание:</strong> Вы редактируете Черновик v13. Эти изменения еще не проверены FGG. Клиенты видят расчеты по версии v12.</span>
             </div>
 
-            <!-- Published Card -->
-            <div class="version-card" id="cardVersionPublished" onclick="setPlaneVersion('published')" style="cursor: pointer;">
-              <div class="version-card-header">
-                <div class="version-card-title">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  <span>Опубликованная версия</span>
-                </div>
-                <span class="badge-strict-active" style="font-size: 11px;">Активна</span>
-              </div>
-              <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">
-                <strong>Версия:</strong> v12
-              </div>
-              <div style="font-size: 12px; color: var(--text-muted);">
-                Опубликован: 15.09.2026, 18:15
-              </div>
-            </div>
-
-            <!-- Diff Summary Card -->
-            <div class="version-card" id="cardDiffSummary" style="background: #F8FAFC; border-color: var(--diff-border);">
-              <div class="version-card-header">
-                <div class="version-card-title" style="color: var(--primary);">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                  <span>Основные изменения (Diff)</span>
-                </div>
-                <button class="btn-sm btn-secondary" onclick="openModerationModal()">Проверить</button>
-              </div>
-              <ul class="diff-list">
-                <li class="diff-list-item"><span class="diff-bullet"></span><span>Сбор за коммерческий рейс: €7 000 → €7 500</span></li>
-                <li class="diff-list-item"><span class="diff-bullet"></span><span>Сбор за перегоночный рейс: €5 500 → €5 800</span></li>
-                <li class="diff-list-item"><span class="diff-bullet"></span><span>Handling Неаполь (RIX): +€200 (€2 200 → €2 400)</span></li>
-                <li class="diff-list-item"><span class="diff-bullet"></span><span>Пассажировместимость: 8 → 9 PAX</span></li>
-                <li class="diff-list-item"><span class="diff-bullet"></span><span>Добавлен маршрут LFPB → EGLL</span></li>
-                <li class="diff-list-item"><span class="diff-bullet"></span><span>Обновлено фото салона борта</span></li>
+            <div class="diff-summary-card">
+              <div class="diff-summary-title">Основные изменения (Diff)</div>
+              <ul class="diff-summary-list">
+                <li>• Сбор за коммерческий рейс: €7 000 → €7 500</li>
+                <li>• Сбор за перегоночный рейс: €5 500 → €5 800</li>
+                <li>• Handling Неаполь (RIX): +€200 (€2 200 → €2 400)</li>
+                <li>• Пассажировместимость: 8 → 9 PAX</li>
               </ul>
             </div>
-
           </div>
         </div>
 
-        <!-- 1. Добавление фотографий борта -->
-        <div class="card">
-          <div class="card-title">1. Добавление фотографий борта</div>
-          <div class="gallery-grid">
-            <div class="gallery-item">
-              <img src="images/citation-exterior.jpg" alt="Экстерьер">
-            </div>
-            <div class="gallery-item">
-              <img src="images/citation-xls.jpg" alt="Борт на перроне">
-            </div>
-            <div class="gallery-item">
-              <img src="images/g550-cabin.jpg" alt="VIP Салон">
-            </div>
-            <div class="gallery-add-btn" onclick="showToast('Загрузка новых фото доступна', 'info')">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span>Добавить фото</span>
+        <!-- Section 1: Добавление фотографий борта (Figma 7.6 / 7.9) -->
+        <div class="card" id="cardPlanePhotos">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div class="card-section-title">1. Добавление фотографий борта</div>
+            <button type="button" class="btn-link-blue" id="btnAddPhotoHeader" onclick="triggerPhotoUpload()" style="display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Добавить фотографию</span>
+            </button>
+          </div>
+
+          <!-- Edit mode gallery -->
+          <div id="planeGalleryEditWrap" class="plane-gallery-scroll-container">
+            <div class="plane-gallery-list">
+              <div class="plane-photo-card">
+                <img src="images/g550-1.jpg" alt="Борт экстерьер">
+              </div>
+              <div class="plane-photo-card">
+                <img src="images/g550-2.jpg" alt="Салон кресла">
+              </div>
+              <div class="plane-photo-card">
+                <img src="images/g550-3.jpg" alt="VIP салон">
+              </div>
+              <div class="plane-photo-card">
+                <img src="images/g550-4.jpg" alt="Кресла салон">
+              </div>
+              <div class="plane-photo-card plane-photo-plan">
+                <img src="images/g550-plan.png" alt="Схема салона">
+                <button type="button" class="gallery-next-arrow" title="Следующие фото" onclick="showToast('Просмотр следующей партии фото', 'info')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
             </div>
           </div>
+
+          <!-- Create mode dropzone -->
+          <div id="planePhotoCreateDropzone" class="plane-photo-dropzone" style="display: none;" onclick="triggerPhotoUpload()">
+            <div style="display: flex; align-items: center; gap: 8px; color: #1976D2; font-weight: 600; font-size: 15px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Добавить фотографию</span>
+            </div>
+          </div>
+          <input type="file" id="planePhotoFileInput" style="display: none;" accept="image/*" multiple onchange="handlePhotoUpload(event)">
         </div>
 
-        <!-- 2. Основная информация о самолете -->
+        <!-- Section 2: Основная информация о самолете (Figma 7.6 / 7.9) -->
         <div class="card">
-          <div class="card-title">2. Основная информация о самолете</div>
-          
+          <div class="card-section-title" style="margin-bottom: 20px;">2. Основная информация о самолете</div>
+
           <div class="form-grid-3">
+            <!-- Row 1 -->
             <div class="form-group">
               <label class="form-label">
                 <span>Статус самолета</span>
                 <span class="fgg-info-tooltip" data-tooltip="Определяет доступность борта для бронирования. Если выбрать «Неактивный», самолет не будет показываться в выдаче."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <select class="form-control" disabled>
-                <option selected>Активный</option>
-                <option>Не активный</option>
+              <select class="form-control" id="planeFieldStatus">
+                <option value="active" selected>Активный</option>
+                <option value="inactive">Неактивный</option>
+                <option value="maintenance">На ТО</option>
               </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Модель самолета</span>
-                <span class="fgg-info-tooltip" data-tooltip="Тип (конкретная модификация) воздушного судна, определяемая производителем. После выбора модели основные характеристики борта заполнятся автоматически."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="text" class="form-control" value="Cessna Citation XLS+" disabled>
-            </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Бортовой номер</span>
-                <span class="fgg-info-tooltip align-right" data-tooltip="Регистрационный номер воздушного судна (например, RA-12345). Должен быть уникальным."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="text" class="form-control" value="S5-BBM" disabled>
             </div>
 
             <div class="form-group">
               <label class="form-label">
-                <span>Валюта расчетов</span>
-                <span class="fgg-info-tooltip" data-tooltip="Основная валюта для расчетов по этому борту. Все цены в карточке будут фиксироваться в ней."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                <span>Модель самолета</span>
+                <span class="fgg-info-tooltip" data-tooltip="Тип (модификация) воздушного судна, определяемая производителем. После выбора модели основные характеристики заполнятся автоматически."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <select class="form-control">
-                <option selected>Евро (EUR)</option>
-                <option>Доллар США (USD)</option>
-                <option>Дирхам (AED)</option>
+              <select class="form-control" id="planeFieldModel">
+                <option value="Gulfstream G-550" selected>Gulfstream G-550</option>
+                <option value="Cessna Citation XLS+">Cessna Citation XLS+</option>
+                <option value="Bombardier Challenger 605">Bombardier Challenger 605</option>
+                <option value="Dassault Falcon 7X">Dassault Falcon 7X</option>
+                <option value="Embraer Praetor 600">Embraer Praetor 600</option>
               </select>
             </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Бортовой номер</span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Регистрационный номер воздушного судна (например, RA-78967). Должен быть уникальным."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="text" class="form-control" id="planeFieldTailNumber" placeholder="Введите бортовой номер" value="RA-78967">
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>География полетов</span>
+                <span class="fgg-info-tooltip" data-tooltip="Территориальный охват полетов для данного борта."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <select class="form-control" id="planeFieldGeoScope">
+                <option value="international" selected>Международный</option>
+                <option value="domestic">Внутренний</option>
+                <option value="any">Любая</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Валюта</span>
+                <span class="fgg-info-tooltip" data-tooltip="Основная валюта для расчетов по этому борту. Все цены в карточке будут фиксироваться в ней."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <select class="form-control" id="planeFieldCurrency">
+                <option value="EUR" selected>Евро</option>
+                <option value="USD">Доллар США</option>
+                <option value="RUB">Рубль</option>
+                <option value="AED">Дирхам</option>
+              </select>
+            </div>
+
             <div class="form-group">
               <label class="form-label">
                 <span>Аэропорт базирования</span>
-                <span class="fgg-info-tooltip" data-tooltip="Основной аэропорт, где находится самолет, когда он не выполняет рейсы. Влияет на стоимость подачи и логистику."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Основной аэропорт, где находится самолет, когда он не выполняет рейсы. Влияет на стоимость подачи и логистику."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <input type="text" class="form-control" value="LJU, Ljubljana">
+              <div class="input-with-clear-wrap">
+                <input type="text" class="form-control" id="planeFieldHomeBase" placeholder="Выберите аэропорт" value="LTBA, Ataturk International Airport">
+                <button type="button" class="input-clear-btn" onclick="clearInputField('planeFieldHomeBase')" title="Очистить">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
             </div>
+
+            <!-- Row 3 -->
             <div class="form-group">
               <label class="form-label">
                 <span>Год выпуска</span>
-                <span class="fgg-info-tooltip align-right" data-tooltip="Год производства самолета согласно документам."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                <span class="fgg-info-tooltip" data-tooltip="Год производства самолета согласно документам."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <input type="number" class="form-control" value="2022">
+              <input type="number" class="form-control" id="planeFieldYear" placeholder="Введите год выпуска самолета" value="2004">
             </div>
 
             <div class="form-group">
@@ -977,105 +999,130 @@
                 <span>Год обновления экстерьера</span>
                 <span class="fgg-info-tooltip" data-tooltip="Год последней покраски или обновления внешнего вида самолета."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <input type="number" class="form-control" value="2024">
+              <input type="number" class="form-control" id="planeFieldExteriorYear" placeholder="Введите год обновления" value="2023">
             </div>
+
             <div class="form-group">
               <label class="form-label">
                 <span>Год обновления интерьера</span>
-                <span class="fgg-info-tooltip" data-tooltip="Год последнего изменения салона: замена кресел, перетяжка, обновление отделки."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Год последнего изменения салона: замена кресел, перетяжка, обновление отделки."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <input type="number" class="form-control" value="2024">
+              <input type="number" class="form-control" id="planeFieldInteriorYear" placeholder="Введите год обновления" value="2024">
             </div>
+
+            <!-- Row 4 -->
             <div class="form-group">
               <label class="form-label">
                 <span>Время на рулежку, мин</span>
-                <span class="fgg-info-tooltip align-right" data-tooltip="Стандартное время в минутах от запуска двигателей до взлета. Это время прибавляется к каждому плечу на маршруте."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                <span class="fgg-info-tooltip" data-tooltip="Стандартное время в минутах от запуска двигателей до взлета. Прибавляется к расчетному времени полета."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <input type="number" class="form-control" value="15">
+              <input type="number" class="form-control" id="planeFieldTaxiTime" placeholder="Введите количество минут" value="10">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Суток вне базы</span>
+                <span class="fgg-info-tooltip" data-tooltip="Максимальное количество дней, которое борт может находиться вне домашнего аэропорта базирования."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="number" class="form-control" id="planeFieldDaysOffBase" placeholder="Введите количество суток" value="3">
+            </div>
+
+            <div class="form-group" style="display: flex; flex-direction: column; justify-content: flex-end;">
+              <label class="switch-row" style="margin-bottom: 8px;">
+                <span class="pill-toggle-switch">
+                  <input type="checkbox" id="planeFieldFloatingBase" checked>
+                  <span class="pill-toggle-slider"></span>
+                </span>
+                <span>Floating base</span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Режим «плавающей базы». В этом режиме домашней базой самолёта считается аэропорт, в котором он завершил предыдущий рейс."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
             </div>
           </div>
 
-          <div style="display: flex; gap: 28px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-light);">
-            <label class="switch-label">
-              <input type="checkbox" class="switch-input" checked>
-              <span class="switch-slider"></span>
-              <span>Floating base (плавающая база)</span>
-              <span class="fgg-info-tooltip" data-tooltip="Режим «плавающей базы». В этом режиме домашней базой самолёта считается аэропорт, в котором он завершил предыдущий рейс."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-            </label>
-            <label class="switch-label">
-              <input type="checkbox" class="switch-input">
-              <span class="switch-slider"></span>
-              <span>Temporary base (временная база)</span>
-              <span class="fgg-info-tooltip align-right" data-tooltip="Аэропорт, в котором самолет фактически находится на момент начала заказа согласно данным Календаря полетов, временно считается его базой."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-            </label>
+          <!-- Переводы (рус/англ) -->
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #EAECF0;">
+            <div style="font-size: 14px; font-weight: 700; color: #101828; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <span>Переводы</span>
+              <span class="fgg-info-tooltip" data-tooltip="Описания самолета на русском и английском языках, отображаемые клиентам в каталоге и коммерческих предложениях."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Примечание (рус)</label>
+                <textarea class="form-control form-control-textarea" id="planeFieldNoteRu" placeholder="Введите описание для самолета на русском языке">Примечание на русском языке</textarea>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Примечание (англ)</label>
+                <textarea class="form-control form-control-textarea" id="planeFieldNoteEn" placeholder="Введите описание для самолета на английском языке">Description in English</textarea>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 3. Характеристики самолета (с синей подсветкой изменений) -->
+        <!-- Section 3: Характеристики самолета (Figma 7.6 / 7.9) -->
         <div class="card">
-          <div class="card-title">3. Характеристики самолета</div>
+          <div class="card-section-title" style="margin-bottom: 20px;">3. Характеристики самолета</div>
 
-          <div class="form-grid-4">
+          <div class="form-grid-3">
             <div class="form-group">
               <label class="form-label">
                 <span>Фактическая дальность, км</span>
-                <span class="fgg-info-tooltip" data-tooltip="Это максимальная паспортная дальность самолёта, уменьшенная с учётом обязательных IFR-резервов топлива (резерв на запасной аэродром, финальный резерв и contingency fuel)."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                <span class="fgg-info-tooltip" data-tooltip="Паспортная дальность самолёта с учётом обязательных резервов топлива IFR."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <input type="number" class="form-control" value="3400">
+              <input type="number" class="form-control" id="planeFieldRange" placeholder="Введите дальность" value="4350">
             </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Max Pax (вместимость)</span>
-                <span class="fgg-info-tooltip" data-tooltip="Максимальное количество пассажирских мест в данной комплектации салона."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-                <span class="modified-badge" id="paxModifiedBadge">Изменено: v12 было 8</span>
-              </label>
-              <input type="number" class="form-control is-modified" id="planePaxInput" value="9">
-            </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Размеры салона (ДхШхВ, см)</span>
-                <span class="fgg-info-tooltip" data-tooltip="Габариты пассажирского салона: длина, ширина и высота (в сантиметрах)."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="text" class="form-control" value="560 x 183 x 188">
-            </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Объем багажа, м³</span>
-                <span class="fgg-info-tooltip align-right" data-tooltip="Общий объем багажных отсеков. Указывается в кубических метрах."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="text" class="form-control" value="2.0">
-            </div>
-          </div>
 
-          <div style="display: flex; gap: 24px; margin-top: 10px;">
-            <label class="switch-label">
-              <input type="checkbox" class="switch-input" checked>
-              <span class="switch-slider"></span>
-              <span>Комфортабельный салон</span>
-            </label>
-            <label class="switch-label">
-              <input type="checkbox" class="switch-input" checked>
-              <span class="switch-slider"></span>
-              <span>Wi-Fi на борту</span>
-            </label>
+            <div class="form-group">
+              <label class="form-label">
+                <span>Max Pax</span>
+                <span class="fgg-info-tooltip" data-tooltip="Максимальное количество пассажирских мест в данной комплектации салона."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="number" class="form-control" id="planeFieldPax" placeholder="Введите количество мест" value="12">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Размеры салона (ДхШхВ), см</span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Габариты пассажирского салона: длина, ширина и высота (в сантиметрах)."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="text" class="form-control" id="planeFieldCabinSize" placeholder="Введите размеры" value="1294x180x210">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Багаж, м3</span>
+                <span class="fgg-info-tooltip" data-tooltip="Общий объем багажных отсеков в кубических метрах."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="text" class="form-control" id="planeFieldBaggageVol" placeholder="Введите объем" value="5,56">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Количество багажа</span>
+                <span class="fgg-info-tooltip" data-tooltip="Максимальное количество стандартных чемоданов, вмещаемых в багажное отделение."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="number" class="form-control" id="planeFieldBaggageCount" placeholder="Введите количество" value="12">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Крейсерская скорость, км/ч</span>
+                <span class="fgg-info-tooltip align-right" data-tooltip="Средняя крейсерская скорость полета самолета."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="number" class="form-control" id="planeFieldSpeed" placeholder="Введите скорость" value="828">
+            </div>
           </div>
         </div>
 
-        <!-- 4. Разрешенные страны (Макет из geography-proto) -->
+        <!-- Section 4: Разрешенные страны (Figma 7.6 / 7.9) -->
         <div class="card" id="section-geography">
-          <div class="card-header-flex" style="margin-bottom: 20px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <div class="card-title" style="margin-bottom: 0;">4. Разрешенные страны</div>
-              <span class="fgg-info-tooltip" data-tooltip="Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-            </div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+            <div class="card-section-title">4. Разрешенные страны</div>
+            <span class="fgg-info-tooltip" data-tooltip="Страны, из которых самолет может выполнять вылеты и в которые может выполнять прилеты."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
           </div>
 
           <div class="geography-layout">
-            
-            <!-- Левая колонка: Быстрый выбор, ввод страны и теги -->
+            <!-- Left panel -->
             <div class="geo-left-panel">
-              
-              <!-- Быстрый выбор -->
               <div>
                 <div class="geo-subheading">Быстрый выбор:</div>
                 <div class="presets-wrap" id="presets-wrap">
@@ -1083,33 +1130,29 @@
                 </div>
               </div>
 
-              <!-- Поле ввода страны -->
               <div>
-                <div class="geo-subheading">Страна:</div>
+                <div class="geo-subheading">Страна</div>
                 <div class="country-input-wrap">
-                  <input type="text" id="country-input" class="form-control" placeholder="Введите название страны..." autocomplete="off">
-                  <button type="button" id="btn-add-country" class="btn-add-tag">+ Добавить</button>
+                  <input type="text" id="country-input" class="form-control" placeholder="Введите название страны" autocomplete="off">
                   <div id="country-autocomplete" class="geo-autocomplete"></div>
                 </div>
               </div>
 
-              <!-- Список тегов -->
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                   <div class="geo-subheading" style="margin-bottom: 0;">
-                    Выбрано: <span id="tags-count" style="color: var(--primary); font-weight: 700;">0</span>
+                    Выбрано (<span id="tags-count">0</span>)
                   </div>
                   <button type="button" class="btn-reset-tags" id="btn-reset-tags" title="Очистить все выбранные страны">Сбросить</button>
                 </div>
                 
                 <div id="tags-container" class="tags-box">
-                  <!-- Chips rendered dynamically from JS in style [ Страна × ] -->
+                  <!-- Chips rendered dynamically from JS -->
                 </div>
               </div>
-
             </div>
 
-            <!-- Правая колонка: Карта мира -->
+            <!-- Right panel (World Map) -->
             <div class="geo-map-panel">
               <div class="map-controls-row">
                 <div class="map-legend-items">
@@ -1125,151 +1168,399 @@
 
               <div id="world-map"></div>
             </div>
-
           </div>
         </div>
 
-        <!-- 5. Цены и тарифы (Сбор за коммерческий и перегоночный рейсы с Diff) -->
+        <!-- Section 5: Цены и тарифы (Figma 7.6 / 7.7 / 7.9) -->
         <div class="card">
-          <div class="card-title">5. Цены и тарифы</div>
+          <div class="card-section-title" style="margin-bottom: 20px;">5. Цены и тарифы</div>
 
-          <!-- Коммерческий рейс -->
-          <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
-            <span>Сбор за коммерческий рейс (летный час)</span>
-            <span class="fgg-info-tooltip" data-tooltip="Базовая ставка за летный час при выполнении коммерческого рейса с пассажирами."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-            <span class="modified-badge" id="commRateBadge">Изменено: v12 было €7 000</span>
-          </div>
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label class="form-label">0 – 60 мин (базовая ставка)</label>
-              <input type="number" class="form-control is-modified" id="planeCommRateInput" value="7500">
+          <!-- 1. Сбор за коммерческий рейс -->
+          <div class="pricing-group-wrap">
+            <div class="pricing-group-title">
+              <span>Сбор за коммерческий рейс</span>
+              <span class="fgg-info-tooltip" data-tooltip="Базовый сбор авиакомпании за выполнение коммерческого рейса с пассажирами."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
             </div>
-            <div class="form-group">
-              <label class="form-label">61 – 120 мин</label>
-              <input type="number" class="form-control" value="9500">
-            </div>
-            <div class="form-group">
-              <label class="form-label">от 121 мин</label>
-              <input type="number" class="form-control" value="9500">
-            </div>
-          </div>
 
-          <!-- Перегоночный рейс -->
-          <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
-            <span>Сбор за перегоночный рейс (Ferry leg)</span>
-            <span class="fgg-info-tooltip" data-tooltip="Пониженная ставка за летный час при техническом перегоне борта без пассажиров."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-            <span class="modified-badge" id="ferryRateBadge">Изменено: v12 было €5 500</span>
-          </div>
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label class="form-label">0 – 60 мин</label>
-              <input type="number" class="form-control is-modified" id="planeFerryRateInput" value="5800">
+            <div class="form-group" style="max-width: 320px;">
+              <label class="form-label">
+                <span>Минимальное время полета</span>
+                <span class="fgg-info-tooltip" data-tooltip="Минимальное оплачиваемое время для любого коммерческого рейса в минутах."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+              </label>
+              <input type="number" class="form-control" id="planeCommMinTime" placeholder="Введите количество минут" value="120">
             </div>
-            <div class="form-group">
-              <label class="form-label">61 – 120 мин</label>
-              <input type="number" class="form-control" value="7500">
-            </div>
-            <div class="form-group">
-              <label class="form-label">от 121 мин</label>
-              <input type="number" class="form-control" value="7500">
+
+            <div class="pricing-grid-3cols">
+              <div><div class="pricing-col-label">От, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="0"></div>
+              <div><div class="pricing-col-label">До, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="135"></div>
+              <div><div class="pricing-col-label">Стоимость</div><input type="number" class="form-control" placeholder="Введите стоимость" value="2200000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="136"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="150"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="1100000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="151"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="10100"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="800000"></div>
             </div>
           </div>
 
-          <!-- Дополнительные расходы и аэропорты -->
-          <div style="font-weight: 800; font-size: 14px; margin: 16px 0 10px; color: var(--text-main);">Дополнительные сборы в аэропортах</div>
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label class="form-label">
-                <span>Стоимость парковки за 24 ч</span>
-                <span class="fgg-info-tooltip" data-tooltip="Фиксированная суточная ставка стоянки борта в аэропорту при задержках или ожидании пассажиров."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="number" class="form-control" value="250">
+          <!-- 2. Сбор за коммерческий рейс (за рубеж) -->
+          <div class="pricing-group-wrap">
+            <div class="pricing-group-title">
+              <span>Сбор за коммерческий рейс (за рубеж)</span>
+              <span class="fgg-info-tooltip" data-tooltip="Ставка сбора при выполнении международного коммерческого перелета за пределы страны базирования."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
             </div>
-            <div class="form-group">
+
+            <label class="switch-row" style="margin-bottom: 14px;">
+              <span class="pill-toggle-switch">
+                <input type="checkbox" id="toggleCommAbroadPrevValues" checked onchange="togglePricingAbroad(this.checked)">
+                <span class="pill-toggle-slider"></span>
+              </span>
+              <span>Использовать предыдущие значения</span>
+            </label>
+
+            <div class="form-group" style="max-width: 320px;">
               <label class="form-label">
-                <span>Handling Неаполь (NAP/RIX)</span>
-                <span class="fgg-info-tooltip" data-tooltip="Стоимость наземного обслуживания (handling) в аэропорту прилета."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-                <span class="modified-badge" id="handlingNaplesBadge">Изменено: +€200</span>
+                <span>Минимальное время полета</span>
+                <span class="fgg-info-tooltip" data-tooltip="Минимальное оплачиваемое время для международного рейса."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
               </label>
-              <input type="number" class="form-control is-modified" id="planeHandlingNaplesInput" value="2400">
+              <input type="number" class="form-control" id="planeCommAbroadMinTime" placeholder="Введите количество минут" value="120">
             </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Passenger Service Fee (за пассажира)</span>
-                <span class="fgg-info-tooltip align-right" data-tooltip="Пассажирский сбор аэропорта за обслуживание одного пассажира."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="number" class="form-control" value="300">
+
+            <div class="pricing-grid-3cols" id="gridCommAbroad">
+              <div><div class="pricing-col-label">От, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="0"></div>
+              <div><div class="pricing-col-label">До, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="135"></div>
+              <div><div class="pricing-col-label">Стоимость</div><input type="number" class="form-control" placeholder="Введите стоимость" value="2200000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="136"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="150"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="1100000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="151"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="10100"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="800000"></div>
+            </div>
+          </div>
+
+          <!-- 3. Сбор за перегоночный рейс -->
+          <div class="pricing-group-wrap">
+            <div class="pricing-group-title">
+              <span>Сбор за перегоночный рейс</span>
+              <span class="fgg-info-tooltip" data-tooltip="Ставка за летный час при техническом перегоне борта без пассажиров."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+            </div>
+
+            <label class="switch-row" style="margin-bottom: 14px;">
+              <span class="pill-toggle-switch">
+                <input type="checkbox" id="toggleFerryPrevValues" checked>
+                <span class="pill-toggle-slider"></span>
+              </span>
+              <span>Использовать предыдущие значения</span>
+            </label>
+
+            <div class="pricing-grid-3cols">
+              <div><div class="pricing-col-label">От, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="0"></div>
+              <div><div class="pricing-col-label">До, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="135"></div>
+              <div><div class="pricing-col-label">Стоимость</div><input type="number" class="form-control" placeholder="Введите стоимость" value="2200000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="136"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="150"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="1100000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="151"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="10100"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="800000"></div>
+            </div>
+          </div>
+
+          <!-- 4. Стоимость парковки самолета -->
+          <div class="pricing-group-wrap">
+            <div class="pricing-group-title">
+              <span>Стоимость парковки самолета</span>
+              <span class="fgg-info-tooltip" data-tooltip="Тариф стоянки борта в аэропорту при задержках или ожидании пассажиров."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+            </div>
+
+            <div class="pricing-grid-3cols">
+              <div><div class="pricing-col-label">От, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="180"></div>
+              <div><div class="pricing-col-label">До, мин</div><input type="number" class="form-control" placeholder="Введите количество минут" value="720"></div>
+              <div><div class="pricing-col-label">Стоимость полета за рубеж</div><input type="number" class="form-control" placeholder="Введите стоимость" value="2200000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="721"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="1440"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="1100000"></div>
+
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="1441"></div>
+              <div><input type="number" class="form-control" placeholder="Введите количество минут" value="10100"></div>
+              <div><input type="number" class="form-control" placeholder="Введите стоимость" value="800000"></div>
+            </div>
+          </div>
+
+          <!-- 5. Минимальный отдых экипажа -->
+          <div class="pricing-group-wrap">
+            <div class="pricing-group-title">
+              <span>Минимальный отдых экипажа</span>
+              <span class="fgg-info-tooltip" data-tooltip="Регламентированный отдых экипажа между рейсами в зависимости от длительности полета."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+            </div>
+
+            <div class="pricing-grid-3cols">
+              <div><div class="pricing-col-label">От, час</div><input type="number" class="form-control" placeholder="От, час" value="1"></div>
+              <div><div class="pricing-col-label">До, час</div><input type="number" class="form-control" placeholder="До, час" value="3"></div>
+              <div><div class="pricing-col-label">Отдых, часов</div><input type="number" class="form-control" placeholder="Отдых, часов" value="1"></div>
+
+              <div><input type="number" class="form-control" placeholder="От, час" value="3"></div>
+              <div><input type="number" class="form-control" placeholder="До, час" value="5"></div>
+              <div><input type="number" class="form-control" placeholder="Отдых, часов" value="6"></div>
+
+              <div><input type="number" class="form-control" placeholder="От, час" value="5"></div>
+              <div><input type="number" class="form-control" placeholder="До, час" value="6"></div>
+              <div><input type="number" class="form-control" placeholder="Отдых, часов" value="14"></div>
+
+              <div><input type="number" class="form-control" placeholder="От, час" value="6"></div>
+              <div><input type="number" class="form-control" placeholder="До, час" value="100"></div>
+              <div><input type="number" class="form-control" placeholder="Отдых, часов" value="14"></div>
+            </div>
+          </div>
+
+          <!-- 6. Дополнительно -->
+          <div class="pricing-group-wrap">
+            <div class="pricing-group-title">Дополнительно</div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Кол-во беспл. пассажиров</span>
+                  <span class="fgg-info-tooltip" data-tooltip="Количество пассажиров, включенных в базовый тариф рейса."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                </label>
+                <input type="number" class="form-control" id="planeFieldFreePax" placeholder="Введите кол-во пассажиров" value="1000">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Сбор за 1 пассажира</span>
+                  <span class="fgg-info-tooltip" data-tooltip="Дополнительный сбор за каждого сверхнормативного пассажира."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                </label>
+                <input type="number" class="form-control" id="planeFieldPerPaxFee" placeholder="Введите стоимость" value="10">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Supporting Fee</span>
+                  <span class="fgg-info-tooltip align-right" data-tooltip="Сервисный сбор за операционную поддержку и диспетчеризацию."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                </label>
+                <input type="number" class="form-control" id="planeFieldSupportingFee" placeholder="Введите сумму" value="10">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">
+                  <span>App Fee, %</span>
+                  <span class="fgg-info-tooltip" data-tooltip="Комиссия платформы FGG в процентах от стоимости рейса."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                </label>
+                <input type="number" class="form-control" id="planeFieldAppFee" placeholder="Введите процент" value="7">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">
+                  <span>Комиссия банка</span>
+                  <span class="fgg-info-tooltip" data-tooltip="Банковские расходы на эквайринг и расчетно-кассовое обслуживание."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                </label>
+                <input type="number" class="form-control" id="planeFieldBankFee" placeholder="Введите сумму" value="1000">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">
+                  <span>VAT, %</span>
+                  <span class="fgg-info-tooltip align-right" data-tooltip="Ставка налога на добавленную стоимость (НДС/VAT)."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                </label>
+                <input type="number" class="form-control" id="planeFieldVat" placeholder="Введите процент" value="10">
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- 6. Расходы на экипаж -->
-        <div class="card">
-          <div class="card-title">6. Расходы на экипаж</div>
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label class="form-label">
-                <span>Суточная ставка экипажа пилотов, €</span>
-                <span class="fgg-info-tooltip" data-tooltip="Суточная ставка командировочных расходов экипажа пилотов."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="number" class="form-control" value="800">
-            </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Продолжительность рабочей смены пилотов, ч</span>
-                <span class="fgg-info-tooltip" data-tooltip="Максимально допустимая продолжительность одной рабочей смены пилотов."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="number" class="form-control" value="12">
-            </div>
-            <div class="form-group">
-              <label class="form-label">
-                <span>Минимальный отдых экипажа, ч</span>
-                <span class="fgg-info-tooltip align-right" data-tooltip="Обязательный регламентированный перерыв между сменами экипажа."><svg class="fgg-info-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
-              </label>
-              <input type="number" class="form-control" value="10">
-            </div>
-          </div>
-        </div>
-
-        <!-- 7. Календарь полетов (Таблица занятости борта по макету) -->
+        <!-- Section 6: Календарь полетов (Figma 7.6 / 7.9) -->
         <div class="card" id="section-plane-calendar">
-          <div class="card-header-flex" style="margin-bottom: 16px;">
-            <div>
-              <div class="card-title" style="margin-bottom: 4px;">7. Календарь полетов</div>
-              <div class="card-subtitle" style="margin-bottom: 0;">Источник: <strong>Ручной ввод</strong></div>
+          <div class="card-section-title" style="margin-bottom: 14px;">6. Календарь полетов</div>
+
+          <!-- Calendar Mode Header -->
+          <div class="calendar-source-row" id="calendarSourceHeader">
+            <div class="calendar-source-text">
+              Источник: <strong id="calendarSourceLabel">Leon Software</strong>
             </div>
-            <button type="button" class="btn-primary btn-sm" onclick="openAddFlightModal()">+ Добавить рейс</button>
+            <a href="#" class="calendar-switch-link" id="btnToggleCalendarSource" onclick="toggleCalendarSource(); return false;">Перейти на ручной ввод</a>
           </div>
 
-          <div class="data-table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Вылет (UTC+0)</th>
-                  <th>Откуда</th>
-                  <th>Куда</th>
-                  <th>Прилет (UTC+0)</th>
-                  <th>Тип занятости</th>
-                  <th>Пассажиры</th>
-                  <th>Действия</th>
-                </tr>
-              </thead>
-              <tbody id="planeCalendarTableBody">
-                <!-- Populated dynamically in app.js -->
-              </tbody>
-            </table>
+          <!-- Leon Connected Mode: Table -->
+          <div id="calendarLeonWrap">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Вылет (UTC+0)</th>
+                    <th>Откуда</th>
+                    <th>Прилет (UTC+0)</th>
+                    <th>Куда</th>
+                    <th>PAX</th>
+                    <th>Тип</th>
+                    <th style="text-align: right;">Действия</th>
+                  </tr>
+                </thead>
+                <tbody id="planeCalendarTableBody">
+                  <tr>
+                    <td>12.02.2026 10:45</td>
+                    <td><strong style="color: #101828;">DOH</strong></td>
+                    <td>12.02.2026 12:05</td>
+                    <td><strong style="color: #101828;">DXB</strong></td>
+                    <td>5</td>
+                    <td>Простой перелет</td>
+                    <td style="text-align: right;">—</td>
+                  </tr>
+                  <tr>
+                    <td>15.02.2026 14:30</td>
+                    <td><strong style="color: #101828;">DXB</strong></td>
+                    <td>15.02.2026 18:10</td>
+                    <td><strong style="color: #101828;">MCT</strong></td>
+                    <td>0</td>
+                    <td>Перегоночный рейс</td>
+                    <td style="text-align: right;">
+                      <button type="button" class="btn-add-el-table" onclick="createEmptyLegFromPlane('DXB', 'MCT', '15.02.2026 14:30')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span>Добавить Empty Leg</span>
+                        <span class="fgg-info-tooltip align-right" data-tooltip="Выставить перегоночный рейс как Empty Leg для поиска клиентов."><svg class="fgg-info-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>17.02.2026 19:10</td>
+                    <td><strong style="color: #101828;">AUH</strong></td>
+                    <td>17.02.2026 23:10</td>
+                    <td><strong style="color: #101828;">RUH</strong></td>
+                    <td>3</td>
+                    <td>Простой перелет</td>
+                    <td style="text-align: right;">—</td>
+                  </tr>
+                  <tr>
+                    <td>19.02.2026 09:00</td>
+                    <td><strong style="color: #101828;">DOH</strong></td>
+                    <td>19.02.2026 18:00</td>
+                    <td><strong style="color: #101828;">DOH</strong></td>
+                    <td>0</td>
+                    <td>Тех. обслуживание</td>
+                    <td style="text-align: right;">
+                      <button type="button" class="btn-add-el-table" onclick="createEmptyLegFromPlane('DOH', 'DOH', '19.02.2026 09:00')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span>Добавить Empty Leg</span>
+                        <span class="fgg-info-tooltip align-right" data-tooltip="Выставить технический слот как Empty Leg."><svg class="fgg-info-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Choice Cards Mode (Create mode / Manual) -->
+          <div id="calendarChoiceCardsWrap" style="display: none;">
+            <div class="choice-cards-container">
+              <div class="choice-option-card" id="choiceCardLeon" onclick="selectCalendarChoice('leon')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5" ry="4"/><ellipse cx="6" cy="10" rx="2.5" ry="3.5"/><ellipse cx="18" cy="10" rx="2.5" ry="3.5"/><ellipse cx="9" cy="5" rx="2" ry="3"/><ellipse cx="15" cy="5" rx="2" ry="3"/></svg>
+                <span>Подключить Leon</span>
+              </div>
+              <div class="choice-option-card is-active" id="choiceCardManual" onclick="selectCalendarChoice('manual')">
+                <span>Ручной ввод</span>
+              </div>
+            </div>
+
+            <!-- Manual Table with Add Flight Button -->
+            <div id="calendarManualTableWrap">
+              <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                <button type="button" class="btn-primary btn-sm" onclick="openAddFlightModal()">+ Добавить рейс</button>
+              </div>
+              <div class="data-table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Вылет (UTC+0)</th>
+                      <th>Откуда</th>
+                      <th>Прилет (UTC+0)</th>
+                      <th>Куда</th>
+                      <th>PAX</th>
+                      <th>Тип занятости</th>
+                      <th style="text-align: right;">Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody id="planeCalendarManualTableBody">
+                    <tr>
+                      <td>20.02.2026 11:00</td>
+                      <td><strong>LTFM</strong></td>
+                      <td>20.02.2026 14:30</td>
+                      <td><strong>UUWW</strong></td>
+                      <td>4</td>
+                      <td>Коммерческий</td>
+                      <td style="text-align: right;">
+                        <button type="button" class="btn-link-red" onclick="showToast('Рейс удален', 'warning')">Удалить</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Sticky Bottom Action Bar matching Figma DS -->
+        <!-- Section 7: Интеграции (Figma 7.6 / 7.9) -->
+        <div class="card" id="cardPlaneIntegrations">
+          <div class="card-section-title" style="margin-bottom: 16px;">7. Интеграции</div>
+
+          <!-- Connected card (Edit mode) -->
+          <div class="integration-connected-card" id="integrationConnectedBox">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="#0D2B52"><ellipse cx="12" cy="16" rx="5" ry="4"/><ellipse cx="6" cy="10" rx="2.5" ry="3.5"/><ellipse cx="18" cy="10" rx="2.5" ry="3.5"/><ellipse cx="9" cy="5" rx="2" ry="3"/><ellipse cx="15" cy="5" rx="2" ry="3"/></svg>
+                <div>
+                  <div style="font-weight: 800; font-size: 18px; color: #0D2B52; line-height: 1;">Leon</div>
+                  <div style="font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #5B6B82; text-transform: uppercase;">SOFTWARE</div>
+                </div>
+              </div>
+              <div style="font-size: 13px; color: #475467; border-left: 1px solid #EAECF0; padding-left: 16px;">
+                <span style="color: #64748B;">Аккаунт:</span> <strong>ACME Airlines</strong>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size: 12px; color: #64748B; margin-bottom: 4px;">Статус:</div>
+              <span class="status-badge status-active">Подключено</span>
+              <div style="font-size: 13px; color: #475467; margin-top: 6px;">
+                <span style="color: #64748B;">ID:</span> <strong>548239</strong>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size: 12px; color: #64748B; margin-bottom: 4px;">Последняя синхронизация (UTC+0):</div>
+              <div style="font-size: 13px; font-weight: 600; color: #101828;">18.02.2026 12:00</div>
+              <div style="font-size: 13px; color: #475467; margin-top: 6px;">
+                <span style="color: #64748B;">Борт:</span> <strong>Airbus A320-214 (VP-BDC)</strong>
+                <a href="#" class="btn-link-blue" onclick="showToast('Выбор привязки борта в Leon', 'info'); return false;" style="margin-left: 6px; font-size: 13px;">Сменить</a>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <button type="button" class="btn-sync-integration" onclick="syncLeonNow()">Синхронизировать сейчас</button>
+              <button type="button" class="btn-delete-integration" onclick="disconnectLeon()">Удалить интеграцию</button>
+            </div>
+          </div>
+
+          <!-- Empty state (Create mode) -->
+          <div class="integration-card-empty" id="integrationEmptyBox" style="display: none;">
+            <span>Пока у вас нет интеграций</span>
+          </div>
+        </div>
+
+        <!-- Sticky Bottom Bar (Figma 7.6 / 7.9) -->
         <div class="plane-bottom-bar">
-          <button type="button" class="btn-secondary-red" onclick="deletePlaneConfirm()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            <span>Удалить борт</span>
-          </button>
+          <button type="button" class="btn-secondary-white" onclick="navigateTo('fleet')">Отменить</button>
           <div style="display: flex; gap: 12px; align-items: center;">
-            <button type="button" class="btn-secondary-white" onclick="navigateTo('fleet')">Отмена</button>
-            <button type="button" class="btn-primary" onclick="savePlaneChanges()">Сохранить изменения</button>
+            <button type="button" class="btn-secondary" onclick="saveDraft()">Сохранить черновик</button>
+            <button type="button" class="btn-primary" onclick="openModerationModal()">Отправить на модерацию</button>
           </div>
         </div>
 
@@ -1313,7 +1604,7 @@
             <h1 class="page-title">Борты</h1>
           </div>
           <div class="page-title-actions">
-            <button class="btn-primary" onclick="navigateTo('plane-card')">
+            <button class="btn-primary" onclick="openPlaneCreate()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
               <span>Добавить борт</span>
             </button>
@@ -1428,7 +1719,7 @@
               </tr>
             </thead>
             <tbody id="fleetTableBody">
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1444,11 +1735,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1464,11 +1755,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/citation-xls.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1484,11 +1775,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1504,11 +1795,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/fleet-large.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1524,11 +1815,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/fleet-small.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1544,11 +1835,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/g550-exterior.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1564,11 +1855,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/citation-xls.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1584,11 +1875,11 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
 
-              <tr style="cursor: pointer;" onclick="navigateTo('plane-card')">
+              <tr style="cursor: pointer;" onclick="openPlaneEdit('12345')">
                 <td>
                   <div style="display: flex; align-items: center; gap: 12px;">
                     <img src="images/fleet-large.jpg" alt="Gulfstream G-550" style="width: 56px; height: 38px; border-radius: 6px; object-fit: cover; display: block; flex-shrink: 0;">
@@ -1604,7 +1895,7 @@
                 <td style="color: var(--text-main); font-size: 14px;">LTFM</td>
                 <td style="color: var(--text-main); font-size: 14px;">7</td>
                 <td style="text-align: right;">
-                  <button class="btn-link-blue" onclick="event.stopPropagation(); navigateTo('plane-card')">Просмотр</button>
+                  <button class="btn-link-blue" onclick="event.stopPropagation(); openPlaneEdit('12345')">Просмотр</button>
                 </td>
               </tr>
             </tbody>
@@ -2450,6 +2741,33 @@
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeModal('modalModeration')">Вернуться к редактированию</button>
         <button class="btn-primary" onclick="submitToModeration()">Отправить координатору</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: DELETE PLANE (УДАЛЕНИЕ БОРТА) -->
+  <!-- ============================================== -->
+  <div id="modalDeletePlane" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Удаление борта</div>
+        <button class="btn-close-modal" onclick="closeModal('modalDeletePlane')" aria-label="Закрыть">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+          Вы действительно хотите удалить борт <strong id="deletePlaneModalTarget">Gulfstream G-550 (RA-78967)</strong>?
+        </p>
+        <div class="version-amber-warning" style="margin-bottom: 0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>Это действие необратимо. Борт будет снят с публикации, все запланированные слоты и привязанные настройки будут удалены.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modalDeletePlane')">Отмена</button>
+        <button class="btn-danger-solid" onclick="confirmDeletePlane()">Удалить борт</button>
       </div>
     </div>
   </div>

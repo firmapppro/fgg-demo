@@ -497,7 +497,7 @@ function navigateTo(screenId) {
   const titles = {
     "orders": "Заявки",
     "fleet": "Борты",
-    "plane-card": "Борт Cessna Citation XLS+",
+    "plane-card": appState.planeCardMode === "create" ? "Создание борта" : "Редактирование борта",
     "sandbox": "Песочница",
     "emptylegs": "Empty legs",
     "emptylegs-view": "Просмотр Empty leg",
@@ -516,7 +516,7 @@ function navigateTo(screenId) {
   const topbarAction = document.getElementById("topbarActionSlot");
   if (topbarAction) {
     if (screenId === "fleet") {
-      topbarAction.innerHTML = `<button class="btn-primary" onclick="navigateTo('plane-card')">+ Добавить борт</button>`;
+      topbarAction.innerHTML = `<button class="btn-primary" onclick="openPlaneCreate()">+ Добавить борт</button>`;
       topbarAction.style.display = "block";
     } else {
       topbarAction.innerHTML = "";
@@ -527,7 +527,6 @@ function navigateTo(screenId) {
   if (screenId === "plane-card") {
     setTimeout(() => {
       initPlaneCardMap();
-      renderPlaneCalendarTable();
       initInfoPopovers();
     }, 100);
   } else if (screenId === "orders") {
@@ -1148,24 +1147,87 @@ function rejectOrderAction(orderId) {
 // PLANE FLIGHT CALENDAR (КАЛЕНДАРЬ ПОЛЕТОВ БОРТА)
 // ==========================================
 
+const leonCalendarFlights = [
+  {
+    depUtc: "12.02.2026 10:45",
+    origin: "DOH",
+    arrUtc: "12.02.2026 12:05",
+    dest: "DXB",
+    pax: 5,
+    type: "Простой перелет",
+    hasEmptyLeg: false
+  },
+  {
+    depUtc: "15.02.2026 14:30",
+    origin: "DXB",
+    arrUtc: "15.02.2026 18:10",
+    dest: "MCT",
+    pax: 0,
+    type: "Перегоночный рейс",
+    hasEmptyLeg: true
+  },
+  {
+    depUtc: "17.02.2026 19:10",
+    origin: "AUH",
+    arrUtc: "17.02.2026 23:10",
+    dest: "RUH",
+    pax: 3,
+    type: "Простой перелет",
+    hasEmptyLeg: false
+  },
+  {
+    depUtc: "19.02.2026 09:00",
+    origin: "DOH",
+    arrUtc: "19.02.2026 18:00",
+    dest: "DOH",
+    pax: 0,
+    type: "Тех. обслуживание",
+    hasEmptyLeg: true
+  }
+];
+
 function renderPlaneCalendarTable() {
   const tbody = document.getElementById("planeCalendarTableBody");
   if (!tbody) return;
-  const flights = appState.scheduledFlights.filter(f => f.plane === "S5-BBM");
-  if (flights.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">Нет запланированных рейсов для данного борта</td></tr>`;
+  tbody.innerHTML = leonCalendarFlights.map(f => `
+    <tr>
+      <td>${f.depUtc}</td>
+      <td><strong style="color: #101828;">${f.origin}</strong></td>
+      <td>${f.arrUtc}</td>
+      <td><strong style="color: #101828;">${f.dest}</strong></td>
+      <td>${f.pax}</td>
+      <td>${f.type}</td>
+      <td style="text-align: right;">
+        ${f.hasEmptyLeg ? `
+          <button type="button" class="btn-add-el-table" onclick="createEmptyLegFromPlane('${f.origin}', '${f.dest}', '${f.depUtc}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Добавить Empty Leg</span>
+            <span class="fgg-info-tooltip align-right" data-tooltip="Выставить этот перегоночный рейс как Empty Leg для поиска клиентов."><svg class="fgg-info-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15ZM.833 10a9.167 9.167 0 1 1 18.333 0A9.167 9.167 0 0 1 .833 10Z"/><path d="M10 9.167c.46 0 .834.373.834.833v3.333a.833.833 0 0 1-1.667 0V10c0-.46.373-.833.833-.833ZM9.167 6.667c0-.46.373-.834.833-.834h.009a.833.833 0 0 1 0 1.667H10a.833.833 0 0 1-.833-.833Z"/></svg></span>
+          </button>
+        ` : '—'}
+      </td>
+    </tr>
+  `).join("");
+}
+
+function renderPlaneManualCalendarTable() {
+  const tbody = document.getElementById("planeCalendarManualTableBody");
+  if (!tbody) return;
+  const flights = appState.scheduledFlights;
+  if (!flights || flights.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">Нет запланированных рейсов</td></tr>`;
     return;
   }
   tbody.innerHTML = flights.map(f => `
     <tr>
-      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.depUtc}</td>
-      <td style="font-size: 13px;">${f.origin}</td>
-      <td style="font-size: 13px;">${f.dest}</td>
-      <td style="font-weight: 600; color: var(--text-main); font-size: 13px;">${f.arrUtc}</td>
-      <td><span class="badge-strict-neutral">${f.type}</span></td>
-      <td style="font-size: 13px;">${f.pax > 0 ? f.pax + " чел." : "—"}</td>
-      <td>
-        <button type="button" class="btn-secondary btn-sm" onclick="deleteFlightRecord('${f.id}')" style="color: var(--danger); border-color: var(--border-light);">Удалить</button>
+      <td>${f.depUtc}</td>
+      <td><strong>${f.origin}</strong></td>
+      <td>${f.arrUtc}</td>
+      <td><strong>${f.dest}</strong></td>
+      <td>${f.pax}</td>
+      <td>${f.type}</td>
+      <td style="text-align: right;">
+        <button type="button" class="btn-link-red" onclick="deleteFlightRecord('${f.id}')">Удалить</button>
       </td>
     </tr>
   `).join("");
@@ -1283,7 +1345,7 @@ function submitAddFlightRecord() {
   appState.scheduledFlights.unshift(newFlight);
 
   closeModal("modalAddFlight");
-  renderPlaneCalendarTable();
+  renderPlaneManualCalendarTable();
   showToast(`Рейс успешно добавлен в календарь полетов!`, "success");
 }
 
@@ -1291,7 +1353,7 @@ function deleteFlightRecord(id) {
   const idx = appState.scheduledFlights.findIndex(f => f.id === id);
   if (idx !== -1) {
     appState.scheduledFlights.splice(idx, 1);
-    renderPlaneCalendarTable();
+    renderPlaneManualCalendarTable();
     showToast(`Рейс удален из календаря полетов`, "info");
   }
 }
@@ -1436,88 +1498,306 @@ function toggleAccordion(header) {
   body.classList.toggle("open");
 }
 
-function setPlaneVersion(version) {
-  appState.planeVersionTab = version;
-  const cardDraft = document.getElementById("cardVersionDraft");
-  const cardPublished = document.getElementById("cardVersionPublished");
-  const diffCard = document.getElementById("cardDiffSummary");
-  const noteBanner = document.getElementById("planeVersionNote");
+function clearInputField(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.value = "";
+    el.focus();
+  }
+}
 
-  const paxInput = document.getElementById("planePaxInput");
-  const commRateInput = document.getElementById("planeCommRateInput");
-  const ferryRateInput = document.getElementById("planeFerryRateInput");
-  const handlingNaplesInput = document.getElementById("planeHandlingNaplesInput");
+function triggerPhotoUpload() {
+  const fileInput = document.getElementById("planePhotoFileInput");
+  if (fileInput) fileInput.click();
+}
 
+function handlePhotoUpload(event) {
+  const files = event.target.files;
+  if (files && files.length > 0) {
+    showToast(`Загружено фотографий: ${files.length}`, "success");
+    const galleryWrap = document.getElementById("planeGalleryEditWrap");
+    if (galleryWrap) galleryWrap.style.display = "block";
+  }
+}
+
+function openPlaneCreate() {
+  appState.planeCardMode = "create";
+  
+  // Title
+  const titleEl = document.getElementById("planeCardScreenTitle");
+  if (titleEl) titleEl.textContent = "Создание борта";
+  
+  // Hide top delete button
+  const delBtn = document.getElementById("btnDeletePlaneTop");
+  if (delBtn) delBtn.style.display = "none";
+  
+  // Hide versions and publication card
+  const versionsCard = document.getElementById("cardVersionsAndPublish");
+  if (versionsCard) versionsCard.style.display = "none";
+  
+  // Gallery: hide prefilled gallery, show dashed uploader
+  const galleryWrap = document.getElementById("planeGalleryEditWrap");
+  if (galleryWrap) galleryWrap.style.display = "none";
+  const dropzone = document.getElementById("planePhotoCreateDropzone");
+  if (dropzone) dropzone.style.display = "flex";
+  
+  // Clear/Reset input fields
+  const statusField = document.getElementById("planeFieldStatus");
+  if (statusField) statusField.value = "inactive";
+  const modelField = document.getElementById("planeFieldModel");
+  if (modelField) modelField.value = "Gulfstream G-550";
+  const tailField = document.getElementById("planeFieldTailNumber");
+  if (tailField) tailField.value = "";
+  const homeBaseField = document.getElementById("planeFieldHomeBase");
+  if (homeBaseField) homeBaseField.value = "";
+  const yearField = document.getElementById("planeFieldYear");
+  if (yearField) yearField.value = "";
+  const extYearField = document.getElementById("planeFieldExteriorYear");
+  if (extYearField) extYearField.value = "";
+  const intYearField = document.getElementById("planeFieldInteriorYear");
+  if (intYearField) intYearField.value = "";
+  const taxiField = document.getElementById("planeFieldTaxiTime");
+  if (taxiField) taxiField.value = "10";
+  const daysField = document.getElementById("planeFieldDaysOffBase");
+  if (daysField) daysField.value = "3";
+  const floatField = document.getElementById("planeFieldFloatingBase");
+  if (floatField) floatField.checked = false;
+  const noteRuField = document.getElementById("planeFieldNoteRu");
+  if (noteRuField) noteRuField.value = "";
+  const noteEnField = document.getElementById("planeFieldNoteEn");
+  if (noteEnField) noteEnField.value = "";
+  
+  // Section 3: Characteristics
+  const rangeField = document.getElementById("planeFieldRange");
+  if (rangeField) rangeField.value = "";
+  const paxField = document.getElementById("planeFieldPax");
+  if (paxField) paxField.value = "";
+  const cabinField = document.getElementById("planeFieldCabinSize");
+  if (cabinField) cabinField.value = "";
+  const bagVolField = document.getElementById("planeFieldBaggageVol");
+  if (bagVolField) bagVolField.value = "";
+  const bagCountField = document.getElementById("planeFieldBaggageCount");
+  if (bagCountField) bagCountField.value = "";
+  const speedField = document.getElementById("planeFieldSpeed");
+  if (speedField) speedField.value = "";
+  
+  // Section 4: Geography (clear selected countries)
+  selectedCodes.clear();
+  renderTags();
+  syncMap();
+  
+  // Section 6: Calendar - Choice cards (Leon vs Manual)
+  const calendarHeader = document.getElementById("calendarSourceHeader");
+  if (calendarHeader) calendarHeader.style.display = "none";
+  const leonWrap = document.getElementById("calendarLeonWrap");
+  if (leonWrap) leonWrap.style.display = "none";
+  const choiceWrap = document.getElementById("calendarChoiceCardsWrap");
+  if (choiceWrap) choiceWrap.style.display = "block";
+  selectCalendarChoice("manual");
+  
+  // Section 7: Integrations - Empty box
+  const intConnected = document.getElementById("integrationConnectedBox");
+  if (intConnected) intConnected.style.display = "none";
+  const intEmpty = document.getElementById("integrationEmptyBox");
+  if (intEmpty) intEmpty.style.display = "block";
+  
+  navigateTo("plane-card");
+}
+
+function openPlaneEdit(planeId) {
+  appState.planeCardMode = "edit";
+  
+  // Title
+  const titleEl = document.getElementById("planeCardScreenTitle");
+  if (titleEl) titleEl.textContent = "Редактирование борта";
+  
+  // Show top delete button
+  const delBtn = document.getElementById("btnDeletePlaneTop");
+  if (delBtn) delBtn.style.display = "inline-flex";
+  
+  // Show versions and publication card
+  const versionsCard = document.getElementById("cardVersionsAndPublish");
+  if (versionsCard) versionsCard.style.display = "block";
+  
+  // Photo gallery: show gallery, hide empty dropzone
+  const galleryWrap = document.getElementById("planeGalleryEditWrap");
+  if (galleryWrap) galleryWrap.style.display = "block";
+  const dropzone = document.getElementById("planePhotoCreateDropzone");
+  if (dropzone) dropzone.style.display = "none";
+  
+  // Prefill Gulfstream G-550 data
+  const statusField = document.getElementById("planeFieldStatus");
+  if (statusField) statusField.value = "active";
+  const modelField = document.getElementById("planeFieldModel");
+  if (modelField) modelField.value = "Gulfstream G-550";
+  const tailField = document.getElementById("planeFieldTailNumber");
+  if (tailField) tailField.value = "RA-78967";
+  const geoScopeField = document.getElementById("planeFieldGeoScope");
+  if (geoScopeField) geoScopeField.value = "international";
+  const currencyField = document.getElementById("planeFieldCurrency");
+  if (currencyField) currencyField.value = "EUR";
+  const homeBaseField = document.getElementById("planeFieldHomeBase");
+  if (homeBaseField) homeBaseField.value = "LTBA, Ataturk International Airport";
+  const yearField = document.getElementById("planeFieldYear");
+  if (yearField) yearField.value = "2004";
+  const extYearField = document.getElementById("planeFieldExteriorYear");
+  if (extYearField) extYearField.value = "2023";
+  const intYearField = document.getElementById("planeFieldInteriorYear");
+  if (intYearField) intYearField.value = "2024";
+  const taxiField = document.getElementById("planeFieldTaxiTime");
+  if (taxiField) taxiField.value = "10";
+  const daysField = document.getElementById("planeFieldDaysOffBase");
+  if (daysField) daysField.value = "3";
+  const floatField = document.getElementById("planeFieldFloatingBase");
+  if (floatField) floatField.checked = true;
+  const noteRuField = document.getElementById("planeFieldNoteRu");
+  if (noteRuField) noteRuField.value = "Примечание на русском языке";
+  const noteEnField = document.getElementById("planeFieldNoteEn");
+  if (noteEnField) noteEnField.value = "Description in English";
+  
+  // Section 3: Characteristics
+  const rangeField = document.getElementById("planeFieldRange");
+  if (rangeField) rangeField.value = "4350";
+  const paxField = document.getElementById("planeFieldPax");
+  if (paxField) paxField.value = "12";
+  const cabinField = document.getElementById("planeFieldCabinSize");
+  if (cabinField) cabinField.value = "1294x180x210";
+  const bagVolField = document.getElementById("planeFieldBaggageVol");
+  if (bagVolField) bagVolField.value = "5,56";
+  const bagCountField = document.getElementById("planeFieldBaggageCount");
+  if (bagCountField) bagCountField.value = "12";
+  const speedField = document.getElementById("planeFieldSpeed");
+  if (speedField) speedField.value = "828";
+  
+  // Section 4: Geography (restore European/international codes)
+  selectedCodes = new Set(["EE", "DE", "FR", "IT", "ES", "AT", "CH", "GB", "NL", "BE", "PT", "US", "CA"]);
+  renderTags();
+  syncMap();
+  
+  // Section 6: Calendar - Leon Software
+  appState.planeCalendarSource = "leon";
+  const calendarHeader = document.getElementById("calendarSourceHeader");
+  if (calendarHeader) calendarHeader.style.display = "flex";
+  const sourceLabel = document.getElementById("calendarSourceLabel");
+  if (sourceLabel) sourceLabel.textContent = "Leon Software";
+  const toggleBtn = document.getElementById("btnToggleCalendarSource");
+  if (toggleBtn) toggleBtn.textContent = "Перейти на ручной ввод";
+  const leonWrap = document.getElementById("calendarLeonWrap");
+  if (leonWrap) leonWrap.style.display = "block";
+  const choiceWrap = document.getElementById("calendarChoiceCardsWrap");
+  if (choiceWrap) choiceWrap.style.display = "none";
+  
+  // Section 7: Integrations - Connected card
+  const intConnected = document.getElementById("integrationConnectedBox");
+  if (intConnected) intConnected.style.display = "flex";
+  const intEmpty = document.getElementById("integrationEmptyBox");
+  if (intEmpty) intEmpty.style.display = "none";
+  
+  // Version publication: published v12 default
+  setPlaneCardVersion("published");
+  
+  navigateTo("plane-card");
+}
+
+function setPlaneCardVersion(version) {
+  appState.planeCardVersion = version;
+  const radioPublished = document.getElementById("radioOptPublished");
+  const radioDraft = document.getElementById("radioOptDraft");
+  const notePublished = document.getElementById("versionPublishedNote");
+  const warningDraft = document.getElementById("versionDraftWarningWrap");
+  
   if (version === "draft") {
-    cardDraft.classList.add("is-active-tab");
-    cardPublished.classList.remove("is-active-tab");
-    if (diffCard) diffCard.style.display = "block";
-    if (noteBanner) {
-      noteBanner.innerHTML = `<svg class="informer-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        <div><strong>Внимание: Вы редактируете Черновик v13.</strong> Эти изменения еще не проверены FGG. Клиенты видят расчеты по версии v12.</div>`;
-      noteBanner.className = "informer-box warning";
-    }
-
-    if (paxInput) {
-      paxInput.value = "9";
-      paxInput.classList.add("is-modified");
-      const b = document.getElementById("paxModifiedBadge");
-      if (b) b.style.display = "inline-block";
-    }
-    if (commRateInput) {
-      commRateInput.value = "7500";
-      commRateInput.classList.add("is-modified");
-      const b = document.getElementById("commRateBadge");
-      if (b) b.style.display = "inline-block";
-    }
-    if (ferryRateInput) {
-      ferryRateInput.value = "5800";
-      ferryRateInput.classList.add("is-modified");
-      const b = document.getElementById("ferryRateBadge");
-      if (b) b.style.display = "inline-block";
-    }
-    if (handlingNaplesInput) {
-      handlingNaplesInput.value = "2400";
-      handlingNaplesInput.classList.add("is-modified");
-      const b = document.getElementById("handlingNaplesBadge");
-      if (b) b.style.display = "inline-block";
-    }
-    showToast("Параметры Черновика v13 (измененные поля выделены синим)", "info");
+    if (radioDraft) radioDraft.classList.add("is-selected");
+    if (radioPublished) radioPublished.classList.remove("is-selected");
+    if (notePublished) notePublished.style.display = "none";
+    if (warningDraft) warningDraft.style.display = "block";
+    showToast("Выбран Черновик v13 (показаны изменения)", "info");
   } else {
-    cardDraft.classList.remove("is-active-tab");
-    cardPublished.classList.add("is-active-tab");
-    if (diffCard) diffCard.style.display = "none";
-    if (noteBanner) {
-      noteBanner.innerHTML = `<svg class="informer-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <div><strong>Опубликованная версия v12 (Активна).</strong> Это действующие параметры борта в системе FGG.</div>`;
-      noteBanner.className = "informer-box info";
-    }
+    if (radioPublished) radioPublished.classList.add("is-selected");
+    if (radioDraft) radioDraft.classList.remove("is-selected");
+    if (notePublished) notePublished.style.display = "block";
+    if (warningDraft) warningDraft.style.display = "none";
+    showToast("Выбрана Опубликованная версия v12 (активная)", "info");
+  }
+}
 
-    if (paxInput) {
-      paxInput.value = "8";
-      paxInput.classList.remove("is-modified");
-      const b = document.getElementById("paxModifiedBadge");
-      if (b) b.style.display = "none";
-    }
-    if (commRateInput) {
-      commRateInput.value = "7000";
-      commRateInput.classList.remove("is-modified");
-      const b = document.getElementById("commRateBadge");
-      if (b) b.style.display = "none";
-    }
-    if (ferryRateInput) {
-      ferryRateInput.value = "5500";
-      ferryRateInput.classList.remove("is-modified");
-      const b = document.getElementById("ferryRateBadge");
-      if (b) b.style.display = "none";
-    }
-    if (handlingNaplesInput) {
-      handlingNaplesInput.value = "2200";
-      handlingNaplesInput.classList.remove("is-modified");
-      const b = document.getElementById("handlingNaplesBadge");
-      if (b) b.style.display = "none";
-    }
-    showToast("Действующие опубликованные параметры v12", "info");
+function setPlaneVersion(version) {
+  setPlaneCardVersion(version);
+}
+
+function toggleCalendarSource() {
+  const current = appState.planeCalendarSource || "leon";
+  const leonWrap = document.getElementById("calendarLeonWrap");
+  const choiceWrap = document.getElementById("calendarChoiceCardsWrap");
+  const sourceLabel = document.getElementById("calendarSourceLabel");
+  const toggleBtn = document.getElementById("btnToggleCalendarSource");
+  
+  if (current === "leon") {
+    appState.planeCalendarSource = "manual";
+    if (leonWrap) leonWrap.style.display = "none";
+    if (choiceWrap) choiceWrap.style.display = "block";
+    if (sourceLabel) sourceLabel.textContent = "Ручной ввод";
+    if (toggleBtn) toggleBtn.textContent = "Вернуться к Leon Software";
+    selectCalendarChoice("manual");
+    showToast("Переключено на ручной ввод календаря", "info");
+  } else {
+    appState.planeCalendarSource = "leon";
+    if (leonWrap) leonWrap.style.display = "block";
+    if (choiceWrap) choiceWrap.style.display = "none";
+    if (sourceLabel) sourceLabel.textContent = "Leon Software";
+    if (toggleBtn) toggleBtn.textContent = "Перейти на ручной ввод";
+    showToast("Переключено на Leon Software", "info");
+  }
+}
+
+function selectCalendarChoice(choice) {
+  const cardLeon = document.getElementById("choiceCardLeon");
+  const cardManual = document.getElementById("choiceCardManual");
+  const manualTableWrap = document.getElementById("calendarManualTableWrap");
+  
+  if (choice === "leon") {
+    if (cardLeon) cardLeon.classList.add("is-active");
+    if (cardManual) cardManual.classList.remove("is-active");
+    if (manualTableWrap) manualTableWrap.style.display = "none";
+    showToast("Для подключения перейдите в блок 7 «Интеграции»", "info");
+  } else {
+    if (cardManual) cardManual.classList.add("is-active");
+    if (cardLeon) cardLeon.classList.remove("is-active");
+    if (manualTableWrap) manualTableWrap.style.display = "block";
+  }
+}
+
+function syncLeonNow() {
+  showToast("Синхронизация с Leon Software успешно выполнена", "success");
+}
+
+function disconnectLeon() {
+  if (confirm("Отключить интеграцию с Leon Software для этого борта?")) {
+    const intConnected = document.getElementById("integrationConnectedBox");
+    const intEmpty = document.getElementById("integrationEmptyBox");
+    if (intConnected) intConnected.style.display = "none";
+    if (intEmpty) intEmpty.style.display = "block";
+    showToast("Интеграция с Leon Software отключена", "warning");
+  }
+}
+
+function openDeletePlaneModal() {
+  const modal = document.getElementById("modalDeletePlane");
+  if (modal) modal.classList.add("active");
+}
+
+function confirmDeletePlane() {
+  closeModal("modalDeletePlane");
+  showToast("Борт Gulfstream G-550 (RA-78967) удален", "error");
+  navigateTo("fleet");
+}
+
+function createEmptyLegFromPlane(origin, dest, dateTime) {
+  showToast(`Рейс ${origin} → ${dest} (${dateTime}) передан в Empty Legs`, "success");
+  if (typeof openEmptyLegCreateModal === "function") {
+    openEmptyLegCreateModal();
+  } else {
+    navigateTo("emptylegs");
   }
 }
 
@@ -1532,11 +1812,6 @@ function openModerationModal() {
 
 function submitToModeration() {
   closeModal("modalModeration");
-  const statusPill = document.getElementById("planeStatusPill");
-  if (statusPill) {
-    statusPill.textContent = "На модерации FGG";
-    statusPill.className = "badge-strict-neutral";
-  }
   showToast("Пакет изменений отправлен координатору FGG на утверждение", "success");
 }
 
