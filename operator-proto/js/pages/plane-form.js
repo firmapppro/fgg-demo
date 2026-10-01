@@ -28,7 +28,7 @@ const filledForm = () => ({
   commMin: "", ferry: [["0", "135", "2200000"], ["136", "150", "1100000"], ["151", "10100", "800000"]], ferryMin: "", prev: false,
   park: [["180", "720", "2200000"], ["721", "1440", "1100000"], ["1441", "1000000", "800000"]],
   rest: [["1", "3", "1"], ["3", "5", "6"], ["5", "6", "14"], ["6", "100", "14"]],
-  free: "1000", paxfee: "10", support: "10", app: "7", bank: "1000", vat: "10",
+  free: "1000", paxfee: "10", support: "10", bank: "1000", vat: "10",
   photos: [...PHOTOS], leon: true, source: "Leon Software",
 });
 const emptyForm = () => ({
@@ -38,7 +38,7 @@ const emptyForm = () => ({
   comm: [["", "", ""], ["", "", ""], ["", "", ""]], commMin: "", ferry: [["", "", ""], ["", "", ""], ["", "", ""]], ferryMin: "", prev: false,
   park: [["", "", ""], ["", "", ""], ["", "", ""]],
   rest: [["1", "3", "1"], ["3", "5", "6"], ["5", "6", "14"], ["6", "100", "14"]],
-  free: "", paxfee: "", support: "", app: "", bank: "", vat: "",
+  free: "", paxfee: "", support: "", bank: "", vat: "",
   photos: [], leon: false, source: "",
 });
 
@@ -257,7 +257,6 @@ function extraHtml() {
     F({ id: "paxfee", label: "Сбор за 1 пассажира", value: f.paxfee, ph: "Введите стоимость" }),
     F({ id: "support", label: "Supporting Fee", value: f.support, ph: "Введите сумму " }),
   ) + row(
-    F({ id: "app", label: "App Fee, %", value: f.app, ph: "Введите процент" }),
     F({ id: "bank", label: "Комиссия банка", value: f.bank, ph: "Введите сумму " }),
     F({ id: "vat", label: "VAT, % ", value: f.vat, ph: "Введите процент" }),
   );
@@ -417,7 +416,7 @@ function mount({ go }) {
   const f = S.form;
 
   /* --- generic inputs -> state --- */
-  const textKeys = ["tail", "year", "ext", "int", "taxi", "days", "noteRu", "noteEn", "range", "maxpax", "cabin", "baggage", "bags", "speed", "free", "paxfee", "support", "app", "bank", "vat", "commMin", "ferryMin"];
+  const textKeys = ["tail", "year", "ext", "int", "taxi", "days", "noteRu", "noteEn", "range", "maxpax", "cabin", "baggage", "bags", "speed", "free", "paxfee", "support", "bank", "vat", "commMin", "ferryMin"];
   root.addEventListener("input", (e) => {
     const t = e.target;
     if (!t.id) return;
@@ -490,7 +489,7 @@ function mount({ go }) {
       f.leon = true; f.manual = false; f.source = "Leon Software";
       // Leon import fills tariffs the operator already keeps there
       const src = filledForm();
-      ["comm", "ferry", "park", "rest", "free", "paxfee", "support", "app", "bank", "vat"].forEach((k) => (f[k] = src[k]));
+      ["comm", "ferry", "park", "rest", "free", "paxfee", "support", "bank", "vat"].forEach((k) => (f[k] = src[k]));
       $("#sec-pricing").outerHTML = pricingHtml();
       $("#sec-calendar").outerHTML = calendarHtml();
       $("#sec-int").outerHTML = integrationsHtml();
