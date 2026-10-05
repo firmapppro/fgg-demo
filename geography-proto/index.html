@@ -1096,10 +1096,11 @@
         },
 
         onRegionTooltipShow: function(event, tooltip, code) {
-          const country = window.COUNTRIES_DATA[code];
+          const country = window.COUNTRIES_DATA ? window.COUNTRIES_DATA[code] : null;
           const isSelected = selectedCodes.has(code);
-          const name = country ? country.nameRu : code;
-          const status = isSelected ? '✓ Разрешено для полетов' : 'Кликните для добавления';
+          const fallback = code === "_2" ? "Сомалиленд" : code === "_1" ? "Косово" : code === "_0" ? "Северный Кипр" : code;
+          const name = country ? country.nameRu : fallback;
+          const status = isSelected ? 'Разрешено для полетов' : 'Кликните для добавления';
           tooltip.text(
             `<div style="font-family: inherit;"><b>${name}</b><br/><span style="font-size: 10px; color: #94A3B8;">${status}</span></div>`,
             true

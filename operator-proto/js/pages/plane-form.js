@@ -575,9 +575,10 @@ function mount({ go }) {
         box.classList.remove("has-items"); return;
       }
       const D = window.COUNTRIES_DATA || {};
-      codes.sort((a, b) => (D[a]?.nameRu || a).localeCompare(D[b]?.nameRu || b, "ru"));
+      const countryName = (c) => D[c]?.nameRu || (c === "_2" ? "Сомалиленд" : c === "_1" ? "Косово" : c === "_0" ? "Северный Кипр" : c);
+      codes.sort((a, b) => countryName(a).localeCompare(countryName(b), "ru"));
       box.classList.add("has-items");
-      box.innerHTML = codes.map((c) => `<span class="cchip">${esc(D[c]?.nameRu || c)}<button type="button" data-rm="${c}" aria-label="Убрать">${icon("x", 16)}</button></span>`).join("");
+      box.innerHTML = codes.map((c) => `<span class="cchip">${esc(countryName(c))}<button type="button" data-rm="${c}" aria-label="Убрать">${icon("x", 16)}</button></span>`).join("");
     };
     renderBox();
     let map = null, syncing = false;
@@ -594,7 +595,11 @@ function mount({ go }) {
       selector: "#world-map", map: "world", backgroundColor: "transparent", draggable: true, zoomButtons: false, zoomOnScroll: false,
       zoomMax: 8, zoomMin: 1, zoomStep: 1.35, zoomAnimate: true, regionsSelectable: true, selectedRegions: [...S.countries],
       regionStyle: { initial: { fill: "#e7e8e9", stroke: "#f7f9fa", strokeWidth: 0.5 }, hover: { fill: "#cee2f5", cursor: "pointer" }, selected: { fill: "#0970cd" }, selectedHover: { fill: "#11498c" } },
-      onRegionTooltipShow(ev, tip, code) { const c = window.COUNTRIES_DATA[code]; tip.text(`<b>${c ? c.nameRu : code}</b>`, true); },
+      onRegionTooltipShow(ev, tip, code) {
+        const c = window.COUNTRIES_DATA?.[code];
+        const name = c?.nameRu || (code === "_2" ? "Сомалиленд" : code === "_1" ? "Косово" : code === "_0" ? "Северный Кипр" : code);
+        tip.text(`<b>${esc(name)}</b>`, true);
+      },
       onRegionSelected(code, sel) { if (syncing) return; sel ? S.countries.add(code) : S.countries.delete(code); renderBox(); },
     });
     const reset = () => { map.scale = map._baseScale; map.transX = map._baseTransX; map.transY = map._baseTransY; map._applyTransform(); };
@@ -621,7 +626,7 @@ function mount({ go }) {
       const q = ci.value.trim().toLowerCase();
       if (!q) { cdd.hidden = true; return; }
       const m = Object.values(window.COUNTRIES_DATA).filter((c) => c.nameRu.toLowerCase().includes(q) || c.nameEn.toLowerCase().includes(q) || c.code.toLowerCase() === q).slice(0, 8);
-      cdd.innerHTML = m.length ? m.map((c) => `<button type="button" class="dropdown__item" data-cc="${c.code}">${esc(c.nameRu)}<span class="c-grey">${c.code}</span></button>`).join("") : `<div class="dropdown__empty">Не найдено</div>`;
+      cdd.innerHTML = m.length ? m.map((c) => `<button type="button" class="dropdown__item" data-cc="${c.code}">${esc(c.nameRu)}<span class="c-grey">${c.code.startsWith("_") ? "" : c.code}</span></button>`).join("") : `<div class="dropdown__empty">Не найдено</div>`;
       cdd.hidden = false;
     });
     cdd.addEventListener("click", (e) => { const o = e.target.closest("[data-cc]"); if (!o) return; S.countries.add(o.dataset.cc); sync(); renderBox(); ci.value = ""; cdd.hidden = true; });

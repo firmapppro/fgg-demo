@@ -230,21 +230,21 @@ window.COUNTRIES_DATA = {
   },
   "_2": {
     "code": "_2",
-    "nameRu": "Somaliland",
+    "nameRu": "Сомалиленд",
     "nameEn": "Somaliland",
-    "flag": "🌐"
+    "flag": ""
   },
   "_1": {
     "code": "_1",
     "nameRu": "Косово",
     "nameEn": "Kosovo",
-    "flag": "🇽🇰"
+    "flag": ""
   },
   "_0": {
     "code": "_0",
-    "nameRu": "N. Cyprus",
-    "nameEn": "N. Cyprus",
-    "flag": "🌐"
+    "nameRu": "Северный Кипр",
+    "nameEn": "Northern Cyprus",
+    "flag": ""
   },
   "JO": {
     "code": "JO",
