@@ -1,0 +1,566 @@
+/* ==========================================================================
+   TM HOLDING LLC — Brand Guidelines & Identity Manual
+   Styling for Interactive Presentation & Print / PDF Export
+   ========================================================================== */
+
+:root {
+  --bg-presentation: #06090E;
+  --bg-slide: #090E17;
+  --border-slide: rgba(212, 175, 55, 0.28);
+  
+  --gold-primary: #D4AF37;
+  --gold-light: #F7E7C4;
+  --gold-dark: #9A742A;
+  --gold-sheen: #E5C583;
+
+  --obsidian: #070A10;
+  --qatar-maroon: #5B1426;
+  --navy: #0E1A32;
+  --ivory: #F5EEDB;
+  --slate: #9BAEC5;
+  --text-white: #FFFFFF;
+
+  --font-serif: 'Cinzel', 'Trajan Pro', 'Didot', 'Georgia', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-arabic: 'Amiri', 'Traditional Arabic', serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-presentation);
+  color: var(--text-white);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header & Control Bar */
+.brandbook-header {
+  height: 64px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(7, 10, 16, 0.85);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brandbook-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brandbook-nav-mark {
+  width: 28px;
+  height: 28px;
+}
+
+.brandbook-nav-title {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.brandbook-nav-subtitle {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+}
+
+.brandbook-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.slide-counter {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  color: var(--slate);
+}
+
+.slide-counter span {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+.btn-ctrl {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: var(--text-white);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-ctrl:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold-primary);
+  color: #FFFFFF;
+}
+
+.btn-ctrl-gold {
+  background: linear-gradient(135deg, #F7E7C4, #D4AF37);
+  color: #070A10;
+  border: 1px solid var(--gold-light);
+  font-weight: 600;
+}
+
+.btn-ctrl-gold:hover {
+  background: linear-gradient(135deg, #FFFFFF, #E2C17C);
+  color: #070A10;
+}
+
+/* Presentation Viewport */
+.deck-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  position: relative;
+}
+
+/* Individual Slide (16:9 Aspect Ratio) */
+.slide-stage {
+  width: 100%;
+  max-width: 1120px;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-slide);
+  border: 1px solid var(--border-slide);
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.08);
+  position: relative;
+  display: none;
+  flex-direction: column;
+  padding: 44px 54px;
+  overflow: hidden;
+}
+
+.slide-stage.active {
+  display: flex;
+}
+
+/* Subtle inner corner framing for luxury finish */
+.slide-frame-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--gold-primary);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.frame-tl { top: 16px; left: 16px; border-top: 1px solid; border-left: 1px solid; }
+.frame-tr { top: 16px; right: 16px; border-top: 1px solid; border-right: 1px solid; }
+.frame-bl { bottom: 16px; left: 16px; border-bottom: 1px solid; border-left: 1px solid; }
+.frame-br { bottom: 16px; right: 16px; border-bottom: 1px solid; border-right: 1px solid; }
+
+/* Slide Header & Footer */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.slide-category {
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-bottom: 6px;
+  font-weight: 600;
+  display: block;
+}
+
+.slide-title {
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.slide-page-badge {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--gold-dark);
+  font-weight: 600;
+}
+
+.slide-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 14px;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--slate);
+  position: relative;
+  z-index: 2;
+}
+
+.slide-footer span {
+  color: var(--gold-dark);
+}
+
+/* Slide 1: Cover */
+.slide-cover {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.cover-crest {
+  width: 130px;
+  height: 130px;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.4));
+}
+
+.cover-title {
+  font-family: var(--font-serif);
+  font-size: 2.8rem;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.cover-arabic {
+  font-family: var(--font-arabic);
+  font-size: 1.8rem;
+  color: var(--gold-primary);
+  margin-bottom: 18px;
+}
+
+.cover-subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  color: var(--slate);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.cover-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-slide);
+  background: rgba(14, 26, 50, 0.6);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+/* Two-column layout on content slides */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  height: 100%;
+  align-items: center;
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  height: 100%;
+  align-items: center;
+}
+
+.text-block-narrative {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: #CAD5E2;
+}
+
+.text-block-narrative p {
+  margin-bottom: 14px;
+}
+
+.text-block-narrative strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.spec-box {
+  background: rgba(14, 26, 50, 0.5);
+  border: 1px solid var(--border-slide);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.spec-line {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+  font-size: 0.78rem;
+}
+
+.spec-line-label {
+  color: var(--slate);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.spec-line-val {
+  color: var(--gold-light);
+  font-weight: 500;
+}
+
+/* Palette swatches on Color slide */
+.swatch-card {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(7, 10, 16, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+.swatch-fill {
+  height: 100px;
+  width: 100%;
+}
+
+.swatch-meta {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.swatch-name {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  color: #FFFFFF;
+}
+
+.swatch-codes {
+  font-size: 0.65rem;
+  color: var(--slate);
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+/* Mockup preview canvas */
+.mockup-canvas {
+  background: #04070B;
+  border: 1px solid var(--border-slide);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Business Card Mockup */
+.mockup-bizcard {
+  width: 340px;
+  height: 200px;
+  background: linear-gradient(135deg, #0C121E 0%, #06090F 100%);
+  border: 1px solid var(--gold-primary);
+  border-radius: 6px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.15);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.bizcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bizcard-crest {
+  width: 32px;
+  height: 32px;
+}
+
+.bizcard-name {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.bizcard-role {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+
+.bizcard-contacts {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--slate);
+  line-height: 1.4;
+}
+
+/* Aircraft Tail Fin Mockup */
+.mockup-tailfin {
+  width: 320px;
+  height: 220px;
+  background: linear-gradient(145deg, #121A28 0%, #080D15 100%);
+  clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+  border-right: 2px solid var(--gold-primary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.tailfin-crest {
+  width: 72px;
+  height: 72px;
+  filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.5));
+}
+
+/* Letterhead Mockup */
+.mockup-letterhead {
+  width: 250px;
+  height: 320px;
+  background: #FDFBF7;
+  color: #070A10;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.letterhead-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #D4AF37;
+  padding-bottom: 8px;
+}
+
+.letterhead-crest {
+  width: 24px;
+  height: 24px;
+}
+
+.letterhead-title {
+  font-family: var(--font-serif);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: #070A10;
+  font-weight: 700;
+}
+
+.letterhead-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 14px 0;
+}
+
+.letterhead-line {
+  height: 3px;
+  background: #E2E8F0;
+  border-radius: 2px;
+}
+
+.letterhead-footer {
+  border-top: 1px solid #E2E8F0;
+  padding-top: 6px;
+  font-size: 0.45rem;
+  color: #64748B;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Print Styles for Export to PDF */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .brandbook-header {
+    display: none !important;
+  }
+
+  .deck-container {
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .slide-stage {
+    display: flex !important;
+    page-break-after: always;
+    page-break-inside: avoid;
+    max-width: 100% !important;
+    aspect-ratio: 16 / 9 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #090E17 !important;
+    color: #FFFFFF !important;
+    margin-bottom: 0 !important;
+    height: 100vh !important;
+  }
+}

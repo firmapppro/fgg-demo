@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="100%" height="100%">
+  <defs>
+    <linearGradient id="favGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3D4" />
+      <stop offset="40%" stop-color="#E5C17B" />
+      <stop offset="100%" stop-color="#9E7628" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#070A10" />
+  <rect width="124" height="124" x="2" y="2" rx="26" fill="none" stroke="url(#favGold)" stroke-width="1.5" stroke-opacity="0.4" />
+  <g transform="translate(64, 64) scale(0.21) translate(-250, -250)">
+    <path d="M 96,152 L 250,116 L 250,146 L 118,174 Z" fill="url(#favGold)" />
+    <path d="M 404,152 L 250,116 L 250,146 L 382,174 Z" fill="url(#favGold)" />
+    <path d="M 234,146 L 250,146 L 250,296 L 234,282 Z" fill="#FFF3D4" />
+    <path d="M 250,146 L 266,146 L 266,282 L 250,296 Z" fill="#9E7628" />
+    <polygon points="234,282 250,296 266,282 250,314" fill="url(#favGold)" />
+
+    <path d="M 126,380 L 158,188 L 182,188 L 156,380 Z" fill="url(#favGold)" />
+    <path d="M 374,380 L 342,188 L 318,188 L 344,380 Z" fill="#9E7628" />
+
+    <path d="M 182,188 L 234,282 L 216,282 L 168,206 Z" fill="#FFF3D4" />
+    <path d="M 318,188 L 266,282 L 284,282 L 332,206 Z" fill="#9E7628" />
+
+    <path d="M 126,380 L 250,432 L 250,412 L 156,370 Z" fill="url(#favGold)" />
+    <path d="M 374,380 L 250,432 L 250,412 L 344,370 Z" fill="#9E7628" />
+    <polygon points="250,412 256,432 250,446 244,432" fill="#FFF3D4" />
+  </g>
+</svg>
